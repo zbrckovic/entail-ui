@@ -1,19 +1,20 @@
 import { RootCtx } from 'contexts/root-ctx'
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const DevInfo = () => {
-  const { environment: { apiUrl, version, branch, development } } = useContext(RootCtx)
+  const { environment: { apiUrl, version, branch } } = useContext(RootCtx)
+
+  const { t } = useTranslation('DevInfo')
 
   return (
     <dl>
-      <dt>Development</dt>
-      <dd>{development}</dd>
-      <dt>Api URL</dt>
+      <dt>{t('label.api-url')}</dt>
       <dd>{apiUrl}</dd>
-      <dt>Branch</dt>
-      <dd>{branch}</dd>
-      <dt>Commit</dt>
+      <dt>{t('label.branch')}</dt>
       <dd>{version}</dd>
+      <dt>{t('label.commit')}</dt>
+      <dd>{branch}</dd>
     </dl>
   )
 }
