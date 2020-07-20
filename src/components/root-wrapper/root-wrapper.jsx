@@ -23,7 +23,7 @@ export const RootWrapper = ({ children }) => {
 
   return (
     showLoading
-      ? <div>Loading</div>
+      ? <label>Loading...</label>
       : (
         <RootCtx.Provider value={{ environment }}>
           {children}
