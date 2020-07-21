@@ -1,0 +1,18 @@
+@import "src/styles/spaces";
+
+.main {
+  display: grid;
+  grid-template-columns: min-content auto;
+
+  @include margin-between-v(4px);
+
+  dt {
+    white-space: nowrap;
+    font-weight: bold;
+  }
+
+  dd {
+    text-align: left;
+    margin-left: 8px;
+  }
+}

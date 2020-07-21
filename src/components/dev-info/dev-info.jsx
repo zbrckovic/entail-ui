@@ -1,6 +1,7 @@
 import { RootCtx } from 'contexts/root-ctx'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
+import style from './dev-info.module.scss'
 
 export const DevInfo = () => {
   const { environment: { apiUrl, version, branch } } = useContext(RootCtx)
@@ -8,7 +9,7 @@ export const DevInfo = () => {
   const { t } = useTranslation('DevInfo')
 
   return (
-    <dl>
+    <dl className={style.main}>
       <dt>{t('label.api-url')}</dt>
       <dd>{apiUrl}</dd>
       <dt>{t('label.branch')}</dt>

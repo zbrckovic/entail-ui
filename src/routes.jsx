@@ -1,9 +1,8 @@
+import { HomePage } from 'pages/home-page'
 import React from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-import { RootWrapper } from 'components/root-wrapper'
-import { HomePage } from 'pages/home-page'
 
-export const Root = () => <RootWrapper>
+export const Routes = () =>
   <BrowserRouter>
     <Switch>
       <Route exact path="/">
@@ -12,4 +11,4 @@ export const Root = () => <RootWrapper>
       <Redirect to="/"/>
     </Switch>
   </BrowserRouter>
-</RootWrapper>
+

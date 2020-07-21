@@ -1,0 +1,37 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+@mixin padding-h($value) {
+  padding-left: $value;
+  padding-right: $value;
+}
+
+@mixin padding-v($value) {
+  padding-top: $value;
+  padding-bottom: $value;
+}
+
+@mixin margin-h($value) {
+  margin-left: $value;
+  margin-right: $value;
+}
+
+@mixin margin-v($value) {
+  margin-top: $value;
+  margin-bottom: $value;
+}
+
+@mixin margin-between-h($value) {
+  & > * {
+    &:not(:last-child) {
+      margin-right: $value;
+    }
+  }
+}
+
+@mixin margin-between-v($value) {
+  & > * {
+    &:not(:last-child) {
+      margin-bottom: $value;
+    }
+  }
+}

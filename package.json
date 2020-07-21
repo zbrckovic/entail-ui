@@ -66,12 +66,15 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.30.0",
     "classnames": "^2.2.6",
     "i18next": "^19.6.2",
+    "immutable": "^4.0.0-rc.12",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "use-memo-one": "^1.1.1"
   }
 }

@@ -1,0 +1,22 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.main {
+  height: 100%;
+  width: 100%;
+
+  position: absolute;
+
+  &:not(.dark) {
+    background: $pt-app-background-color;
+  }
+
+  &.dark {
+    background: $pt-dark-app-background-color;
+  }
+
+  &.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

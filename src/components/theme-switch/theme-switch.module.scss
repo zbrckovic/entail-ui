@@ -1,0 +1,25 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.container {
+  display: flex;
+
+  .switch {
+    margin-bottom: 0;
+  }
+
+  .icon {
+    cursor: pointer;
+  }
+
+  &.light {
+    .icon {
+      color: $gold5;
+    }
+  }
+
+  &.dark {
+    .icon {
+      color: $light-gray5;
+    }
+  }
+}
