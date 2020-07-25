@@ -79,6 +79,6 @@
     "react-router-dom": "^5.2.0",
     "rxjs": "^6.6.0",
     "use-memo-one": "^1.1.1",
-    "@zbrckovic/entail-core": "0.0.9"
+    "@zbrckovic/entail-core": "0.0.13"
   }
 }
