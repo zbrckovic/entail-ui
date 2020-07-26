@@ -1,3 +1,4 @@
+import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
 import { ExpressionText } from 'components/expression-text'
 import { ExpressionView } from 'components/expression-view/expression-view'
 import { Binding } from 'components/expression-view/layout/binding'
@@ -6,6 +7,7 @@ import React from 'react'
 export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
   const hasMultipleChildren = childrenExpressions.size > 1
   const hasChildren = !childrenExpressions.isEmpty()
+  const isPrimitive = primitiveSyms.has(sym)
 
   return <>
     <ExpressionText
@@ -16,7 +18,7 @@ export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
     {
       hasMultipleChildren
         ? <ExpressionText text="(" kind={sym.kind}/>
-        : (hasChildren && <ExpressionText text=" " kind={sym.kind}/>)
+        : (hasChildren && !isPrimitive && <ExpressionText text=" " kind={sym.kind}/>)
     }
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.size - 1
