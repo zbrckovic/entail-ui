@@ -1,6 +1,5 @@
 import { Callout } from '@blueprintjs/core'
 import { withKnobs } from '@storybook/addon-knobs'
-import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { ExpressionView } from 'components/expression-view/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'
@@ -9,7 +8,7 @@ import { useEnteredFormula } from 'storybook-common/use-entered-formula'
 export default {
   title: 'ExpressionView',
   component: ExpressionView,
-  decorators: [withKnobs()]
+  decorators: [withKnobs({ escapeHTML: false })]
 }
 
 export const Tweak = () => {

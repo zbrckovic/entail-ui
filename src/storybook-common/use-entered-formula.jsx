@@ -3,7 +3,7 @@ import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { useEffect, useState } from 'react'
 import { BehaviorSubject } from 'rxjs'
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators'
 
 /** Return the result of parsing the formula text entered into the input field. */
 export const useEnteredFormula = initialText => {
@@ -16,6 +16,7 @@ export const useEnteredFormula = initialText => {
       .pipe(
         distinctUntilChanged(),
         debounceTime(200),
+        tap(t => console.log(t)),
         map(parse)
       )
       .subscribe(setState)
