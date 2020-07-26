@@ -12,7 +12,11 @@ export default {
 }
 
 export const Tweak = () => {
-  const { formula, presentationCtx, error } = useEnteredFormula('p')
+  const state = useEnteredFormula('p')
+
+  if (state === undefined) return <div>Enter formula</div>
+
+  const { formula, presentationCtx, error } = state
 
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>

@@ -1,3 +1,4 @@
+import { Category } from '@zbrckovic/entail-core/lib/abstract-structures/sym/category'
 import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
 import { ExpressionText } from 'components/expression-text'
 import { ExpressionView } from 'components/expression-view/expression-view'
@@ -5,21 +6,16 @@ import { Binding } from 'components/expression-view/layout/binding'
 import React from 'react'
 
 export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
-  const hasMultipleChildren = childrenExpressions.size > 1
-  const hasChildren = !childrenExpressions.isEmpty()
   const isPrimitive = primitiveSyms.has(sym)
+  const hasParentheses = childrenExpressions.size > 1 ||
+    (childrenExpressions.size === 1 && !primitiveSyms.has(sym))
+  const hasSpace = !childrenExpressions.isEmpty() && sym.binds && isPrimitive
 
   return <>
-    <ExpressionText
-      text={symText}
-      kind={sym.kind}
-    />
-    {boundSym !== undefined && <Binding sym={boundSym}/>}
-    {
-      hasMultipleChildren
-        ? <ExpressionText text="(" kind={sym.kind}/>
-        : (hasChildren && !isPrimitive && <ExpressionText text=" " kind={sym.kind}/>)
-    }
+    <ExpressionText text={symText} kind={sym.kind}/>
+    {sym.binds && <Binding sym={boundSym}/>}
+    {hasSpace && <ExpressionText text=" " kind={sym.kind}/>}
+    {hasParentheses && <ExpressionText text="(" kind={sym.kind}/>}
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.size - 1
 
@@ -31,6 +27,6 @@ export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
         </>}
       </>
     })}
-    {hasMultipleChildren && <ExpressionText text=")" kind={sym.kind}/>}
+    {hasParentheses && <ExpressionText text=")" kind={sym.kind}/>}
   </>
 }
