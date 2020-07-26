@@ -8,7 +8,6 @@ import style from './expression-view.module.scss'
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({ expression: { sym, boundSym, children }, root = true }) => {
   const presentationCtx = useContext(SymPresentationCtx)
-
   const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
 
   const content = placement === Placement.Prefix ? (
@@ -17,7 +16,6 @@ export const ExpressionView = ({ expression: { sym, boundSym, children }, root =
       symText={text}
       boundSym={boundSym}
       childrenExpressions={children}
-      root={root}
     />
   ) : (
     <Infix

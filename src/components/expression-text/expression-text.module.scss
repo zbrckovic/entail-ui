@@ -3,6 +3,7 @@
 
 .container {
   font-family: $font-family-mono;
+  cursor: pointer;
 
   &.formula {
     color: $formula-color;
