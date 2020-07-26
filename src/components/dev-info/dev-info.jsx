@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './dev-info.module.scss'
 
+/** Shows basic development information. */
 export const DevInfo = () => {
   const { environment: { apiUrl, version, branch } } = useContext(RootCtx)
 

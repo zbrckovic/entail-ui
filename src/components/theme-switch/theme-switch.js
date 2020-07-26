@@ -7,6 +7,7 @@ import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './theme-switch.module.scss'
 
+/** Control for changing the visual theme of the application (switches between dark and light). */
 export const ThemeSwitch = () => {
   const { t } = useTranslation('ThemeSwitch')
 

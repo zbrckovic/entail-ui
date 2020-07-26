@@ -3,6 +3,7 @@ import classNames from 'classnames'
 import React from 'react'
 import style from './expression-text.module.scss'
 
+/** This is used whenever we need to show some text which is a part of `EEL`. */
 export const ExpressionText = ({ text, kind }) =>
   <span className={classNames(style.container, kindClasses(kind))}>{text}</span>
 
