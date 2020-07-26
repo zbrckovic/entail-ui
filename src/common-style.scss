@@ -3,6 +3,7 @@
 @import "~@blueprintjs/core/lib/css/blueprint.css";
 @import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
 
+// region Include Overpass(Mono) Font
 $resources_url: '../resources';
 $fonts_url: '#{$resources_url}/fonts';
 $overpass_url: '#{$fonts-url}/overpass';
@@ -121,6 +122,8 @@ $overpass_mono_url: '#{$fonts-url}/overpass_mono';
   font-weight: 700;
   font-style: normal;
 }
+
+// endregion
 
 body {
   font-family: Overpass, sans-serif;

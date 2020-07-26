@@ -1,0 +1,14 @@
+@import "src/styles/colors";
+@import "src/styles/text";
+
+.container {
+  font-family: $font-family-mono;
+
+  &.formula {
+    color: $formula-color;
+  }
+
+  &.term {
+    color: $term-color;
+  }
+}
