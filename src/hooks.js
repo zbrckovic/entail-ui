@@ -1,6 +1,5 @@
 import { RootCtx } from 'contexts'
-import { useContext, useEffect, useState } from 'react'
-import { BehaviorSubject, Subject } from 'rxjs'
+import { useContext } from 'react'
 
 /**
  * Returns an object to be used with `classNames`. It will include `darkClass` key depending on

@@ -1,4 +1,3 @@
-import { Category } from '@zbrckovic/entail-core/lib/abstract-structures/sym/category'
 import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
 import { ExpressionText } from 'components/expression-text'
 import { ExpressionView } from 'components/expression-view/expression-view'

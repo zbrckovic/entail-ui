@@ -4,8 +4,11 @@ import React from 'react'
 import style from './expression-text.module.scss'
 
 /** This is used whenever we need to show some text which is a part of `EEL`. */
-export const ExpressionText = ({ text, kind }) =>
-  <span className={classNames(style.container, kindClasses(kind))}>{text}</span>
+export const ExpressionText = ({ className, text, kind }) =>
+  <span className={classNames(className, style.container, kindClasses(kind))}>
+    &zwnj;
+    {text}
+  </span>
 
 const kindClasses = kind => ({
   [style.formula]: kind === Kind.Formula,

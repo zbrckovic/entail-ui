@@ -1,4 +1,5 @@
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
+import classNames from 'classnames'
 import { Infix } from 'components/expression-view/layout/infix'
 import { Prefix } from 'components/expression-view/layout/prefix'
 import { SymPresentationCtx } from 'contexts'
@@ -6,12 +7,13 @@ import React, { useContext } from 'react'
 import style from './expression-view.module.scss'
 
 /** Shows textual representation of a provided expression. */
-export const ExpressionView = ({ expression: { sym, boundSym, children }, root = true }) => {
+export const ExpressionView = ({ className, expression: { sym, boundSym, children }, root = true }) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
 
   const content = placement === Placement.Prefix ? (
     <Prefix
+      className={className}
       sym={sym}
       symText={text}
       boundSym={boundSym}
@@ -19,6 +21,7 @@ export const ExpressionView = ({ expression: { sym, boundSym, children }, root =
     />
   ) : (
     <Infix
+      className={className}
       sym={sym}
       symText={text}
       boundSym={boundSym}
@@ -28,5 +31,5 @@ export const ExpressionView = ({ expression: { sym, boundSym, children }, root =
     />
   )
 
-  return root ? <div className={style.container}>{content}</div> : content
+  return root ? <div className={classNames(className, style.container)}>{content}</div> : content
 }

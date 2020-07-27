@@ -4,7 +4,7 @@ import { RootCtx } from 'contexts'
 import { Routes } from 'routes'
 import { ActivityStatus } from 'misc'
 import classNames from 'classnames'
-import 'app-style.scss'
+import 'common-style.scss'
 import style from './app.module.scss'
 
 export const App = () => {

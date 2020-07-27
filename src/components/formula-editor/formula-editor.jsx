@@ -1,5 +1,6 @@
 import { Button, Callout, Intent, TextArea } from '@blueprintjs/core'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
+import classNames from 'classnames'
 import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
@@ -7,7 +8,7 @@ import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import style from './formula-editor.module.scss'
 
-export const FormulaEditor = ({ onSubmit, onCancel }) => {
+export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const parse = useParser()
 
   const [text, setText] = useState('')
@@ -45,7 +46,7 @@ export const FormulaEditor = ({ onSubmit, onCancel }) => {
   }, [parseResult])
 
   return (
-    <div className={style.container}>
+    <div className={classNames(className, style.container)}>
       {content}
       <TextArea
         value={text}
