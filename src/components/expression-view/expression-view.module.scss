@@ -1,4 +1,8 @@
 .container {
   white-space: pre;
   display: flex;
+
+  span {
+    display: flex;
+  }
 }

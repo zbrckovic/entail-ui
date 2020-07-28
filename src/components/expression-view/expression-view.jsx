@@ -7,7 +7,11 @@ import React, { useContext } from 'react'
 import style from './expression-view.module.scss'
 
 /** Shows textual representation of a provided expression. */
-export const ExpressionView = ({ className, expression: { sym, boundSym, children }, root = true }) => {
+export const ExpressionView = ({
+  className,
+  expression: { sym, boundSym, children },
+  root = true
+}) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
 
@@ -31,5 +35,5 @@ export const ExpressionView = ({ className, expression: { sym, boundSym, childre
     />
   )
 
-  return root ? <div className={classNames(className, style.container)}>{content}</div> : content
+  return <span className={classNames(className, style.container)}>{content}</span>
 }

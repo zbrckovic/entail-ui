@@ -1,2 +1,32 @@
+@import "src/styles/spaces";
+
 .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 8px;
+
+  min-width: 320px;
+
+  .expression-view-container {
+    grid-column: 1 / span 2;
+    margin-bottom: 8px;
+    overflow: auto;
+  }
+
+  textarea {
+    grid-column: 1 / span 2;
+  }
+
+  .callout {
+    grid-column: 1 / span 2;
+    margin-bottom: 8px;
+  }
+
+  .expression-view {
+    @include padding-h(10px);
+  }
+
+  textarea {
+    resize: none;
+  }
 }

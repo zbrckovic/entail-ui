@@ -18,13 +18,13 @@ export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.size - 1
 
-      return <>
-        <ExpressionView key={`child ${i}`} expression={child} root={false}/>
+      return <span key={`${i}`}>
+        <ExpressionView expression={child} root={false}/>
         {!isLast && <>
-          <ExpressionText key={`comma ${i}`} text="," kind={sym.kind}/>
-          <ExpressionText key={`space ${i}`} text=" " kind={sym.kind}/>
+          <ExpressionText text="," kind={sym.kind}/>
+          <ExpressionText text=" " kind={sym.kind}/>
         </>}
-      </>
+      </span>
     })}
     {hasParentheses && <ExpressionText text=")" kind={sym.kind}/>}
   </>
