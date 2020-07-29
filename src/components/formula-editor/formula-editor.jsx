@@ -4,6 +4,7 @@ import classNames from 'classnames'
 import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React, { useContext, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import { useParserErrorDescriber } from '../../hooks'
@@ -11,6 +12,7 @@ import style from './formula-editor.module.scss'
 
 export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const parse = useParser()
+  const { t } = useTranslation('FormulaEditor')
 
   const describeError = useParserErrorDescriber()
 
@@ -59,11 +61,13 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
         <Button
           intent={Intent.PRIMARY}
           icon="confirm"
+          title={t('button.submit')}
           onClick={() => { onSubmit(parseResult?.success?.formula) }}
           disabled={formula === undefined}
         />
         <Button
           icon="disable"
+          title={t('button.cancel')}
           onClick={() => { onCancel() }}
         />
       </div>
