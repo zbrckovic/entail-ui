@@ -13,7 +13,7 @@ export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
   return <>
     <ExpressionText text={symText} kind={sym.kind}/>
     {sym.binds && <Binding sym={boundSym}/>}
-    {hasSpace && <ExpressionText text=" " kind={sym.kind}/>}
+    {hasSpace && <ExpressionText text="&nbsp;" kind={sym.kind}/>}
     {hasParentheses && <ExpressionText text="(" kind={sym.kind}/>}
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.size - 1
@@ -22,7 +22,7 @@ export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
         <ExpressionView expression={child} root={false}/>
         {!isLast && <>
           <ExpressionText text="," kind={sym.kind}/>
-          <ExpressionText text=" " kind={sym.kind}/>
+          <ExpressionText text="&nbsp;" kind={sym.kind}/>
         </>}
       </span>
     })}

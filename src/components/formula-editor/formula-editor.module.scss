@@ -1,32 +1,36 @@
 @import "src/styles/spaces";
+@import "src/styles/text";
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 8px;
-
   min-width: 320px;
 
-  .expression-view-container {
-    grid-column: 1 / span 2;
-    margin-bottom: 8px;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+
+  .result-container {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    height: 40px;
+
+    .expression-view {
+      @include padding-h(10px);
+    }
   }
 
   textarea {
-    grid-column: 1 / span 2;
-  }
-
-  .callout {
+    font-family: $font-family-mono;
     grid-column: 1 / span 2;
     margin-bottom: 8px;
-  }
-
-  .expression-view {
-    @include padding-h(10px);
-  }
-
-  textarea {
     resize: none;
+  }
+
+  .controls {
+    display: flex;
+    @include margin-between-h(8px);
+
+    button {
+      flex: 1 0 0;
+    }
   }
 }

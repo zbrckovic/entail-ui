@@ -7,7 +7,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import { useParserErrorDescriber } from '../../hooks'
-import { ExpressionText } from '../expression-text'
 import style from './formula-editor.module.scss'
 
 export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
@@ -38,39 +37,36 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
 
   return (
     <div className={classNames(className, style.container)}>
-      <SymPresentationCtx.Provider value={presentationCtx}>
-        <div className={style['expression-view-container']}>
-          {
-            formula !== undefined
-              ? <ExpressionView expression={formula}/>
-              : <ExpressionText/> // rendered to maintain height
-          }
-        </div>
-      </SymPresentationCtx.Provider>
+      <div className={style['result-container']}>
+        {
+          formula !== undefined &&
+          <SymPresentationCtx.Provider value={presentationCtx}>
+            <ExpressionView className={style['expression-view']} expression={formula}/>
+          </SymPresentationCtx.Provider>
+        }
+        {
+          text.length > 0 && error !== undefined &&
+          <Callout intent={Intent.DANGER}>{describeError(error)}</Callout>
+        }
+      </div>
       <TextArea
         fill
         rows={10}
         value={text}
         onChange={event => { setText(event.target.value) }}
       />
-      <div className={style['callout']}>
-        {
-          text.length > 0 && error !== undefined &&
-          <Callout intent={Intent.DANGER}>
-            {describeError(error)}
-          </Callout>
-        }
+      <div className={style.controls}>
+        <Button
+          intent={Intent.PRIMARY}
+          icon="confirm"
+          onClick={() => { onSubmit(parseResult?.success?.formula) }}
+          disabled={formula === undefined}
+        />
+        <Button
+          icon="disable"
+          onClick={() => { onCancel() }}
+        />
       </div>
-      <Button
-        intent={Intent.PRIMARY}
-        icon="confirm"
-        onClick={() => { onSubmit(parseResult.result) }}
-        disabled={formula === undefined}
-      />
-      <Button
-        icon="disable"
-        onClick={() => { onCancel() }}
-      />
     </div>
   )
 }
