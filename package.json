@@ -70,7 +70,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.30.0",
-    "@zbrckovic/entail-core": "0.0.15",
+    "@zbrckovic/entail-core": "0.0.16",
     "classnames": "^2.2.6",
     "i18next": "^19.6.2",
     "immutable": "^4.0.0-rc.12",
