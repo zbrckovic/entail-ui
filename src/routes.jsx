@@ -11,4 +11,3 @@ export const Routes = () =>
       <Redirect to="/"/>
     </Switch>
   </BrowserRouter>
-

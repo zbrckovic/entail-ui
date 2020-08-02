@@ -25,14 +25,12 @@ export const RootWrapper = ({ children }) => {
 
   return (
     <RootCtx.Provider value={{ environment, initializationStatus, themeDark, setThemeDark }}>
-      <div
-        className={
-          classNames(
-            style.container,
-            { [Classes.DARK]: themeDark },
-            { [style.dark]: themeDark }
-          )
-        }>
+      <div className={classNames(
+        style.container,
+        { [Classes.DARK]: themeDark },
+        { [style.dark]: themeDark }
+      )}
+      >
         {children}
       </div>
     </RootCtx.Provider>
