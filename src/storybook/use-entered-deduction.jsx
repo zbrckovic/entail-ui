@@ -1,13 +1,13 @@
 import { text } from '@storybook/addon-knobs'
-import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { useEffect, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-parser/deduction-parser'
 
-/** Return the result of parsing the formula text entered into the input field. */
-export const useEnteredFormula = initialText => {
-  const lastText = text('Formula', initialText)
+/** Return the result of parsing the deduction text entered into the input field. */
+export const useEnteredDeduction = initialText => {
+  const lastText = text('Deduction', initialText)
 
   const [state, setState] = useState()
   const [textSubject] = useState(new Subject())
@@ -33,9 +33,10 @@ const parse = text => {
   let error
 
   try {
-    const parser = new FormulaParser(primitivePresentationCtx)
-    const formula = parser.parse(text)
-    success = { formula, presentationCtx: parser.presentationCtx }
+    const parser = new DeductionParser(primitivePresentationCtx)
+    const deduction = parser.parse(text)
+    const presentationCtx = parser.presentationCtx
+    success = { deduction, presentationCtx }
   } catch (e) {
     error = e
   }

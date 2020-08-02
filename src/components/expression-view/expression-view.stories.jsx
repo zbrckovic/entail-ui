@@ -24,15 +24,14 @@ export const Tweak = () => {
 
   if (state === undefined) return <div>Enter formula</div>
 
-  const { formula, presentationCtx, error } = state
+  const { success, error } = state
 
+  if (error !== undefined) return <Callout intent="danger">{error.message}</Callout>
+
+  const { formula, presentationCtx } = success
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      {
-        error !== undefined
-          ? <Callout intent="danger">{error.message}</Callout>
-          : <ExpressionView className={'storybook-frame'} expression={formula}/>
-      }
+      <ExpressionView className={'storybook-frame'} expression={formula}/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -41,7 +40,10 @@ export const MinWidth = () => {
   const { formula, presentationCtx } = useFormula('E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)')
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView className={classNames('storybook-frame', style['min-width'])} expression={formula}/>
+      <ExpressionView
+        className={classNames('storybook-frame', style['min-width'])}
+        expression={formula}
+      />
     </SymPresentationCtx.Provider>
   )
 }

@@ -1,12 +1,12 @@
 import React from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
-import { Rules } from './rules'
+import { DeductionEditor } from './deduction-editor'
 
 export default {
-  title: 'Rules',
-  component: Rules,
+  title: 'DeductionEditor',
+  component: DeductionEditor,
   decorators: [scrollDecorator]
 }
 
 export const Default = () =>
-  <Rules className="storybook-frame"/>
+  <DeductionEditor className="storybook-frame"/>
