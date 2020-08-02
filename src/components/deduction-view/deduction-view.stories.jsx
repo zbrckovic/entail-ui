@@ -3,6 +3,7 @@ import { scrollDecorator } from 'storybook/scroll-decorator'
 import { DeductionView } from './deduction-view'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-parser/deduction-parser'
+import { SymPresentationCtx } from '../../contexts'
 
 export default {
   title: 'DeductionView',
@@ -11,7 +12,7 @@ export default {
 }
 
 export const Default = () => {
-  const deduction = useDeduction(`
+  const { deduction, presentationCtx } = useDeduction(`
         (1) E[y] A[x] F(x, y)                           / P;
     1   (2) A[x] F(x, a)                                / EI 1;
     1   (3) F(b, a)                                     / UI 2;
@@ -20,8 +21,11 @@ export const Default = () => {
         (6) E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)      / D 1, 5;
     `
   )
-
-  return <DeductionView deduction={deduction}/>
+  return (
+    <SymPresentationCtx.Provider value={presentationCtx}>
+      <DeductionView deduction={deduction}/>
+    </SymPresentationCtx.Provider>
+  )
 }
 
 const useDeduction = deductionText => {
