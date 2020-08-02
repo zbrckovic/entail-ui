@@ -1,4 +1,9 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
 .container {
   display: grid;
   grid-template-columns: 40px 20px 300px 100px;
+
+  & > * {
+  }
 }

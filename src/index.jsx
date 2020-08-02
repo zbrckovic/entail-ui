@@ -1,11 +1,7 @@
 import { App } from 'app'
-import { RootWrapper } from 'common-wrapper'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
-import { DeductionInterface } from '@zbrckovic/entail-core'
-
-console.log(new DeductionInterface())
+import { RootWrapper } from 'root-wrapper'
 
 ReactDOM.render(
   <RootWrapper><App/></RootWrapper>,

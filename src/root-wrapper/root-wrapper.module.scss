@@ -1,0 +1,14 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+.container {
+  height: 100%;
+  width: 100%;
+
+  &.dark {
+    background: $pt-dark-app-background-color;
+  }
+
+  &:not(.dark) {
+    background: $pt-app-background-color;
+  }
+}

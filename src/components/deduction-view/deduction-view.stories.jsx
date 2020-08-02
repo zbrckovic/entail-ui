@@ -1,14 +1,19 @@
+import { withKnobs } from '@storybook/addon-knobs'
+import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-parser/deduction-parser'
+import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
+import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
+import { ThemeSwitch } from '../theme-switch'
 import { DeductionView } from './deduction-view'
-import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
-import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-parser/deduction-parser'
-import { SymPresentationCtx } from '../../contexts'
 
 export default {
   title: 'DeductionView',
   component: DeductionView,
-  decorators: [scrollDecorator]
+  decorators: [
+    withKnobs({ escapeHTML: false }),
+    scrollDecorator
+  ]
 }
 
 export const Default = () => {
@@ -23,7 +28,8 @@ export const Default = () => {
   )
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction}/>
+      <DeductionView className="storybook-frame" deduction={deduction}/>
+      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }

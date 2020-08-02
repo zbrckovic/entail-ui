@@ -1,9 +1,9 @@
 import { RootCtx } from 'contexts'
 import { ActivityStatus } from 'misc'
 import React, { useContext } from 'react'
-import { RootWrapper } from '../../root-wrapper'
-import './global-decorator.scss'
+import { RootWrapper } from 'root-wrapper'
 import style from './global-decorator.module.scss'
+import './global-decorator.scss'
 
 const GlobalWrapper = ({ children }) => {
   const { initializationStatus } = useContext(RootCtx)

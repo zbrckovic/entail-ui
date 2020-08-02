@@ -3,11 +3,11 @@ import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser
 import classNames from 'classnames'
 import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
+import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
-import { useParserErrorDescriber } from '../../hooks'
 import style from './formula-editor.module.scss'
 
 export const FormulaEditor = ({ className, onSubmit, onCancel }) => {

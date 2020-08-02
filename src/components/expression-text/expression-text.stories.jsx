@@ -1,7 +1,9 @@
-import { select, text, withKnobs } from '@storybook/addon-knobs'
+import { boolean, select, text, withKnobs } from '@storybook/addon-knobs'
 import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym/kind'
 import classNames from 'classnames'
-import React from 'react'
+import { ThemeSwitch } from 'components/theme-switch'
+import { SymPresentationCtx } from 'contexts'
+import React, { useEffect } from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
 import { ExpressionText } from './expression-text'
 import style from './expression-text.stories.module.scss'
@@ -15,9 +17,11 @@ export default {
   ]
 }
 
-export const Tweak = () =>
+export const Tweak = () => <>
   <ExpressionText
     className={classNames('storybook-frame', style['min-width'])}
     text={text('Text', 'Write some text...')}
     kind={select('Type', { ' ': undefined, ...Kind }, undefined)}
   />
+  <ThemeSwitch/>
+</>

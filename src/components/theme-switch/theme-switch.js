@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import style from './theme-switch.module.scss'
 
 /** Control for changing the visual theme of the application (switches between dark and light). */
-export const ThemeSwitch = () => {
+export const ThemeSwitch = ({ className }) => {
   const { t } = useTranslation('ThemeSwitch')
 
   const { themeDark, setThemeDark } = useContext(RootCtx)
@@ -19,7 +19,7 @@ export const ThemeSwitch = () => {
 
   return (
     <Tooltip content={t('tooltip.switch-theme')} hoverOpenDelay={TOOLTIP_OPEN_DELAY_MS}>
-      <div className={classNames(style.container, themeClasses)}>
+      <div className={classNames(className, style.container, themeClasses)}>
         <Switch
           className={style.switch}
           checked={themeDark}

@@ -2,12 +2,13 @@ import { Callout } from '@blueprintjs/core'
 import { withKnobs } from '@storybook/addon-knobs'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
+import classNames from 'classnames'
 import { ExpressionView } from 'components/expression-view/expression-view'
+import { ThemeSwitch } from 'components/theme-switch'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
 import { useEnteredFormula } from 'storybook/use-entered-formula'
-import classNames from 'classnames'
 import style from './expression-view.stories.module.scss'
 
 export default {
@@ -32,6 +33,7 @@ export const Tweak = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <ExpressionView className={'storybook-frame'} expression={formula}/>
+      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -44,6 +46,7 @@ export const MinWidth = () => {
         className={classNames('storybook-frame', style['min-width'])}
         expression={formula}
       />
+      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -53,6 +56,7 @@ export const FullWidthToLong = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <ExpressionView className={'storybook-frame'} expression={formula}/>
+      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }

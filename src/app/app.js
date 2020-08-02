@@ -13,11 +13,7 @@ export const App = () => {
 
   return (
     <div className={
-      classNames(style.main, {
-        [style.loading]: loading,
-        [Classes.DARK]: themeDark,
-        [style.dark]: themeDark,
-      })
+      classNames(style.main, { [style.loading]: loading })
     }>
       {loading ? <Spinner/> : <Routes/>}
     </div>

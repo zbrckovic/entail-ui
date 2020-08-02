@@ -1,7 +1,8 @@
+import classNames from 'classnames'
+import { ThemeSwitch } from 'components/theme-switch'
 import React from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
 import { DevInfo } from './dev-info'
-import classNames from 'classnames'
 import style from './dev-info.stories.module.scss'
 
 export default {
@@ -10,8 +11,12 @@ export default {
   decorators: [scrollDecorator]
 }
 
-export const MinWidth = () =>
+export const MinWidth = () => <>
   <DevInfo className={classNames('storybook-frame', style['min-width'])}/>
+  <ThemeSwitch/>
+</>
 
-export const FullWidth = () =>
+export const FullWidth = () => <>
   <DevInfo className={'storybook-frame'}/>
+  <ThemeSwitch/>
+</>
