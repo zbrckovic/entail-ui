@@ -1,15 +1,28 @@
 @import "src/styles/colors";
 @import "src/styles/text";
+@import "~@blueprintjs/core/lib/scss/variables";
 
 .container {
-  font-family: $font-family-mono;
+  font-size: 1.2em;
   cursor: pointer;
 
-  &.formula {
-    color: $formula-color;
+  &:not(.dark) {
+    &.formula {
+      color: $formula-color;
+    }
+
+    &.term {
+      color: $term-color;
+    }
   }
 
-  &.term {
-    color: $term-color;
+  &.dark {
+    &.formula {
+      color: $formula-color-dark;
+    }
+
+    &.term {
+      color: $term-color-dark;
+    }
   }
 }

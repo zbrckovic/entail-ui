@@ -32,7 +32,11 @@ export const Tweak = () => {
   const { formula, presentationCtx } = success
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView className={'storybook-frame'} expression={formula}/>
+      <ExpressionView
+        className={'storybook-frame'}
+        expression={formula}
+        background
+      />
       <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
@@ -45,6 +49,7 @@ export const MinWidth = () => {
       <ExpressionView
         className={classNames('storybook-frame', style['min-width'])}
         expression={formula}
+        background
       />
       <ThemeSwitch/>
     </SymPresentationCtx.Provider>
@@ -55,7 +60,11 @@ export const FullWidthToLong = () => {
   const { formula, presentationCtx } = useFormula('E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)')
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView className={'storybook-frame'} expression={formula}/>
+      <ExpressionView
+        className={'storybook-frame'}
+        expression={formula}
+        background
+      />
       <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )

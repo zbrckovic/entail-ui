@@ -21,6 +21,7 @@ export const Tweak = () => <>
     className={classNames('storybook-frame', style['min-width'])}
     text={text('Text', 'Write some text...')}
     kind={select('Type', { ' ': undefined, ...Kind }, undefined)}
+    background
   />
   <ThemeSwitch/>
 </>

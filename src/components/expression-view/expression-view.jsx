@@ -1,5 +1,7 @@
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
 import classNames from 'classnames'
+import { Code } from 'components/code'
+import { CodeBackground } from 'components/code-background'
 import { Infix } from 'components/expression-view/layout/infix'
 import { Prefix } from 'components/expression-view/layout/prefix'
 import { SymPresentationCtx } from 'contexts'
@@ -10,7 +12,8 @@ import style from './expression-view.module.scss'
 export const ExpressionView = ({
   className,
   expression: { sym, boundSym, children },
-  root = true
+  root = true,
+  background = false
 }) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
@@ -35,5 +38,10 @@ export const ExpressionView = ({
     />
   )
 
-  return <span className={classNames(className, style.container)}>{content}</span>
+  return <Code
+    className={classNames(className, style.container)}
+    background={background}
+  >
+    {content}
+  </Code>
 }

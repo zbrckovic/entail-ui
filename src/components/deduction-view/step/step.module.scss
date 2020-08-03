@@ -2,8 +2,8 @@
 
 .container {
   display: grid;
-  grid-template-columns: 40px 20px 300px 100px;
-
-  & > * {
-  }
+  grid-template-columns: 40px 30px 1fr 100px;
+  justify-items: stretch;
+  align-items: baseline;
+  gap: 8px;
 }
