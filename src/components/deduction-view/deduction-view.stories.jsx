@@ -16,7 +16,7 @@ export default {
   ]
 }
 
-export const Default = () => {
+export const Example1 = () => {
   const { deduction, presentationCtx } = useDeduction(`
         (1) E[y] A[x] F(x, y)                           / P;
     1   (2) A[x] F(x, a)                                / EI 1;
@@ -24,6 +24,22 @@ export const Default = () => {
     1   (4) E[y] F(b, y)                                / EG 3;
     1   (5) A[x] E[y] F(x, y)                           / UG 4;
         (6) E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)      / D 1, 5;
+    `
+  )
+  return (
+    <SymPresentationCtx.Provider value={presentationCtx}>
+      <DeductionView className="storybook-frame" deduction={deduction}/>
+      <ThemeSwitch/>
+    </SymPresentationCtx.Provider>
+  )
+}
+
+export const Example2 = () => {
+  const { deduction, presentationCtx } = useDeduction(`
+        (1) A[x] F(x) -> G(x)           / P;
+        (2) A[x] G(x) -> H(x)           / P;
+        (3) E[x] F(x)                   / P;
+      1 (4) F(a)                        / EI 3;
     `
   )
   return (

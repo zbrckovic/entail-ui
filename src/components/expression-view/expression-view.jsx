@@ -1,7 +1,6 @@
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
 import classNames from 'classnames'
 import { Code } from 'components/code'
-import { CodeBackground } from 'components/code-background'
 import { Infix } from 'components/expression-view/layout/infix'
 import { Prefix } from 'components/expression-view/layout/prefix'
 import { SymPresentationCtx } from 'contexts'

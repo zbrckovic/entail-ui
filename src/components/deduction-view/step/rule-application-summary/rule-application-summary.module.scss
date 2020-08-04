@@ -1,0 +1,16 @@
+@import "src/styles/spaces";
+
+.container {
+  display: flex;
+
+  @include margin-between-h(8px);
+
+  .rule {
+    flex: 0 0 24px;
+    text-align: right;
+  }
+
+  .premises {
+    flex: 1 0 0;
+  }
+}
