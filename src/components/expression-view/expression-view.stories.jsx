@@ -56,7 +56,7 @@ export const MinWidth = () => {
   )
 }
 
-export const FullWidthToLong = () => {
+export const FullWidthTooLong = () => {
   const { formula, presentationCtx } = useFormula('E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)')
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>

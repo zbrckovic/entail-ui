@@ -2,9 +2,10 @@
 @import "src/styles/text";
 
 .container {
-  white-space: pre;
-
   font-family: $font-family-mono;
+  display: inline-block;
+
+  white-space: pre;
 
   &:not(.dark) {
     color: $pt-code-text-color;

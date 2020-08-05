@@ -10,5 +10,5 @@ export const Code = ({ className, background = false, children }) => {
 
   return background
     ? <CodeBackground className={classes}>{children}</CodeBackground>
-    : <span className={classes}>{children}</span>
+    : <div className={classes}>{children}</div>
 }

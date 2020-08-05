@@ -1,11 +1,9 @@
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
-import classNames from 'classnames'
 import { Code } from 'components/code'
 import { Infix } from 'components/expression-view/layout/infix'
 import { Prefix } from 'components/expression-view/layout/prefix'
 import { SymPresentationCtx } from 'contexts'
 import React, { useContext } from 'react'
-import style from './expression-view.module.scss'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({
@@ -37,10 +35,7 @@ export const ExpressionView = ({
     />
   )
 
-  return <Code
-    className={classNames(className, style.container)}
-    background={background}
-  >
-    {content}
-  </Code>
+  return !root
+    ? content
+    : <Code className={className} background={background}>{content}</Code>
 }

@@ -1,19 +1,16 @@
-import classNames from 'classnames'
+import { Rule } from 'components/deduction-view/step/rule'
 import { StepNumber } from 'components/deduction-view/step/step-number'
-import { useThemeClasses } from 'hooks'
 import React from 'react'
 import { ExpressionView } from '../../expression-view'
 import { Assumptions } from './assumptions'
-import { RuleApplicationSummary } from './rule-application-summary'
-import style from './step.module.scss'
+import { Premises } from './premises'
 
 export const Step = ({ step: { assumptions, formula, ruleApplicationSummary }, stepNumber }) => {
-  const themeClasses = useThemeClasses(style.dark)
-
-  return <div className={classNames(themeClasses, style.container)}>
+  return <>
     <Assumptions assumptions={assumptions}/>
     <StepNumber number={stepNumber}/>
     <ExpressionView expression={formula}/>
-    <RuleApplicationSummary ruleApplicationSummary={ruleApplicationSummary}/>
-  </div>
+    <Rule rule={ruleApplicationSummary.rule}/>
+    <Premises premises={ruleApplicationSummary.premises}/>
+  </>
 }

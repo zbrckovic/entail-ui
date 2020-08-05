@@ -1,20 +1,18 @@
 import { Code } from 'components/code'
-import React, { useMemo } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import style from './assumptions.module.scss'
 
 export const Assumptions = ({ assumptions }) => {
-  const assumptionSorted = useMemo(() => assumptions.sort(), [assumptions])
+  const assumptionSorted = useMemo(() => assumptions.sort().toArray(), [assumptions])
 
-  return <Code className={style.container}>{
-    assumptionSorted.map((i, assumption) => {
-      const isLast = i === assumptionSorted.size - 1
+  return <Code className={style.container}>
+    {assumptionSorted.map((assumption, i) => {
+      const isLast = i === assumptionSorted.length - 1
 
-      return (
-        <span key={assumption}>
-          <span>{assumption + 1}</span>
-          {isLast || <span>,&nbsp;</span>}
-        </span>
-      )
-    })
-  }</Code>
+      return <Fragment key={assumption}>
+        <span>{assumption + 1}</span>
+        {isLast || ' '}
+      </Fragment>
+    })}
+  </Code>
 }
