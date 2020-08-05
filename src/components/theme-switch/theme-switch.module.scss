@@ -1,5 +1,3 @@
-@import "~@blueprintjs/core/lib/scss/variables";
-
 .container {
   display: flex;
   align-items: baseline;
@@ -10,17 +8,5 @@
 
   .icon {
     cursor: pointer;
-  }
-
-  &.light {
-    .icon {
-      color: $gold5;
-    }
-  }
-
-  &.dark {
-    .icon {
-      color: $light-gray5;
-    }
   }
 }

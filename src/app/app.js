@@ -1,4 +1,3 @@
-import { Spinner } from '@blueprintjs/core'
 import classNames from 'classnames'
 import 'common-style.scss'
 import { RootCtx } from 'contexts'
@@ -13,7 +12,7 @@ export const App = () => {
 
   return (
     <div className={classNames(style.main, { [style.loading]: loading })}>
-      {loading ? <Spinner/> : <Routes/>}
+      {loading ? <div>spinner</div> : <Routes/>}
     </div>
   )
 }

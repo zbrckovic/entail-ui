@@ -1,39 +1,29 @@
-import { Button, Dialog } from '@blueprintjs/core'
 import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
 import { useRuleDescriber } from 'hooks'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import style from './rules.module.scss'
 
-export const Rules = ({ rules = {}, onRuleApplied }) => {
+export const Rules = ({ rules = {} }) => {
   const ruleDescriber = useRuleDescriber()
 
-  const [selectedRule, setSelectedRule] = useState()
-
-  const dialog = useMemo(
-    () => <div>{ruleDescriber(selectedRule).translation}</div>,
-    [ruleDescriber, selectedRule]
-  )
+  const [, setSelectedRule] = useState()
 
   return <>
     <div className={style.container}>
       {
         allRules.map(rule => {
           const { translation, abbreviation } = ruleDescriber(rule)
-          return <Button
+          return <button
             key={rule}
             title={translation}
             disabled={rules[rule] === undefined}
             onClick={() => { setSelectedRule(rule) }}
-          >{abbreviation}</Button>
+          >
+            {abbreviation}
+          </button>
         })
       }
     </div>
-    <Dialog
-      isOpen={dialog !== undefined}
-      onClose={() => { setSelectedRule(undefined) }}
-    >
-      {dialog}
-    </Dialog>
   </>
 }
 

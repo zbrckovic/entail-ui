@@ -1,4 +1,3 @@
-@import "~@blueprintjs/core/lib/scss/variables";
 @import "src/styles/text";
 
 .container {
@@ -6,12 +5,4 @@
   display: inline-block;
 
   white-space: pre;
-
-  &:not(.dark) {
-    color: $pt-code-text-color;
-  }
-
-  &.dark {
-    color: $pt-dark-code-text-color;
-  }
 }

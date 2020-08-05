@@ -1,4 +1,3 @@
-import { Button, Callout, Intent, TextArea } from '@blueprintjs/core'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import classNames from 'classnames'
 import { ExpressionView } from 'components/expression-view'
@@ -48,25 +47,21 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
         }
         {
           text.length > 0 && error !== undefined &&
-          <Callout intent={Intent.DANGER}>{describeError(error)}</Callout>
+          <div>{describeError(error)}</div>
         }
       </div>
-      <TextArea
-        fill
+      <textarea
         rows={10}
         value={text}
         onChange={event => { setText(event.target.value) }}
       />
       <div className={style.controls}>
-        <Button
-          intent={Intent.PRIMARY}
-          icon="confirm"
+        <button
           title={t('button.submit')}
           onClick={() => { onSubmit(parseResult?.success?.formula) }}
           disabled={formula === undefined}
         />
-        <Button
-          icon="disable"
+        <button
           title={t('button.cancel')}
           onClick={() => { onCancel() }}
         />

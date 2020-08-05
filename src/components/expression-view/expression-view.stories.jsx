@@ -1,4 +1,3 @@
-import { Callout } from '@blueprintjs/core'
 import { withKnobs } from '@storybook/addon-knobs'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
@@ -27,7 +26,7 @@ export const Tweak = () => {
 
   const { success, error } = state
 
-  if (error !== undefined) return <Callout intent="danger">{error.message}</Callout>
+  if (error !== undefined) return <div>{error.message}</div>
 
   const { formula, presentationCtx } = success
   return (
