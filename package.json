@@ -72,8 +72,11 @@
   "dependencies": {
     "@zbrckovic/entail-core": "0.0.18",
     "classnames": "^2.2.6",
+    "grommet": "^2.14.0",
+    "grommet-icons": "^4.4.0",
     "i18next": "^19.6.2",
     "immutable": "^4.0.0-rc.12",
+    "polished": "^3.6.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.0",

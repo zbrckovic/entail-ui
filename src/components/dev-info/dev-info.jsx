@@ -1,23 +1,44 @@
 import { RootCtx } from 'contexts/root-ctx'
-import React, { useContext } from 'react'
+import { Box, Text } from 'grommet'
+import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import classNames from 'classnames'
-import style from './dev-info.module.scss'
 
 /** Shows basic development information. */
 export const DevInfo = ({ className }) => {
-  const { environment: { apiUrl, version, branch } } = useContext(RootCtx)
-
+  const { environment } = useContext(RootCtx)
   const { t } = useTranslation('DevInfo')
 
+  const entries = useMemo(() => {
+    const { apiUrl, version, branch } = environment
+    return [
+      [t('label.api-url'), apiUrl],
+      [t('label.branch'), version],
+      [t('label.commit'), branch]
+    ]
+  }, [environment])
+
   return (
-    <dl className={classNames(className, style.main)}>
-      <dt>{t('label.api-url')}</dt>
-      <dd>{apiUrl}</dd>
-      <dt>{t('label.branch')}</dt>
-      <dd>{version}</dd>
-      <dt>{t('label.commit')}</dt>
-      <dd>{branch}</dd>
-    </dl>
+    <Box as="dl" className={className}>
+      {entries.map(([label, value], i) => (
+        <Box key={i} direction="row">
+          <Box
+            as="dt"
+            width="xsmall"
+            flex={{ grow: 0, shrink: 0 }}>
+            <Text as="label" weight="bold" size="small">
+              {label}
+            </Text>
+          </Box>
+          <Box
+            as="dd"
+            flex={{ grow: 1, shrink: 0 }}
+            margin="none">
+            <Text size="small">
+              {value}
+            </Text>
+          </Box>
+        </Box>
+      ))}
+    </Box>
   )
 }

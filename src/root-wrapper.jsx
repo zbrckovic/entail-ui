@@ -1,15 +1,23 @@
-import classNames from 'classnames'
 import { RootCtx } from 'contexts'
 import { environment } from 'environment'
+import { Grommet } from 'grommet'
 import { initI18n } from 'i18n'
 import { ActivityStatus } from 'misc'
 import React, { useEffect, useState } from 'react'
 import 'styles/main/index.scss'
-import style from './root-wrapper.module.scss'
+
+const theme = {
+  global: {
+    font: {
+      family: 'Overpass',
+      size: '14px',
+      height: '20px'
+    }
+  }
+}
 
 export const RootWrapper = ({ children }) => {
   const [initializationStatus, setInitializationStatus] = useState(ActivityStatus.InProgress)
-  const [themeDark, setThemeDark] = useState(false)
 
   useEffect(() => {
     const subscription = initI18n.subscribe({
@@ -20,14 +28,10 @@ export const RootWrapper = ({ children }) => {
   }, [])
 
   return (
-    <RootCtx.Provider value={{ environment, initializationStatus, themeDark, setThemeDark }}>
-      <div className={classNames(
-        style.container,
-        { [style.dark]: themeDark }
-      )}
-      >
+    <Grommet theme={theme} full>
+      <RootCtx.Provider value={{ environment, initializationStatus }}>
         {children}
-      </div>
-    </RootCtx.Provider>
+      </RootCtx.Provider>
+    </Grommet>
   )
 }
