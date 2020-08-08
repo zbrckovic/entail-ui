@@ -12,5 +12,7 @@ module.exports = api => {
     '@babel/preset-react'
   ]
 
-  return { presets }
+  const plugins = ['babel-plugin-styled-components']
+
+  return { presets, plugins }
 }

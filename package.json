@@ -44,6 +44,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-styled-components": "^1.11.1",
     "css-loader": "^3.6.0",
     "dotenv-webpack": "^2.0.0",
     "eslint": "^7.5.0",
@@ -78,6 +79,7 @@
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0",
     "rxjs": "^6.6.0",
+    "styled-components": "^5.1.1",
     "use-memo-one": "^1.1.1"
   }
 }
