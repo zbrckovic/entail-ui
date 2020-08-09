@@ -10,24 +10,29 @@ export const DevInfo = ({ className }) => {
 
   const entries = useMemo(() => {
     const { apiUrl, version, branch } = environment
+
     return [
       [t('label.api-url'), apiUrl],
       [t('label.branch'), version],
       [t('label.commit'), branch]
     ]
-  }, [environment])
+  }, [t, environment])
 
   return (
-    <dl className={className}>
+    <StyledDl className={className}>
       {entries.map(([label, value], i) => (
         <StyledRow key={i}>
           <StyledDt>{label}</StyledDt>
           <StyledDd>{value}</StyledDd>
         </StyledRow>
       ))}
-    </dl>
+    </StyledDl>
   )
 }
+
+const StyledDl = styled.dl`
+  margin: 0;
+`
 
 const StyledRow = styled.div`
   display: flex;

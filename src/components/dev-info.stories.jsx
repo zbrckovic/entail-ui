@@ -11,7 +11,11 @@ export default {
 }
 
 export const MinWidth = () => <>
-  <DevInfo css={`align-self: flex-start; ${exampleMixin}`}/>
+  <DevInfo css={`
+    align-self: flex-start; 
+    ${exampleMixin}
+  `}
+  />
   <ThemeSwitch/>
 </>
 
