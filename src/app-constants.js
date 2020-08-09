@@ -1,1 +1,0 @@
-export const TOOLTIP_OPEN_DELAY_MS = 1000

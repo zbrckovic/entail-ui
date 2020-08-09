@@ -1,9 +1,8 @@
-import classNames from 'classnames'
+import { DevInfo } from 'components/dev-info'
 import { ThemeSwitch } from 'components/theme-switch'
 import React from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
-import { DevInfo } from './dev-info'
-import style from './dev-info.stories.module.scss'
+import { exampleMixin } from 'style/storybook'
 
 export default {
   title: 'DevInfo',
@@ -12,11 +11,11 @@ export default {
 }
 
 export const MinWidth = () => <>
-  <DevInfo className={classNames('storybook-frame', style['min-width'])}/>
+  <DevInfo css={`align-self: flex-start; ${exampleMixin}`}/>
   <ThemeSwitch/>
 </>
 
 export const FullWidth = () => <>
-  <DevInfo className={'storybook-frame'}/>
+  <DevInfo css={`${exampleMixin}`}/>
   <ThemeSwitch/>
 </>

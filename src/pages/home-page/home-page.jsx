@@ -1,4 +1,4 @@
-import { DevInfo } from 'components/dev-info/dev-info'
+import { DevInfo } from 'components/dev-info'
 import { ThemeSwitch } from 'components/theme-switch'
 import React from 'react'
 

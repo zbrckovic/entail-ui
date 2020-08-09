@@ -72,8 +72,6 @@
   "dependencies": {
     "@zbrckovic/entail-core": "0.0.18",
     "classnames": "^2.2.6",
-    "grommet": "^2.14.0",
-    "grommet-icons": "^4.4.0",
     "i18next": "^19.6.2",
     "immutable": "^4.0.0-rc.12",
     "polished": "^3.6.5",
@@ -83,6 +81,6 @@
     "react-router-dom": "^5.2.0",
     "rxjs": "^6.6.0",
     "styled-components": "^5.1.1",
-    "use-memo-one": "^1.1.1"
+    "styled-theming": "^2.2.0"
   }
 }

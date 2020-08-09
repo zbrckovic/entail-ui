@@ -1,7 +1,7 @@
 import { RootCtx } from 'contexts/root-ctx'
-import { Box, Text } from 'grommet'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import styled from 'styled-components'
 
 /** Shows basic development information. */
 export const DevInfo = ({ className }) => {
@@ -18,27 +18,28 @@ export const DevInfo = ({ className }) => {
   }, [environment])
 
   return (
-    <Box as="dl" className={className}>
+    <dl className={className}>
       {entries.map(([label, value], i) => (
-        <Box key={i} direction="row">
-          <Box
-            as="dt"
-            width="xsmall"
-            flex={{ grow: 0, shrink: 0 }}>
-            <Text as="label" weight="bold" size="small">
-              {label}
-            </Text>
-          </Box>
-          <Box
-            as="dd"
-            flex={{ grow: 1, shrink: 0 }}
-            margin="none">
-            <Text size="small">
-              {value}
-            </Text>
-          </Box>
-        </Box>
+        <StyledRow key={i}>
+          <StyledDt>{label}</StyledDt>
+          <StyledDd>{value}</StyledDd>
+        </StyledRow>
       ))}
-    </Box>
+    </dl>
   )
 }
+
+const StyledRow = styled.div`
+  display: flex;
+`
+
+const StyledDt = styled.dt`
+  flex-grow: 0;
+  width: 100px;
+  font-weight: bold;
+`
+
+const StyledDd = styled.dd`
+  flex-grow: 1;
+  margin-left: 0;
+`
