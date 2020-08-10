@@ -4,7 +4,6 @@ import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentatio
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
-import { ThemeSwitch } from '../theme-switch'
 import { DeductionView } from './deduction-view'
 
 export default {
@@ -28,7 +27,6 @@ export const Example1 = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <DeductionView className="storybook-frame" deduction={deduction}/>
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -50,7 +48,6 @@ export const Example2 = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <DeductionView className="storybook-frame" deduction={deduction}/>
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -64,7 +61,6 @@ export const Example3 = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <DeductionView className="storybook-frame" deduction={deduction}/>
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }

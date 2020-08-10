@@ -2,7 +2,6 @@ import { action, decorate } from '@storybook/addon-actions'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import classNames from 'classnames'
 import { FormulaEditor } from 'components/formula-editor'
-import { ThemeSwitch } from 'components/theme-switch'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'
 import { jsonDecorator } from 'storybook/action-decorators'
@@ -23,7 +22,6 @@ export const FullWidth = () => {
         onSubmit={actionJson.action('submit')}
         onCancel={action('cancel')}
       />
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -36,7 +34,6 @@ export const MinWidth = () => {
         onSubmit={actionJson.action('submit')}
         onCancel={action('cancel')}
       />
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }

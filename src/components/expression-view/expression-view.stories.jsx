@@ -3,7 +3,6 @@ import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import classNames from 'classnames'
 import { ExpressionView } from 'components/expression-view/expression-view'
-import { ThemeSwitch } from 'components/theme-switch'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
@@ -36,7 +35,6 @@ export const Tweak = () => {
         expression={formula}
         background
       />
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -50,7 +48,6 @@ export const MinWidth = () => {
         expression={formula}
         background
       />
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -64,7 +61,6 @@ export const FullWidthTooLong = () => {
         expression={formula}
         background
       />
-      <ThemeSwitch/>
     </SymPresentationCtx.Provider>
   )
 }
