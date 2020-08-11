@@ -1,13 +1,12 @@
 import { withKnobs } from '@storybook/addon-knobs'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
-import classNames from 'classnames'
-import { ExpressionView } from 'components/expression-view/expression-view'
+import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { scrollDecorator } from 'storybook/scroll-decorator'
 import { useEnteredFormula } from 'storybook/use-entered-formula'
-import style from './expression-view.stories.module.scss'
+import { exampleMixin } from 'style/storybook'
 
 export default {
   title: 'ExpressionView',
@@ -24,17 +23,12 @@ export const Tweak = () => {
   if (state === undefined) return <div>Enter formula</div>
 
   const { success, error } = state
-
   if (error !== undefined) return <div>{error.message}</div>
 
   const { formula, presentationCtx } = success
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView
-        className={'storybook-frame'}
-        expression={formula}
-        background
-      />
+      <ExpressionView css={`${exampleMixin}`} expression={formula}/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -44,9 +38,11 @@ export const MinWidth = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <ExpressionView
-        className={classNames('storybook-frame', style['min-width'])}
+        css={`
+          align-self: flex-start; 
+          ${exampleMixin}
+        `}
         expression={formula}
-        background
       />
     </SymPresentationCtx.Provider>
   )
@@ -59,7 +55,6 @@ export const FullWidthTooLong = () => {
       <ExpressionView
         className={'storybook-frame'}
         expression={formula}
-        background
       />
     </SymPresentationCtx.Provider>
   )

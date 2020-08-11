@@ -1,17 +1,14 @@
-import classNames from 'classnames'
-import 'common-style.scss'
 import { RootCtx } from 'contexts'
 import { ActivityStatus } from 'misc'
 import React, { useContext } from 'react'
 import { Routes } from 'routes'
-import style from './app.module.scss'
 
-export const App = () => {
+export const App = ({ className }) => {
   const { initializationStatus } = useContext(RootCtx)
   const loading = initializationStatus === ActivityStatus.InProgress
 
   return (
-    <div className={classNames(style.main, { [style.loading]: loading })}>
+    <div className={className}>
       {loading ? <div>spinner</div> : <Routes/>}
     </div>
   )

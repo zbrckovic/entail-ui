@@ -1,31 +1,39 @@
 import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
 import { useRuleDescriber } from 'hooks'
 import React, { useState } from 'react'
-import style from './rules.module.scss'
+import styled from 'styled-components'
 
-export const Rules = ({ rules = {} }) => {
+export const Rules = ({ className, rules = {} }) => {
   const ruleDescriber = useRuleDescriber()
 
   const [, setSelectedRule] = useState()
 
-  return <>
-    <div className={style.container}>
+  return (
+    <StyledDiv className={className}>
       {
         allRules.map(rule => {
           const { translation, abbreviation } = ruleDescriber(rule)
-          return <button
-            key={rule}
-            title={translation}
-            disabled={rules[rule] === undefined}
-            onClick={() => { setSelectedRule(rule) }}
-          >
-            {abbreviation}
-          </button>
+          return (
+            <button
+              key={rule}
+              title={translation}
+              disabled={rules[rule] === undefined}
+              onClick={() => { setSelectedRule(rule) }}
+            >
+              {abbreviation}
+            </button>
+          )
         })
       }
-    </div>
-  </>
+    </StyledDiv>
+  )
 }
+
+const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 42px);
+  gap: 8px;
+`
 
 const allRules = [
   Rule.Premise,

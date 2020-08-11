@@ -14,11 +14,12 @@ export default {
   ]
 }
 
-export const Tweak = () => <ExpressionText
-  css={`
-    align-self: flex-start; 
-    ${exampleMixin}
-  `}
-  text={text('Text', 'Write some text...')}
-  kind={select('Type', { ' ': undefined, ...Kind }, undefined)}
-/>
+export const Tweak = () =>
+  <ExpressionText
+    css={`
+      align-self: flex-start; 
+      ${exampleMixin}
+    `}
+    text={text('Text', 'Write some text...')}
+    kind={select('Type', { ' ': undefined, ...Kind }, undefined)}
+  />

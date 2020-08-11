@@ -1,7 +1,7 @@
-import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym/kind'
 import { Code } from 'components/code'
 import React from 'react'
-import styled, { css } from 'styled-components'
+import { getColorForKind } from 'style/theme'
+import styled from 'styled-components'
 
 /** This is used whenever we need to show some text which is a part of `EEL`. */
 export const ExpressionText = ({ className, text, kind }) => {
@@ -10,15 +10,8 @@ export const ExpressionText = ({ className, text, kind }) => {
 
 const StyledCode = styled(Code)`
   cursor: pointer;
-  ${({ theme, kind }) => cssWithKind(theme, kind)}
+    ${({ theme, kind }) => {
+    const color = getColorForKind(theme, kind)
+    return color && `color: ${color}`
+  }}; 
 `
-
-const cssWithKind = ({ colors: { formula, term } }, kind) => {
-  switch (kind) {
-    case Kind.Formula:
-      return css`color: ${formula}`
-    case Kind.Term:
-      return css`color: ${term}`
-  }
-}
-

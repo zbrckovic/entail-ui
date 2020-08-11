@@ -1,11 +1,10 @@
 import { action, decorate } from '@storybook/addon-actions'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
-import classNames from 'classnames'
 import { FormulaEditor } from 'components/formula-editor'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'
 import { jsonDecorator } from 'storybook/action-decorators'
-import style from './formula-editor.stories.module.scss'
+import { exampleMixin } from 'style/storybook'
 
 export default {
   title: 'FormulaEditor',
@@ -18,7 +17,7 @@ export const FullWidth = () => {
   return (
     <SymPresentationCtx.Provider value={primitivePresentationCtx}>
       <FormulaEditor
-        className={classNames('storybook-frame')}
+        css={`${exampleMixin}`}
         onSubmit={actionJson.action('submit')}
         onCancel={action('cancel')}
       />
@@ -30,7 +29,10 @@ export const MinWidth = () => {
   return (
     <SymPresentationCtx.Provider value={primitivePresentationCtx}>
       <FormulaEditor
-        className={classNames('storybook-frame', style['min-width'])}
+        css={`
+          align-self: flex-start; 
+          ${exampleMixin}
+        `}
         onSubmit={actionJson.action('submit')}
         onCancel={action('cancel')}
       />

@@ -9,10 +9,11 @@ export default {
   decorators: [scrollDecorator]
 }
 
-export const MinWidth = () => <DevInfo css={`
-  align-self: flex-start; 
-  ${exampleMixin}
-`}/>
+export const MinWidth = () =>
+  <DevInfo css={`
+    align-self: flex-start; 
+    ${exampleMixin}
+  `}
+  />
 
 export const FullWidth = () => <DevInfo css={`${exampleMixin}`}/>
-

@@ -1,1 +1,0 @@
-export { Premises } from './premises'

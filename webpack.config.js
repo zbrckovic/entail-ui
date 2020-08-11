@@ -14,11 +14,6 @@ const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 module.exports = (options = {}) => {
   const development = Boolean(options.development)
 
-  const cssModulesOptions = {
-    mode: 'local',
-    localIdentName: development ? '[path][name]_[local][hash:base64:5]' : '[hash:base64]'
-  }
-
   return {
     mode: development ? 'development' : 'production',
     entry: './src/index.jsx',
@@ -48,44 +43,6 @@ module.exports = (options = {}) => {
           use: 'html-loader'
         },
         {
-          test: /\.module\.scss$/,
-          use: [
-            development ? 'style-loader' : MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                modules: cssModulesOptions,
-                sourceMap: development
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: development
-              }
-            }
-          ]
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            development ? 'style-loader' : MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: development
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: development
-              }
-            }
-          ],
-          exclude: /\.module\.scss$/
-        },
-        {
           test: /\.css$/,
           include: SRC_DIR,
           use: [
@@ -93,7 +50,6 @@ module.exports = (options = {}) => {
             {
               loader: 'css-loader',
               options: {
-                modules: cssModulesOptions,
                 sourceMap: development,
                 importLoaders: 1,
                 namedExport: true

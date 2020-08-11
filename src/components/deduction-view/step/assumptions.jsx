@@ -1,11 +1,10 @@
 import { Code } from 'components/code'
 import React, { Fragment, useMemo } from 'react'
-import style from './assumptions.module.scss'
 
 export const Assumptions = ({ assumptions }) => {
   const assumptionSorted = useMemo(() => assumptions.sort().toArray(), [assumptions])
 
-  return <Code className={style.container}>
+  return <Code css={'white-space: normal'} >
     {assumptionSorted.map((assumption, i) => {
       const isLast = i === assumptionSorted.length - 1
 

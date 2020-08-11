@@ -1,1 +1,0 @@
-export { Infix } from './infix'
