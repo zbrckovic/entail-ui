@@ -2,6 +2,7 @@ import { Code } from 'components/code'
 import React from 'react'
 import { getColorForKind } from 'style/theme'
 import styled from 'styled-components'
+import { pipe } from 'utils'
 
 /** This is used whenever we need to show some text which is a part of `EEL`. */
 export const ExpressionText = ({ className, text, kind }) =>
@@ -14,5 +15,5 @@ export const ExpressionText = ({ className, text, kind }) =>
 
 const StyledCode = styled(Code)`
   cursor: pointer;
-  color: ${({ theme, kind }) => getColorForKind(theme, kind)}
+  color: ${pipe(({ kind }) => kind, getColorForKind)}
 `

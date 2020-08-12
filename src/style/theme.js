@@ -1,7 +1,8 @@
 import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym/kind'
+import { Intent } from 'components/intent'
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
-import { css } from 'styled-components'
+import { curry } from 'utils'
 
 export const theme = {
   fonts: {
@@ -9,6 +10,11 @@ export const theme = {
     monoFamily: sourceCodeProFamily
   },
   colors: {
+    primary: 'blue',
+    success: 'green',
+    warning: 'yellow',
+    danger: 'red',
+    neutral: 'white',
     text: '#000000',
     background: '#FFFEF6',
     border: '#5c7080',
@@ -34,14 +40,31 @@ export const theme = {
   }
 }
 
-export const getMajScale = (theme, i) => theme.spaces.majorScale[i]
-export const getMinScale = (theme, i) => theme.spaces.minorScale[i]
+export const getMajScale = curry((i, { theme }) => theme.spaces.majorScale[i])
+export const getMinScale = curry((i, { theme }) => theme.spaces.minorScale[i])
+export const getColorForKind = curry((kind, { theme }) => {
+  const { colors: { formula, term } } = theme
 
-export const getColorForKind = ({ colors: { formula, term } }, kind) => {
   switch (kind) {
     case Kind.Formula:
       return formula
     case Kind.Term:
       return term
   }
-}
+})
+
+export const getColorForIntent = curry((intent, { theme }) => {
+  const { colors: { primary, success, warning, danger, neutral } } = theme
+  switch (intent) {
+    case Intent.PRIMARY:
+      return primary
+    case Intent.SUCCESS:
+      return success
+    case Intent.WARNING:
+      return warning
+    case Intent.DANGER:
+      return danger
+    default:
+      return neutral
+  }
+})

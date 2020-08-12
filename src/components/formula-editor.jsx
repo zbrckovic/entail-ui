@@ -7,9 +7,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import { spaceBetweenHorizontal } from 'style/mixins'
 import { getMajScale } from 'style/theme'
 import styled from 'styled-components'
 import { faCheckCircle, faBan } from '@fortawesome/free-solid-svg-icons'
+import { pipe } from 'utils'
 
 export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const parse = useParser()
@@ -79,7 +81,7 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
 }
 
 const StyledContainer = styled.div`
-  min-width: ${({ theme }) => getMajScale(theme, 2) * 10};
+  min-width: ${pipe(getMajScale(2), x => x * 10)};
   display: flex;
   flex-direction: column;
 `
@@ -88,27 +90,27 @@ const StyledResultContainer = styled.div`
   display: flex;
   align-items: center;
   overflow-x: auto;
-  height: ${({ theme }) => getMajScale(theme, 4)};
+  height: ${getMajScale(4)};
 `
 
 const StyledExpressionView = styled(ExpressionView)`
-  padding-left: ${({ theme }) => getMajScale(theme, 1)};
-  padding-right: ${({ theme }) => getMajScale(theme, 1)};
+  padding-left: ${getMajScale(1)};
+  padding-right: ${getMajScale(1)};
 `
 
 const StyledTextArea = styled.textarea`
-  padding: ${({ theme }) => getMajScale(theme, 1)};
-  margin-bottom: ${({ theme }) => getMajScale(theme, 1)};
+  padding: ${getMajScale(1)};
+  margin-bottom: ${getMajScale(1)};
   resize: none;
 `
 
 const StyledControls = styled.div`
-  .controls {
-    display: flex;
+  display: flex;
+  
+  ${pipe(getMajScale(1), spaceBetweenHorizontal)}
 
-    button {
-      flex: 1 0 0;
-    }
+  button {
+    flex: 1 0 0;
   }
 `
 
