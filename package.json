@@ -73,7 +73,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
-    "@zbrckovic/entail-core": "0.0.19",
+    "@zbrckovic/entail-core": "0.0.20",
     "i18next": "^19.6.2",
     "immutable": "^4.0.0-rc.12",
     "polished": "^3.6.5",
