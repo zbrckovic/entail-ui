@@ -5,7 +5,7 @@ export const Code = ({ className, children }) =>
   <StyledDiv className={className}>{children}</StyledDiv>
 
 const StyledDiv = styled.div`
-  font-family: ${({ theme: { fonts: { monoFamily } } }) => monoFamily};
+  font-family: ${({ theme }) => theme.fonts.monoFamily};
   display: inline-block;
   white-space: pre;
 `

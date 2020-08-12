@@ -1,13 +1,14 @@
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { ExpressionView } from 'components/expression-view'
+import { Button } from 'components/button'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import { getMajScale } from 'style/theme'
 import styled from 'styled-components'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle, faBan } from '@fortawesome/free-solid-svg-icons'
 
 export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
@@ -57,26 +58,28 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
         onChange={event => { setText(event.target.value) }}
       />
       <StyledControls>
-        <button
+        <Button
           title={t('button.submit')}
           onClick={() => { onSubmit(parseResult?.success?.formula) }}
           disabled={formula === undefined}
+          icon={faCheckCircle}
         >
-          <FontAwesomeIcon icon={faCheckCircle}/>
-        </button>
-        <button
+          {t('button.submit')}
+        </Button>
+        <Button
           title={t('button.cancel')}
           onClick={() => { onCancel() }}
+          icon={faBan}
         >
-          <FontAwesomeIcon icon={faBan}/>
-        </button>
+          {t('button.cancel')}
+        </Button>
       </StyledControls>
     </StyledContainer>
   )
 }
 
 const StyledContainer = styled.div`
-  min-width: 320px;
+  min-width: ${({ theme }) => getMajScale(theme, 2) * 10};
   display: flex;
   flex-direction: column;
 `
@@ -85,24 +88,23 @@ const StyledResultContainer = styled.div`
   display: flex;
   align-items: center;
   overflow-x: auto;
-  height: 40px;
+  height: ${({ theme }) => getMajScale(theme, 4)};
 `
 
 const StyledExpressionView = styled(ExpressionView)`
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: ${({ theme }) => getMajScale(theme, 1)};
+  padding-right: ${({ theme }) => getMajScale(theme, 1)};
 `
 
 const StyledTextArea = styled.textarea`
-  grid-column: 1 / span 2;
-  margin-bottom: 8px;
+  padding: ${({ theme }) => getMajScale(theme, 1)};
+  margin-bottom: ${({ theme }) => getMajScale(theme, 1)};
   resize: none;
 `
 
 const StyledControls = styled.div`
   .controls {
     display: flex;
-    @include margin-between-h(8px);
 
     button {
       flex: 1 0 0;
@@ -117,7 +119,12 @@ const useParser = () => {
     try {
       const parser = new FormulaParser(presentationCtx)
       const formula = parser.parse(text)
-      return { success: { formula, presentationCtx: parser.presentationCtx } }
+      return {
+        success: {
+          formula,
+          presentationCtx: parser.presentationCtx
+        }
+      }
     } catch (error) {
       return { error }
     }

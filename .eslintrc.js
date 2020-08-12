@@ -41,9 +41,9 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-closing-bracket-location': 'error',
     'max-len': ['error', {
-      'code': 100,
-      'ignoreStrings': true,
-      'ignoreTemplateLiterals': true
+      code: 100,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true
     }],
     'no-unused-expressions': 'off',
     'babel/no-unused-expressions': 'error'
