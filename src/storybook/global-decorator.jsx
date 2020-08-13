@@ -2,11 +2,12 @@ import { RootCtx } from 'contexts'
 import { ActivityStatus } from 'misc'
 import React, { useContext } from 'react'
 import { RootWrapper } from 'root-wrapper'
-import styled from 'styled-components'
 
-export const globalDecorator = storyFn =>
+export const globalDecorator = Story =>
   <RootWrapper>
-    <StyledGlobalWrapper>{storyFn()}</StyledGlobalWrapper>
+    <GlobalWrapper>
+      <Story/>
+    </GlobalWrapper>
   </RootWrapper>
 
 const GlobalWrapper = ({ children }) => {
@@ -15,11 +16,3 @@ const GlobalWrapper = ({ children }) => {
 
   return loading || children
 }
-
-const StyledGlobalWrapper = styled(GlobalWrapper)`
-  display: flex;
-  flex-direction: column;
-
-  height: 100%;
-  width: 100%;
-`

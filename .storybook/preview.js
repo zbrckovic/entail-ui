@@ -1,9 +1,7 @@
-import { configure, addDecorator } from '@storybook/react'
 import { globalDecorator } from 'storybook/global-decorator'
 
-configure(
-  require.context('../src/components', true, /\.stories\.jsx?$/),
-  module
-)
+export const decorators = [globalDecorator]
 
-addDecorator(globalDecorator)
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' }
+}

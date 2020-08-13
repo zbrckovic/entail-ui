@@ -1,19 +1,11 @@
 import { DevInfo } from 'components/dev-info'
 import React from 'react'
-import { scrollDecorator } from 'storybook/scroll-decorator'
-import { exampleMixin } from 'style/storybook'
 
 export default {
   title: 'DevInfo',
-  component: DevInfo,
-  decorators: [scrollDecorator]
+  component: DevInfo
 }
 
-export const MinWidth = () =>
-  <DevInfo css={`
-    align-self: flex-start; 
-    ${exampleMixin}
-  `}
-  />
+export const MinWidth = () => <DevInfo/>
 
-export const FullWidth = () => <DevInfo css={`${exampleMixin}`}/>
+export const FullWidth = () => <DevInfo/>

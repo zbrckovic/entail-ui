@@ -1,7 +1,6 @@
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const { EnvironmentPlugin } = require('webpack')
@@ -43,21 +42,6 @@ module.exports = (options = {}) => {
           use: 'html-loader'
         },
         {
-          test: /\.css$/,
-          include: SRC_DIR,
-          use: [
-            development ? 'style-loader' : MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                sourceMap: development,
-                importLoaders: 1,
-                namedExport: true
-              }
-            }
-          ]
-        },
-        {
           test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
           use: [
             {
@@ -80,11 +64,7 @@ module.exports = (options = {}) => {
       }),
       new Dotenv(),
       new HtmlWebpackPlugin({ template: './src/index.html' }),
-      new FaviconsWebpackPlugin('./resources/favicon.png'),
-      new MiniCssExtractPlugin({
-        filename: development ? '[name].css' : '[name].[hash].css',
-        chunkFilename: development ? '[id].css' : '[id].[hash].css'
-      })
+      new FaviconsWebpackPlugin('./resources/favicon.png')
     ]
   }
 }

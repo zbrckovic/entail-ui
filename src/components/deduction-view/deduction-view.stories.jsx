@@ -1,18 +1,12 @@
-import { withKnobs } from '@storybook/addon-knobs'
 import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-parser/deduction-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
-import { scrollDecorator } from 'storybook/scroll-decorator'
 import { DeductionView } from './deduction-view'
 
 export default {
   title: 'DeductionView',
-  component: DeductionView,
-  decorators: [
-    withKnobs({ escapeHTML: false }),
-    scrollDecorator
-  ]
+  component: DeductionView
 }
 
 export const Example1 = () => {
@@ -70,7 +64,10 @@ const useDeduction = deductionText => {
     const parser = new DeductionParser(primitivePresentationCtx)
     const deduction = parser.parse(deductionText)
     const presentationCtx = parser.presentationCtx
-    return { deduction, presentationCtx }
+    return {
+      deduction,
+      presentationCtx
+    }
   })
 
   return state

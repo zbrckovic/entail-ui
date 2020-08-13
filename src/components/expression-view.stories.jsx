@@ -1,20 +1,13 @@
-import { withKnobs } from '@storybook/addon-knobs'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
-import { scrollDecorator } from 'storybook/scroll-decorator'
 import { useEnteredFormula } from 'storybook/use-entered-formula'
-import { exampleMixin } from 'style/storybook'
 
 export default {
   title: 'ExpressionView',
-  component: ExpressionView,
-  decorators: [
-    withKnobs({ escapeHTML: false }),
-    scrollDecorator
-  ]
+  component: ExpressionView
 }
 
 export const Tweak = () => {
@@ -28,7 +21,7 @@ export const Tweak = () => {
   const { formula, presentationCtx } = success
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView css={`${exampleMixin}`} expression={formula}/>
+      <ExpressionView expression={formula}/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -39,8 +32,7 @@ export const MinWidth = () => {
     <SymPresentationCtx.Provider value={presentationCtx}>
       <ExpressionView
         css={`
-          align-self: flex-start; 
-          ${exampleMixin}
+          align-self: flex-start;
         `}
         expression={formula}
       />
@@ -52,7 +44,7 @@ export const FullWidthTooLong = () => {
   const { formula, presentationCtx } = useFormula('E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)')
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView css={`${exampleMixin}`} expression={formula}/>
+      <ExpressionView expression={formula}/>
     </SymPresentationCtx.Provider>
   )
 }
