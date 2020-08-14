@@ -1,11 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import { typography } from 'styled-system'
 
 export const Code = ({ className, children }) =>
-  <StyledDiv className={className}>{children ?? <wbr/>}</StyledDiv>
+  <StyledDiv
+    className={className}
+    fontFamily='mono'
+  >
+    {children ?? <wbr/>}
+  </StyledDiv>
 
-const StyledDiv = styled.div`
-  font-family: ${({ theme }) => theme.fonts.monoFamily};
-  display: inline-block;
-  white-space: pre;
-`
+const StyledDiv = styled('div')({
+  display: 'inline-block',
+  whiteSpace: 'pre'
+}, typography)

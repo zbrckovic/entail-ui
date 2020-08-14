@@ -1,7 +1,6 @@
 import { normalize } from 'polished'
-import React from 'react'
-import { sourceSansProDeclaration } from 'style/global-style/fonts/source-sans-pro-declaration'
 import { sourceCodeProDeclaration } from 'style/global-style/fonts/source-code-pro-declaration'
+import { sourceSansProDeclaration } from 'style/global-style/fonts/source-sans-pro-declaration'
 import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyle = createGlobalStyle`

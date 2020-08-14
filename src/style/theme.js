@@ -5,15 +5,15 @@ import { curry } from 'utils'
 
 export const theme = {
   fonts: {
-    family: sourceSansFamily,
-    monoFamily: sourceCodeProFamily
+    main: sourceSansFamily,
+    mono: sourceCodeProFamily
   },
   colors: {
     primary: 'blue',
+    neutral: 'white',
     success: 'green',
     warning: 'yellow',
     danger: 'red',
-    neutral: 'white',
     text: '#000000',
     background: '#FFFEF6',
     border: '#5c7080',

@@ -1,7 +1,6 @@
 import { RootCtx } from 'contexts/root-ctx'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import styled from 'styled-components'
 
 /** Shows basic development information. */
 export const DevInfo = ({ className }) => {
@@ -19,32 +18,18 @@ export const DevInfo = ({ className }) => {
   }, [t, environment])
 
   return (
-    <StyledDl className={className}>
+    <dl
+      className={className}
+      css={{ margin: 0 }}
+    >
       {entries.map(([label, value], i) => (
-        <StyledRow key={i}>
-          <StyledDt>{label}</StyledDt>
-          <StyledDd>{value}</StyledDd>
-        </StyledRow>
+        <div key={i} css={{ display: 'flex' }}>
+          <dt
+            css={{ flexGrow: 0, width: '100px', fontWeight: 'bold' }}
+          >{label}</dt>
+          <dd css={{ flexGrow: 1, marginLeft: 0 }}>{value}</dd>
+        </div>
       ))}
-    </StyledDl>
+    </dl>
   )
 }
-
-const StyledDl = styled.dl`
-  margin: 0;
-`
-
-const StyledRow = styled.div`
-  display: flex;
-`
-
-const StyledDt = styled.dt`
-  flex-grow: 0;
-  width: 100px;
-  font-weight: bold;
-`
-
-const StyledDd = styled.dd`
-  flex-grow: 1;
-  margin-left: 0;
-`
