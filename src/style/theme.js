@@ -1,5 +1,4 @@
 import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym/kind'
-import { Intent } from 'components/intent'
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
 import { curry } from 'utils'
@@ -21,27 +20,19 @@ export const theme = {
     formula: '#A7B6C2',
     term: '#EB532D'
   },
-  spaces: {
-    // hints are made under assumption: 1rem = 16px
-    majorScale: [
-      '0rem', //    0 -> 0px
-      '0.5rem', //  1 -> 8px
-      '1rem', //    2 -> 16px
-      '1.5rem', //  3 -> 24px
-      '2rem' //     4 -> 32px
-    ],
-    minorScale: [
-      '0rem', //    0 -> 0px
-      '0.25rem', // 1 -> 4px
-      '0.75rem', // 3 -> 12px
-      '1.25rem', // 4 -> 20px
-      '1.75rem' //  5 -> 28px
-    ]
-  }
+  space: [
+    '0rem', // 0 -> 0px
+    '0.25rem', // 1 -> 4px
+    '0.5rem', // 2 -> 8px
+    '0.75rem', // 3 -> 12px
+    '1rem', // 4 -> 16px
+    '1.25rem', // 5 -> 20px
+    '1.5rem', // 6 -> 24px
+    '1.75rem', // 7 -> 28px
+    '2rem' // 8 -> 32px
+  ]
 }
 
-export const getMajScale = curry((i, { theme }) => theme.spaces.majorScale[i])
-export const getMinScale = curry((i, { theme }) => theme.spaces.minorScale[i])
 export const getColorForKind = curry((kind, { theme }) => {
   const { colors: { formula, term } } = theme
 
@@ -50,21 +41,5 @@ export const getColorForKind = curry((kind, { theme }) => {
       return formula
     case Kind.Term:
       return term
-  }
-})
-
-export const getColorForIntent = curry((intent, { theme }) => {
-  const { colors: { primary, success, warning, danger, neutral } } = theme
-  switch (intent) {
-    case Intent.PRIMARY:
-      return primary
-    case Intent.SUCCESS:
-      return success
-    case Intent.WARNING:
-      return warning
-    case Intent.DANGER:
-      return danger
-    default:
-      return neutral
   }
 })

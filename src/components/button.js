@@ -1,13 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { paddingHorizontal, paddingVertical, backgroundWithReadability } from 'style/mixins'
-import { getColorForIntent, getMajScale } from 'style/theme'
-import styled, { css } from 'styled-components'
-import { pipe } from 'utils'
+import styled from 'styled-components'
+import { space, variant } from 'styled-system'
 
 export const Button = ({ children, icon, ...props }) =>
   <StyledButton {...props}>
-    {icon && <StyledFontAwesomeIcon icon={icon}/>}
+    {icon && <StyledFontAwesomeIcon icon={icon} mr={4}/>}
     {
       typeof children === 'string'
         ? children ? <span>{children}</span> : <span>&nbsp;</span>
@@ -15,28 +13,19 @@ export const Button = ({ children, icon, ...props }) =>
     }
   </StyledButton>
 
-const StyledButton = styled.button`
-  cursor: pointer;
-  white-space: nowrap;
-  
-  ${pipe(getMajScale(2), paddingHorizontal)};
-  ${pipe(getMajScale(1), paddingVertical)};
-  
-  ${
-  pipe(({ intent, theme }) => {
-    const backgroundColor = getColorForIntent(intent)({ theme })
-    return backgroundWithReadability(backgroundColor)
-  })}
-  
-  ${
-  pipe(({ intent, theme }) => {
-    return intent === undefined
-      ? css`border: 1px solid ${theme.colors.text};`
-      : css`border: none;`
-  })}
-}
-`
+const StyledButton = styled('button')(
+  {
+    cursor: 'pointer',
+    whiteSpace: 'nowrap'
+  },
+  variant({
+    variants: {
+      primary: {
+        color: 'white',
+        bg: 'primary'
+      }
+    }
+  })
+)
 
-const StyledFontAwesomeIcon = styled(FontAwesomeIcon)`
-  margin-right: ${getMajScale(1)};
-`
+const StyledFontAwesomeIcon = styled(FontAwesomeIcon)(space)

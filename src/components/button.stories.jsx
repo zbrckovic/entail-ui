@@ -1,6 +1,5 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'components/button'
-import { Intent } from 'components/intent'
 import React from 'react'
 
 export default {
@@ -8,11 +7,17 @@ export default {
   component: Button
 }
 
-export const Default = () =>
+export const Normal = () =>
   <div>
     <Button
-      intent={Intent.PRIMARY}
-      disabled={true}
       icon={faCheckCircle}
+    >{'Example'}</Button>
+  </div>
+
+export const Primary = () =>
+  <div>
+    <Button
+      icon={faCheckCircle}
+      variant='primary'
     >{'Example'}</Button>
   </div>
