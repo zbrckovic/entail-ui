@@ -4,7 +4,7 @@ import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-decla
 import { curry } from 'utils'
 
 export const theme = {
-  code: {
+  eel: {
     normal: {
       color: 'text'
     },

@@ -1,6 +1,6 @@
 {
   "label": {
-    "api-url": "Api URL",
+    "apiUrl": "Api URL",
     "branch": "Branch",
     "commit": "Commit"
   }

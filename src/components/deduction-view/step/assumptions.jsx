@@ -1,10 +1,10 @@
-import { Code } from 'components/code'
 import React, { Fragment, useMemo } from 'react'
+import { Text } from 'rebass'
 
 export const Assumptions = ({ assumptions }) => {
   const assumptionSorted = useMemo(() => assumptions.sort().toArray(), [assumptions])
 
-  return <Code css={'white-space: normal'} >
+  return <Text css={'white-space: normal'} >
     {assumptionSorted.map((assumption, i) => {
       const isLast = i === assumptionSorted.length - 1
 
@@ -13,5 +13,5 @@ export const Assumptions = ({ assumptions }) => {
         {isLast || ' '}
       </Fragment>
     })}
-  </Code>
+  </Text>
 }

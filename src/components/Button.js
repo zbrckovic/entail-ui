@@ -1,15 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import { Button as RButton } from 'rebass'
+import { Button as BaseButton } from 'rebass'
 import { css } from '@emotion/core'
 
-export const Button = ({ children, icon, ...props }) =>
-  <RButton
+const Button = ({ children, icon, ...props }) =>
+  <BaseButton
     variant='normal'
-    sx={{
-      cursor: 'pointer',
-      whiteSpace: 'nowrap'
-    }}
+    css={css`
+      cursor: pointer;
+      white-space: nowrap;
+    `}
     {...props}
   >
     {icon &&
@@ -22,4 +22,6 @@ export const Button = ({ children, icon, ...props }) =>
         ? (children ? <span>{children}</span> : <span>&#8203;</span>)
         : children
     }
-  </RButton>
+  </BaseButton>
+
+export default Button

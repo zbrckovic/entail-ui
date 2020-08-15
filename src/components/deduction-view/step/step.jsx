@@ -1,7 +1,7 @@
 import { Rule } from 'components/deduction-view/step/rule'
 import { StepNumber } from 'components/deduction-view/step/step-number'
 import React from 'react'
-import { ExpressionView } from '../../expression-view'
+import ExpressionView from 'components/ExpressionView'
 import { Assumptions } from './assumptions'
 import { Premises } from './premises'
 

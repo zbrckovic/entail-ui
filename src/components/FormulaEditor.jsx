@@ -1,6 +1,6 @@
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
-import { ExpressionView } from 'components/expression-view'
-import { Button } from 'components/button'
+import ExpressionView from 'components/ExpressionView'
+import Button from 'components/Button'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
@@ -11,7 +11,7 @@ import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { Flex } from 'rebass'
 import { css } from '@emotion/core'
 
-export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
+const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const parse = useParser()
   const { t } = useTranslation('FormulaEditor')
 
@@ -105,3 +105,5 @@ const useParser = () => {
     }
   }
 }
+
+export default FormulaEditor

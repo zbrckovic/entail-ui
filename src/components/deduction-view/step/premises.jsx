@@ -1,11 +1,11 @@
-import { Code } from 'components/code'
 import React, { Fragment, useMemo } from 'react'
+import { Text } from 'rebass'
 
 export const Premises = ({ premises }) => {
   const premisesOrdered = useMemo(() => premises.toArray(), [premises])
 
   return (
-    <Code css={'white-space: normal'}>
+    <Text css={'white-space: normal'}>
       {premisesOrdered.map((premise, i) => {
         const isLast = i === premisesOrdered.length - 1
 
@@ -14,6 +14,6 @@ export const Premises = ({ premises }) => {
           {isLast || ' '}
         </Fragment>
       })}
-    </Code>
+    </Text>
   )
 }

@@ -1,9 +1,10 @@
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
-import { ExpressionView } from 'components/expression-view'
+import ExpressionView from 'components/ExpressionView'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { useEnteredFormula } from 'storybook/use-entered-formula'
+import { css } from '@emotion/core'
 
 export default {
   title: 'ExpressionView',
@@ -31,9 +32,7 @@ export const MinWidth = () => {
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
       <ExpressionView
-        css={`
-          align-self: flex-start;
-        `}
+        css={css`align-self: flex-start;`}
         expression={formula}
       />
     </SymPresentationCtx.Provider>

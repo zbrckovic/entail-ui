@@ -3,8 +3,7 @@ import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Flex } from 'rebass'
 
-/** Shows basic development information. */
-export const DevInfo = ({ className }) => {
+const DevInfo = ({ className, ...props }) => {
   const { environment } = useContext(RootCtx)
   const { t } = useTranslation('DevInfo')
 
@@ -12,7 +11,7 @@ export const DevInfo = ({ className }) => {
     const { apiUrl, version, branch } = environment
 
     return [
-      [t('label.api-url'), apiUrl],
+      [t('label.apiUrl'), apiUrl],
       [t('label.branch'), version],
       [t('label.commit'), branch]
     ]
@@ -23,6 +22,7 @@ export const DevInfo = ({ className }) => {
       as='dl'
       className={className}
       margin={0}
+      {...props}
     >
       {entries.map(([label, value], i) => (
         <Flex key={i}>
@@ -46,3 +46,5 @@ export const DevInfo = ({ className }) => {
     </Box>
   )
 }
+
+export default DevInfo

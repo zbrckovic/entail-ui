@@ -1,12 +1,12 @@
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
 import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
-import { Code } from 'components/code'
-import { ExpressionText } from 'components/expression-text'
+import Code from 'components/Code'
+import ExpressionText from 'components/ExpressionText'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
 
 /** Shows textual representation of a provided expression. */
-export const ExpressionView = ({
+const ExpressionView = ({
   className,
   expression: { sym, boundSym, children },
   root = true
@@ -37,7 +37,7 @@ export const ExpressionView = ({
   return root ? <Code className={className}>{content}</Code> : content
 }
 
-export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
+const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
   const isPrimitive = primitiveSyms.has(sym)
   const hasParentheses = childrenExpressions.size > 1 ||
     (childrenExpressions.size === 1 && !primitiveSyms.has(sym))
@@ -63,7 +63,7 @@ export const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
   </>
 }
 
-export const Infix = ({ sym, symText, childExpression1, childExpression2, root }) => <>
+const Infix = ({ sym, symText, childExpression1, childExpression2, root }) => <>
   {root || <ExpressionText text="(" kind={sym.kind}/>}
   <ExpressionView expression={childExpression1} root={false}/>
   <ExpressionText text=" "/>
@@ -73,8 +73,10 @@ export const Infix = ({ sym, symText, childExpression1, childExpression2, root }
   {root || <ExpressionText text=")" kind={sym.kind}/>}
 </>
 
-export const Binding = ({ sym }) => {
+const Binding = ({ sym }) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const text = presentationCtx.get(sym).getDefaultSyntacticInfo().text
   return <ExpressionText text={text} kind={sym.kind}/>
 }
+
+export default ExpressionView

@@ -1,5 +1,5 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'components/button'
+import Button from 'components/Button'
 import React from 'react'
 
 export default {
@@ -14,7 +14,7 @@ export default {
       control: 'text',
       defaultValue: 'Button'
     },
-    appearance: {
+    variant: {
       control: {
         type: 'inline-radio',
         options: ['normal', 'primary', 'danger']
@@ -25,7 +25,10 @@ export default {
 }
 
 const Template = ({ icon, children, ...args }) =>
-  <Button icon={icon ? faCheckCircle : undefined} {...args}>
+  <Button
+    icon={icon ? faCheckCircle : undefined}
+    {...args}
+  >
     {children}
   </Button>
 

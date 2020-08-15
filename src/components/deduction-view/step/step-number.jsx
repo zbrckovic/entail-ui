@@ -1,4 +1,4 @@
-import { Code } from 'components/code'
 import React from 'react'
+import { Text } from 'rebass'
 
-export const StepNumber = ({ number }) => <Code>({number})</Code>
+export const StepNumber = ({ number }) => <Text>({number})</Text>

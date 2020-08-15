@@ -1,3 +1,0 @@
-{
-  "syntax-error": "Syntax error at line {{location.line}}, column {{location.column}}."
-}

@@ -1,5 +1,5 @@
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
-import { FormulaEditor } from 'components/formula-editor'
+import FormulaEditor from 'components/FormulaEditor'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'
 

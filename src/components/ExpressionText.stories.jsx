@@ -1,5 +1,5 @@
 import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym'
-import { ExpressionText } from 'components/expression-text'
+import ExpressionText from 'components/ExpressionText'
 import React from 'react'
 
 export default {
@@ -13,7 +13,7 @@ export default {
     kind: {
       control: {
         type: 'inline-radio',
-        options: [undefined, Kind.Formula, Kind.Term]
+        options: [Kind.Formula, Kind.Term]
       }
     }
   }
