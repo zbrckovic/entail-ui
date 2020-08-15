@@ -19,13 +19,12 @@ export const RootWrapper = ({ children }) => {
     return () => { subscription.unsubscribe() }
   }, [])
 
-  return (
+  return <>
+    <Global styles={globalStyle}/>
     <RootCtx.Provider value={{ environment, initializationStatus }}>
       <ThemeProvider theme={theme}>
-        <Global styles={globalStyle}>
-          {children}
-        </Global>
+        {children}
       </ThemeProvider>
     </RootCtx.Provider>
-  )
+  </>
 }
