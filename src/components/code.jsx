@@ -1,16 +1,15 @@
+import { css } from '@emotion/core'
 import React from 'react'
-import styled from 'styled-components'
-import { typography } from 'styled-system'
+import { Text } from 'rebass'
 
 export const Code = ({ className, children }) =>
-  <StyledDiv
+  <Text
     className={className}
     fontFamily='mono'
+    css={css({
+      display: 'inline-block',
+      whiteSpace: 'pre'
+    })}
   >
     {children ?? <wbr/>}
-  </StyledDiv>
-
-const StyledDiv = styled('div')({
-  display: 'inline-block',
-  whiteSpace: 'pre'
-}, typography)
+  </Text>

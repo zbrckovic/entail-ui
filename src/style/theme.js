@@ -4,6 +4,31 @@ import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-decla
 import { curry } from 'utils'
 
 export const theme = {
+  code: {
+    normal: {
+      color: 'text'
+    },
+    formula: {
+      color: 'formula'
+    },
+    term: {
+      color: 'term'
+    }
+  },
+  buttons: {
+    normal: {
+      color: 'text',
+      bg: 'neutral'
+    },
+    primary: {
+      color: 'white',
+      bg: 'primary'
+    },
+    danger: {
+      color: 'white',
+      bg: 'danger'
+    }
+  },
   fonts: {
     main: sourceSansFamily,
     mono: sourceCodeProFamily

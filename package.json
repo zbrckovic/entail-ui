@@ -46,6 +46,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
+    "babel-plugin-emotion": "^10.0.33",
     "dotenv-webpack": "^2.0.0",
     "eslint": "^7.5.0",
     "eslint-config-standard": "^14.1.1",
@@ -66,6 +67,8 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "@emotion/babel-preset-css-prop": "^10.0.27",
+    "@emotion/core": "^10.0.34",
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
     "@fortawesome/free-brands-svg-icons": "^5.14.0",
     "@fortawesome/free-regular-svg-icons": "^5.14.0",
@@ -73,12 +76,14 @@
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@zbrckovic/entail-core": "0.0.20",
     "core-js": "^3.6.5",
+    "emotion-theming": "^10.0.27",
     "i18next": "^19.6.2",
     "immutable": "^4.0.0-rc.12",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.0",
     "react-router-dom": "^5.2.0",
+    "rebass": "^4.0.7",
     "rxjs": "^6.6.0"
   }
 }

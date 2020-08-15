@@ -1,5 +1,4 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym'
 import { Button } from 'components/button'
 import React from 'react'
 

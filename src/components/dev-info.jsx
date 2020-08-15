@@ -1,6 +1,7 @@
 import { RootCtx } from 'contexts/root-ctx'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Box, Flex } from 'rebass'
 
 /** Shows basic development information. */
 export const DevInfo = ({ className }) => {
@@ -18,18 +19,30 @@ export const DevInfo = ({ className }) => {
   }, [t, environment])
 
   return (
-    <dl
+    <Box
+      as='dl'
       className={className}
-      css={{ margin: 0 }}
+      margin={0}
     >
       {entries.map(([label, value], i) => (
-        <div key={i} css={{ display: 'flex' }}>
-          <dt
-            css={{ flexGrow: 0, width: '100px', fontWeight: 'bold' }}
-          >{label}</dt>
-          <dd css={{ flexGrow: 1, marginLeft: 0 }}>{value}</dd>
-        </div>
+        <Flex key={i}>
+          <Box
+            as='dt'
+            flexGrow={0}
+            width={'100px'}
+            fontWeight='bold'
+          >
+            {label}
+          </Box>
+          <Box
+            as='dd'
+            flexGrow={1}
+            marginLeft={0}
+          >
+            {value}
+          </Box>
+        </Flex>
       ))}
-    </dl>
+    </Box>
   )
 }

@@ -1,10 +1,8 @@
-import { normalize } from 'polished'
 import { sourceCodeProDeclaration } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansProDeclaration } from 'style/global-style/fonts/source-sans-pro-declaration'
-import { createGlobalStyle } from 'styled-components'
+import { css } from '@emotion/core'
 
-export const GlobalStyle = createGlobalStyle`
-  ${normalize()}
+export const globalStyle = css`
   ${sourceSansProDeclaration}
   ${sourceCodeProDeclaration}
 

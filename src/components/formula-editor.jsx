@@ -7,11 +7,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
-import { spaceBetweenHorizontal } from 'style/mixins'
-import { getMajScale } from 'style/theme'
-import styled from 'styled-components'
-import { faCheckCircle, faBan } from '@fortawesome/free-solid-svg-icons'
-import { pipe } from 'utils'
+import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { Flex } from 'rebass'
+import { css } from '@emotion/core'
 
 export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const parse = useParser()
@@ -41,25 +39,34 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const error = parseResult?.error
 
   return (
-    <StyledContainer className={className}>
-      <StyledResultContainer>
+    <Flex
+      className={className}
+      flexDirection='column'
+      minWidth='300px'
+    >
+      <Flex
+        alignItems='center'
+        height={4}
+        css={css`overflow-x: auto`}
+      >
         {
           formula !== undefined &&
           <SymPresentationCtx.Provider value={presentationCtx}>
-            <StyledExpressionView expression={formula}/>
+            <ExpressionView paddingLeft={1} paddingRight={1} expression={formula}/>
           </SymPresentationCtx.Provider>
         }
         {
           text.length > 0 && error !== undefined &&
           <div>{describeError(error)}</div>
         }
-      </StyledResultContainer>
-      <StyledTextArea
+      </Flex>
+      <textarea
         rows={10}
         value={text}
         onChange={event => { setText(event.target.value) }}
+        css={css`resize: none;`}
       />
-      <StyledControls>
+      <Flex>
         <Button
           title={t('button.submit')}
           onClick={() => { onSubmit(parseResult?.success?.formula) }}
@@ -75,44 +82,10 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
         >
           {t('button.cancel')}
         </Button>
-      </StyledControls>
-    </StyledContainer>
+      </Flex>
+    </Flex>
   )
 }
-
-const StyledContainer = styled.div`
-  min-width: ${pipe(getMajScale(2), x => x * 10)};
-  display: flex;
-  flex-direction: column;
-`
-
-const StyledResultContainer = styled.div`
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  height: ${getMajScale(4)};
-`
-
-const StyledExpressionView = styled(ExpressionView)`
-  padding-left: ${getMajScale(1)};
-  padding-right: ${getMajScale(1)};
-`
-
-const StyledTextArea = styled.textarea`
-  padding: ${getMajScale(1)};
-  margin-bottom: ${getMajScale(1)};
-  resize: none;
-`
-
-const StyledControls = styled.div`
-  display: flex;
-  
-  ${pipe(getMajScale(1), spaceBetweenHorizontal)}
-
-  button {
-    flex: 1 0 0;
-  }
-`
 
 const useParser = () => {
   const presentationCtx = useContext(SymPresentationCtx)

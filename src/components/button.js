@@ -1,40 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
-import styled from 'styled-components'
-import { space, variant } from 'styled-system'
+import { Button as RButton } from 'rebass'
+import { css } from '@emotion/core'
 
-export const Button = ({ children, icon, appearance = 'normal', ...props }) =>
-  <StyledButton {...{ appearance, ...props }}>
-    {icon && <StyledFontAwesomeIcon icon={icon} mr={children ? 4 : undefined}/>}
+export const Button = ({ children, icon, ...props }) =>
+  <RButton
+    variant='normal'
+    sx={{
+      cursor: 'pointer',
+      whiteSpace: 'nowrap'
+    }}
+    {...props}
+  >
+    {icon &&
+    <FontAwesomeIcon
+      css={css({ marginRight: children ? 4 : undefined })}
+      icon={icon}
+    />}
     {
       typeof children === 'string'
         ? (children ? <span>{children}</span> : <span>&#8203;</span>)
         : children
     }
-  </StyledButton>
-
-const StyledButton = styled('button')(
-  {
-    cursor: 'pointer',
-    whiteSpace: 'nowrap'
-  },
-  variant({
-    prop: 'appearance',
-    variants: {
-      normal: {
-        color: 'text',
-        bg: 'neutral'
-      },
-      primary: {
-        color: 'white',
-        bg: 'primary'
-      },
-      danger: {
-        color: 'white',
-        bg: 'danger'
-      }
-    }
-  })
-)
-
-const StyledFontAwesomeIcon = styled(FontAwesomeIcon)(space)
+  </RButton>

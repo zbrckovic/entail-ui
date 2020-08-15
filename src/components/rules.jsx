@@ -1,7 +1,7 @@
 import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
 import { useRuleDescriber } from 'hooks'
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import { Box } from 'rebass'
 
 export const Rules = ({ className, rules = {} }) => {
   const ruleDescriber = useRuleDescriber()
@@ -9,7 +9,7 @@ export const Rules = ({ className, rules = {} }) => {
   const [, setSelectedRule] = useState()
 
   return (
-    <StyledDiv className={className}>
+    <Box className={className}>
       {
         allRules.map(rule => {
           const { translation, abbreviation } = ruleDescriber(rule)
@@ -25,15 +25,9 @@ export const Rules = ({ className, rules = {} }) => {
           )
         })
       }
-    </StyledDiv>
+    </Box>
   )
 }
-
-const StyledDiv = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 42px);
-  gap: 8px;
-`
 
 const allRules = [
   Rule.Premise,
