@@ -1,5 +1,5 @@
 import { RootCtx } from 'contexts'
-import { ActivityStatus } from 'misc'
+import { ActivityStatus } from 'misc/activity-status'
 import React, { useContext } from 'react'
 import { RootWrapper } from 'root-wrapper'
 

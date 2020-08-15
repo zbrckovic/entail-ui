@@ -1,4 +1,3 @@
-import { fontFace } from './font-face'
 import blackItalic
   from '../../../../resources/fonts/source-code-pro/source-code-pro-black-italic.ttf'
 import black from '../../../../resources/fonts/source-code-pro/source-code-pro-black.ttf'
@@ -18,6 +17,7 @@ import regular from '../../../../resources/fonts/source-code-pro/source-code-pro
 import semiBoldItalic
   from '../../../../resources/fonts/source-code-pro/source-code-pro-semi-bold-italic.ttf'
 import semiBold from '../../../../resources/fonts/source-code-pro/source-code-pro-semi-bold.ttf'
+import { fontFace } from './font-face'
 
 export const sourceCodeProFamily = 'SourceCodePro'
 

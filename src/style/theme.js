@@ -1,7 +1,5 @@
-import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym/kind'
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
-import { curry } from 'utils'
 
 export const theme = {
   eel: {
@@ -57,14 +55,3 @@ export const theme = {
     '2rem' // 8 -> 32px
   ]
 }
-
-export const getColorForKind = curry((kind, { theme }) => {
-  const { colors: { formula, term } } = theme
-
-  switch (kind) {
-    case Kind.Formula:
-      return formula
-    case Kind.Term:
-      return term
-  }
-})

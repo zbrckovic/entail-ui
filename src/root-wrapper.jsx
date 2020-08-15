@@ -1,12 +1,12 @@
+import { Global } from '@emotion/core'
 import { RootCtx } from 'contexts'
+import { ThemeProvider } from 'emotion-theming'
 import { environment } from 'environment'
 import { initI18n } from 'i18n'
-import { ActivityStatus } from 'misc'
+import { ActivityStatus } from 'misc/activity-status'
 import React, { useEffect, useState } from 'react'
+import { globalStyle } from 'style/global-style'
 import { theme } from 'style/theme'
-import { ThemeProvider } from 'emotion-theming'
-import { Global } from '@emotion/core'
-import { globalStyle } from './style/global-style'
 
 export const RootWrapper = ({ children }) => {
   const [initializationStatus, setInitializationStatus] = useState(ActivityStatus.InProgress)
