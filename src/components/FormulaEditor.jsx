@@ -1,6 +1,6 @@
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import ExpressionView from 'components/ExpressionView'
-import Button from 'components/Button'
+import Button from 'components/uiToolkit/Button'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'

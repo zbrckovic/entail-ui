@@ -2,7 +2,7 @@ import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-pa
 import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
-import { DeductionView } from './deduction-view'
+import DeductionView from './DeductionView'
 
 export default {
   title: 'DeductionView',

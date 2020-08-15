@@ -1,5 +1,5 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import Button from 'components/Button'
+import Button from 'components/uiToolkit/Button'
 import React from 'react'
 
 export default {

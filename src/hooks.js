@@ -17,42 +17,42 @@ export const useRuleDescriber = () => {
       case Rule.Premise:
         return {
           translation: t('premise'),
-          abbreviation: t('premise-abbreviated')
+          abbreviation: t('premiseAbbreviated')
         }
       case Rule.TautologicalImplication:
         return {
-          translation: t('tautological-implication'),
-          abbreviation: t('tautological-implication-abbreviated')
+          translation: t('tautologicalImplication'),
+          abbreviation: t('tautologicalImplicationAbbreviated')
         }
       case Rule.Deduction:
         return {
           translation: t('deduction'),
-          abbreviation: t('deduction-abbreviated')
+          abbreviation: t('deductionAbbreviated')
         }
       case Rule.Theorem:
         return {
           translation: t('theorem'),
-          abbreviation: t('theorem-abbreviated')
+          abbreviation: t('theoremAbbreviated')
         }
       case Rule.UniversalInstantiation:
         return {
-          translation: t('universal-instantiation'),
-          abbreviation: t('universal-instantiation-abbreviated')
+          translation: t('universalInstantiation'),
+          abbreviation: t('universalInstantiationAbbreviated')
         }
       case Rule.UniversalGeneralization:
         return {
-          translation: t('universal-generalization'),
-          abbreviation: t('universal-generalization-abbreviated')
+          translation: t('universalGeneralization'),
+          abbreviation: t('universalGeneralizationAbbreviated')
         }
       case Rule.ExistentialInstantiation:
         return {
-          translation: t('existential-instantiation'),
-          abbreviation: t('existential-instantiation-abbreviated')
+          translation: t('existentialInstantiation'),
+          abbreviation: t('existentialInstantiationAbbreviated')
         }
       case Rule.ExistentialGeneralization:
         return {
-          translation: t('existential-generalization'),
-          abbreviation: t('existential-generalization-abbreviated')
+          translation: t('existentialGeneralization'),
+          abbreviation: t('existentialGeneralizationAbbreviated')
         }
     }
   }, [t])
