@@ -22,7 +22,7 @@ const neutral = [
 
 export const theme = {
   eel: {
-    normal: {
+    neutral: {
       color: 'text'
     },
     formula: {

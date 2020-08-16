@@ -7,7 +7,7 @@ export const ExpressionText = ({ className, text, kind, ...props }) =>
   <Text
     as="pre"
     className={className}
-    variant={kindToVariant[kind] ?? 'eel.normal'}
+    variant={kindToVariant[kind] ?? 'eel.neutral'}
     fontFamily='mono'
     css={css({
       display: 'inline-block',
