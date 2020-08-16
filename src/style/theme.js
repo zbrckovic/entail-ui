@@ -1,17 +1,6 @@
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
-
-const PRIMARY = '#2660a4'
-const SECONDARY = '#c45baa'
-const SUCCESS = '#49a078'
-const WARNING = '#ff990a'
-const DANGER = '#ec4e20'
-
-const PRIMARY_DISABLED = '#8fb2da'
-const SECONDARY_DISABLED = '#ddb3d2'
-const SUCCESS_DISABLED = '#a8cfbd'
-const WARNING_DISABLED = '#f3cb93'
-const DANGER_DISABLED = '#ecaf9d'
+import { readableColor } from 'polished'
 
 const neutral = [
   '#fffcfa',
@@ -23,6 +12,13 @@ const neutral = [
   '#34363a',
   '#12151a'
 ]
+
+const PRIMARY = '#2660a4'
+const SECONDARY = '#a74d91'
+const SUCCESS = '#3f8a67'
+const WARNING = '#fa960a'
+const DANGER = '#ec4e20'
+const NEUTRAL = '#d9d9d9'
 
 export const theme = {
   eel: {
@@ -50,40 +46,15 @@ export const theme = {
   radii: ['0rem', '0.25rem', '0.5rem'],
   colors: {
     primary: PRIMARY,
-    primaryDisabled: PRIMARY_DISABLED,
-    onPrimary: 'white',
-    onPrimaryDisabled: 'white',
-
     secondary: SECONDARY,
-    secondaryDisabled: SECONDARY_DISABLED,
-    onSecondary: 'white',
-    onSecondaryDisabled: 'white',
-
     success: SUCCESS,
-    successDisabled: SUCCESS_DISABLED,
-    onSuccess: 'white',
-    onSuccessDisabled: 'white',
-
     warning: WARNING,
-    warningDisabled: WARNING_DISABLED,
-    onWarning: 'white',
-    onWarningDisabled: 'white',
-
     danger: DANGER,
-    dangerDisabled: DANGER_DISABLED,
-    onDanger: 'white',
-    onDangerDisabled: 'white',
-
-    neutral: neutral[2],
-    onNeutral: neutral[7],
-    neutralDisabled: neutral[1],
-    onNeutralDisabled: 'white',
-
+    neutral: NEUTRAL,
     text: neutral[7],
-    textDisabled: neutral[3],
-
     background: neutral[0],
     border: neutral[4],
+    shadow: neutral[6],
     formula: PRIMARY,
     term: SECONDARY
   },
