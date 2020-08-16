@@ -1,6 +1,25 @@
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
 
+const palette = {
+  lapisLazuli: '#2660a4',
+  mulberryCrayola: '#c45baa',
+  flame: '#ec4e20',
+  yellowOrange: '#ff990a',
+  shinyShamrock: '#49a078'
+}
+
+const neutral = [
+  '#fffcfa',
+  '#dddbda',
+  '#bbbaba',
+  '#99999a',
+  '#78787a',
+  '#56575a',
+  '#34363a',
+  '#12151a'
+]
+
 export const theme = {
   eel: {
     normal: {
@@ -16,14 +35,22 @@ export const theme = {
   buttons: {
     normal: {
       color: 'text',
-      bg: 'neutral'
+      bg: 'background'
     },
     primary: {
-      color: 'white',
+      color: 'onPrimary',
       bg: 'primary'
     },
+    success: {
+      color: 'onSuccess',
+      bg: 'success'
+    },
+    warning: {
+      color: 'onWarning',
+      bg: 'warning'
+    },
     danger: {
-      color: 'white',
+      color: 'onDanger',
       bg: 'danger'
     }
   },
@@ -32,16 +59,19 @@ export const theme = {
     mono: sourceCodeProFamily
   },
   colors: {
-    primary: 'blue',
-    neutral: 'white',
-    success: 'green',
-    warning: 'yellow',
-    danger: 'red',
-    text: '#000000',
-    background: '#FFFEF6',
-    border: '#5c7080',
-    formula: '#A7B6C2',
-    term: '#EB532D'
+    primary: palette.lapisLazuli,
+    onPrimary: 'white',
+    success: palette.shinyShamrock,
+    onSuccess: 'white',
+    warning: palette.yellowOrange,
+    onWarning: 'white',
+    danger: palette.flame,
+    onDanger: 'white',
+    text: neutral[7],
+    background: neutral[0],
+    border: neutral[4],
+    formula: palette.lapisLazuli,
+    term: palette.mulberryCrayola
   },
   space: [
     '0rem', // 0 -> 0px
