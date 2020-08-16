@@ -9,6 +9,7 @@ export const ExpressionText = ({ className, text, kind, ...props }) =>
     className={className}
     variant={kindToVariant[kind] ?? 'eel.neutral'}
     fontFamily='mono'
+    fontWeight='semiBold'
     css={css({
       display: 'inline-block',
       whiteSpace: 'pre',

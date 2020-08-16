@@ -20,6 +20,10 @@ export default {
         options: ['neutral', 'primary', 'success', 'warning', 'danger']
       },
       defaultValue: 'neutral'
+    },
+    disabled: {
+      control: 'boolean',
+      defaultValue: true
     }
   }
 }

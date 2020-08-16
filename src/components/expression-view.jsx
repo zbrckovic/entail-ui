@@ -3,7 +3,6 @@ import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
 import { ExpressionText } from 'components/expression-text'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
-import { Text } from 'rebass'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({

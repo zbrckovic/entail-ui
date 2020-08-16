@@ -4,11 +4,8 @@ import { useEffect, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
-/** Return the result of parsing the formula text entered into the input field. */
-export const useEnteredFormula = initialText => {
-  const lastText = initialText
-
-  const [state, setState] = useState()
+export const useEnteredFormulaText = text => {
+  const [parseResult, setParseResult] = useState()
   const [textSubject] = useState(new Subject())
 
   useEffect(() => {
@@ -18,13 +15,13 @@ export const useEnteredFormula = initialText => {
         debounceTime(200),
         map(parse)
       )
-      .subscribe(setState)
+      .subscribe(setParseResult)
 
     return () => { subscription.unsubscribe() }
   }, [textSubject])
-  useEffect(() => { textSubject.next(lastText) }, [textSubject, lastText])
+  useEffect(() => { textSubject.next(text) }, [textSubject, text])
 
-  return state
+  return parseResult
 }
 
 const parse = text => {

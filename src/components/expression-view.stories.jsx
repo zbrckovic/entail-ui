@@ -1,22 +1,25 @@
-import { css } from '@emotion/core'
-import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
-import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
 import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
-import React, { useState } from 'react'
-import { useEnteredFormula } from 'storybook/use-entered-formula'
+import React from 'react'
+import { useEnteredFormulaText } from 'storybook/use-entered-formula-text'
 
 export default {
   title: 'ExpressionView',
-  component: ExpressionView
+  component: ExpressionView,
+  argTypes: {
+    formula: {
+      control: 'text',
+      defaultValue: 'E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)'
+    }
+  }
 }
 
-export const Tweak = () => {
-  const state = useEnteredFormula('p')
+export const Default = ({ formula: formulaText }) => {
+  const parseResult = useEnteredFormulaText(formulaText)
 
-  if (state === undefined) return <div>Enter formula</div>
+  if (parseResult === undefined) return <div>Enter formula</div>
 
-  const { success, error } = state
+  const { success, error } = parseResult
   if (error !== undefined) return <div>{error.message}</div>
 
   const { formula, presentationCtx } = success
@@ -25,39 +28,4 @@ export const Tweak = () => {
       <ExpressionView expression={formula}/>
     </SymPresentationCtx.Provider>
   )
-}
-
-export const MinWidth = () => {
-  const { formula, presentationCtx } = useFormula('E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)')
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView
-        css={css`align-self: flex-start;`}
-        expression={formula}
-      />
-    </SymPresentationCtx.Provider>
-  )
-}
-
-export const FullWidthTooLong = () => {
-  const { formula, presentationCtx } = useFormula('E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)')
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView expression={formula}/>
-    </SymPresentationCtx.Provider>
-  )
-}
-
-const useFormula = formulaText => {
-  const [state] = useState(() => {
-    const parser = new FormulaParser(primitivePresentationCtx)
-    const formula = parser.parse(formulaText)
-    const presentationCtx = parser.presentationCtx
-    return {
-      formula,
-      presentationCtx
-    }
-  })
-
-  return state
 }

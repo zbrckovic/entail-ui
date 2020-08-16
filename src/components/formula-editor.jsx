@@ -49,6 +49,7 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
         alignItems='center'
         height={4}
         css={css`overflow-x: auto`}
+        mb={2}
       >
         {
           formula !== undefined &&
@@ -66,6 +67,7 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
         value={text}
         onChange={event => { setText(event.target.value) }}
         css={css`resize: none;`}
+        mb={2}
       />
       <Flex>
         <Button
@@ -73,6 +75,8 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
           onClick={() => { onSubmit(parseResult?.success?.formula) }}
           disabled={formula === undefined}
           icon={faCheckCircle}
+          mr={2}
+          flexGrow={1}
         >
           {t('button.submit')}
         </Button>
@@ -80,6 +84,7 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
           title={t('button.cancel')}
           onClick={() => { onCancel() }}
           icon={faBan}
+          flexGrow={1}
         >
           {t('button.cancel')}
         </Button>
