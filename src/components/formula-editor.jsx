@@ -3,6 +3,7 @@ import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
 import { ExpressionView } from 'components/expression-view'
 import { Button } from 'components/ui-toolkit/button'
+import { Textarea } from 'components/ui-toolkit/textarea'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
@@ -60,7 +61,7 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
           <div>{describeError(error)}</div>
         }
       </Flex>
-      <textarea
+      <Textarea
         rows={10}
         value={text}
         onChange={event => { setText(event.target.value) }}

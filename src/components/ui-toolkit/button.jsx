@@ -5,7 +5,7 @@ import { Button as BaseButton } from 'rebass'
 
 export const Button = ({ children, icon, ...props }) =>
   <BaseButton
-    variant='normal'
+    variant='neutral'
     css={css`
       cursor: pointer;
       white-space: nowrap;
@@ -14,7 +14,7 @@ export const Button = ({ children, icon, ...props }) =>
   >
     {icon &&
     <FontAwesomeIcon
-      css={css({ marginRight: children ? 4 : undefined })}
+      css={theme => css({ marginRight: children ? theme.space[2] : undefined })}
       icon={icon}
     />}
     {

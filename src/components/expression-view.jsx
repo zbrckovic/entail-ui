@@ -1,9 +1,9 @@
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
 import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
-import { Code } from 'components/code'
 import { ExpressionText } from 'components/expression-text'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
+import { Text } from 'rebass'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({
@@ -34,7 +34,7 @@ export const ExpressionView = ({
     />
   )
 
-  return root ? <Code className={className}>{content}</Code> : content
+  return root ? <div className={className}>{content}</div> : content
 }
 
 const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {

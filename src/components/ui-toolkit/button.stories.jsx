@@ -3,7 +3,7 @@ import { Button } from 'components/ui-toolkit/button'
 import React from 'react'
 
 export default {
-  title: 'Button',
+  title: 'toolkit/Button',
   component: Button,
   argTypes: {
     icon: {
@@ -17,14 +17,14 @@ export default {
     variant: {
       control: {
         type: 'inline-radio',
-        options: ['normal', 'primary', 'danger']
+        options: ['neutral', 'primary', 'success', 'warning', 'danger']
       },
-      defaultValue: 'normal'
+      defaultValue: 'neutral'
     }
   }
 }
 
-const Template = ({ icon, children, ...args }) =>
+export const Default = ({ icon, children, ...args }) =>
   <Button
     icon={icon ? faCheckCircle : undefined}
     {...args}
@@ -32,4 +32,3 @@ const Template = ({ icon, children, ...args }) =>
     {children}
   </Button>
 
-export const Default = Template.bind({})

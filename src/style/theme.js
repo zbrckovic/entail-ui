@@ -33,9 +33,9 @@ export const theme = {
     }
   },
   buttons: {
-    normal: {
+    neutral: {
       color: 'text',
-      bg: 'background'
+      bg: neutral[1]
     },
     primary: {
       color: 'onPrimary',
