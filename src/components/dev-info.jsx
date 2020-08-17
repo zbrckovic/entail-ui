@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Flex } from 'rebass'
 
-export const DevInfo = ({ className, ...props }) => {
+export const DevInfo = ({ ...props }) => {
   const { environment } = useContext(RootCtx)
   const { t } = useTranslation('DevInfo')
 
@@ -18,12 +18,7 @@ export const DevInfo = ({ className, ...props }) => {
   }, [t, environment])
 
   return (
-    <Box
-      as='dl'
-      className={className}
-      margin={0}
-      {...props}
-    >
+    <Box as='dl' margin={0} {...props}>
       {entries.map(([label, value], i) => (
         <Flex key={i}>
           <Box

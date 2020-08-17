@@ -6,16 +6,15 @@ import React, { Fragment, useContext } from 'react'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({
-  className,
   expression: { sym, boundSym, children },
-  root = true
+  root = true,
+  ...props
 }) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
 
   const content = placement === Placement.Prefix ? (
     <Prefix
-      className={className}
       sym={sym}
       symText={text}
       boundSym={boundSym}
@@ -23,7 +22,6 @@ export const ExpressionView = ({
     />
   ) : (
     <Infix
-      className={className}
       sym={sym}
       symText={text}
       boundSym={boundSym}
@@ -33,7 +31,7 @@ export const ExpressionView = ({
     />
   )
 
-  return root ? <div className={className}>{content}</div> : content
+  return root ? <div {...props}>{content}</div> : content
 }
 
 const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {

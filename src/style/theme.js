@@ -18,7 +18,8 @@ const SECONDARY = '#a74d91'
 const SUCCESS = '#3f8a67'
 const WARNING = '#fa960a'
 const DANGER = '#ec4e20'
-const NEUTRAL = '#d9d9d9'
+
+const NEUTRAL = '#e5e5e5'
 
 export const theme = {
   eel: {
@@ -52,12 +53,13 @@ export const theme = {
     danger: DANGER,
     neutral: NEUTRAL,
     text: neutral[7],
-    background: neutral[0],
-    border: neutral[4],
+    background: '#f4f4f4',
+    border: NEUTRAL,
     shadow: neutral[6],
     formula: PRIMARY,
     term: SECONDARY
   },
+  borderWidths: [0, '1px'],
   space: [
     '0rem', // 0 -> 0px
     '0.25rem', // 1 -> 4px
@@ -68,5 +70,8 @@ export const theme = {
     '1.5rem', // 6 -> 24px
     '1.75rem', // 7 -> 28px
     '2rem' // 8 -> 32px
+  ],
+  fontSizes: [
+    '0.75rem', '1rem', '1.25rem'
   ]
 }

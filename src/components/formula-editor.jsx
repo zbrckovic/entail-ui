@@ -12,7 +12,7 @@ import { Flex } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
-export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
+export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const parse = useParser()
   const { t } = useTranslation('FormulaEditor')
 
@@ -40,22 +40,21 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
   const error = parseResult?.error
 
   return (
-    <Flex
-      className={className}
-      flexDirection='column'
-      minWidth='300px'
-    >
+    <Flex flexDirection='column' minWidth='300px'{...props}>
       <Flex
         alignItems='center'
-        height={4}
-        css={css`overflow-x: auto`}
+        sx={{ overflowX: 'auto' }}
         mb={2}
+        pl={2}
+        pr={2}
       >
         {
-          formula !== undefined &&
-          <SymPresentationCtx.Provider value={presentationCtx}>
-            <ExpressionView paddingLeft={1} paddingRight={1} expression={formula}/>
-          </SymPresentationCtx.Provider>
+          formula !== undefined
+            ? (
+              <SymPresentationCtx.Provider value={presentationCtx}>
+                <ExpressionView padding={2} expression={formula}/>
+              </SymPresentationCtx.Provider>
+            ) : <wbr/>
         }
         {
           text.length > 0 && error !== undefined &&
@@ -77,6 +76,7 @@ export const FormulaEditor = ({ className, onSubmit, onCancel }) => {
           icon={faCheckCircle}
           mr={2}
           flexGrow={1}
+          variant='primary'
         >
           {t('button.submit')}
         </Button>
