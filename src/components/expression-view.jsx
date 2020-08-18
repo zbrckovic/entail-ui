@@ -3,6 +3,7 @@ import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
 import { ExpressionText } from 'components/expression-text'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
+import { Box } from 'rebass'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({
@@ -31,7 +32,7 @@ export const ExpressionView = ({
     />
   )
 
-  return root ? <div {...props}>{content}</div> : content
+  return root ? <Box {...props}>{content}</Box> : content
 }
 
 const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {

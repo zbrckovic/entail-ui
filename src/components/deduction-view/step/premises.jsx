@@ -1,12 +1,11 @@
-import { css } from '@emotion/core'
 import React, { Fragment, useMemo } from 'react'
 import { Text } from 'rebass'
 
-export const Premises = ({ premises }) => {
+export const Premises = ({ premises, ...props }) => {
   const premisesOrdered = useMemo(() => premises.toArray(), [premises])
 
   return (
-    <Text css={css`white-space: normal`}>
+    <Text fontFamily='mono' {...props}>
       {premisesOrdered.map((premise, i) => {
         const isLast = i === premisesOrdered.length - 1
 

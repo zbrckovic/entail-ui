@@ -2,6 +2,7 @@ import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'
 import { useEnteredFormulaText } from 'storybook/use-entered-formula-text'
+import { Box } from 'rebass'
 
 export default {
   title: 'ExpressionView',
@@ -17,10 +18,10 @@ export default {
 export const Default = ({ formula: formulaText }) => {
   const parseResult = useEnteredFormulaText(formulaText)
 
-  if (parseResult === undefined) return <div>Enter formula</div>
+  if (parseResult === undefined) return <Box>Enter formula</Box>
 
   const { success, error } = parseResult
-  if (error !== undefined) return <div>{error.message}</div>
+  if (error !== undefined) return <Box>{error.message}</Box>
 
   const { formula, presentationCtx } = success
   return (

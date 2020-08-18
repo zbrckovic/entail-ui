@@ -8,7 +8,7 @@ import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Flex } from 'rebass'
+import { Flex, Box } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
@@ -58,7 +58,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         }
         {
           text.length > 0 && error !== undefined &&
-          <div>{describeError(error)}</div>
+          <Box>{describeError(error)}</Box>
         }
       </Flex>
       <Textarea

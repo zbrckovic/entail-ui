@@ -20,7 +20,7 @@ export const Example1 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView className="storybook-frame" deduction={deduction}/>
+      <DeductionView deduction={deduction}/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -41,7 +41,7 @@ export const Example2 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView className="storybook-frame" deduction={deduction}/>
+      <DeductionView deduction={deduction}/>
     </SymPresentationCtx.Provider>
   )
 }
@@ -54,7 +54,7 @@ export const Example3 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView className="storybook-frame" deduction={deduction}/>
+      <DeductionView deduction={deduction}/>
     </SymPresentationCtx.Provider>
   )
 }
