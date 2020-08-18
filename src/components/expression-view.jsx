@@ -1,9 +1,9 @@
+import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym'
 import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
 import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
-import { ExpressionText } from 'components/expression-text'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
-import { Box } from 'rebass'
+import { Text } from 'rebass'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({
@@ -32,7 +32,19 @@ export const ExpressionView = ({
     />
   )
 
-  return root ? <Box {...props}>{content}</Box> : content
+  return (
+    root ? (
+      <Text
+        fontFamily='mono'
+        fontWeight='semiBold'
+        sx={{
+          display: 'inline-block',
+          cursor: 'pointer'
+        }}
+        {...props}
+      >{content}</Text>
+    ) : content
+  )
 }
 
 const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
@@ -44,7 +56,7 @@ const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
   return <>
     <ExpressionText text={symText} kind={sym.kind}/>
     {sym.binds && <Binding sym={boundSym}/>}
-    {hasSpace && <ExpressionText text=" " kind={sym.kind}/>}
+    {hasSpace && <> </>}
     {hasParentheses && <ExpressionText text="(" kind={sym.kind}/>}
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.size - 1
@@ -53,7 +65,7 @@ const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
         <ExpressionView expression={child} root={false}/>
         {!isLast && <>
           <ExpressionText text="," kind={sym.kind}/>
-          <ExpressionText text=" " kind={sym.kind}/>
+          <> </>
         </>}
       </Fragment>
     })}
@@ -64,9 +76,9 @@ const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
 const Infix = ({ sym, symText, childExpression1, childExpression2, root }) => <>
   {root || <ExpressionText text="(" kind={sym.kind}/>}
   <ExpressionView expression={childExpression1} root={false}/>
-  <ExpressionText text=" "/>
+  <> </>
   <ExpressionText text={symText} kind={sym.kind}/>
-  <ExpressionText text=" "/>
+  <> </>
   <ExpressionView expression={childExpression2} root={false}/>
   {root || <ExpressionText text=")" kind={sym.kind}/>}
 </>
@@ -75,4 +87,18 @@ const Binding = ({ sym }) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const text = presentationCtx.get(sym).getDefaultSyntacticInfo().text
   return <ExpressionText text={text} kind={sym.kind}/>
+}
+
+export const ExpressionText = ({ text, kind, ...props }) =>
+  <Text
+    as="span"
+    variant={kindToVariant[kind] ?? 'eel.neutral'}
+    {...props}
+  >
+    {text ?? <wbr/>}
+  </Text>
+
+const kindToVariant = {
+  [Kind.Formula]: 'eel.formula',
+  [Kind.Term]: 'eel.term'
 }
