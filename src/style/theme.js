@@ -56,7 +56,8 @@ Object.assign(colors, {
   border: colors.neutral,
   shadow: neutral[6],
   formula: colors.primary,
-  term: colors.secondary
+  term: colors.secondary,
+  textLight: neutral[3]
 })
 
 export const theme = {

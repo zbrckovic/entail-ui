@@ -9,6 +9,7 @@ export const Premises = ({ premises, ...props }) => {
       as='span' {...props}
       fontSize='small'
       fontStyle='italic'
+      sx={{ color: 'textLight' }}
     >
       {premisesOrdered.map((premise, i) => {
         const isLast = i === premisesOrdered.length - 1

@@ -10,7 +10,10 @@ const commonStyle = {
   pt: 2,
   px: 2,
   alignSelf: 'flex-end',
-  height: '100%',
+  height: '100%'
+}
+
+const borderBottom = {
   borderBottomWidth: 1,
   borderBottomStyle: 'solid',
   borderBottomColor: 'border'
@@ -30,26 +33,52 @@ const borderRight = {
 
 export const Step = ({
   step: { assumptions, formula, ruleApplicationSummary },
-  stepNumber
-}) =>
-  <>
-    <Box sx={{ ...commonStyle, bg: 'neutral' }}>
+  stepNumber,
+  isLast
+}) => {
+  return <>
+    <Box sx={{ ...commonStyle, textAlign: 'right', bg: 'neutral' }}>
       <StepNumber number={stepNumber}/>
     </Box>
-    <Box sx={{ textAlign: 'right', ...commonStyle, ...borderRight }}>
+    <Box
+      sx={{
+        ...commonStyle,
+        ...borderRight,
+        textAlign: 'right',
+        ...isLast ? {} : borderBottom
+      }}
+    >
       <Assumptions assumptions={assumptions}/>
     </Box>
-    <Box sx={{ ...commonStyle, px: 2 }}>
+    <Box
+      sx={{
+        px: 2,
+        ...commonStyle,
+        ...(isLast ? {} : borderBottom)
+      }}
+    >
       <ExpressionView
-        sx={{ ml: 2 }}
         expression={formula}
-        fontSize='small'
+        fontSize='normal'
       />
     </Box>
-    <Box sx={{ ...commonStyle, ...borderLeft, ...borderRight }}>
+    <Box
+      sx={{
+        ...commonStyle,
+        ...borderLeft,
+        ...borderRight,
+        ...(isLast ? {} : borderBottom)
+      }}
+    >
       <Rule rule={ruleApplicationSummary.rule}/>
     </Box>
-    <Box sx={{ ...commonStyle }}>
+    <Box
+      sx={{
+        ...commonStyle,
+        ...(isLast ? {} : borderBottom)
+      }}
+    >
       <Premises premises={ruleApplicationSummary.premises}/>
     </Box>
   </>
+}

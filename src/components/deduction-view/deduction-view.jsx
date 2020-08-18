@@ -12,7 +12,10 @@ export const DeductionView = ({ deduction, ...props }) => {
       sx={{
         display: 'grid',
         gridTemplateColumns: 'max-content max-content auto max-content max-content',
-        alignItems: 'baseline'
+        alignItems: 'baseline',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'border'
       }}
       {...props}
     >
@@ -22,6 +25,7 @@ export const DeductionView = ({ deduction, ...props }) => {
           step={step}
           stepNumber={i + 1}
           stepNumberColumnWidth={`${lastStepNumberDigitsCount}ch`}
+          isLast={i === deduction.steps.size - 1}
         />
       )}
     </Box>

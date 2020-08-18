@@ -9,6 +9,7 @@ export const Assumptions = ({ assumptions, ...props }) => {
       as='span'{...props}
       fontSize='small'
       fontStyle='italic'
+      sx={{ color: 'textLight' }}
     >
       {assumptionSorted.map((assumption, i) => {
         const isLast = i === assumptionSorted.length - 1
