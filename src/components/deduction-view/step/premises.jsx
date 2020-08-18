@@ -5,14 +5,18 @@ export const Premises = ({ premises, ...props }) => {
   const premisesOrdered = useMemo(() => premises.toArray(), [premises])
 
   return (
-    <Text fontFamily='mono' {...props}>
+    <Text
+      as='span' {...props}
+      fontSize='small'
+      fontStyle='italic'
+    >
       {premisesOrdered.map((premise, i) => {
         const isLast = i === premisesOrdered.length - 1
 
         return (
           <Fragment key={premise}>
             <span>{premise + 1}</span>
-            {isLast || ' '}
+            {isLast || ', '}
           </Fragment>
         )
       })}

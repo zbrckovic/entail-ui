@@ -7,6 +7,7 @@ import { ActivityStatus } from 'misc/activity-status'
 import React, { useEffect, useState } from 'react'
 import { globalStyle } from 'style/global-style'
 import { theme } from 'style/theme'
+import { Box } from 'rebass'
 
 export const RootWrapper = ({ children }) => {
   const [initializationStatus, setInitializationStatus] = useState(ActivityStatus.InProgress)
@@ -21,9 +22,16 @@ export const RootWrapper = ({ children }) => {
 
   return <>
     <Global styles={globalStyle}/>
-    <RootCtx.Provider value={{ environment, initializationStatus }}>
+    <RootCtx.Provider
+      value={{
+        environment,
+        initializationStatus
+      }}
+    >
       <ThemeProvider theme={theme}>
-        {children}
+        <Box fontSize='normal'>
+          {children}
+        </Box>
       </ThemeProvider>
     </RootCtx.Provider>
   </>

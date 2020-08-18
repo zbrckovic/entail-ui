@@ -11,7 +11,7 @@ export const Textarea = props =>
       borderStyle: 'solid',
       borderColor: 'neutral',
       borderRadius: 1,
-      fontSize: 2,
+      fontSize: 'normal',
       padding: 2
     }}
     css={css`

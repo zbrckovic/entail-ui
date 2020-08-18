@@ -9,8 +9,6 @@ export const globalStyle = css`
   html {
     height: 100%;
     width: 100%;
-    
-    font-size: 100%;
   
     & > body {
       font-family: "SourceSansPro", sans-serif;

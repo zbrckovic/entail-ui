@@ -36,7 +36,6 @@ export const ExpressionView = ({
     root ? (
       <Text
         fontFamily='mono'
-        fontWeight='semiBold'
         sx={{
           display: 'inline-block',
           cursor: 'pointer'

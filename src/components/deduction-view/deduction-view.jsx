@@ -1,3 +1,4 @@
+import { useTheme } from 'emotion-theming'
 import React from 'react'
 import { Step } from './step'
 import { Box } from 'rebass'
@@ -10,7 +11,8 @@ export const DeductionView = ({ deduction, ...props }) => {
     <Box
       sx={{
         display: 'grid',
-        gridTemplateColumns: 'max-content max-content auto max-content max-content'
+        gridTemplateColumns: 'max-content max-content auto max-content max-content',
+        alignItems: 'baseline'
       }}
       {...props}
     >
