@@ -5,7 +5,6 @@ export const StepNumber = ({ number, ...props }) =>
   <Text
     as='span'
     fontSize='small'
+    fontWeight='semiBold'
     {...props}
-  >
-    {number}
-  </Text>
+  >{number}</Text>

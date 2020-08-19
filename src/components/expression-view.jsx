@@ -9,6 +9,7 @@ import { Text } from 'rebass'
 export const ExpressionView = ({
   expression: { sym, boundSym, children },
   root = true,
+  sx,
   ...props
 }) => {
   const presentationCtx = useContext(SymPresentationCtx)
@@ -38,7 +39,8 @@ export const ExpressionView = ({
         fontFamily='mono'
         sx={{
           display: 'inline-block',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          ...sx
         }}
         {...props}
       >{content}</Text>

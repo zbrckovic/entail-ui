@@ -1,24 +1,16 @@
-import { useTheme } from 'emotion-theming'
 import React from 'react'
-import { Step } from './step'
 import { Box } from 'rebass'
+import { useScreenSizeQuery } from 'style/use-screen-size-query'
+import { Step } from './step'
 
 export const DeductionView = ({ deduction, ...props }) => {
   const lastStepNumber = deduction.steps.size
   const lastStepNumberDigitsCount = Math.floor(Math.log10(lastStepNumber)) + 1
 
+  const { isPhoneLandscape } = useScreenSizeQuery()
+
   return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'max-content max-content auto max-content max-content',
-        alignItems: 'baseline',
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: 'border'
-      }}
-      {...props}
-    >
+    <Box sx={isPhoneLandscape ? phoneLandscapeStyle : style} {...props}>
       {deduction.steps.map((step, i) =>
         <Step
           key={i}
@@ -30,4 +22,15 @@ export const DeductionView = ({ deduction, ...props }) => {
       )}
     </Box>
   )
+}
+
+const style = {
+  display: 'grid',
+  gridTemplateColumns: 'min-content 1fr 1fr min-content',
+  gridTemplateRows: 'repeat(10px, 20px)'
+}
+
+const phoneLandscapeStyle = {
+  display: 'grid',
+  gridTemplateColumns: 'min-content max-content auto min-content max-content'
 }

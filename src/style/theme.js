@@ -60,6 +60,14 @@ Object.assign(colors, {
   textLight: neutral[3]
 })
 
+const breakpoints = ['568px', '768px', '1200px']
+
+const mediaQueries = {
+  phoneLandscape: `@media screen and (min-width: ${breakpoints[0]})`,
+  tablet: `@media screen and (min-width: ${breakpoints[1]})`,
+  desktop: `@media screen and (min-width: ${breakpoints[2]})`
+}
+
 export const theme = {
   eel: {
     neutral: {
@@ -81,5 +89,7 @@ export const theme = {
   radii,
   borderWidths: [0, 1],
   space,
-  fontSizes
+  fontSizes,
+  breakpoints,
+  mediaQueries
 }

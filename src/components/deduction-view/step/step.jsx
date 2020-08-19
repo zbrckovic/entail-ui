@@ -1,6 +1,8 @@
+import { css } from '@emotion/core'
 import { ExpressionView } from 'components/expression-view'
 import React from 'react'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
+import { useScreenSizeQuery } from 'style/use-screen-size-query'
 import { Assumptions } from './assumptions'
 import { Premises } from './premises'
 import { Rule } from './rule'
@@ -19,66 +21,72 @@ const borderBottom = {
   borderBottomColor: 'border'
 }
 
-const borderLeft = {
-  borderLeftWidth: 1,
-  borderLeftStyle: 'solid',
-  borderLeftColor: 'border'
-}
-
-const borderRight = {
-  borderRightWidth: 1,
-  borderRightStyle: 'solid',
-  borderRightColor: 'border'
-}
-
 export const Step = ({
   step: { assumptions, formula, ruleApplicationSummary },
   stepNumber,
   isLast
 }) => {
+  const { isPhoneLandscape } = useScreenSizeQuery()
+
+  if (isPhoneLandscape) {
+    return (
+      <>
+        <Box
+          bg='neutral'
+          px={1}
+        >
+          <StepNumber number={stepNumber}/>
+        </Box>
+        <Box px={1}>
+          <Assumptions assumptions={assumptions}/>
+        </Box>
+        <Box px={1}>
+          <ExpressionView expression={formula}/>
+        </Box>
+        <Box px={1}>
+          <Rule rule={ruleApplicationSummary.rule}/>
+        </Box>
+        <Box px={1}>
+          <Premises premises={ruleApplicationSummary.premises}/>
+        </Box>
+      </>
+    )
+  }
+
   return <>
-    <Box sx={{ ...commonStyle, textAlign: 'right', bg: 'neutral' }}>
+    <Box
+      sx={{
+        gridRowEnd: 'span 2'
+      }}
+      bg='neutral'
+      px={1}
+    >
       <StepNumber number={stepNumber}/>
     </Box>
-    <Box
-      sx={{
-        ...commonStyle,
-        ...borderRight,
-        textAlign: 'right',
-        ...isLast ? {} : borderBottom
-      }}
-    >
-      <Assumptions assumptions={assumptions}/>
-    </Box>
-    <Box
-      sx={{
-        px: 2,
-        ...commonStyle,
-        ...(isLast ? {} : borderBottom)
-      }}
-    >
-      <ExpressionView
-        expression={formula}
-        fontSize='normal'
+    <Box px={1}>
+      <Assumptions
+        fontSize='tiny'
+        assumptions={assumptions}
+        mr={1}
       />
     </Box>
-    <Box
-      sx={{
-        ...commonStyle,
-        ...borderLeft,
-        ...borderRight,
-        ...(isLast ? {} : borderBottom)
-      }}
-    >
+    <Box px={1} textAlign='right'>
+      <Premises premises={ruleApplicationSummary.premises}/>
+    </Box>
+    <Box>
       <Rule rule={ruleApplicationSummary.rule}/>
     </Box>
     <Box
       sx={{
-        ...commonStyle,
-        ...(isLast ? {} : borderBottom)
+        gridColumnStart: 2,
+        gridColumnEnd: 'span 4',
+        ...borderBottom
       }}
     >
-      <Premises premises={ruleApplicationSummary.premises}/>
+      <ExpressionView
+        fontSize='small'
+        expression={formula}
+      />
     </Box>
   </>
 }
