@@ -1,16 +1,19 @@
 import React from 'react'
 import { Box } from 'rebass'
-import { useScreenSizeQuery } from 'style/use-screen-size-query'
 import { Step } from './step'
 
 export const DeductionView = ({ deduction, ...props }) => {
   const lastStepNumber = deduction.steps.size
   const lastStepNumberDigitsCount = Math.floor(Math.log10(lastStepNumber)) + 1
 
-  const { isPhoneLandscape } = useScreenSizeQuery()
-
   return (
-    <Box sx={isPhoneLandscape ? phoneLandscapeStyle : style} {...props}>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'min-content max-content auto min-content max-content'
+      }}
+      {...props}
+    >
       {deduction.steps.map((step, i) =>
         <Step
           key={i}
