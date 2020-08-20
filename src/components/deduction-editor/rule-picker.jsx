@@ -1,27 +1,35 @@
 import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
+import { Button } from 'components/ui-toolkit/button'
 import { useRuleDescriber } from 'hooks'
-import React, { useState } from 'react'
+import React from 'react'
 import { Box } from 'rebass'
 
-export const Rules = ({ className, rules = {} }) => {
+export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect }) => {
   const ruleDescriber = useRuleDescriber()
 
-  const [, setSelectedRule] = useState()
-
   return (
-    <Box className={className}>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 48px)',
+        gridGap: 1
+      }}
+    >
       {
         allRules.map(rule => {
           const { translation, abbreviation } = ruleDescriber(rule)
+          const selected = selectedRule === rule
+
           return (
-            <button
+            <Button
               key={rule}
+              variant={selected ? 'primary' : undefined}
               title={translation}
-              disabled={rules[rule] === undefined}
-              onClick={() => { setSelectedRule(rule) }}
+              disabled={!rules.has(rule)}
+              onClick={() => { onRuleSelect(rule) }}
             >
               {abbreviation}
-            </button>
+            </Button>
           )
         })
       }

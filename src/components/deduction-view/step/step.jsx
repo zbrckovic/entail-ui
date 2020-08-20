@@ -1,18 +1,33 @@
 import { ExpressionView } from 'components/expression-view'
 import React from 'react'
-import { Box } from 'rebass'
+import { Box, Text } from 'rebass'
 import { Assumptions } from './assumptions'
 import { Premises } from './premises'
 import { Rule } from './rule'
-import { StepNumber } from './step-number'
 
 export const Step = ({
   step: { assumptions, formula, ruleApplicationSummary },
-  stepNumber
+  stepNumber,
+  selected,
+  onSelect,
+  onDeselect
 }) =>
   <>
-    <Box bg='neutral' px={1}>
-      <StepNumber number={stepNumber}/>
+    <Box
+      sx={{
+        bg: selected ? 'primary' : 'neutral',
+        px: 1
+      }}
+    >
+      <Text
+        as='span'
+        fontSize='small'
+        fontWeight='semiBold'
+        onClick={() => { if (selected) { onDeselect() } else { onSelect() } }}
+        sx={{
+          cursor: 'pointer'
+        }}
+      >{stepNumber}</Text>
     </Box>
     <Box px={1}>
       <Assumptions assumptions={assumptions}/>

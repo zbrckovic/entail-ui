@@ -5,27 +5,24 @@ import React from 'react'
 
 export default {
   title: 'FormulaEditor',
-  component: FormulaEditor
+  component: FormulaEditor,
+  argTypes: {
+    onSubmit: {
+      action: 'submit'
+    },
+    onCancel: {
+      action: 'cancel'
+    }
+  }
 }
 
-export const FullWidth = () => {
-  return (
-    <SymPresentationCtx.Provider value={primitivePresentationCtx}>
-      <FormulaEditor
-        onSubmit={() => {}}
-        onCancel={() => {}}
-      />
-    </SymPresentationCtx.Provider>
-  )
-}
+export const FullWidth = args =>
+  <SymPresentationCtx.Provider value={primitivePresentationCtx}>
+    <FormulaEditor {...args}/>
+  </SymPresentationCtx.Provider>
 
-export const MinWidth = () => {
-  return (
-    <SymPresentationCtx.Provider value={primitivePresentationCtx}>
-      <FormulaEditor
-        onSubmit={() => {}}
-        onCancel={() => {}}
-      />
-    </SymPresentationCtx.Provider>
-  )
-}
+export const MinWidth = args =>
+  <SymPresentationCtx.Provider value={primitivePresentationCtx}>
+    <FormulaEditor {...args}/>
+  </SymPresentationCtx.Provider>
+
