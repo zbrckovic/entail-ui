@@ -52,12 +52,14 @@ const colors = {
 
 Object.assign(colors, {
   text: neutral[7],
-  background: '#f4f4f4',
+  background: '#ffffff',
+  backgroundSecondary: '#f4f4f4',
   border: colors.neutral,
   shadow: neutral[6],
   formula: colors.primary,
   term: colors.secondary,
-  textLight: neutral[3]
+  textLight: neutral[3],
+  modalOverlay: 'rgba(0, 0, 0, 0.4)'
 })
 
 const breakpoints = ['568px', '768px', '1200px']

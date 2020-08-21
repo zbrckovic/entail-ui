@@ -34,10 +34,10 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
           opacity: 0.5
         },
         '&:active:not(:disabled)': {
-          background: backgroundDarker
+          bg: backgroundDarker
         },
         '&:hover:not(:active):not(:disabled)': {
-          background: backgroundLighter
+          bg: backgroundLighter
         }
       }}
       {...props}
