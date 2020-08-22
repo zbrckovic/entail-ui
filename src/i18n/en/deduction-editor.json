@@ -1,0 +1,9 @@
+{
+  "label": {
+    "enterThePremise": "Enter the premise",
+    "enterTheConsequent": "Enter the consequent"
+  },
+  "message": {
+    "invalidTautologicalImplication": "Invalid tautological implication"
+  }
+}

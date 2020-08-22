@@ -1,6 +1,6 @@
 import { Textarea as BaseTextarea } from '@rebass/forms'
 import React from 'react'
-import { css } from '@emotion/core'
+import { removeScrollbar } from 'style/mixins'
 
 export const Textarea = props =>
   <BaseTextarea
@@ -14,12 +14,5 @@ export const Textarea = props =>
       fontSize: 'normal',
       padding: 2
     }}
-    css={css`
-      &::-webkit-scrollbar {
-        display: none;  
-      }
-      
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    `}
+    css={removeScrollbar}
   />

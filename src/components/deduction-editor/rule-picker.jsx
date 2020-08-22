@@ -4,7 +4,7 @@ import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { Box } from 'rebass'
 
-export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect }) => {
+export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect, onRuleDeselect }) => {
   const ruleDescriber = useRuleDescriber()
 
   return (
@@ -26,7 +26,13 @@ export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect }) => {
               variant={selected ? 'primary' : undefined}
               title={translation}
               disabled={!rules.has(rule)}
-              onClick={() => { onRuleSelect(rule) }}
+              onClick={() => {
+                if (selected) {
+                  onRuleDeselect()
+                } else {
+                  onRuleSelect(rule)
+                }
+              }}
             >
               {abbreviation}
             </Button>

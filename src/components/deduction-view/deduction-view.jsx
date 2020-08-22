@@ -14,37 +14,30 @@ export const DeductionView = ({ deduction, selectedSteps, onSelectedStepsChange,
       }}
       {...props}
     >
-      {deduction.steps.map((step, i) =>
-        <Step
-          key={i}
-          step={step}
-          stepNumber={i + 1}
-          stepNumberColumnWidth={`${lastStepNumberDigitsCount}ch`}
-          isLast={i === deduction.steps.size - 1}
-          selected={selectedSteps?.has(i)}
-          onSelect={() => {
-            const newSelectedSteps = new Set(selectedSteps)
-            newSelectedSteps.add(i + 1)
-            onSelectedStepsChange?.(newSelectedSteps)
-          }}
-          onDeselect={() => {
-            const newSelectedSteps = new Set(selectedSteps)
-            newSelectedSteps.remove(i + 1)
-            onSelectedStepsChange?.(newSelectedSteps)
-          }}
-        />
-      )}
+      {deduction.steps.map((step, i) => {
+        const stepNumber = i + 1
+
+        return (
+          <Step
+            key={i}
+            step={step}
+            stepNumber={stepNumber}
+            stepNumberColumnWidth={`${lastStepNumberDigitsCount}ch`}
+            isLast={stepNumber === lastStepNumber}
+            selected={selectedSteps?.has(stepNumber)}
+            onSelect={() => {
+              const newSelectedSteps = new Set(selectedSteps)
+              newSelectedSteps.add(stepNumber)
+              onSelectedStepsChange?.(newSelectedSteps)
+            }}
+            onDeselect={() => {
+              const newSelectedSteps = new Set(selectedSteps)
+              newSelectedSteps.delete(stepNumber)
+              onSelectedStepsChange?.(newSelectedSteps)
+            }}
+          />
+        )
+      })}
     </Box>
   )
-}
-
-const style = {
-  display: 'grid',
-  gridTemplateColumns: 'min-content 1fr 1fr min-content',
-  gridTemplateRows: 'repeat(10px, 20px)'
-}
-
-const phoneLandscapeStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'min-content max-content auto min-content max-content'
 }

@@ -20,7 +20,7 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
       sx={{
         padding: 2,
         color,
-        background,
+        bg: background,
         borderColor: backgroundDarker,
         borderWidth: 1,
         borderStyle: 'solid',

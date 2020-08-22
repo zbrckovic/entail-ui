@@ -35,4 +35,3 @@ export const Default = ({ icon, children, ...args }) =>
   >
     {children}
   </Button>
-

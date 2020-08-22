@@ -11,3 +11,12 @@ export const spaceBetweenVertical = space => css`
     margin-bottom: ${space};
   }
 `
+
+export const removeScrollbar = css`
+  &::-webkit-scrollbar {
+    display: none;  
+  }
+  
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`

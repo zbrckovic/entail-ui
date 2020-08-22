@@ -43,10 +43,10 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
     <Flex flexDirection='column' minWidth='300px'{...props}>
       <Flex
         alignItems='center'
-        sx={{ overflowX: 'auto' }}
         mb={2}
         pl={2}
         pr={2}
+        flexBasis={36}
       >
         {
           formula !== undefined
@@ -71,7 +71,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
       <Flex>
         <Button
           title={t('button.submit')}
-          onClick={() => { onSubmit(parseResult?.success?.formula) }}
+          onClick={() => { onSubmit(parseResult?.success) }}
           disabled={formula === undefined}
           icon={faCheckCircle}
           mr={2}

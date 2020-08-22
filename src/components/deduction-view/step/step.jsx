@@ -1,5 +1,7 @@
 import { ExpressionView } from 'components/expression-view'
-import React from 'react'
+import { useTheme } from 'emotion-theming'
+import { readableColor } from 'polished'
+import React, { useMemo } from 'react'
 import { Box, Text } from 'rebass'
 import { Assumptions } from './assumptions'
 import { Premises } from './premises'
@@ -11,24 +13,19 @@ export const Step = ({
   selected,
   onSelect,
   onDeselect
-}) =>
-  <>
-    <Box
-      sx={{
-        bg: selected ? 'primary' : 'neutral',
-        px: 1
-      }}
-    >
-      <Text
-        as='span'
-        fontSize='small'
-        fontWeight='semiBold'
-        onClick={() => { if (selected) { onDeselect() } else { onSelect() } }}
-        sx={{
-          cursor: 'pointer'
-        }}
-      >{stepNumber}</Text>
-    </Box>
+}) => {
+  const hasControls = useMemo(
+    () => onSelect !== undefined || onDeselect !== undefined,
+    [onSelect, onDeselect]
+  )
+
+  return <>
+    <StepNumber
+      stepNumber={stepNumber}
+      selected={selected}
+      onSelect={onSelect}
+      onDeselect={onDeselect}
+    />
     <Box px={1}>
       <Assumptions assumptions={assumptions}/>
     </Box>
@@ -42,4 +39,36 @@ export const Step = ({
       <Premises premises={ruleApplicationSummary.premises}/>
     </Box>
   </>
+}
 
+const StepNumber = ({ stepNumber, selected, onSelect, onDeselect }) => {
+  const { colors: { primary, neutral } } = useTheme()
+
+  const hasControls = useMemo(
+    () => onSelect !== undefined || onDeselect !== undefined,
+    [onSelect, onDeselect]
+  )
+
+  const { bg, color } = useMemo(() => {
+    const bg = selected ? primary : neutral
+    return { bg, color: readableColor(bg) }
+  }, [selected, primary, neutral])
+
+  return (
+    <Box
+      sx={{
+        bg,
+        color,
+        px: hasControls ? 4 : 2,
+        cursor: hasControls ? 'pointer' : 'auto'
+      }}
+      onClick={() => { if (selected) { onDeselect() } else { onSelect() } }}
+    >
+      <Text
+        as='span'
+        fontSize='small'
+        fontWeight='semiBold'
+      >{stepNumber}</Text>
+    </Box>
+  )
+}
