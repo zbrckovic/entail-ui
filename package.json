@@ -11,7 +11,7 @@
     "start-dev": "webpack-dev-server --open --hot --env.development",
     "build-dev": "webpack --env.development",
     "build-prod": "webpack",
-    "test": "jest",
+    "test": "echo 'no tests'",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
