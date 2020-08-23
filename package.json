@@ -13,8 +13,7 @@
     "build-prod": "webpack",
     "test": "echo 'no tests'",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "deploy-storybook": "storybook-to-ghpages"
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -43,7 +42,6 @@
     "@storybook/addon-essentials": "^6.0.5",
     "@storybook/addon-links": "^6.0.5",
     "@storybook/react": "^6.0.5",
-    "@storybook/storybook-deployer": "^2.8.6",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.1.0",
     "babel-loader": "^8.1.0",
@@ -89,10 +87,5 @@
     "react-router-dom": "^5.2.0",
     "rebass": "^4.0.7",
     "rxjs": "^6.6.0"
-  },
-  "storybook-deployer": {
-    "gitUsername": "zbrckovic",
-    "gitEmail": "zeljkobrckovic86@gmail.com",
-    "commitMessage": "Deploy Storybook"
   }
 }
