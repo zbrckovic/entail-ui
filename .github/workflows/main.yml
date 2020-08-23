@@ -6,6 +6,8 @@ on:
 
 jobs:
   build-storybook:
+    env:
+      NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     runs-on: ubuntu-latest
 
     steps:
