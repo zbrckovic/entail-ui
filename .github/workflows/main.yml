@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-storybook:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2    
+    - name: Use Node.js 12
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12'
+    - run: npm ci
+    - run: npm run deploy-storybook -- --ci --host-token-env-variable=GITHUB_TOKEN --existing-output-dir=./storybook-static
+      
