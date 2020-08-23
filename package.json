@@ -89,5 +89,10 @@
     "react-router-dom": "^5.2.0",
     "rebass": "^4.0.7",
     "rxjs": "^6.6.0"
+  },
+  "storybook-deployer": {
+    "gitUsername": "zbrckovic",
+    "gitEmail": "zeljkobrckovic86@gmail.com",
+    "commitMessage": "Deploy Storybook"
   }
 }
