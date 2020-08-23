@@ -1,4 +1,4 @@
-import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
+import { Rule } from '@zbrckovic/entail-core'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 

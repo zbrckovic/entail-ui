@@ -1,4 +1,4 @@
-import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
+import { Rule } from '@zbrckovic/entail-core'
 import { Button } from 'components/ui-toolkit/button'
 import { useRuleDescriber } from 'hooks'
 import React from 'react'

@@ -1,6 +1,4 @@
-import { DeductionInterface } from '@zbrckovic/entail-core'
-import { InvalidTautologicalImplicationError } from '@zbrckovic/entail-core/lib/deduction-interface/rules-interface/tautological-implication-rule-interface'
-import { Rule } from '@zbrckovic/entail-core/lib/deduction-structure/rule'
+import { DeductionInterface, ErrorName, Rule } from '@zbrckovic/entail-core'
 import { RulePicker } from 'components/deduction-editor/rule-picker'
 import { DeductionView } from 'components/deduction-view'
 import { FormulaEditor } from 'components/formula-editor'
@@ -86,7 +84,10 @@ const Premise = ({ ruleInterface, onApply, onCancel }) => {
     <FormulaEditor
       onSubmit={({ formula, presentationCtx }) => {
         const deductionInterface = ruleInterface.apply(formula)
-        onApply({ presentationCtx, deductionInterface })
+        onApply({
+          presentationCtx,
+          deductionInterface
+        })
       }}
       onCancel={onCancel}
     />
@@ -106,7 +107,7 @@ const TautologicalImplication = ({ ruleInterface, onApply, onCancel }) => {
         try {
           deductionInterface = ruleInterface.apply(formula)
         } catch (error) {
-          if (error instanceof InvalidTautologicalImplicationError) {
+          if (error.name === ErrorName.INVALID_TAUTOLOGICAL_IMPLICATION) {
             setHasError(true)
             return
           } else {
@@ -115,7 +116,10 @@ const TautologicalImplication = ({ ruleInterface, onApply, onCancel }) => {
         }
 
         setHasError(false)
-        onApply({ presentationCtx, deductionInterface })
+        onApply({
+          presentationCtx,
+          deductionInterface
+        })
       }}
       onCancel={onCancel}
     />

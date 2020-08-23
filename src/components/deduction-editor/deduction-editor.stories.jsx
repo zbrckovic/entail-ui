@@ -1,4 +1,4 @@
-import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
+import { primitivePresentationCtx } from '@zbrckovic/entail-core'
 import { DeductionEditor } from 'components/deduction-editor/deduction-editor'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'

@@ -1,5 +1,4 @@
-import { FormulaParser } from '@zbrckovic/entail-core/lib/parsers/formula-parser'
-import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
+import { FormulaParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
 import { useEffect, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'

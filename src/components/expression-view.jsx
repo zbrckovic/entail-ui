@@ -1,6 +1,4 @@
-import { Kind } from '@zbrckovic/entail-core/lib/abstract-structures/sym'
-import { Placement } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/placement'
-import { primitiveSyms } from '@zbrckovic/entail-core/lib/primitive-syms'
+import { Kind, Placement, primitiveSyms } from '@zbrckovic/entail-core'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
 import { Text } from 'rebass'

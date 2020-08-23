@@ -1,5 +1,4 @@
-import { DeductionParser } from '@zbrckovic/entail-core/lib/parsers/deduction-parser/deduction-parser'
-import { primitivePresentationCtx } from '@zbrckovic/entail-core/lib/presentation/sym-presentation/primitive-presentation-ctx'
+import { DeductionParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 import { DeductionView } from './deduction-view'
