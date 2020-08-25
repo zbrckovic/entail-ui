@@ -3,6 +3,7 @@ import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { ExpressionView } from 'components/expression-view'
 import { Button } from 'components/ui-toolkit/button'
+import { Message } from 'components/ui-toolkit/message'
 import { Textarea } from 'components/ui-toolkit/textarea'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
@@ -46,7 +47,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         mb={2}
         pl={2}
         pr={2}
-        flexBasis={36}
+        flexBasis={38}
       >
         {
           formula !== undefined
@@ -58,7 +59,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         }
         {
           text.length > 0 && error !== undefined &&
-          <Box>{describeError(error)}</Box>
+          <Message variant='danger' text={describeError(error)}/>
         }
       </Flex>
       <Textarea

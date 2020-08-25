@@ -1,3 +1,6 @@
 {
-  "syntaxError": "Syntax error at line {{location.line}}, column {{location.column}}."
+  "syntaxError": "Syntax error at line {{location.line}}, column {{location.column}}.",
+  "prefixUsedAsInfixError": "Symbol {{sym}} is a prefix, but it was used as an infix.",
+  "infixUsedAsPrefixError": "Symbol {{sym}} is an infix, but it was used as a prefix.",
+  "invalidArityError": "Symbol {{sym}} was used with {{arity}} argument(s) while {{expectedArity}} arguments was expected."
 }

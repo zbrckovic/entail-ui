@@ -1,11 +1,39 @@
-import { Rule } from '@zbrckovic/entail-core'
+import { Rule, ErrorName, Placement } from '@zbrckovic/entail-core'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const useParserErrorDescriber = () => {
   const { t } = useTranslation('ParserError')
-  return ({ location: { start } }) => {
-    return t('syntax-error', { location: start })
+
+  return error => {
+    if (error.name === 'SyntaxError') {
+      const { location: { start } } = error
+
+      return t('syntaxError', { location: start })
+    }
+
+    if (error.name === ErrorName.INVALID_SYMBOL_PLACEMENT) {
+      const {
+        presentation: { ascii: { text, placement: expectedPlacement } },
+        placement
+      } = error.extra
+
+      return expectedPlacement === Placement.Prefix && placement === Placement.Infix
+        ? t('prefixUsedAsInfixError', { sym: text })
+        : t('infixUsedAsPrefixError', { sym: text })
+    }
+
+    if (error.name === ErrorName.INVALID_ARITY) {
+      const {
+        sym: { arity: expectedArity },
+        presentation: { ascii: { text } },
+        arity
+      } = error.extra
+
+      return t('invalidArityError', { sym: text, arity, expectedArity })
+    }
+
+    return t('syntaxError')
   }
 }
 
