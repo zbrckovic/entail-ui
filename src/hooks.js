@@ -1,11 +1,11 @@
-import { Rule, ErrorName, Placement } from '@zbrckovic/entail-core'
+import { Rule, ErrorName, Placement, Kind } from '@zbrckovic/entail-core'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const useParserErrorDescriber = () => {
   const { t } = useTranslation('ParserError')
 
-  return error => {
+  return useCallback(error => {
     if (error.name === 'SyntaxError') {
       const { location: { start } } = error
 
@@ -19,22 +19,48 @@ export const useParserErrorDescriber = () => {
       } = error.extra
 
       return expectedPlacement === Placement.Prefix && placement === Placement.Infix
-        ? t('prefixUsedAsInfixError', { sym: text })
-        : t('infixUsedAsPrefixError', { sym: text })
+        ? t('recognizedAsPrefixUsedAsInfix', { sym: text })
+        : t('recognizedAsInfixUsedAsPrefix', { sym: text })
     }
 
     if (error.name === ErrorName.INVALID_ARITY) {
       const {
-        sym: { arity: expectedArity },
+        sym: { arity: recognizedArity },
         presentation: { ascii: { text } },
-        arity
+        arity: usedArity
       } = error.extra
 
-      return t('invalidArityError', { sym: text, arity, expectedArity })
+      return t('symbolUsedWithWrongNumberOfArguments', { sym: text, recognizedArity, usedArity })
+    }
+
+    if (error.name === ErrorName.INVALID_SYMBOL_KIND) {
+      const {
+        sym: { kind: recognizedKind },
+        presentation: { ascii: { text: sym } }
+      } = error.extra
+
+      return recognizedKind === Kind.Formula
+        ? t('recognizedAsSententialUsedAsNominal', { sym })
+        : t('recognizedAsNominalUsedAsSentential', { sym })
+    }
+
+    if (error.name === ErrorName.INVALID_BOUND_SYMBOL_CATEGORY) {
+      const { presentation: { ascii: { text: sym } } } = error.extra
+
+      return t('boundSymbolNotTerm', { sym })
+    }
+
+    if (error.name === ErrorName.INVALID_BOUND_SYMBOL_ARITY) {
+      const {
+        sym: { arity },
+        presentation: { ascii: { text: sym } }
+      } = error.extra
+
+      return t('boundSymbolNotNullary', { sym, arity })
     }
 
     return t('syntaxError')
-  }
+  }, [t])
 }
 
 export const useRuleDescriber = () => {

@@ -1,6 +1,10 @@
 {
   "syntaxError": "Syntax error at line {{location.line}}, column {{location.column}}.",
-  "prefixUsedAsInfixError": "Symbol {{sym}} is a prefix, but it was used as an infix.",
-  "infixUsedAsPrefixError": "Symbol {{sym}} is an infix, but it was used as a prefix.",
-  "invalidArityError": "Symbol {{sym}} was used with {{arity}} argument(s) while {{expectedArity}} arguments was expected."
+  "recognizedAsPrefixUsedAsInfix": "Symbol {{sym}} was recognized as prefix, but then it was used as an infix.",
+  "recognizedAsInfixUsedAsPrefix": "Symbol {{sym}} was recognized as an infix, but then it was used as a prefix.",
+  "symbolUsedWithWrongNumberOfArguments": "Symbol {{sym}} was recognized as {{recognizedArity}}-ary but it was used with {{usedArity}} arguments.",
+  "recognizedAsSententialUsedAsNominal": "Symbol {{sym}} was recognized as formula symbol but was used where term symbol was expected.",
+  "recognizedAsNominalUsedAsSentential": "Symbol {{sym}} was recognized as term symbol but was used where formula symbol was expected.",
+  "boundSymbolNotTerm": "Formula symbol {{sym}} occurred as bound while only terms can be bound.",
+  "boundSymbolNotNullary": "{{arity}}-ary symbol {{sym}} occurred as bound while only nullary terms can be bound."
 }

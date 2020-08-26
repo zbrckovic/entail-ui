@@ -13,14 +13,14 @@ const space = [
   32
 ]
 
-const fontSizes = [12, 14, 16, 20]
+const fontSizes = [10, 12, 14, 16]
 
 fontSizes.tiny = fontSizes[0]
 fontSizes.small = fontSizes[1]
 fontSizes.normal = fontSizes[2]
 fontSizes.large = fontSizes[3]
 
-const radii = [0, 4, 8]
+const radii = [0, 2, 4]
 
 const fontWeights = {
   light: 300,
