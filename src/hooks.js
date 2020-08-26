@@ -14,13 +14,13 @@ export const useParserErrorDescriber = () => {
 
     if (error.name === ErrorName.INVALID_SYMBOL_PLACEMENT) {
       const {
-        presentation: { ascii: { text, placement: expectedPlacement } },
+        presentation: { ascii: { text: sym, placement: expectedPlacement } },
         placement
       } = error.extra
 
       return expectedPlacement === Placement.Prefix && placement === Placement.Infix
-        ? t('recognizedAsPrefixUsedAsInfix', { sym: text })
-        : t('recognizedAsInfixUsedAsPrefix', { sym: text })
+        ? t('recognizedAsPrefixUsedAsInfix', { sym })
+        : t('recognizedAsInfixUsedAsPrefix', { sym })
     }
 
     if (error.name === ErrorName.INVALID_ARITY) {

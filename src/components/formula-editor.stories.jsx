@@ -16,13 +16,7 @@ export default {
   }
 }
 
-export const FullWidth = args =>
+export const Default = args =>
   <SymPresentationCtx.Provider value={primitivePresentationCtx}>
     <FormulaEditor {...args}/>
   </SymPresentationCtx.Provider>
-
-export const MinWidth = args =>
-  <SymPresentationCtx.Provider value={primitivePresentationCtx}>
-    <FormulaEditor {...args}/>
-  </SymPresentationCtx.Provider>
-

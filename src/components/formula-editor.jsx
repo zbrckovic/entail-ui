@@ -9,7 +9,7 @@ import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
@@ -44,16 +44,14 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
     <Flex flexDirection='column' minWidth='300px'{...props}>
       <Flex
         alignItems='center'
-        mb={2}
-        pl={2}
-        pr={2}
+        mb={1}
         flexBasis={38}
       >
         {
           formula !== undefined
             ? (
               <SymPresentationCtx.Provider value={presentationCtx}>
-                <ExpressionView padding={2} expression={formula}/>
+                <ExpressionView expression={formula} px={2}/>
               </SymPresentationCtx.Provider>
             ) : <wbr/>
         }
@@ -67,7 +65,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         value={text}
         onChange={event => { setText(event.target.value) }}
         css={css`resize: none;`}
-        mb={2}
+        mb={1}
       />
       <Flex>
         <Button
@@ -76,7 +74,6 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
           disabled={formula === undefined}
           icon={faCheckCircle}
           mr={2}
-          flexGrow={1}
           variant='primary'
         >
           {t('button.submit')}
@@ -85,7 +82,6 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
           title={t('button.cancel')}
           onClick={() => { onCancel() }}
           icon={faBan}
-          flexGrow={1}
         >
           {t('button.cancel')}
         </Button>

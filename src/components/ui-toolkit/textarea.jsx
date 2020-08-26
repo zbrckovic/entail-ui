@@ -12,7 +12,8 @@ export const Textarea = props =>
       borderColor: 'neutral',
       borderRadius: 1,
       fontSize: 'normal',
-      padding: 2
+      py: 1,
+      px: 2
     }}
     css={removeScrollbar}
   />

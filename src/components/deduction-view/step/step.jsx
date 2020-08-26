@@ -26,16 +26,16 @@ export const Step = ({
       onSelect={onSelect}
       onDeselect={onDeselect}
     />
-    <Box px={1}>
+    <Box px={2}>
       <Assumptions assumptions={assumptions}/>
     </Box>
-    <Box px={1}>
+    <Box px={2}>
       <ExpressionView expression={formula}/>
     </Box>
-    <Box px={1}>
+    <Box px={2}>
       <Rule rule={ruleApplicationSummary.rule}/>
     </Box>
-    <Box px={1}>
+    <Box px={2}>
       <Premises premises={ruleApplicationSummary.premises}/>
     </Box>
   </>
@@ -59,7 +59,7 @@ const StepNumber = ({ stepNumber, selected, onSelect, onDeselect }) => {
       sx={{
         bg,
         color,
-        px: hasControls ? 4 : 2,
+        px: 2,
         cursor: hasControls ? 'pointer' : 'auto'
       }}
       onClick={() => { if (selected) { onDeselect() } else { onSelect() } }}

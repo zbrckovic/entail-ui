@@ -25,8 +25,8 @@ export const Message = ({ variant, text, sx, ...props }) => {
     <Flex
       alignItems='center'
       sx={{
-        py: 2,
-        px: 4,
+        py: 1,
+        px: 2,
         color,
         bg: backgroundLighter,
         borderColor: backgroundDarker,
@@ -37,7 +37,7 @@ export const Message = ({ variant, text, sx, ...props }) => {
       }}
       {...props}
     >
-      <Box mr={4}>
+      <Box mr={2}>
         <FontAwesomeIcon icon={icons[variant] ?? faInfoCircle}/>
       </Box>
       <Text

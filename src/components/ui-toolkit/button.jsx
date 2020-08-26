@@ -18,7 +18,8 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
   return (
     <BaseButton
       sx={{
-        padding: 2,
+        px: 2,
+        py: 1,
         color,
         bg: background,
         borderColor: backgroundDarker,

@@ -67,7 +67,14 @@ export const DeductionEditor = () => {
           <RulePicker
             rules={rules}
             selectedRule={selectedRule}
-            onRuleSelect={setSelectedRule}
+            onRuleSelect={rule => {
+              if (rule === Rule.Deduction) {
+                const deductionInterface = rulesInterface[Rule.Deduction].apply()
+                setState({ presentationCtx, deductionInterface })
+              } else {
+                setSelectedRule(rule)
+              }
+            }}
             onRuleDeselect={() => { setSelectedRule(undefined) }}
           />
         </Box>
