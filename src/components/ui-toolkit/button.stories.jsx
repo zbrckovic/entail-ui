@@ -17,7 +17,7 @@ export default {
     variant: {
       control: {
         type: 'inline-radio',
-        options: ['neutral', 'primary', 'secondary', 'success', 'warning', 'danger']
+        options: ['neutral', 'primary', 'success', 'warning', 'danger']
       },
       defaultValue: 'neutral'
     },

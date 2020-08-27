@@ -43,7 +43,7 @@ const neutral = [
 
 const colors = {
   primary: '#2660a4',
-  secondary: '#a74d91',
+  primaryLight: '#2f78cc',
   success: '#3f8a67',
   warning: '#fa960a',
   danger: '#ec4e20',
@@ -53,11 +53,10 @@ const colors = {
 Object.assign(colors, {
   text: neutral[7],
   background: '#ffffff',
-  backgroundSecondary: '#f4f4f4',
   border: colors.neutral,
   shadow: neutral[6],
   formula: colors.primary,
-  term: colors.secondary,
+  term: colors.primaryLight,
   textLight: neutral[3],
   modalOverlay: 'rgba(0, 0, 0, 0.4)'
 })
