@@ -26,7 +26,7 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 1,
-        outline: 'none',
+        outlineColor: 'primary',
         cursor: 'pointer',
         whiteSpace: 'nowrap',
         transition: 'all 0.1s',

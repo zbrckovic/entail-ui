@@ -6,7 +6,7 @@ export const Textarea = props =>
   <BaseTextarea
     {...props}
     sx={{
-      outline: 'none',
+      outlineColor: 'primary',
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'neutral',
