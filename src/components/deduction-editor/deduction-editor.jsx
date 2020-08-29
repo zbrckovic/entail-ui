@@ -81,6 +81,7 @@ export const DeductionEditor = () => {
             deduction={deductionInterface.deduction}
             selectedSteps={selectedSteps}
             onSelectedStepsChange={setSelectedSteps}
+            mb={4}
           />
           {determineRuleUI(selectedRule)}
         </Box>
