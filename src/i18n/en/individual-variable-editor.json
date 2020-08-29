@@ -2,5 +2,8 @@
   "button": {
     "submit": "Submit",
     "cancel": "Cancel"
+  },
+  "message": {
+    "invalidInstanceVariableSymbol": "Symbol {{sym}} is already used exists and it isn't a valid individual variable."
   }
 }

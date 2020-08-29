@@ -1,13 +1,14 @@
 import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { Sym, SymPresentation, SyntacticInfo } from '@zbrckovic/entail-core'
+import { Category, Sym, SymPresentation, SyntacticInfo } from '@zbrckovic/entail-core'
 import {
   createTextToSymMap,
   getMaxSymId
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
 import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import { Input } from 'components/ui-toolkit/input'
-import { Message } from 'components/ui-toolkit/message'
+import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import { SymPresentationCtx } from 'contexts'
+import { createError, ErrorName } from 'create-error'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Flex } from 'rebass'
@@ -25,6 +26,14 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const existingSym = textToSymMap.get(text)
 
+  const errorMessage = useMemo(
+    () =>
+      (existingSym !== undefined && !isValidIndividualVariable(existingSym))
+        ? t('message.invalidInstanceVariableSymbol')
+        : undefined,
+    [existingSym, t]
+  )
+
   useEffect(() => {
     const subscription = textSubject
       .pipe(
@@ -40,7 +49,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const [isValid, setIsValid] = useState(false)
 
   return <Box>
-    <Flex mb={1} {...props}>
+    <Flex {...props}>
       <Input
         flexBasis={0}
         flexGrow={1}
@@ -62,7 +71,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
             })
           }
         }}
-        disabled={!isValid}
+        disabled={!isValid || errorMessage !== undefined}
         icon={faCheckCircle}
         mr={2}
         variant={ButtonVariant.PRIMARY}>
@@ -75,10 +84,12 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         {t('button.cancel')}
       </Button>
     </Flex>
-    {existingSym && <Message text={'Already present'} />}
+    {errorMessage && <Message mt={1} variant={MessageVariant.DANGER} text={errorMessage} />}
   </Box>
 }
 
 const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/
+
+const isValidIndividualVariable = sym => sym.getCategory() === Category.TT && sym.arity === 0
 
 const validateText = text => INDIVIDUAL_VARIABLE_REGEX.test(text)

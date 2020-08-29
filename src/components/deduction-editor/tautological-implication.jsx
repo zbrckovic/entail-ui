@@ -8,7 +8,7 @@ import { Box, Text } from 'rebass'
 export const TautologicalImplication = ({ ruleInterface, onApply, onCancel }) => {
   const { t } = useTranslation('DeductionEditor')
 
-  const [errorMessage, setErrorMessage] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(undefined)
 
   return <Box>
     <Text as='h4'>{t('label.enterTheConsequent')}</Text>
