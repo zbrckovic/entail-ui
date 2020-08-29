@@ -1,18 +1,29 @@
 import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'components/ui-toolkit/button'
+import { Sym, SymPresentation, SyntacticInfo } from '@zbrckovic/entail-core'
+import {
+  createTextToSymMap,
+  getMaxSymId
+} from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
+import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import { Input } from 'components/ui-toolkit/input'
-import React, { useEffect, useState } from 'react'
+import { Message } from 'components/ui-toolkit/message'
+import { SymPresentationCtx } from 'contexts'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Flex } from 'rebass'
+import { Box, Flex } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
 export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
+  const presentationCtx = useContext(SymPresentationCtx)
+  const textToSymMap = useMemo(() => createTextToSymMap(presentationCtx), [presentationCtx])
 
   const [text, setText] = useState('')
   const [textSubject] = useState(new Subject())
   useEffect(() => { textSubject.next(text) }, [textSubject, text])
+
+  const existingSym = textToSymMap.get(text)
 
   useEffect(() => {
     const subscription = textSubject
@@ -28,8 +39,8 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const [isValid, setIsValid] = useState(false)
 
-  return (
-    <Flex {...props}>
+  return <Box>
+    <Flex mb={1} {...props}>
       <Input
         flexBasis={0}
         flexGrow={1}
@@ -38,23 +49,34 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         onChange={({ target: { value } }) => { setText(value) }} />
       <Button
         title={t('button.submit')}
-        onClick={() => { onSubmit(text) }}
+        onClick={() => {
+          if (existingSym !== undefined) {
+            onSubmit({ sym: existingSym, presentationCtx })
+          } else {
+            const newSym = Sym.tt({ id: getMaxSymId(presentationCtx) })
+            const newPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix(text) })
+
+            onSubmit({
+              sym: newSym,
+              presentationCtx: presentationCtx.set(newSym, newPresentation)
+            })
+          }
+        }}
         disabled={!isValid}
         icon={faCheckCircle}
         mr={2}
-        variant='primary'
-      >
+        variant={ButtonVariant.PRIMARY}>
         {t('button.submit')}
       </Button>
       <Button
         title={t('button.cancel')}
         onClick={() => { onCancel() }}
-        icon={faBan}
-      >
+        icon={faBan}>
         {t('button.cancel')}
       </Button>
     </Flex>
-  )
+    {existingSym && <Message text={'Already present'} />}
+  </Box>
 }
 
 const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/

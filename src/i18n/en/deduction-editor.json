@@ -1,9 +1,12 @@
 {
   "label": {
     "enterThePremise": "Enter the premise",
-    "enterTheConsequent": "Enter the consequent"
+    "enterTheConsequent": "Enter the consequent",
+    "enterTheInstanceTerm": "Enter the instance term",
+    "enterTheBoundTerm": "Enter the bound term"
   },
   "message": {
-    "invalidTautologicalImplication": "Invalid tautological implication"
+    "invalidTautologicalImplication": "Invalid tautological implication",
+    "instanceTermBecomesIllegallyBound": "Instance term becomes illegally bound"
   }
 }

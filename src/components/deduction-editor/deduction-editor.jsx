@@ -1,11 +1,12 @@
-import { DeductionInterface, ErrorName, Rule } from '@zbrckovic/entail-core'
+import { DeductionInterface, Rule } from '@zbrckovic/entail-core'
+import { Premise } from 'components/deduction-editor/premise'
 import { RulePicker } from 'components/deduction-editor/rule-picker'
+import { TautologicalImplication } from 'components/deduction-editor/tautological-implication'
+import { UniversalInstantiation } from 'components/deduction-editor/universal-instantiation'
 import { DeductionView } from 'components/deduction-view'
-import { FormulaEditor } from 'components/formula-editor'
 import { SymPresentationCtx } from 'contexts'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Box, Flex, Text } from 'rebass'
+import { Box, Flex } from 'rebass'
 
 const createDefaultSelectedSteps = () => new Set()
 
@@ -33,21 +34,20 @@ export const DeductionEditor = () => {
   const determineRuleUI = rule => {
     switch (rule) {
       case Rule.Premise:
-        return (
-          <Premise
-            ruleInterface={rulesInterface[Rule.Premise]}
-            onApply={setState}
-            onCancel={() => { setSelectedRule(undefined) }}
-          />
-        )
+        return <Premise
+          ruleInterface={rulesInterface[Rule.Premise]}
+          onApply={setState}
+          onCancel={() => { setSelectedRule(undefined) }} />
       case Rule.TautologicalImplication:
-        return (
-          <TautologicalImplication
-            ruleInterface={rulesInterface[Rule.TautologicalImplication]}
-            onApply={setState}
-            onCancel={() => { setSelectedRule(undefined) }}
-          />
-        )
+        return <TautologicalImplication
+          ruleInterface={rulesInterface[Rule.TautologicalImplication]}
+          onApply={setState}
+          onCancel={() => { setSelectedRule(undefined) }} />
+      case Rule.UniversalInstantiation:
+        return <UniversalInstantiation
+          ruleInterface={rulesInterface[Rule.UniversalInstantiation]}
+          onApply={setState}
+          onCancel={() => { setSelectedRule(undefined) }} />
     }
   }
 
@@ -81,55 +81,4 @@ export const DeductionEditor = () => {
       </Flex>
     </SymPresentationCtx.Provider>
   )
-}
-
-const Premise = ({ ruleInterface, onApply, onCancel }) => {
-  const { t } = useTranslation('DeductionEditor')
-
-  return <Box>
-    <Text as='h4'>{t('label.enterThePremise')}</Text>
-    <FormulaEditor
-      onSubmit={({ formula, presentationCtx }) => {
-        const deductionInterface = ruleInterface.apply(formula)
-        onApply({
-          presentationCtx,
-          deductionInterface
-        })
-      }}
-      onCancel={onCancel}
-    />
-  </Box>
-}
-
-const TautologicalImplication = ({ ruleInterface, onApply, onCancel }) => {
-  const { t } = useTranslation('DeductionEditor')
-
-  const [hasError, setHasError] = useState(false)
-
-  return <Box>
-    <Text as='h4'>{t('label.enterTheConsequent')}</Text>
-    <FormulaEditor
-      onSubmit={({ formula, presentationCtx }) => {
-        let deductionInterface
-        try {
-          deductionInterface = ruleInterface.apply(formula)
-        } catch (error) {
-          if (error.name === ErrorName.INVALID_TAUTOLOGICAL_IMPLICATION) {
-            setHasError(true)
-            return
-          } else {
-            throw error
-          }
-        }
-
-        setHasError(false)
-        onApply({
-          presentationCtx,
-          deductionInterface
-        })
-      }}
-      onCancel={onCancel}
-    />
-    {hasError && <Text color='danger' mt={2}>{t('message.invalidTautologicalImplication')}</Text>}
-  </Box>
 }

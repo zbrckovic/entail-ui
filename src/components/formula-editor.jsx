@@ -40,54 +40,49 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const presentationCtx = parseResult?.success?.presentationCtx
   const error = parseResult?.error
 
-  return (
-    <Flex flexDirection='column' minWidth='300px'{...props}>
-      <Flex
-        alignItems='center'
-        mb={1}
-        flexBasis={38}
-      >
-        {
-          formula !== undefined
-            ? (
-              <SymPresentationCtx.Provider value={presentationCtx}>
-                <ExpressionView expression={formula} px={2}/>
-              </SymPresentationCtx.Provider>
-            ) : <wbr/>
-        }
-        {
-          text.length > 0 && error !== undefined &&
-          <Message variant={MessageVariant.DANGER} text={describeError(error)}/>
-        }
-      </Flex>
-      <Textarea
-        rows={10}
-        value={text}
-        onChange={event => { setText(event.target.value) }}
-        css={css`resize: none;`}
-        mb={1}
-      />
-      <Flex>
-        <Button
-          title={t('button.submit')}
-          onClick={() => { onSubmit(parseResult?.success) }}
-          disabled={formula === undefined}
-          icon={faCheckCircle}
-          mr={2}
-          variant={ButtonVariant.PRIMARY}
-        >
-          {t('button.submit')}
-        </Button>
-        <Button
-          title={t('button.cancel')}
-          onClick={() => { onCancel() }}
-          icon={faBan}
-        >
-          {t('button.cancel')}
-        </Button>
-      </Flex>
+  return <Flex flexDirection='column' minWidth='300px'{...props}>
+    <Flex
+      alignItems='center'
+      mb={1}
+      flexBasis={38}>
+      {
+        formula !== undefined
+          ? (
+            <SymPresentationCtx.Provider value={presentationCtx}>
+              <ExpressionView expression={formula} px={2} />
+            </SymPresentationCtx.Provider>
+          ) : <wbr />
+      }
+      {
+        text.length > 0 && error !== undefined &&
+        <Message variant={MessageVariant.DANGER} text={describeError(error)} />
+      }
     </Flex>
-  )
+    <Textarea
+      rows={10}
+      value={text}
+      onChange={event => { setText(event.target.value) }}
+      css={css`resize: none;`}
+      mb={1} />
+    <Flex>
+      <Button
+        title={t('button.submit')}
+        onClick={() => { onSubmit(parseResult?.success) }}
+        disabled={formula === undefined}
+        icon={faCheckCircle}
+        mr={2}
+        variant={ButtonVariant.PRIMARY}>
+        {t('button.submit')}
+      </Button>
+      <Button
+        title={t('button.cancel')}
+        onClick={() => { onCancel() }}
+        icon={faBan}>
+        {t('button.cancel')}
+      </Button>
+    </Flex>
+  </Flex>
+
 }
 
 const useParser = () => {
