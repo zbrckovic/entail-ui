@@ -4,11 +4,22 @@ import {
   faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import { useTheme } from 'emotion-theming'
+import { darken } from 'polished'
+import React, { useMemo } from 'react'
 import { Box, Flex, Text } from 'rebass'
 
 export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }) => {
-  const { icon, color, background, border } = variantData[variant]
+  const { colors } = useTheme()
+
+  const icon = icons[variant]
+
+  const { color, bg, border } = useMemo(() => {
+    const { color, bg } = determineColors(variant, colors)
+    const border = darken(0.2, bg)
+
+    return { color, bg, border }
+  }, [variant, colors])
 
   return (
     <Flex
@@ -17,7 +28,7 @@ export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }
         py: 1,
         px: 2,
         color,
-        bg: background,
+        bg,
         borderColor: border,
         borderWidth: 1,
         borderStyle: 'solid',
@@ -27,7 +38,7 @@ export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }
       {...props}
     >
       <Box mr={2}>
-        <FontAwesomeIcon icon={icon} />
+        <FontAwesomeIcon icon={icon}/>
       </Box>
       <Text
         sx={{}}
@@ -42,23 +53,28 @@ export const MessageVariant = {
   DANGER: 'DANGER'
 }
 
-const variantData = {
-  [MessageVariant.NEUTRAL]: {
-    icon: faInfoCircle,
-    color: 'onNeutralWidget',
-    background: 'neutralWidget',
-    border: 'neutralWidgetBorder'
-  },
-  [MessageVariant.SUCCESS]: {
-    icon: faCheckCircle,
-    color: 'onPrimaryWidget',
-    background: 'primaryWidget',
-    border: 'primaryWidgetBorder'
-  },
-  [MessageVariant.DANGER]: {
-    icon: faExclamationTriangle,
-    color: 'onDangerWidget',
-    background: 'dangerWidget',
-    border: 'dangerWidgetBorder'
+const icons = {
+  [MessageVariant.NEUTRAL]: faInfoCircle,
+  [MessageVariant.SUCCESS]: faCheckCircle,
+  [MessageVariant.DANGER]: faExclamationTriangle
+}
+
+const determineColors = (variant, colors) => {
+  switch (variant) {
+    case MessageVariant.NEUTRAL:
+      return {
+        bg: colors.inputSurface,
+        color: colors.onInputSurface
+      }
+    case MessageVariant.SUCCESS:
+      return {
+        bg: colors.success,
+        color: colors.onSuccess
+      }
+    case MessageVariant.DANGER:
+      return {
+        bg: colors.danger,
+        color: colors.onDanger
+      }
   }
 }

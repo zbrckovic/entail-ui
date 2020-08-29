@@ -1,5 +1,5 @@
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
-import { Button, ButtonVariants } from 'components/ui-toolkit/button'
+import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import React from 'react'
 
 export default {
@@ -17,9 +17,9 @@ export default {
     variant: {
       control: {
         type: 'inline-radio',
-        options: Object.keys(ButtonVariants)
+        options: Object.keys(ButtonVariant)
       },
-      defaultValue: ButtonVariants.NEUTRAL
+      defaultValue: ButtonVariant.NEUTRAL
     },
     disabled: {
       control: 'boolean',

@@ -1,6 +1,4 @@
 import { ExpressionView } from 'components/expression-view'
-import { useTheme } from 'emotion-theming'
-import { readableColor } from 'polished'
 import React, { useMemo } from 'react'
 import { Box, Text } from 'rebass'
 import { Assumptions } from './assumptions'
@@ -14,11 +12,6 @@ export const Step = ({
   onSelect,
   onDeselect
 }) => {
-  const hasControls = useMemo(
-    () => onSelect !== undefined || onDeselect !== undefined,
-    [onSelect, onDeselect]
-  )
-
   return <>
     <StepNumber
       stepNumber={stepNumber}
@@ -27,16 +20,16 @@ export const Step = ({
       onDeselect={onDeselect}
     />
     <Box px={2}>
-      <Assumptions assumptions={assumptions} />
+      <Assumptions assumptions={assumptions}/>
     </Box>
     <Box px={2}>
-      <ExpressionView expression={formula} />
+      <ExpressionView expression={formula}/>
     </Box>
     <Box px={2}>
-      <Rule rule={ruleApplicationSummary.rule} />
+      <Rule rule={ruleApplicationSummary.rule}/>
     </Box>
     <Box px={2}>
-      <Premises premises={ruleApplicationSummary.premises} />
+      <Premises premises={ruleApplicationSummary.premises}/>
     </Box>
   </>
 }
@@ -50,10 +43,11 @@ const StepNumber = ({ stepNumber, selected, onSelect, onDeselect }) => {
   return (
     <Box
       sx={{
-        bg: selected ? 'primaryWidget' : 'neutralWidget',
-        color: selected ? 'onPrimaryWidget' : 'onNeutralWidget',
+        bg: selected ? 'primary' : 'surfaceAlternative',
+        color: selected ? 'onPrimary' : 'onSurfaceAlternative',
         px: 2,
-        cursor: hasControls ? 'pointer' : 'auto'
+        cursor: hasControls ? 'pointer' : 'auto',
+        userSelect: 'none'
       }}
       onClick={() => { if (selected) { onDeselect() } else { onSelect() } }}
     >

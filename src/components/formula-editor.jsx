@@ -2,7 +2,7 @@ import { css } from '@emotion/core'
 import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { ExpressionView } from 'components/expression-view'
-import { Button, ButtonVariants } from 'components/ui-toolkit/button'
+import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import { Textarea } from 'components/ui-toolkit/textarea'
 import { SymPresentationCtx } from 'contexts'
@@ -74,7 +74,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
           disabled={formula === undefined}
           icon={faCheckCircle}
           mr={2}
-          variant={ButtonVariants.PRIMARY}
+          variant={ButtonVariant.PRIMARY}
         >
           {t('button.submit')}
         </Button>
