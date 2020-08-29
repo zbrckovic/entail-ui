@@ -1,25 +1,14 @@
-import { faInfoCircle, faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCheckCircle,
+  faExclamationTriangle,
+  faInfoCircle
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useTheme } from 'emotion-theming'
-import { darken, lighten, readableColor } from 'polished'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Box, Flex, Text } from 'rebass'
 
-const icons = {
-  success: faCheckCircle,
-  warning: faExclamationTriangle,
-  danger: faExclamationTriangle
-}
-
-export const Message = ({ variant, text, sx, ...props }) => {
-  const { colors } = useTheme()
-  const background = colors[variant]
-
-  const { color, backgroundLighter, backgroundDarker } = useMemo(() => ({
-    color: readableColor(background),
-    backgroundLighter: lighten(0.06, background),
-    backgroundDarker: darken(0.06, background)
-  }), [background])
+export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }) => {
+  const { icon, color, background, border } = variantData[variant]
 
   return (
     <Flex
@@ -28,8 +17,8 @@ export const Message = ({ variant, text, sx, ...props }) => {
         py: 1,
         px: 2,
         color,
-        bg: backgroundLighter,
-        borderColor: backgroundDarker,
+        bg: background,
+        borderColor: border,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 1,
@@ -38,11 +27,38 @@ export const Message = ({ variant, text, sx, ...props }) => {
       {...props}
     >
       <Box mr={2}>
-        <FontAwesomeIcon icon={icons[variant] ?? faInfoCircle}/>
+        <FontAwesomeIcon icon={icon} />
       </Box>
       <Text
         sx={{}}
       >{text}</Text>
     </Flex>
   )
+}
+
+export const MessageVariant = {
+  NEUTRAL: 'NEUTRAL',
+  SUCCESS: 'SUCCESS',
+  DANGER: 'DANGER'
+}
+
+const variantData = {
+  [MessageVariant.NEUTRAL]: {
+    icon: faInfoCircle,
+    color: 'onNeutralWidget',
+    background: 'neutralWidget',
+    border: 'neutralWidgetBorder'
+  },
+  [MessageVariant.SUCCESS]: {
+    icon: faCheckCircle,
+    color: 'onPrimaryWidget',
+    background: 'primaryWidget',
+    border: 'primaryWidgetBorder'
+  },
+  [MessageVariant.DANGER]: {
+    icon: faExclamationTriangle,
+    color: 'onDangerWidget',
+    background: 'dangerWidget',
+    border: 'dangerWidgetBorder'
+  }
 }

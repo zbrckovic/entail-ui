@@ -27,38 +27,31 @@ export const Step = ({
       onDeselect={onDeselect}
     />
     <Box px={2}>
-      <Assumptions assumptions={assumptions}/>
+      <Assumptions assumptions={assumptions} />
     </Box>
     <Box px={2}>
-      <ExpressionView expression={formula}/>
+      <ExpressionView expression={formula} />
     </Box>
     <Box px={2}>
-      <Rule rule={ruleApplicationSummary.rule}/>
+      <Rule rule={ruleApplicationSummary.rule} />
     </Box>
     <Box px={2}>
-      <Premises premises={ruleApplicationSummary.premises}/>
+      <Premises premises={ruleApplicationSummary.premises} />
     </Box>
   </>
 }
 
 const StepNumber = ({ stepNumber, selected, onSelect, onDeselect }) => {
-  const { colors: { primary, neutral } } = useTheme()
-
   const hasControls = useMemo(
     () => onSelect !== undefined || onDeselect !== undefined,
     [onSelect, onDeselect]
   )
 
-  const { bg, color } = useMemo(() => {
-    const bg = selected ? primary : neutral
-    return { bg, color: readableColor(bg) }
-  }, [selected, primary, neutral])
-
   return (
     <Box
       sx={{
-        bg,
-        color,
+        bg: selected ? 'primaryWidget' : 'neutralWidget',
+        color: selected ? 'onPrimaryWidget' : 'onNeutralWidget',
         px: 2,
         cursor: hasControls ? 'pointer' : 'auto'
       }}

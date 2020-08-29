@@ -1,5 +1,6 @@
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
+import { colors } from './theme-colors'
 
 const space = [
   0,
@@ -30,37 +31,6 @@ const fontWeights = {
   black: 900
 }
 
-const neutral = [
-  '#fffcfa',
-  '#dddbda',
-  '#bbbaba',
-  '#99999a',
-  '#78787a',
-  '#56575a',
-  '#34363a',
-  '#12151a'
-]
-
-const colors = {
-  primary: '#2660a4',
-  primaryLight: '#2f78cc',
-  success: '#3f8a67',
-  warning: '#fa960a',
-  danger: '#ec4e20',
-  neutral: '#e5e5e5'
-}
-
-Object.assign(colors, {
-  text: neutral[7],
-  background: '#ffffff',
-  border: colors.neutral,
-  shadow: neutral[6],
-  formula: colors.primary,
-  term: colors.primaryLight,
-  textLight: neutral[3],
-  modalOverlay: 'rgba(0, 0, 0, 0.4)'
-})
-
 const breakpoints = ['568px', '768px', '1200px']
 
 const mediaQueries = {
@@ -70,17 +40,6 @@ const mediaQueries = {
 }
 
 export const theme = {
-  eel: {
-    neutral: {
-      color: 'text'
-    },
-    formula: {
-      color: 'formula'
-    },
-    term: {
-      color: 'term'
-    }
-  },
   fonts: {
     main: sourceSansFamily,
     mono: sourceCodeProFamily

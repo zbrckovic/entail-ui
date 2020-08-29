@@ -1,5 +1,5 @@
 import { Rule } from '@zbrckovic/entail-core'
-import { Button } from 'components/ui-toolkit/button'
+import { Button, ButtonVariants } from 'components/ui-toolkit/button'
 import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { Box } from 'rebass'
@@ -23,7 +23,7 @@ export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect, onRuleDesel
           return (
             <Button
               key={rule}
-              variant={selected ? 'primary' : undefined}
+              variant={selected ? ButtonVariants.PRIMARY : undefined}
               title={translation}
               disabled={!rules.has(rule)}
               onClick={() => {

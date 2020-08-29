@@ -6,10 +6,11 @@ export const Textarea = props =>
   <BaseTextarea
     {...props}
     sx={{
-      outlineColor: 'primary',
+      bg: 'surface',
+      outlineColor: 'outline',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: 'neutral',
+      borderColor: 'neutralWidgetBorder',
       borderRadius: 1,
       fontSize: 'normal',
       py: 1,

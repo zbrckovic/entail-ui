@@ -2,8 +2,8 @@ import { css } from '@emotion/core'
 import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { ExpressionView } from 'components/expression-view'
-import { Button } from 'components/ui-toolkit/button'
-import { Message } from 'components/ui-toolkit/message'
+import { Button, ButtonVariants } from 'components/ui-toolkit/button'
+import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import { Textarea } from 'components/ui-toolkit/textarea'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
@@ -57,7 +57,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         }
         {
           text.length > 0 && error !== undefined &&
-          <Message variant='danger' text={describeError(error)}/>
+          <Message variant={MessageVariant.DANGER} text={describeError(error)}/>
         }
       </Flex>
       <Textarea
@@ -74,7 +74,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
           disabled={formula === undefined}
           icon={faCheckCircle}
           mr={2}
-          variant='primary'
+          variant={ButtonVariants.PRIMARY}
         >
           {t('button.submit')}
         </Button>

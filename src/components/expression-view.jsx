@@ -53,51 +53,53 @@ const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
   const hasSpace = !childrenExpressions.isEmpty() && sym.binds && isPrimitive
 
   return <>
-    <ExpressionText text={symText} kind={sym.kind}/>
-    {sym.binds && <Binding sym={boundSym}/>}
+    <ExpressionText text={symText} kind={sym.kind} />
+    {sym.binds && <Binding sym={boundSym} />}
     {hasSpace && <> </>}
-    {hasParentheses && <ExpressionText text="(" kind={sym.kind}/>}
+    {hasParentheses && <ExpressionText text="(" kind={sym.kind} />}
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.size - 1
 
       return <Fragment key={`${i}`}>
-        <ExpressionView expression={child} root={false}/>
+        <ExpressionView expression={child} root={false} />
         {!isLast && <>
-          <ExpressionText text="," kind={sym.kind}/>
+          <ExpressionText text="," kind={sym.kind} />
           <> </>
         </>}
       </Fragment>
     })}
-    {hasParentheses && <ExpressionText text=")" kind={sym.kind}/>}
+    {hasParentheses && <ExpressionText text=")" kind={sym.kind} />}
   </>
 }
 
 const Infix = ({ sym, symText, childExpression1, childExpression2, root }) => <>
-  {root || <ExpressionText text="(" kind={sym.kind}/>}
-  <ExpressionView expression={childExpression1} root={false}/>
+  {root || <ExpressionText text="(" kind={sym.kind} />}
+  <ExpressionView expression={childExpression1} root={false} />
   <> </>
-  <ExpressionText text={symText} kind={sym.kind}/>
+  <ExpressionText text={symText} kind={sym.kind} />
   <> </>
-  <ExpressionView expression={childExpression2} root={false}/>
-  {root || <ExpressionText text=")" kind={sym.kind}/>}
+  <ExpressionView expression={childExpression2} root={false} />
+  {root || <ExpressionText text=")" kind={sym.kind} />}
 </>
 
 const Binding = ({ sym }) => {
   const presentationCtx = useContext(SymPresentationCtx)
   const text = presentationCtx.get(sym).getDefaultSyntacticInfo().text
-  return <ExpressionText text={text} kind={sym.kind}/>
+  return <ExpressionText text={text} kind={sym.kind} />
 }
 
 export const ExpressionText = ({ text, kind, ...props }) =>
   <Text
     as="span"
-    variant={kindToVariant[kind] ?? 'eel.neutral'}
+    sx={{
+      color: kindToColor[kind] ?? 'onSurface'
+    }}
     {...props}
   >
-    {text ?? <wbr/>}
+    {text ?? <wbr />}
   </Text>
 
-const kindToVariant = {
-  [Kind.Formula]: 'eel.formula',
-  [Kind.Term]: 'eel.term'
+const kindToColor = {
+  [Kind.Formula]: 'formula',
+  [Kind.Term]: 'term'
 }

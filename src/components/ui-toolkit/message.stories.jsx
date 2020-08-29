@@ -1,4 +1,4 @@
-import { Message } from 'components/ui-toolkit/message'
+import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import React from 'react'
 
 export default {
@@ -8,9 +8,9 @@ export default {
     variant: {
       control: {
         type: 'inline-radio',
-        options: ['neutral', 'primary', 'secondary', 'success', 'warning', 'danger']
+        options: Object.keys(MessageVariant)
       },
-      defaultValue: 'neutral'
+      defaultValue: MessageVariant.NEUTRAL
     },
     text: {
       control: 'text',
@@ -21,4 +21,4 @@ export default {
   }
 }
 
-export const Default = ({ ...args }) => <Message {...args}/>
+export const Default = ({ ...args }) => <Message {...args} />

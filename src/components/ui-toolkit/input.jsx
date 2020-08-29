@@ -7,15 +7,15 @@ export const Input = ({ sx, disabled, ...restProps }) =>
     sx={{
       px: 2,
       py: 1,
-      bg: 'background',
-      outlineColor: 'primary',
-      borderColor: 'border',
+      bg: 'surface',
+      outlineColor: 'outline',
+      borderColor: 'neutralWidgetBorder',
       borderWidth: 1,
       borderStyle: 'solid',
       borderRadius: 1,
       '&:disabled': {
         cursor: 'not-allowed',
-        bg: 'neutral',
+        bg: 'neutralWidgetLight',
         opacity: 0.5
       },
       ...sx

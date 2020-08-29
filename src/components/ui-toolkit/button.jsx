@@ -1,19 +1,16 @@
 import { css } from '@emotion/core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useTheme } from 'emotion-theming'
-import { darken, lighten, readableColor } from 'polished'
 import React, { useMemo } from 'react'
 import { Button as BaseButton } from 'rebass'
 
-export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
-  const { colors } = useTheme()
-  const background = colors[variant]
-
-  const { color, backgroundLighter, backgroundDarker } = useMemo(() => ({
-    color: readableColor(background),
-    backgroundLighter: lighten(0.06, background),
-    backgroundDarker: darken(0.06, background)
-  }), [background])
+export const Button = ({ children, icon, variant = ButtonVariants.NEUTRAL, ...props }) => {
+  const {
+    color,
+    background,
+    backgroundHighlighted,
+    backgroundPressed,
+    border
+  } = variantData[variant]
 
   return (
     <BaseButton
@@ -22,11 +19,11 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
         py: 1,
         color,
         bg: background,
-        borderColor: backgroundDarker,
+        borderColor: border,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 1,
-        outlineColor: 'primary',
+        outlineColor: 'outline',
         cursor: 'pointer',
         whiteSpace: 'nowrap',
         transition: 'all 0.1s',
@@ -35,10 +32,10 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
           opacity: 0.5
         },
         '&:active:not(:disabled)': {
-          bg: backgroundDarker
+          bg: backgroundPressed
         },
         '&:hover:not(:active):not(:disabled)': {
-          bg: backgroundLighter
+          bg: backgroundHighlighted
         }
       }}
       {...props}
@@ -55,4 +52,34 @@ export const Button = ({ children, icon, variant = 'neutral', ...props }) => {
       }
     </BaseButton>
   )
+}
+
+export const ButtonVariants = {
+  NEUTRAL: 'NEUTRAL',
+  PRIMARY: 'PRIMARY',
+  DANGER: 'DANGER'
+}
+
+const variantData = {
+  [ButtonVariants.NEUTRAL]: {
+    color: 'onNeutralWidget',
+    background: 'neutralWidget',
+    backgroundHighlighted: 'neutralWidgetHighlighted',
+    backgroundPressed: 'neutralWidgetPressed',
+    border: 'neutralWidgetBorder'
+  },
+  [ButtonVariants.PRIMARY]: {
+    onPrimary: 'onPrimaryWidget',
+    background: 'primaryWidget',
+    backgroundHighlighted: 'primaryWidgetHighlighted',
+    backgroundPressed: 'primaryWidgetPressed',
+    border: 'primaryWidgetBorder'
+  },
+  [ButtonVariants.DANGER]: {
+    onDanger: 'onDangerWidget',
+    background: 'dangerWidget',
+    backgroundHighlighted: 'dangerWidgetHighlighted',
+    backgroundPressed: 'dangerWidgetPressed',
+    border: 'dangerWidgetBorder'
+  }
 }
