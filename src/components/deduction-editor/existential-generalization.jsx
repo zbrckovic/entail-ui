@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Text } from 'rebass'
 
-export const UniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => {
+export const ExistentialGeneralization = ({ ruleInterface, onApply, onCancel }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const [errorMessage, setErrorMessage] = useState(undefined)
@@ -19,8 +19,11 @@ export const UniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => 
           deductionInterface = ruleInterface.apply(sym)
         } catch (error) {
           switch (error.name) {
-            case ErrorName.INSTANCE_TERM_BECOMES_ILLEGALLY_BOUND:
-              setErrorMessage(t('message.instanceTermBecomesIllegallyBound'))
+            case ErrorName.GENERALIZED_TERM_ILLEGALLY_BINDS:
+              setErrorMessage(t('message.generalizedTermIllegallyBinds'))
+              return
+            case ErrorName.GENERALIZED_TERM_BECOMES_ILLEGALLY_BOUND:
+              setErrorMessage(t('message.generalizedTermBecomesIllegallyBound'))
               return
             default:
               throw error

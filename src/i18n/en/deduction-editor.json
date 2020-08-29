@@ -6,7 +6,11 @@
     "enterTheBoundTerm": "Enter the bound term"
   },
   "message": {
-    "invalidTautologicalImplication": "Invalid tautological implication",
-    "instanceTermBecomesIllegallyBound": "Instance term becomes illegally bound"
+    "invalidTautologicalImplication": "Invalid tautological implication.",
+    "instanceTermBecomesIllegallyBound": "Instance term becomes illegally bound.",
+    "termAlreadyDependantInDependencyGraph": "Term already appears as dependant in dependency graph.",
+    "usageOfThisTermResultsInCyclicDependencies": "Usage of this term results in cyclic dependencies.",
+    "generalizedTermIllegallyBinds": "Generalized term illegally binds.",
+    "generalizedTermBecomesIllegallyBound": "Generalized term becomes illegally bound."
   }
 }

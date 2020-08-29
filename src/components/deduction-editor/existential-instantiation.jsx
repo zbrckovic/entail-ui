@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Text } from 'rebass'
 
-export const UniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => {
+export const ExistentialInstantiation = ({ ruleInterface, onApply, onCancel }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const [errorMessage, setErrorMessage] = useState(undefined)
@@ -21,6 +21,12 @@ export const UniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => 
           switch (error.name) {
             case ErrorName.INSTANCE_TERM_BECOMES_ILLEGALLY_BOUND:
               setErrorMessage(t('message.instanceTermBecomesIllegallyBound'))
+              return
+            case ErrorName.TERM_ALREADY_USED:
+              setErrorMessage(t('message.termAlreadyDependantInDependencyGraph'))
+              return
+            case ErrorName.CYCLIC_DEPENDENCIES:
+              setErrorMessage(t('message.usageOfThisTermResultsInCyclicDependencies'))
               return
             default:
               throw error
