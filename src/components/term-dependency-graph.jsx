@@ -1,11 +1,12 @@
 import { SymPresentationCtx } from 'contexts'
 import cytoscape from 'cytoscape'
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useTheme } from 'emotion-theming'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { Box } from 'rebass'
 
-export const TermDependencyGraph = ({ initialGraph, ...props }) => {
+export const TermDependencyGraph = ({ graph, ...props }) => {
+  const theme = useTheme()
   const [cy, setCy] = useState()
-  const initialGraphRef = useRef(initialGraph)
 
   // initialize cytoscape when DOM container becomes available for the first time
   const refCallback = useCallback(node => {
@@ -15,15 +16,53 @@ export const TermDependencyGraph = ({ initialGraph, ...props }) => {
     }
   }, [])
 
-  const createElements = useCytoscapeElementsFactory()
-  const cyElements = useMemo(() => createElements(initialGraphRef.current), [createElements])
+  const createElements = useElementsFactory()
 
   useEffect(() => {
     if (cy !== undefined) {
-      cy.add(cyElements)
+      const oldElements = cy.elements()
+      oldElements.remove()
+      const newElements = createElements(graph)
+      cy.add(newElements)
       cy.layout({ name: 'klay' }).run()
     }
-  }, [cy, cyElements])
+  }, [cy, graph, createElements])
+
+  useEffect(() => {
+    if (cy !== undefined) {
+      cy
+        .style()
+        .resetToDefault()
+        .selector('node')
+        .style({
+          shape: 'round-rectangle',
+          width: 20,
+          height: 20,
+          label: 'data(text)',
+          'text-halign': 'center',
+          'text-valign': 'center'
+        })
+        .selector('.dependent')
+        .style({
+          color: theme.colors.onPrimary,
+          'background-color': theme.colors.primary
+        })
+        .selector('.dependency')
+        .style({
+          color: theme.colors.onNeutral,
+          'background-color': theme.colors.neutral
+        })
+        .selector('edge')
+        .style({
+          width: 1,
+          'line-color': theme.colors.primary,
+          'curve-style': 'bezier',
+          'target-arrow-color': theme.colors.primary,
+          'target-arrow-shape': 'triangle'
+        })
+        .update()
+    }
+  }, [cy, theme])
 
   return <Box
     height={400}
@@ -40,35 +79,48 @@ export const TermDependencyGraph = ({ initialGraph, ...props }) => {
   </Box>
 }
 
-const useCytoscapeElementsFactory = () => {
-  const createNode = useCytoscapeNodeFactory()
+const useElementsFactory = () => {
+  const { createDependencyNode, createDependentNode } = useNodeFactories()
 
   return ({ dependencies }) => {
     const elements = []
 
-    dependencies.forEach((dependencies, dependent) => {
-      elements.push(createNode(dependent))
+    dependencies.keySeq().forEach(dependentTerm => {
+      elements.push(createDependentNode(dependentTerm))
+    })
 
-      dependencies.forEach(dependency => {
-        elements.push(createNode(dependency))
-        elements.push(createEdge(dependent, dependency))
+    dependencies.forEach((dependencyTerms, dependentTerm) => {
+      dependencyTerms.forEach(dependencyTerm => {
+        if (!dependencies.has(dependencyTerm)) {
+          elements.push(createDependencyNode(dependencyTerm))
+        }
+
+        elements.push(createEdge(dependentTerm, dependencyTerm))
       })
     })
+
+    console.log(elements)
 
     return elements
   }
 }
 
-const useCytoscapeNodeFactory = () => {
+const useNodeFactories = () => {
   const presentationCtx = useContext(SymPresentationCtx)
 
-  return sym => {
+  const createNode = sym => {
     const { ascii: { text } } = presentationCtx.get(sym)
+
     return {
       group: 'nodes',
       grabbable: false,
       data: { id: `${sym.id}`, text }
     }
+  }
+
+  return {
+    createDependencyNode: sym => ({ ...createNode(sym), classes: ['dependency'] }),
+    createDependentNode: sym => ({ ...createNode(sym), classes: ['dependent'] })
   }
 }
 
