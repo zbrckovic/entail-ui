@@ -116,12 +116,15 @@ const createEdge = (symFrom, symTo) => ({
 
 const createGraphStyles = theme => ({
   node: {
-    shape: 'round-rectangle',
+    shape: 'rectangle',
     width: 20,
     height: 20,
     label: 'data(text)',
     'text-halign': 'center',
-    'text-valign': 'center'
+    'text-valign': 'center',
+    'font-family': theme.fonts.mono,
+    padding: theme.space[0],
+    'font-size': theme.fontSizes.small
   },
   edge: {
     width: 1,

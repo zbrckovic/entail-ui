@@ -1,7 +1,7 @@
 import { DeductionParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
+import { DeductionView } from 'components/deduction-view'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
-import { DeductionView } from './deduction-view'
 
 export default {
   title: 'DeductionView',
@@ -19,7 +19,7 @@ export const Example1 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction}/>
+      <DeductionView deduction={deduction} />
     </SymPresentationCtx.Provider>
   )
 }
@@ -40,7 +40,7 @@ export const Example2 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction}/>
+      <DeductionView deduction={deduction} />
     </SymPresentationCtx.Provider>
   )
 }
@@ -53,7 +53,21 @@ export const Example3 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction}/>
+      <DeductionView deduction={deduction} />
+    </SymPresentationCtx.Provider>
+  )
+}
+
+export const Example4 = () => {
+  const { deduction, presentationCtx } = useDeduction(`
+      (1) A[x] E[y] E[z] F(x, y, z) / P;
+  1   (2) E[y] E[z] F(a, y, z)      / UI 1;
+  1   (3) E[z] F(a, b, z)           / EI 2;
+  1   (4) F(a, b, c)                / EI 3;
+  `)
+  return (
+    <SymPresentationCtx.Provider value={presentationCtx}>
+      <DeductionView deduction={deduction} />
     </SymPresentationCtx.Provider>
   )
 }

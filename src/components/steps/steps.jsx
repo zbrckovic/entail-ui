@@ -2,8 +2,8 @@ import React from 'react'
 import { Box } from 'rebass'
 import { Step } from './step'
 
-export const DeductionView = ({ deduction, selectedSteps, onSelectedStepsChange, ...props }) => {
-  const lastStepNumber = deduction.steps.size
+export const Steps = ({ steps, selectedSteps, onSelectedStepsChange, ...props }) => {
+  const lastStepNumber = steps.size
   const lastStepNumberDigitsCount = Math.floor(Math.log10(lastStepNumber)) + 1
 
   return (
@@ -14,7 +14,7 @@ export const DeductionView = ({ deduction, selectedSteps, onSelectedStepsChange,
       }}
       {...props}
     >
-      {deduction.steps.map((step, i) => {
+      {steps.map((step, i) => {
         const stepNumber = i + 1
 
         return (

@@ -6,7 +6,7 @@ import { RulePicker } from 'components/deduction-editor/rule-picker'
 import { TautologicalImplication } from 'components/deduction-editor/tautological-implication'
 import { UniversalGeneralization } from 'components/deduction-editor/universal-generalization'
 import { UniversalInstantiation } from 'components/deduction-editor/universal-instantiation'
-import { DeductionView } from 'components/deduction-view'
+import { Steps } from 'components/steps'
 import { SymPresentationCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Box, Flex } from 'rebass'
@@ -76,9 +76,9 @@ export const DeductionEditor = () => {
     <SymPresentationCtx.Provider value={presentationCtx}>
       <Flex>
         <Box flexBasis={0} flexGrow={1} mr={4}>
-          <DeductionView
+          <Steps
             flexAlign='stretch'
-            deduction={deductionInterface.deduction}
+            steps={deductionInterface.deduction.steps}
             selectedSteps={selectedSteps}
             onSelectedStepsChange={setSelectedSteps}
             mb={4}
