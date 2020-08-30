@@ -1,38 +1,40 @@
 import { SymPresentationCtx } from 'contexts'
 import cytoscape from 'cytoscape'
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Box } from 'rebass'
 
 export const TermDependencyGraph = ({ initialGraph, ...props }) => {
-  const [cyContainer, setCyContainer] = useState(null)
   const [cy, setCy] = useState()
+  const initialGraphRef = useRef(initialGraph)
 
-  useEffect(() => {
-    if (cyContainer !== null) {
-      setCy((cytoscape({ container: cyContainer })))
+  // initialize cytoscape when DOM container becomes available for the first time
+  const refCallback = useCallback(node => {
+    if (node !== null) {
+      const newCy = cytoscape({ container: node })
+      setCy(newCy)
     }
-  }, [cyContainer])
+  }, [])
 
   const createElements = useCytoscapeElementsFactory()
-  const cyElements = useMemo(() => createElements(initialGraph), [createElements, initialGraph])
+  const cyElements = useMemo(() => createElements(initialGraphRef.current), [createElements])
 
   useEffect(() => {
     if (cy !== undefined) {
-      console.log(cy)
-      console.log(cyElements)
       cy.add(cyElements)
       cy.layout({ name: 'klay' }).run()
     }
   }, [cy, cyElements])
 
-  const refCallback = useCallback(node => {
-    if (node !== null) setCyContainer(node)
-  }, [])
-
   return <Box
-    height={1000}
-    width={1000}
+    height={400}
+    width={400}
     ref={refCallback}
+    sx={{
+      borderWidth: 1,
+      borderColor: 'neutral',
+      borderStyle: 'solid',
+      borderRadius: 1
+    }}
     {...props}
   >
   </Box>
@@ -64,6 +66,7 @@ const useCytoscapeNodeFactory = () => {
     const { ascii: { text } } = presentationCtx.get(sym)
     return {
       group: 'nodes',
+      grabbable: false,
       data: { id: `${sym.id}`, text }
     }
   }
