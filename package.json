@@ -74,7 +74,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.14.0",
     "@fortawesome/react-fontawesome": "^0.1.11",
     "@rebass/forms": "^4.0.6",
-    "@zbrckovic/entail-core": "0.0.26",
+    "@zbrckovic/entail-core": "0.0.27",
     "core-js": "^3.6.5",
     "cytoscape": "^3.15.2",
     "cytoscape-klay": "^3.1.3",
