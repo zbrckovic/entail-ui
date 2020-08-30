@@ -8,7 +8,6 @@ import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import { Input } from 'components/ui-toolkit/input'
 import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import { SymPresentationCtx } from 'contexts'
-import { createError, ErrorName } from 'create-error'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Flex } from 'rebass'
@@ -62,7 +61,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
           if (existingSym !== undefined) {
             onSubmit({ sym: existingSym, presentationCtx })
           } else {
-            const newSym = Sym.tt({ id: getMaxSymId(presentationCtx) })
+            const newSym = Sym.tt({ id: getMaxSymId(presentationCtx) + 1 })
             const newPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix(text) })
 
             onSubmit({
