@@ -3,7 +3,7 @@ import cytoscape from 'cytoscape'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Box } from 'rebass'
 
-export const TermDependencyGraph = ({ graph, ...props }) => {
+export const TermDependencyGraph = ({ initialGraph, ...props }) => {
   const [cyContainer, setCyContainer] = useState(null)
   const [cy, setCy] = useState()
 
@@ -14,7 +14,7 @@ export const TermDependencyGraph = ({ graph, ...props }) => {
   }, [cyContainer])
 
   const createElements = useCytoscapeElementsFactory()
-  const cyElements = useMemo(() => createElements(graph), [createElements, graph])
+  const cyElements = useMemo(() => createElements(initialGraph), [createElements, initialGraph])
 
   useEffect(() => {
     if (cy !== undefined) {

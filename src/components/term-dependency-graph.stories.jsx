@@ -56,7 +56,7 @@ presentationCtx = primitivePresentationCtx.withMutations(mutable => {
 })
 
 export const Simple = () => {
-  const [graph] = useState(() => (
+  const [initialGraph] = useState(() => (
     new TermDependencyGraphModel({
       dependencies: Map([
         [termA, Set.of(termB)],
@@ -68,6 +68,6 @@ export const Simple = () => {
   ))
 
   return <SymPresentationCtx.Provider value={presentationCtx}>
-    <TermDependencyGraph graph={graph} />
+    <TermDependencyGraph initialGraph={initialGraph} />
   </SymPresentationCtx.Provider>
 }
