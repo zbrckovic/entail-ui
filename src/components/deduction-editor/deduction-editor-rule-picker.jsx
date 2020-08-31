@@ -12,40 +12,35 @@ export const DeductionEditorRulePicker = ({
 }) => {
   const ruleDescriber = useRuleDescriber()
 
-  return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 48px)',
-        gridGap: 1
-      }}
-    >
-      {
-        allRules.map(rule => {
-          const { translation, abbreviation } = ruleDescriber(rule)
-          const selected = selectedRule === rule
+  return <Box sx={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 48px)',
+    gridGap: 1
+  }}>
+    {
+      allRules.map(rule => {
+        const { translation, abbreviation } = ruleDescriber(rule)
+        const selected = selectedRule === rule
 
-          return (
-            <Button
-              key={rule}
-              variant={selected ? ButtonVariant.PRIMARY : undefined}
-              title={translation}
-              disabled={!rules.has(rule)}
-              onClick={() => {
-                if (selected) {
-                  onRuleDeselect()
-                } else {
-                  onRuleSelect(rule)
-                }
-              }}
-            >
-              {abbreviation}
-            </Button>
-          )
-        })
-      }
-    </Box>
-  )
+        return (
+          <Button
+            key={rule}
+            variant={selected ? ButtonVariant.PRIMARY : undefined}
+            title={translation}
+            disabled={!rules.has(rule)}
+            onClick={() => {
+              if (selected) {
+                onRuleDeselect()
+              } else {
+                onRuleSelect(rule)
+              }
+            }}>
+            {abbreviation}
+          </Button>
+        )
+      })
+    }
+  </Box>
 }
 
 const allRules = [
