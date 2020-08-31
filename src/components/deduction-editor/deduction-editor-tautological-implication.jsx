@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Text } from 'rebass'
 
-export const TautologicalImplication = ({ ruleInterface, onApply, onCancel }) => {
+export const DeductionEditorTautologicalImplication = ({ ruleInterface, onApply, onCancel }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const [errorMessage, setErrorMessage] = useState(undefined)

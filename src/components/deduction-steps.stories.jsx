@@ -1,11 +1,11 @@
 import { DeductionParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
-import { DeductionView } from 'components/deduction-view'
+import { DeductionSteps } from './deduction-steps'
 import { SymPresentationCtx } from 'contexts'
 import React, { useState } from 'react'
 
 export default {
-  title: 'DeductionView',
-  component: DeductionView
+  title: 'DeductionSteps',
+  component: DeductionSteps
 }
 
 export const Example1 = () => {
@@ -19,7 +19,7 @@ export const Example1 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction} />
+      <DeductionSteps steps={deduction.steps} />
     </SymPresentationCtx.Provider>
   )
 }
@@ -40,7 +40,7 @@ export const Example2 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction} />
+      <DeductionSteps steps={deduction.steps} />
     </SymPresentationCtx.Provider>
   )
 }
@@ -53,7 +53,7 @@ export const Example3 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction} />
+      <DeductionSteps steps={deduction.steps} />
     </SymPresentationCtx.Provider>
   )
 }
@@ -67,7 +67,7 @@ export const Example4 = () => {
   `)
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionView deduction={deduction} />
+      <DeductionSteps steps={deduction.steps} />
     </SymPresentationCtx.Provider>
   )
 }

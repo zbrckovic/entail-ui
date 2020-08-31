@@ -1,12 +1,12 @@
 import { DeductionInterface, Rule } from '@zbrckovic/entail-core'
-import { ExistentialGeneralization } from 'components/deduction-editor/existential-generalization'
-import { ExistentialInstantiation } from 'components/deduction-editor/existential-instantiation'
-import { Premise } from 'components/deduction-editor/premise'
-import { RulePicker } from 'components/deduction-editor/rule-picker'
-import { TautologicalImplication } from 'components/deduction-editor/tautological-implication'
-import { UniversalGeneralization } from 'components/deduction-editor/universal-generalization'
-import { UniversalInstantiation } from 'components/deduction-editor/universal-instantiation'
-import { Steps } from 'components/steps'
+import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
+import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
+import { DeductionEditorPremise } from './deduction-editor-premise'
+import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
+import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
+import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
+import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
+import { DeductionSteps } from 'components/deduction-steps'
 import { SymPresentationCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Box, Flex } from 'rebass'
@@ -40,32 +40,32 @@ export const DeductionEditor = () => {
 
     switch (rule) {
       case Rule.Premise:
-        return <Premise
+        return <DeductionEditorPremise
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.TautologicalImplication:
-        return <TautologicalImplication
+        return <DeductionEditorTautologicalImplication
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.UniversalInstantiation:
-        return <UniversalInstantiation
+        return <DeductionEditorUniversalInstantiation
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.UniversalGeneralization:
-        return <UniversalGeneralization
+        return <DeductionEditorUniversalGeneralization
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.ExistentialInstantiation:
-        return <ExistentialInstantiation
+        return <DeductionEditorExistentialInstantiation
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.ExistentialGeneralization:
-        return <ExistentialGeneralization
+        return <DeductionEditorExistentialGeneralization
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
@@ -76,7 +76,7 @@ export const DeductionEditor = () => {
     <SymPresentationCtx.Provider value={presentationCtx}>
       <Flex>
         <Box flexBasis={0} flexGrow={1} mr={4}>
-          <Steps
+          <DeductionSteps
             flexAlign='stretch'
             steps={deductionInterface.deduction.steps}
             selectedSteps={selectedSteps}
@@ -86,7 +86,7 @@ export const DeductionEditor = () => {
           {determineRuleUI(selectedRule)}
         </Box>
         <Box>
-          <RulePicker
+          <DeductionEditorRulePicker
             rules={rules}
             selectedRule={selectedRule}
             onRuleSelect={rule => {

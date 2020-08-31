@@ -4,7 +4,12 @@ import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { Box } from 'rebass'
 
-export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect, onRuleDeselect }) => {
+export const DeductionEditorRulePicker = ({
+  rules = {},
+  selectedRule,
+  onRuleSelect,
+  onRuleDeselect
+}) => {
   const ruleDescriber = useRuleDescriber()
 
   return (

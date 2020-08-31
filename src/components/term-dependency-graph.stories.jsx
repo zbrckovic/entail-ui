@@ -1,4 +1,3 @@
-import { useState } from '@storybook/addons'
 import {
   getMaxSymId,
   SymPresentation, SyntacticInfo
@@ -10,7 +9,7 @@ import {
   primitivePresentationCtx, Sym,
   TermDependencyGraph as TermDependencyGraphModel
 } from '@zbrckovic/entail-core'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default {
   title: 'TermDependencyGraph',
