@@ -4,7 +4,7 @@ import {
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
 import { SymPresentationCtx } from 'contexts'
 import { Map, Set } from 'immutable'
-import { TermDependencyGraph } from './term-dependency-graph'
+import { TermDependenciesGraph } from './term-dependencies-graph'
 import {
   primitivePresentationCtx, Sym,
   TermDependencyGraph as TermDependencyGraphModel
@@ -12,8 +12,8 @@ import {
 import React, { useState } from 'react'
 
 export default {
-  title: 'TermDependencyGraph',
-  component: TermDependencyGraph
+  title: 'TermDependenciesGraph',
+  component: TermDependenciesGraph
 }
 
 let presentationCtx = primitivePresentationCtx
@@ -69,6 +69,6 @@ export const Default = () => {
   ))
 
   return <SymPresentationCtx.Provider value={presentationCtx}>
-    <TermDependencyGraph height={300} graph={graph} />
+    <TermDependenciesGraph height={300} graph={graph} />
   </SymPresentationCtx.Provider>
 }
