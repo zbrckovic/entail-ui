@@ -1,7 +1,7 @@
 import {
   MAX_ZOOM,
   MIN_ZOOM
-} from 'components/term-dependencies-graph/term-dependencies-graph-common'
+} from './term-dependencies-graph-common'
 import { SymPresentationCtx } from 'contexts'
 import cytoscape from 'cytoscape'
 import { useTheme } from 'emotion-theming'
@@ -97,7 +97,7 @@ export const TermDependenciesGraphCanvas = forwardRef(({
 
       return () => { cy.removeAllListeners() }
     }
-  }, [cy, theme])
+  }, [cy, theme, onZoomChange])
 
   return <Box
     bg='surface'

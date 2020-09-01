@@ -1,4 +1,7 @@
 {
+  "label": {
+    "termDependencies": "Term Dependencies"
+  },
   "button": {
     "reset": "Reset",
     "fit": "Fit",
@@ -6,6 +9,8 @@
     "zoomOut": "Zoom Out",
     "zoomIn": "Zoom In",
     "plotHorizontally": "Plot Horizontally",
-    "plotVertically": "Plot Vertically"
+    "plotVertically": "Plot Vertically",
+    "list": "List",
+    "graph": "Graph"
   }
 }

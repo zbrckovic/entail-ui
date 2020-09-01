@@ -33,7 +33,7 @@ export const RootWrapper = ({ children }) => {
       }}
     >
       <ThemeProvider theme={theme}>
-        <Box fontSize='normal'>
+        <Box fontSize='normal' height='100%' width='100%'>
           {children}
         </Box>
       </ThemeProvider>

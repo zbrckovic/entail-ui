@@ -1,4 +1,5 @@
 import { DeductionInterface, Rule } from '@zbrckovic/entail-core'
+import { TermDependencies } from 'components/term-dependencies'
 import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
 import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
 import { DeductionEditorPremise } from './deduction-editor-premise'
@@ -13,7 +14,7 @@ import { Box, Flex } from 'rebass'
 
 const createDefaultSelectedSteps = () => new Set()
 
-export const DeductionEditor = () => {
+export const DeductionEditor = ({ sx, ...props }) => {
   const initialPresentationCtx = useContext(SymPresentationCtx)
 
   const [{ deductionInterface, presentationCtx }, setState] = useState(() => ({
@@ -74,62 +75,84 @@ export const DeductionEditor = () => {
 
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <Flex>
-        <Box flexBasis={0} flexGrow={1} mr={4}>
-          <DeductionSteps
-            flexAlign='stretch'
-            steps={deductionInterface.deduction.steps}
-            selectedSteps={selectedSteps}
-            onSelectedStepsChange={setSelectedSteps}
-            mb={4}
-          />
-          {determineRuleUI(selectedRule)}
-        </Box>
-        <Box>
-          <DeductionEditorRulePicker
-            rules={rules}
-            selectedRule={selectedRule}
-            onRuleSelect={rule => {
-              switch (rule) {
-                case Rule.Deduction: {
-                  const deductionInterface = rulesInterface[Rule.Deduction].apply()
-                  setState({ presentationCtx, deductionInterface })
-                  break
-                }
-                case Rule.UniversalInstantiation: {
-                  const [stepOrdinal] = [...selectedSteps]
-                  const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
-                  const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
-
-                  if (quantificationIsVacuous) {
-                    const deductionInterface = rulesInterface[Rule.UniversalInstantiation].apply()
+      <Flex flexDirection='column' sx={{ ...sx }} {...props}>
+        <Flex flexBasis={0} flexGrow={1}>
+          <Box flexBasis={0} flexGrow={1} mr={4}>
+            <DeductionSteps
+              flexAlign='stretch'
+              steps={deductionInterface.deduction.steps}
+              selectedSteps={selectedSteps}
+              onSelectedStepsChange={setSelectedSteps}
+              mb={4}
+            />
+            {determineRuleUI(selectedRule)}
+          </Box>
+          <Box sx={{
+            p: 1,
+            borderLeftWidth: 1,
+            borderLeftStyle: 'solid',
+            borderLeftColor: 'neutral'
+          }}>
+            <DeductionEditorRulePicker
+              rules={rules}
+              selectedRule={selectedRule}
+              onRuleSelect={rule => {
+                switch (rule) {
+                  case Rule.Deduction: {
+                    const deductionInterface = rulesInterface[Rule.Deduction].apply()
                     setState({ presentationCtx, deductionInterface })
-                  } else {
+                    break
+                  }
+                  case Rule.UniversalInstantiation: {
+                    const [stepOrdinal] = [...selectedSteps]
+                    const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
+                    const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
+
+                    if (quantificationIsVacuous) {
+                      const deductionInterface = rulesInterface[Rule.UniversalInstantiation].apply()
+                      setState({ presentationCtx, deductionInterface })
+                    } else {
+                      setSelectedRule(rule)
+                    }
+                    break
+                  }
+                  case Rule.ExistentialInstantiation: {
+                    const [stepOrdinal] = [...selectedSteps]
+                    const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
+                    const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
+
+                    if (quantificationIsVacuous) {
+                      const deductionInterface =
+                        rulesInterface[Rule.ExistentialInstantiation].apply()
+                      setState({ presentationCtx, deductionInterface })
+                    } else {
+                      setSelectedRule(rule)
+                    }
+                    break
+                  }
+                  default: {
                     setSelectedRule(rule)
                   }
-                  break
                 }
-                case Rule.ExistentialInstantiation: {
-                  const [stepOrdinal] = [...selectedSteps]
-                  const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
-                  const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
-
-                  if (quantificationIsVacuous) {
-                    const deductionInterface = rulesInterface[Rule.ExistentialInstantiation].apply()
-                    setState({ presentationCtx, deductionInterface })
-                  } else {
-                    setSelectedRule(rule)
-                  }
-                  break
-                }
-                default: {
-                  setSelectedRule(rule)
-                }
-              }
-            }}
-            onRuleDeselect={() => { setSelectedRule(undefined) }}
-          />
-        </Box>
+              }}
+              onRuleDeselect={() => { setSelectedRule(undefined) }}
+            />
+          </Box>
+        </Flex>
+        <Flex sx={{
+          p: 1,
+          borderTopWidth: 1,
+          borderTopStyle: 'solid',
+          borderTopColor: 'neutral'
+        }} flexBasis={300}>
+          <TermDependencies
+            flexBasis={0}
+            flexGrow={1}
+            graph={deductionInterface.deduction.termDependencyGraph} />
+          <Box
+            flexBasis={0}
+            flexGrow={1} />
+        </Flex>
       </Flex>
     </SymPresentationCtx.Provider>
   )
