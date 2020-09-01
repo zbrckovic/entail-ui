@@ -28,7 +28,8 @@ export const TermDependenciesGraph = ({ graph, sx, ...props }) => {
   return <Flex
     flexDirection='column'
     alignItems='stretch'
-    sx={{ ...sx }} {...props}>
+    sx={{ ...sx }}
+    {...props}>
     <Flex mb={1}>
       <Button
         flexBasis={48}

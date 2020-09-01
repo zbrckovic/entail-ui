@@ -88,6 +88,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
             {determineRuleUI(selectedRule)}
           </Box>
           <Box sx={{
+            bg: 'surfaceAlt',
             p: 1,
             borderLeftWidth: 1,
             borderLeftStyle: 'solid',
@@ -140,7 +141,6 @@ export const DeductionEditor = ({ sx, ...props }) => {
           </Box>
         </Flex>
         <Flex sx={{
-          p: 1,
           borderTopWidth: 1,
           borderTopStyle: 'solid',
           borderTopColor: 'neutral'
@@ -150,6 +150,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
             flexGrow={1}
             graph={deductionInterface.deduction.termDependencyGraph} />
           <Box
+            bg='surfaceAlt'
             flexBasis={0}
             flexGrow={1} />
         </Flex>

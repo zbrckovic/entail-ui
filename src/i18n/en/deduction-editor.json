@@ -3,7 +3,8 @@
     "enterThePremise": "Enter the premise",
     "enterTheConsequent": "Enter the consequent",
     "enterTheInstanceTerm": "Enter the instance term",
-    "enterTheBoundTerm": "Enter the bound term"
+    "enterTheBoundTerm": "Enter the bound term",
+    "rules": "Rules"
   },
   "message": {
     "invalidTautologicalImplication": "Invalid tautological implication.",

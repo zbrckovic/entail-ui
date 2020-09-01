@@ -14,16 +14,16 @@ const neutral = tint(0.8, desaturate(0.3, primary))
 const onNeutral = 'black'
 
 // background color which usually doesn't contain any readable content
-const background = tint(0.6, neutral)
+const background = tint(0.3, primary)
 const onBackground = 'black'
 
 // primary background color for readable content
-const surface = tint(0.8, neutral)
+const surface = tint(0.95, neutral)
 const onSurface = 'black'
 
 // alternative background for readable content
-const surfaceAlternative = tint(0.6, neutral)
-const onSurfaceAlternative = 'black'
+const surfaceAlt = tint(0.6, neutral)
+const onSurfaceAlt = 'black'
 
 const inputSurface = tint(0.9, neutral)
 const onInputSurface = 'black'
@@ -48,8 +48,8 @@ const colors = {
   onBackground,
   surface,
   onSurface,
-  surfaceAlternative,
-  onSurfaceAlternative,
+  surfaceAlt,
+  onSurfaceAlt,
   inputSurface,
   onInputSurface,
   formula,

@@ -81,8 +81,8 @@ const StepNumber = ({ stepNumber, selected, onSelect, onDeselect }) => {
   return (
     <Box
       sx={{
-        bg: selected ? 'primary' : 'surfaceAlternative',
-        color: selected ? 'onPrimary' : 'onSurfaceAlternative',
+        bg: selected ? 'primary' : 'surfaceAlt',
+        color: selected ? 'onPrimary' : 'onSurfaceAlt',
         px: 2,
         cursor: hasControls ? 'pointer' : 'auto',
         userSelect: 'none'
