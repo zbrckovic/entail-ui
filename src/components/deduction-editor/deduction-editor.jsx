@@ -42,31 +42,37 @@ export const DeductionEditor = ({ sx, ...props }) => {
     switch (rule) {
       case Rule.Premise:
         return <DeductionEditorPremise
+          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.TautologicalImplication:
         return <DeductionEditorTautologicalImplication
+          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.UniversalInstantiation:
         return <DeductionEditorUniversalInstantiation
+          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.UniversalGeneralization:
         return <DeductionEditorUniversalGeneralization
+          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.ExistentialInstantiation:
         return <DeductionEditorExistentialInstantiation
+          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
       case Rule.ExistentialGeneralization:
         return <DeductionEditorExistentialGeneralization
+          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
@@ -77,7 +83,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
     <SymPresentationCtx.Provider value={presentationCtx}>
       <Flex flexDirection='column' sx={{ ...sx }} {...props}>
         <Flex flexBasis={0} flexGrow={1}>
-          <Box flexBasis={0} flexGrow={1} mr={4}>
+          <Box flexBasis={0} flexGrow={1}>
             <DeductionSteps
               flexAlign='stretch'
               steps={deductionInterface.deduction.steps}
@@ -85,14 +91,14 @@ export const DeductionEditor = ({ sx, ...props }) => {
               onSelectedStepsChange={setSelectedSteps}
               mb={4}
             />
-            {determineRuleUI(selectedRule)}
           </Box>
           <Box sx={{
-            bg: 'surfaceAlt',
-            p: 1,
+            bg: 'plane',
+            px: 2,
+            py: 1,
             borderLeftWidth: 1,
             borderLeftStyle: 'solid',
-            borderLeftColor: 'neutral'
+            borderLeftColor: 'planeBorder'
           }}>
             <DeductionEditorRulePicker
               rules={rules}
@@ -140,19 +146,32 @@ export const DeductionEditor = ({ sx, ...props }) => {
             />
           </Box>
         </Flex>
-        <Flex sx={{
-          borderTopWidth: 1,
-          borderTopStyle: 'solid',
-          borderTopColor: 'neutral'
-        }} flexBasis={300}>
+        <Flex
+          flexBasis={300}
+          alignItems='stretch'
+          sx={{
+            px: 2,
+            py: 1,
+            bg: 'plane',
+            borderTopWidth: 1,
+            borderTopStyle: 'solid',
+            borderTopColor: 'planeBorder'
+          }}>
           <TermDependencies
             flexBasis={0}
             flexGrow={1}
-            graph={deductionInterface.deduction.termDependencyGraph} />
-          <Box
-            bg='surfaceAlt'
+            graph={deductionInterface.deduction.termDependencyGraph}
+            mr={2}
+          />
+          <Box bg='planeBorder' flexBasis={1} />
+          <Flex
             flexBasis={0}
-            flexGrow={1} />
+            flexGrow={1}
+            ml={2}
+            alignItems='stretch'
+          >
+            {determineRuleUI(selectedRule)}
+          </Flex>
         </Flex>
       </Flex>
     </SymPresentationCtx.Provider>

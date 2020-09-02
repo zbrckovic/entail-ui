@@ -10,7 +10,7 @@ import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import { SymPresentationCtx } from 'contexts'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
@@ -47,15 +47,17 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const [isValid, setIsValid] = useState(false)
 
-  return <Box>
-    <Flex {...props}>
-      <Input
-        flexBasis={0}
-        flexGrow={1}
-        value={text}
-        mr={2}
-        onChange={({ target: { value } }) => { setText(value) }} />
+  return <Flex
+    flexDirection='column'
+    alignItems='stretch'
+    {...props}>
+    <Input
+      value={text}
+      mb={1}
+      onChange={({ target: { value } }) => { setText(value) }} />
+    <Flex>
       <Button
+        flexGrow={1}
         title={t('button.submit')}
         onClick={() => {
           if (existingSym !== undefined) {
@@ -77,6 +79,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         {t('button.submit')}
       </Button>
       <Button
+        flexGrow={1}
         title={t('button.cancel')}
         onClick={() => { onCancel() }}
         icon={faBan}>
@@ -84,7 +87,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
       </Button>
     </Flex>
     {errorMessage && <Message mt={1} variant={MessageVariant.DANGER} text={errorMessage} />}
-  </Box>
+  </Flex>
 }
 
 const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/

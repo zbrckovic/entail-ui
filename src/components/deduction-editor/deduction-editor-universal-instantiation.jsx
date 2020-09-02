@@ -3,16 +3,22 @@ import { IndividualVariableEditor } from 'components/individual-variable-editor'
 import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Text } from 'rebass'
+import { Flex, Text } from 'rebass'
 
-export const DeductionEditorUniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => {
+export const DeductionEditorUniversalInstantiation = ({
+  ruleInterface,
+  onApply,
+  onCancel,
+  ...props
+}) => {
   const { t } = useTranslation('DeductionEditor')
 
   const [errorMessage, setErrorMessage] = useState(undefined)
 
-  return <Box>
-    <Text as='h4'>{t('label.enterTheInstanceTerm')}</Text>
+  return <Flex flexDirection='column' alignItems='stretch' {...props}>
+    <Text as='h4' mb={2}>{t('label.enterTheInstanceTerm')}</Text>
     <IndividualVariableEditor
+      flexGrow={1}
       onSubmit={({ sym, presentationCtx }) => {
         let deductionInterface
         try {
@@ -34,5 +40,5 @@ export const DeductionEditorUniversalInstantiation = ({ ruleInterface, onApply, 
       onCancel={onCancel} />
     {errorMessage !== undefined &&
     <Message variant={MessageVariant.DANGER} text={errorMessage} mt={2} />}
-  </Box>
+  </Flex>
 }

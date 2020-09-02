@@ -13,8 +13,6 @@ export const TermDependencies = ({ graph, sx, ...props }) => {
   return <Flex
     flexDirection='column'
     alignItems='stretch'
-    p={2}
-    bg='surfaceAlt'
     sx={{ ...sx }}
     {...props}>
     <Flex
@@ -27,7 +25,7 @@ export const TermDependencies = ({ graph, sx, ...props }) => {
         borderBottomStyle: 'solid',
         borderBottomColor: 'neutral'
       }}>
-      <Text as='label' fontWeight='bold' flexGrow={1}>{t('label.termDependencies')}</Text>
+      <Text as='h4' flexGrow={1}>{t('label.termDependencies')}</Text>
       <Button
         title={mode === Mode.GRAPH ? t('button.list') : t('button.graph')}
         icon={mode === Mode.GRAPH ? faList : faProjectDiagram}

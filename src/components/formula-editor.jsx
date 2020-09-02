@@ -40,10 +40,11 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const presentationCtx = parseResult?.success?.presentationCtx
   const error = parseResult?.error
 
-  return <Flex flexDirection='column' minWidth='300px'{...props}>
+  return <Flex
+    flexDirection='column'
+    {...props}>
     <Flex
       alignItems='center'
-      mb={1}
       flexBasis={38}>
       {
         formula !== undefined
@@ -55,10 +56,15 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
       }
       {
         text.length > 0 && error !== undefined &&
-        <Message variant={MessageVariant.DANGER} text={describeError(error)} />
+        <Message
+          flexGrow={1}
+          variant={MessageVariant.DANGER}
+          text={describeError(error)} />
       }
     </Flex>
     <Textarea
+      flexBasis={0}
+      flexGrow={1}
       rows={10}
       value={text}
       onChange={event => { setText(event.target.value) }}
@@ -66,6 +72,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
       mb={1} />
     <Flex>
       <Button
+        flexGrow={1}
         title={t('button.submit')}
         onClick={() => { onSubmit(parseResult?.success) }}
         disabled={formula === undefined}
@@ -75,6 +82,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         {t('button.submit')}
       </Button>
       <Button
+        flexGrow={1}
         title={t('button.cancel')}
         onClick={() => { onCancel() }}
         icon={faBan}>

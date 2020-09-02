@@ -15,7 +15,7 @@ export const DeductionEditorRulePicker = ({
   const { t } = useTranslation('DeductionEditor')
 
   return <Flex flexDirection='column' alignItems='stretch'>
-    <Text pb={1} fontWeight='bold'>{t('label.rules')}</Text>
+    <Text as='h4' mb={2}>{t('label.rules')}</Text>
     <Box sx={{
       display: 'grid',
       gridTemplateColumns: 'repeat(2, 48px)',

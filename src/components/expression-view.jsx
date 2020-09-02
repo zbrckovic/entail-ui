@@ -91,9 +91,7 @@ const Binding = ({ sym }) => {
 export const ExpressionText = ({ text, kind, ...props }) =>
   <Text
     as="span"
-    sx={{
-      color: kindToColor[kind] ?? 'onSurface'
-    }}
+    sx={{ color: kindToColor[kind] ?? 'onSurface' }}
     {...props}
   >
     {text ?? <wbr />}

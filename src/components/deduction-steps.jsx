@@ -13,8 +13,7 @@ export const DeductionSteps = ({ steps, selectedSteps, onSelectedStepsChange, ..
         display: 'grid',
         gridTemplateColumns: 'min-content max-content auto min-content max-content'
       }}
-      {...props}
-    >
+      {...props}>
       {steps.map((step, i) => {
         const stepNumber = i + 1
 
