@@ -5,8 +5,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useTheme } from 'emotion-theming'
-import { darken } from 'polished'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { Box, Flex, Text } from 'rebass'
 
 export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }) => {
@@ -14,12 +13,7 @@ export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }
 
   const icon = icons[variant]
 
-  const { color, bg, border } = useMemo(() => {
-    const { color, bg } = determineColors(variant, colors)
-    const border = darken(0.2, bg)
-
-    return { color, bg, border }
-  }, [variant, colors])
+  const { color, bg, border: borderColor } = determineColors(variant, colors)
 
   return (
     <Flex
@@ -29,7 +23,7 @@ export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }
         px: 2,
         color,
         bg,
-        borderColor: border,
+        borderColor,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 1,
@@ -38,7 +32,7 @@ export const Message = ({ variant = MessageVariant.NEUTRAL, text, sx, ...props }
       {...props}
     >
       <Box mr={2}>
-        <FontAwesomeIcon icon={icon}/>
+        <FontAwesomeIcon icon={icon} />
       </Box>
       <Text
         sx={{}}
@@ -63,18 +57,21 @@ const determineColors = (variant, colors) => {
   switch (variant) {
     case MessageVariant.NEUTRAL:
       return {
-        bg: colors.inputSurface,
-        color: colors.onInputSurface
+        bg: colors.surface,
+        color: colors.onSurface,
+        border: colors.surfaceBorder
       }
     case MessageVariant.SUCCESS:
       return {
         bg: colors.success,
-        color: colors.onSuccess
+        color: colors.onSuccess,
+        border: colors.successBorder
       }
     case MessageVariant.DANGER:
       return {
         bg: colors.danger,
-        color: colors.onDanger
+        color: colors.onDanger,
+        border: colors.dangerBorder
       }
   }
 }

@@ -1,23 +1,17 @@
 import { Textarea as BaseTextarea } from '@rebass/forms'
-import { useTheme } from 'emotion-theming'
-import { darken } from 'polished'
-import React, { useMemo } from 'react'
+import React from 'react'
 import { removeScrollbar } from 'style/mixins'
 
-export const Textarea = props => {
-  const { colors } = useTheme()
-
-  const border = useMemo(() => darken(0.2, colors.inputSurface), [colors])
-
-  return <BaseTextarea
+export const Textarea = props =>
+  <BaseTextarea
     {...props}
     sx={{
-      bg: 'inputSurface',
-      color: 'onInputSurface',
+      bg: 'input',
+      color: 'onInput',
       outlineColor: 'outline',
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: border,
+      borderColor: 'inputBorder',
       borderRadius: 1,
       fontSize: 'normal',
       py: 1,
@@ -25,4 +19,3 @@ export const Textarea = props => {
     }}
     css={removeScrollbar}
   />
-}

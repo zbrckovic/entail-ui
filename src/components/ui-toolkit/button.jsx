@@ -8,15 +8,15 @@ import { Button as BaseButton } from 'rebass'
 export const Button = ({ children, icon, variant = ButtonVariant.NEUTRAL, ...props }) => {
   const { colors } = useTheme()
 
-  const { color, bg, bgHovered, bgPressed, border } = useMemo(() => {
-    const { color, bg } = determineColors(variant, colors)
+  const { color, bg, bgHovered, bgPressed, borderColor } = useMemo(() => {
+    const { color, bg, border } = determineColors(variant, colors)
 
     return {
       color,
       bg,
       bgHovered: lighten(0.07, bg),
       bgPressed: darken(0.1, bg),
-      border: darken(0.2, bg)
+      borderColor: border
     }
   }, [variant, colors])
 
@@ -27,7 +27,7 @@ export const Button = ({ children, icon, variant = ButtonVariant.NEUTRAL, ...pro
         py: 1,
         color,
         bg,
-        borderColor: border,
+        borderColor,
         borderWidth: 1,
         borderStyle: 'solid',
         borderRadius: 1,
@@ -73,17 +73,20 @@ const determineColors = (variant, colors) => {
     case ButtonVariant.NEUTRAL:
       return {
         color: colors.onNeutral,
-        bg: colors.neutral
+        bg: colors.neutral,
+        border: colors.neutralBorder
       }
     case ButtonVariant.PRIMARY:
       return {
         color: colors.onPrimary,
-        bg: colors.primary
+        bg: colors.primary,
+        border: colors.primaryBorder
       }
     case ButtonVariant.DANGER:
       return {
         color: colors.onDanger,
-        bg: colors.danger
+        bg: colors.danger,
+        border: colors.dangerBorder
       }
   }
 }

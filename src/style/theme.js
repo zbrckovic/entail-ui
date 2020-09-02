@@ -1,57 +1,81 @@
-import { saturate, desaturate, lighten, tint } from 'polished'
+import { saturate, desaturate, lighten, tint, darken } from 'polished'
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
 
 const primary = '#285480'
 const onPrimary = 'white'
+const primaryBorder = darken(0.1, primary)
+
 const secondary = '#00a9a5'
 const onSecondary = 'white'
+const secondaryBorder = darken(0.05, secondary)
+
 const success = secondary
 const onSuccess = 'white'
+const successBorder = darken(0.05, success)
+
 const danger = '#fb3640'
 const onDanger = 'white'
+const dangerBorder = darken(0.2, danger)
+
 const neutral = tint(0.8, desaturate(0.3, primary))
 const onNeutral = 'black'
+const neutralBorder = darken(0.2, neutral)
 
 // background color which usually doesn't contain any readable content
-const background = tint(0.6, neutral)
+const background = tint(0.3, neutral)
 const onBackground = 'black'
 
-// primary background color for readable content
+// background color for sidebars or windows. U
+// sually a container of forms, controls, labels, surfaces etc...
+const plane = tint(0.6, neutral)
+const onPlane = 'black'
+const planeBorder = neutral
+
+// background color for readable content
 const surface = tint(0.8, neutral)
 const onSurface = 'black'
+const surfaceBorder = neutral
 
-// alternative background for readable content
-const surfaceAlternative = tint(0.6, neutral)
-const onSurfaceAlternative = 'black'
+// background for inputs and other controls
+const input = tint(0.9, neutral)
+const onInput = 'black'
+const inputBorder = neutral
 
-const inputSurface = tint(0.9, neutral)
-const onInputSurface = 'black'
+// indicator of focused element
+const outline = saturate(0.2, lighten(0.5, primary))
 
+// eel
 const formula = primary
 const term = lighten(0.2, primary)
-
-const outline = saturate(0.2, lighten(0.5, primary))
 
 const colors = {
   primary,
   onPrimary,
+  primaryBorder,
   secondary,
   onSecondary,
+  secondaryBorder,
   success,
   onSuccess,
+  successBorder,
   danger,
   onDanger,
+  dangerBorder,
   neutral,
   onNeutral,
+  neutralBorder,
   background,
   onBackground,
+  plane,
+  onPlane,
+  planeBorder,
   surface,
   onSurface,
-  surfaceAlternative,
-  onSurfaceAlternative,
-  inputSurface,
-  onInputSurface,
+  surfaceBorder,
+  input,
+  onInput,
+  inputBorder,
   formula,
   term,
   outline
