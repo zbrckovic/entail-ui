@@ -82,7 +82,6 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
       </Button>
     </Flex>
   </Flex>
-
 }
 
 const useParser = () => {
