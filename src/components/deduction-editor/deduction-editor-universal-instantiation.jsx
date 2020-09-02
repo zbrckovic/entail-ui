@@ -5,7 +5,7 @@ import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Text } from 'rebass'
 
-export const UniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => {
+export const DeductionEditorUniversalInstantiation = ({ ruleInterface, onApply, onCancel }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const [errorMessage, setErrorMessage] = useState(undefined)

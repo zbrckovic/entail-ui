@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Box, Text } from 'rebass'
 
-export const Premise = ({ ruleInterface, onApply, onCancel }) => {
+export const DeductionEditorPremise = ({ ruleInterface, onApply, onCancel }) => {
   const { t } = useTranslation('DeductionEditor')
 
   return <Box>

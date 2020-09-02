@@ -1,20 +1,19 @@
-import { useState } from '@storybook/addons'
 import {
   getMaxSymId,
   SymPresentation, SyntacticInfo
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
+import { TermDependencies } from './term-dependencies'
 import { SymPresentationCtx } from 'contexts'
 import { Map, Set } from 'immutable'
-import { TermDependencyGraph } from './term-dependency-graph'
 import {
   primitivePresentationCtx, Sym,
   TermDependencyGraph as TermDependencyGraphModel
 } from '@zbrckovic/entail-core'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default {
-  title: 'TermDependencyGraph',
-  component: TermDependencyGraph
+  title: 'TermDependencies',
+  component: TermDependencies
 }
 
 let presentationCtx = primitivePresentationCtx
@@ -55,19 +54,21 @@ presentationCtx = primitivePresentationCtx.withMutations(mutable => {
   mutable.set(termJ, termJPresentation)
 })
 
-export const Simple = () => {
-  const [initialGraph] = useState(() => (
+export const Default = () => {
+  const [graph] = useState(() => (
     new TermDependencyGraphModel({
       dependencies: Map([
-        [termA, Set.of(termB)],
+        [termA, Set.of(termB, termD)],
         [termB, Set.of(termC)],
         [termC, Set.of(termE)],
-        [termD, Set.of(termE)]
+        [termD, Set.of(termE)],
+        [termF, Set.of(termG)],
+        [termH, Set()]
       ])
     })
   ))
 
   return <SymPresentationCtx.Provider value={presentationCtx}>
-    <TermDependencyGraph initialGraph={initialGraph} />
+    <TermDependencies height={300} graph={graph} />
   </SymPresentationCtx.Provider>
 }

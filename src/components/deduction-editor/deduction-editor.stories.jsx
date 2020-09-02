@@ -10,5 +10,5 @@ export default {
 
 export const Default = () =>
   <SymPresentationCtx.Provider value={primitivePresentationCtx}>
-    <DeductionEditor/>
+    <DeductionEditor height='100%'/>
   </SymPresentationCtx.Provider>

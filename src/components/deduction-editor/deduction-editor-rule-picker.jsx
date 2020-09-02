@@ -2,19 +2,25 @@ import { Rule } from '@zbrckovic/entail-core'
 import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import { useRuleDescriber } from 'hooks'
 import React from 'react'
-import { Box } from 'rebass'
+import { useTranslation } from 'react-i18next'
+import { Box, Flex, Text } from 'rebass'
 
-export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect, onRuleDeselect }) => {
+export const DeductionEditorRulePicker = ({
+  rules = {},
+  selectedRule,
+  onRuleSelect,
+  onRuleDeselect
+}) => {
   const ruleDescriber = useRuleDescriber()
+  const { t } = useTranslation('DeductionEditor')
 
-  return (
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(2, 48px)',
-        gridGap: 1
-      }}
-    >
+  return <Flex flexDirection='column' alignItems='stretch'>
+    <Text pb={1} fontWeight='bold'>{t('label.rules')}</Text>
+    <Box sx={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2, 48px)',
+      gridGap: 1
+    }}>
       {
         allRules.map(rule => {
           const { translation, abbreviation } = ruleDescriber(rule)
@@ -32,15 +38,14 @@ export const RulePicker = ({ rules = {}, selectedRule, onRuleSelect, onRuleDesel
                 } else {
                   onRuleSelect(rule)
                 }
-              }}
-            >
+              }}>
               {abbreviation}
             </Button>
           )
         })
       }
     </Box>
-  )
+  </Flex>
 }
 
 const allRules = [
