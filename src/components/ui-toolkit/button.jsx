@@ -35,14 +35,16 @@ export const ButtonVariant = {
 }
 
 const createStyle = ({ colors }, variant, minimal) => {
-  const { color, backgroundColor, borderColor } = determineColors(variant, colors)
+  const { bg, fg, border, minFg } = determineColors(variant, colors)
+
+  console.log(bg);
 
   return {
     px: 2,
     py: 1,
-    color: minimal ? backgroundColor : color,
-    bg: minimal ? 'transparent' : backgroundColor,
-    borderColor: minimal ? 'transparent' : borderColor,
+    color: minimal ? minFg : fg,
+    bg: minimal ? 'transparent' : bg,
+    borderColor: minimal ? 'transparent' : border,
     borderWidth: minimal ? undefined : 1,
     borderStyle: minimal ? undefined : 'solid',
     borderRadius: 1,
@@ -55,10 +57,10 @@ const createStyle = ({ colors }, variant, minimal) => {
       opacity: 0.5
     },
     '&:active:not(:disabled)': {
-      bg: darken(0.1, backgroundColor)
+      bg: minimal ? undefined : darken(0.1, bg)
     },
     '&:hover:not(:active):not(:disabled)': {
-      bg: lighten(0.07, backgroundColor)
+      bg: minimal ? undefined : lighten(0.07, bg)
     }
   }
 }
@@ -67,21 +69,24 @@ const determineColors = (variant, colors) => {
   switch (variant) {
     case ButtonVariant.NEUTRAL:
       return {
-        color: colors.onNeutral,
-        backgroundColor: colors.neutral,
-        borderColor: colors.neutralBorder
+        fg: colors.neutralBtnFg,
+        bg: colors.neutralBtnBg,
+        border: colors.neutralBtnBorder,
+        minFg: colors.neutralMinBtnFg
       }
     case ButtonVariant.PRIMARY:
       return {
-        color: colors.onPrimary,
-        backgroundColor: colors.primary,
-        borderColor: colors.primaryBorder
+        color: colors.primaryBtnFg,
+        bg: colors.primaryBtnBg,
+        border: colors.primaryBtnBorder,
+        minFg: colors.primaryMinBtnFg
       }
     case ButtonVariant.DANGER:
       return {
-        color: colors.onDanger,
-        backgroundColor: colors.danger,
-        borderColor: colors.dangerBorder
+        color: colors.dangerBtnFg,
+        bg: colors.dangerBtnBg,
+        border: colors.dangerBtnBorder,
+        minFg: colors.dangerMinBtnFg
       }
   }
 }

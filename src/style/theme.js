@@ -1,84 +1,78 @@
-import { saturate, desaturate, lighten, tint, darken } from 'polished'
+import { saturate, lighten, tint, darken } from 'polished'
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
 
-const primary = '#285480'
-const onPrimary = 'white'
-const primaryBorder = darken(0.1, primary)
+const primary = '#2f6499'
+const success = '#009999'
+const danger = '#992323'
+const neutral = '#8a9199'
 
-const secondary = '#00a9a5'
-const onSecondary = 'white'
-const secondaryBorder = darken(0.05, secondary)
+const neutralBtnBg = neutral
+const neutralBtnFg = 'black'
+const neutralBtnBorder = darken(0.05, neutral)
+const neutralMinBtnFg = neutral
 
-const success = secondary
-const onSuccess = 'white'
-const successBorder = darken(0.05, success)
+const primaryBtnBg = primary
+const primaryBtnFg = 'white'
+const primaryBtnBorder = darken(0.05, primary)
+const primaryMinBtnFg = primary
 
-const danger = '#fb3640'
-const onDanger = 'white'
-const dangerBorder = darken(0.2, danger)
+const successBtnBg = success
+const successBtnFg = 'white'
+const successBtnBorder = darken(0.05, success)
+const successMinBtnFg = success
 
-const neutral = tint(0.8, desaturate(0.3, primary))
-const onNeutral = 'black'
-const neutralBorder = darken(0.2, neutral)
+const dangerBtnBg = danger
+const dangerBtnFg = 'white'
+const dangerBtnBorder = darken(0.05, danger)
+const dangerMinBtnFg = danger
 
-// background color which usually doesn't contain any readable content
-const background = tint(0.3, neutral)
-const onBackground = 'black'
-
-// background color for sidebars or windows. U
-// usually a container of forms, controls, labels, surfaces etc...
-const plane = tint(0.6, neutral)
-const onPlane = 'black'
+const planeBg = tint(0.6, neutral)
+const planeFg = 'black'
 const planeBorder = neutral
 
-// background color for readable content
-const surface = tint(0.8, neutral)
-const onSurface = 'black'
-const surfaceBorder = neutral
-
-// background for inputs and other controls
-const input = tint(0.9, neutral)
-const onInput = 'black'
+const inputBg = tint(0.9, neutral)
+const inputFg = 'black'
 const inputBorder = neutral
 
-// indicator of focused element
 const outline = saturate(0.2, lighten(0.5, primary))
 
-// eel
 const formula = primary
 const term = lighten(0.2, primary)
 
 const colors = {
-  primary,
-  onPrimary,
-  primaryBorder,
-  secondary,
-  onSecondary,
-  secondaryBorder,
-  success,
-  onSuccess,
-  successBorder,
-  danger,
-  onDanger,
-  dangerBorder,
-  neutral,
-  onNeutral,
-  neutralBorder,
-  background,
-  onBackground,
-  plane,
-  onPlane,
+  neutralBtnBg,
+  neutralBtnFg,
+  neutralBtnBorder,
+  neutralMinBtnFg,
+
+  primaryBtnBg,
+  primaryBtnFg,
+  primaryBtnBorder,
+  primaryMinBtnFg,
+
+  successBtnBg,
+  successBtnFg,
+  successBtnBorder,
+  successMinBtnFg,
+
+  dangerBtnBg,
+  dangerBtnFg,
+  dangerBtnBorder,
+  dangerMinBtnFg,
+
+  planeBg,
+  planeFg,
   planeBorder,
-  surface,
-  onSurface,
-  surfaceBorder,
-  input,
-  onInput,
+
+  inputBg,
+  inputFg,
   inputBorder,
+
+  outline,
+
   formula,
-  term,
-  outline
+  term
 }
 
 const space = [0, 4, 8, 12, 16, 20, 24, 28, 32]
