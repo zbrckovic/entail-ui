@@ -27,7 +27,7 @@ const background = tint(0.3, neutral)
 const onBackground = 'black'
 
 // background color for sidebars or windows. U
-// sually a container of forms, controls, labels, surfaces etc...
+// usually a container of forms, controls, labels, surfaces etc...
 const plane = tint(0.6, neutral)
 const onPlane = 'black'
 const planeBorder = neutral

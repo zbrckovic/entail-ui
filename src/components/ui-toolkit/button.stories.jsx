@@ -8,7 +8,7 @@ export default {
   argTypes: {
     icon: {
       control: 'boolean',
-      defaultValue: true
+      defaultValue: false
     },
     children: {
       control: 'text',
@@ -21,17 +21,12 @@ export default {
       },
       defaultValue: ButtonVariant.NEUTRAL
     },
-    disabled: {
-      control: 'boolean',
-      defaultValue: true
-    }
+    disabled: { control: 'boolean' },
+    minimal: { control: 'boolean' }
   }
 }
 
 export const Default = ({ icon, children, ...args }) =>
-  <Button
-    icon={icon ? faCheckCircle : undefined}
-    {...args}
-  >
+  <Button icon={icon ? faCheckCircle : undefined} {...args}>
     {children}
   </Button>
