@@ -37,16 +37,15 @@ export const ButtonVariant = {
 const createStyle = ({ colors }, variant, minimal) => {
   const { bg, fg, border, minFg } = determineColors(variant, colors)
 
-  console.log(bg);
-
   return {
+    boxSizing: 'border-box',
     px: 2,
     py: 1,
     color: minimal ? minFg : fg,
     bg: minimal ? 'transparent' : bg,
     borderColor: minimal ? 'transparent' : border,
-    borderWidth: minimal ? undefined : 1,
-    borderStyle: minimal ? undefined : 'solid',
+    borderWidth: 1,
+    borderStyle: 'solid',
     borderRadius: 1,
     outlineColor: 'outline',
     cursor: 'pointer',
@@ -57,10 +56,10 @@ const createStyle = ({ colors }, variant, minimal) => {
       opacity: 0.5
     },
     '&:active:not(:disabled)': {
-      bg: minimal ? undefined : darken(0.1, bg)
+      bg: minimal ? 'activeBg' : darken(0.1, bg)
     },
     '&:hover:not(:active):not(:disabled)': {
-      bg: minimal ? undefined : lighten(0.07, bg)
+      bg: minimal ? 'hoverBg' : lighten(0.07, bg)
     }
   }
 }

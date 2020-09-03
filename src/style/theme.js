@@ -1,4 +1,4 @@
-import { saturate, lighten, tint, darken } from 'polished'
+import { saturate, lighten, tint, darken, transparentize } from 'polished'
 import { sourceCodeProFamily } from 'style/global-style/fonts/source-code-pro-declaration'
 import { sourceSansFamily } from 'style/global-style/fonts/source-sans-pro-declaration'
 
@@ -7,24 +7,24 @@ const success = '#009999'
 const danger = '#992323'
 const neutral = '#8a9199'
 
-const neutralBtnBg = neutral
+const neutralBtnBg = lighten(0.4, neutral)
 const neutralBtnFg = 'black'
-const neutralBtnBorder = darken(0.05, neutral)
-const neutralMinBtnFg = neutral
+const neutralBtnBorder = darken(0.05, neutralBtnBg)
+const neutralMinBtnFg = darken(0.05, neutral)
 
-const primaryBtnBg = primary
+const primaryBtnBg = lighten(0.05, primary)
 const primaryBtnFg = 'white'
-const primaryBtnBorder = darken(0.05, primary)
+const primaryBtnBorder = darken(0.05, primaryBtnBg)
 const primaryMinBtnFg = primary
 
 const successBtnBg = success
 const successBtnFg = 'white'
-const successBtnBorder = darken(0.05, success)
+const successBtnBorder = darken(0.05, successBtnBg)
 const successMinBtnFg = success
 
-const dangerBtnBg = danger
+const dangerBtnBg = lighten(0.05, danger)
 const dangerBtnFg = 'white'
-const dangerBtnBorder = darken(0.05, danger)
+const dangerBtnBorder = darken(0.05, dangerBtnBg)
 const dangerMinBtnFg = danger
 
 const planeBg = tint(0.6, neutral)
@@ -39,6 +39,9 @@ const outline = saturate(0.2, lighten(0.5, primary))
 
 const formula = primary
 const term = lighten(0.2, primary)
+
+const hoverBg = transparentize(0.5, lighten(0.3, neutral))
+const activeBg = transparentize(0.25, lighten(0.3, neutral))
 
 const colors = {
   neutralBtnBg,
@@ -68,6 +71,9 @@ const colors = {
   inputBg,
   inputFg,
   inputBorder,
+
+  hoverBg,
+  activeBg,
 
   outline,
 
