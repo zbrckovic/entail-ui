@@ -104,7 +104,7 @@ export const TermDependenciesGraphCanvas = forwardRef(({
     ref={refCallback}
     sx={{
       borderWidth: 1,
-      borderColor: 'neutral',
+      borderColor: 'inputBorder',
       borderStyle: 'solid',
       borderRadius: 1,
       ...sx
@@ -180,17 +180,17 @@ const createGraphStyles = theme => ({
   },
   edge: {
     width: 1,
-    'line-color': theme.colors.primary,
+    'line-color': theme.colors.primaryBtnBg,
     'curve-style': 'bezier',
-    'target-arrow-color': theme.colors.primary,
+    'target-arrow-color': theme.colors.primaryBtnBg,
     'target-arrow-shape': 'triangle'
   },
   dependent: {
-    color: theme.colors.onPrimary,
-    'background-color': theme.colors.primary
+    color: theme.colors.primaryBtnFg,
+    'background-color': theme.colors.primaryBtnBg
   },
   dependency: {
-    color: theme.colors.onNeutral,
-    'background-color': theme.colors.neutral
+    color: theme.colors.neutralBtnFg,
+    'background-color': theme.colors.neutralBtnBg
   }
 })

@@ -27,11 +27,11 @@ const dangerBtnFg = 'white'
 const dangerBtnBorder = darken(0.05, dangerBtnBg)
 const dangerMinBtnFg = danger
 
-const planeBg = tint(0.6, neutral)
+const planeBg = tint(0.9, neutral)
 const planeFg = 'black'
 const planeBorder = neutral
 
-const inputBg = tint(0.9, neutral)
+const inputBg = tint(1.0, neutral)
 const inputFg = 'black'
 const inputBorder = neutral
 

@@ -93,7 +93,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
             />
           </Box>
           <Box sx={{
-            bg: 'plane',
+            bg: 'planeBg',
             px: 2,
             py: 1,
             borderLeftWidth: 1,
@@ -152,7 +152,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
           sx={{
             px: 2,
             py: 1,
-            bg: 'plane',
+            bg: 'planeBg',
             borderTopWidth: 1,
             borderTopStyle: 'solid',
             borderTopColor: 'planeBorder'

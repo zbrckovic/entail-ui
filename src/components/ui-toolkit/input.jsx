@@ -8,7 +8,7 @@ export const Input = ({ sx, disabled, ...restProps }) => {
       px: 2,
       py: 1,
       color: 'onInput',
-      bg: 'input',
+      bg: 'inputBg',
       outlineColor: 'outline',
       borderColor: 'inputBorder',
       borderWidth: 1,

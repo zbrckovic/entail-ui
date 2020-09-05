@@ -18,15 +18,10 @@ export const TermDependencies = ({ graph, sx, ...props }) => {
     <Flex
       alignItems='baseline'
       flexGrow={0}
-      pb={1}
-      mb={1}
-      sx={{
-        borderBottomWidth: 1,
-        borderBottomStyle: 'solid',
-        borderBottomColor: 'neutral'
-      }}>
+      pb={1}>
       <Text as='h4' flexGrow={1}>{t('label.termDependencies')}</Text>
       <Button
+        minimal
         title={mode === Mode.GRAPH ? t('button.list') : t('button.graph')}
         icon={mode === Mode.GRAPH ? faList : faProjectDiagram}
         onClick={() => { setMode(mode === Mode.LIST ? Mode.GRAPH : Mode.LIST) }}

@@ -30,38 +30,38 @@ export const TermDependenciesGraph = ({ graph, sx, ...props }) => {
     alignItems='stretch'
     sx={{ ...sx }}
     {...props}>
-    <Flex mb={1}>
+    <Flex>
       <Button
+        minimal
         flexBasis={48}
         flexGrow={1}
-        mr={2}
         title={t('button.reset')}
         icon={faUndoAlt}
         onClick={() => {
           canvasRef.current.reset()
         }} />
       <Button
+        minimal
         flexBasis={48}
         flexGrow={1}
-        mr={2}
         title={t('button.fit')}
         icon={faExpandArrowsAlt}
         onClick={() => {
           canvasRef.current.fit()
         }} />
       <Button
+        minimal
         flexBasis={48}
         flexGrow={1}
-        mr={2}
         title={t('button.center')}
         icon={faAlignCenter}
         onClick={() => {
           canvasRef.current.center()
         }} />
       <Button
+        minimal
         flexBasis={48}
         flexGrow={1}
-        mr={2}
         title={
           direction === Direction.DOWN
             ? t('button.plotHorizontally')
@@ -72,9 +72,9 @@ export const TermDependenciesGraph = ({ graph, sx, ...props }) => {
           setDirection(direction === Direction.DOWN ? Direction.RIGHT : Direction.DOWN)
         }} />
       <Button
+        minimal
         flexBasis={48}
         flexGrow={1}
-        mr={2}
         disabled={zoom === MIN_ZOOM}
         title={t('button.zoomOut')}
         icon={faSearchMinus}
@@ -82,6 +82,7 @@ export const TermDependenciesGraph = ({ graph, sx, ...props }) => {
           canvasRef.current.zoomOut()
         }} />
       <Button
+        minimal
         flexBasis={48}
         flexGrow={1}
         disabled={zoom === MAX_ZOOM}
