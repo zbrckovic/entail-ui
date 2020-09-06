@@ -1,7 +1,7 @@
+import Box from '@material-ui/core/Box'
 import { RootCtx } from 'contexts'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Flex } from 'rebass'
 
 export const DevInfo = ({ ...props }) => {
   const { environment } = useContext(RootCtx)
@@ -18,25 +18,16 @@ export const DevInfo = ({ ...props }) => {
   }, [t, environment])
 
   return (
-    <Box as='dl' margin={0} {...props}>
+    <Box component='dl' {...props}>
       {entries.map(([label, value], i) => (
-        <Flex key={i}>
-          <Box
-            as='dt'
-            flexGrow={0}
-            width={'100px'}
-            fontWeight='bold'
-          >
+        <Box display='flex' key={i}>
+          <Box component='dt' flexGrow={0} width={'100px'} fontWeight='bold'>
             {label}
           </Box>
-          <Box
-            as='dd'
-            flexGrow={1}
-            marginLeft={0}
-          >
+          <Box component='dd' flexGrow={1} marginLeft={0}>
             {value}
           </Box>
-        </Flex>
+        </Box>
       ))}
     </Box>
   )

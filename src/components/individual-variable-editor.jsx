@@ -8,6 +8,9 @@ import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import Box from '@material-ui/core/Box'
+import Input from '@material-ui/core/Input'
+import Button from '@material-ui/core/Button'
 
 export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
@@ -42,15 +45,17 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const [isValid, setIsValid] = useState(false)
 
-  return <Flex
+  return <Box
     flexDirection='column'
     alignItems='stretch'
-    {...props}>
+    {...props}
+  >
     <Input
       value={text}
       mb={1}
-      onChange={({ target: { value } }) => { setText(value) }} />
-    <Flex>
+      onChange={({ target: { value } }) => { setText(value) }}
+    />
+    <Box>
       <Button
         flexGrow={1}
         title={t('button.submit')}
@@ -68,21 +73,20 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
           }
         }}
         disabled={!isValid || errorMessage !== undefined}
-        icon={faCheckCircle}
         mr={2}
-        variant={ButtonVariant.PRIMARY}>
+      >
         {t('button.submit')}
       </Button>
       <Button
         flexGrow={1}
         title={t('button.cancel')}
         onClick={() => { onCancel() }}
-        icon={faBan}>
+      >
         {t('button.cancel')}
       </Button>
-    </Flex>
-    {errorMessage && <Message mt={1} variant={MessageVariant.DANGER} text={errorMessage} />}
-  </Flex>
+    </Box>
+    {errorMessage && <Box text={errorMessage} />}
+  </Box>
 }
 
 const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/

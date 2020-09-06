@@ -1,16 +1,16 @@
-import { Global } from '@emotion/core'
+import { ThemeProvider } from '@material-ui/core'
+import CssBaseline from '@material-ui/core/CssBaseline'
 import { RootCtx } from 'contexts'
 import cytoscape from 'cytoscape'
 import klay from 'cytoscape-klay'
-import { ThemeProvider } from 'emotion-theming'
 import { environment } from 'environment'
 import { initI18n } from 'i18n'
 import { ActivityStatus } from 'misc/activity-status'
 import React, { useEffect, useState } from 'react'
-import { Box } from 'rebass'
-import { globalStyle } from 'style/global-style'
 import { theme } from 'style/theme'
+import Box from '@material-ui/core/Box'
 
+// add layout algorithm to cytoscape
 cytoscape.use(klay)
 
 export const RootWrapper = ({ children }) => {
@@ -25,15 +25,10 @@ export const RootWrapper = ({ children }) => {
   }, [])
 
   return <>
-    <Global styles={globalStyle} />
-    <RootCtx.Provider
-      value={{
-        environment,
-        initializationStatus
-      }}
-    >
+    <RootCtx.Provider value={{ environment, initializationStatus }}>
       <ThemeProvider theme={theme}>
-        <Box fontSize='normal' height='100%' width='100%'>
+        <CssBaseline />
+        <Box>
           {children}
         </Box>
       </ThemeProvider>

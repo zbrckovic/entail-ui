@@ -1,7 +1,7 @@
+import Box from '@material-ui/core/Box'
 import { Kind, Placement, primitiveSyms } from '@zbrckovic/entail-core'
 import { SymPresentationCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
-import { Text } from 'rebass'
 
 /** Shows textual representation of a provided expression. */
 export const ExpressionView = ({
@@ -33,7 +33,7 @@ export const ExpressionView = ({
 
   return (
     root ? (
-      <Text
+      <Box
         fontFamily='mono'
         sx={{
           display: 'inline-block',
@@ -41,7 +41,9 @@ export const ExpressionView = ({
           ...sx
         }}
         {...props}
-      >{content}</Text>
+      >
+        {content}
+      </Box>
     ) : content
   )
 }
@@ -89,13 +91,13 @@ const Binding = ({ sym }) => {
 }
 
 export const ExpressionText = ({ text, kind, ...props }) =>
-  <Text
+  <Box
     as="span"
     sx={{ color: kindToColor[kind] ?? 'onSurface' }}
     {...props}
   >
     {text ?? <wbr />}
-  </Text>
+  </Box>
 
 const kindToColor = {
   [Kind.Formula]: 'formula',

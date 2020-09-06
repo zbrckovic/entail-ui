@@ -1,104 +1,90 @@
-import {
-  faAlignCenter,
-  faExpandArrowsAlt,
-  faGripHorizontal,
-  faGripVertical,
-  faSearchMinus,
-  faSearchPlus,
-  faUndoAlt
-} from '@fortawesome/free-solid-svg-icons'
-import {
-  Direction,
-  MAX_ZOOM,
-  MIN_ZOOM
-} from './term-dependencies-graph-common'
-import { Button } from 'components/ui-toolkit/button'
+import { Direction, MAX_ZOOM, MIN_ZOOM } from './term-dependencies-graph-common'
 import React, { useRef, useState } from 'react'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import { useTranslation } from 'react-i18next'
-import { Flex } from 'rebass'
 import { TermDependenciesGraphCanvas } from './term-dependencies-graph-canvas'
+import { IconButton } from '@material-ui/core'
+import ReplayIcon from '@material-ui/icons/Replay'
+import ZoomInIcon from '@material-ui/icons/ZoomIn'
+import ZoomOutIcon from '@material-ui/icons/ZoomOut'
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
+import ZoomOutMapIcon from '@material-ui/icons/ZoomOutMap'
+import CenterFocusStrongIcon from '@material-ui/icons/CenterFocusStrong'
+import Box from '@material-ui/core/Box'
+import Paper from '@material-ui/core/Paper'
 
-export const TermDependenciesGraph = ({ graph, sx, ...props }) => {
+export const TermDependenciesGraph = ({ graph, ...props }) => {
+  const theme = useTheme()
+  const classes = useStyles(theme)
+
   const { t } = useTranslation('TermDependencies')
   const canvasRef = useRef()
 
   const [zoom, setZoom] = useState()
   const [direction, setDirection] = useState(Direction.DOWN)
 
-  return <Flex
-    flexDirection='column'
-    alignItems='stretch'
-    sx={{ ...sx }}
-    {...props}>
-    <Flex>
-      <Button
-        minimal
-        flexBasis={48}
-        flexGrow={1}
-        title={t('button.reset')}
-        icon={faUndoAlt}
-        onClick={() => {
-          canvasRef.current.reset()
-        }} />
-      <Button
-        minimal
-        flexBasis={48}
-        flexGrow={1}
-        title={t('button.fit')}
-        icon={faExpandArrowsAlt}
-        onClick={() => {
-          canvasRef.current.fit()
-        }} />
-      <Button
-        minimal
-        flexBasis={48}
-        flexGrow={1}
-        title={t('button.center')}
-        icon={faAlignCenter}
-        onClick={() => {
-          canvasRef.current.center()
-        }} />
-      <Button
-        minimal
-        flexBasis={48}
-        flexGrow={1}
-        title={
-          direction === Direction.DOWN
-            ? t('button.plotHorizontally')
-            : t('button.plotVertically')
-        }
-        icon={direction === Direction.DOWN ? faGripHorizontal : faGripVertical}
-        onClick={() => {
-          setDirection(direction === Direction.DOWN ? Direction.RIGHT : Direction.DOWN)
-        }} />
-      <Button
-        minimal
-        flexBasis={48}
-        flexGrow={1}
-        disabled={zoom === MIN_ZOOM}
-        title={t('button.zoomOut')}
-        icon={faSearchMinus}
-        onClick={() => {
-          canvasRef.current.zoomOut()
-        }} />
-      <Button
-        minimal
-        flexBasis={48}
-        flexGrow={1}
-        disabled={zoom === MAX_ZOOM}
-        title={t('button.zoomIn')}
-        icon={faSearchPlus}
-        onClick={() => {
-          canvasRef.current.zoomIn()
-        }} />
-    </Flex>
-    <TermDependenciesGraphCanvas
-      flexGrow={1}
-      ref={canvasRef}
-      graph={graph}
-      onZoomChange={setZoom}
-      direction={direction}
-      {...props}
-    />
-  </Flex>
+  return <Box display='flex' flexDirection='column' alignItems='stretch' {...props}>
+    <Box display='flex' justifyContent='space-between'>
+      <Box>
+        <IconButton title={t('button.reset')} onClick={() => { canvasRef.current.reset() }}>
+          <ReplayIcon />
+        </IconButton>
+        <IconButton title={t('button.fit')} onClick={() => { canvasRef.current.fit() }}>
+          <ZoomOutMapIcon />
+        </IconButton>
+        <IconButton title={t('button.center')} onClick={() => { canvasRef.current.center() }}>
+          <CenterFocusStrongIcon />
+        </IconButton>
+        <IconButton
+          title={
+            direction === Direction.DOWN
+              ? t('button.plotHorizontally')
+              : t('button.plotVertically')
+          }
+          onClick={() => {
+            setDirection(direction === Direction.DOWN ? Direction.RIGHT : Direction.DOWN)
+          }}
+        >
+          {direction === Direction.DOWN ? <ArrowForwardIcon /> : <ArrowDownwardIcon />}
+        </IconButton>
+      </Box>
+      <Box>
+        <IconButton
+          disabled={zoom === MIN_ZOOM}
+          title={t('button.zoomOut')}
+          onClick={() => {
+            canvasRef.current.zoomOut()
+          }}
+        >
+          <ZoomOutIcon />
+        </IconButton>
+        <IconButton
+          disabled={zoom === MAX_ZOOM}
+          title={t('button.zoomIn')}
+          onClick={() => {
+            canvasRef.current.zoomIn()
+          }}
+        >
+          <ZoomInIcon />
+        </IconButton>
+      </Box>
+    </Box>
+    <Paper className={classes.paper}>
+      <TermDependenciesGraphCanvas
+        graph={graph}
+        onZoomChange={setZoom}
+        direction={direction}
+        ref={canvasRef}
+        {...props}
+      />
+    </Paper>
+  </Box>
 }
+
+const useStyles = makeStyles({
+  paper: {
+    flexGrow: 1,
+    padding: ({ spacing }) => spacing(1)
+  }
+})

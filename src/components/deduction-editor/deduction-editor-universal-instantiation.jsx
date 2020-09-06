@@ -1,9 +1,8 @@
 import { ErrorName } from '@zbrckovic/entail-core'
 import { IndividualVariableEditor } from 'components/individual-variable-editor'
-import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Flex, Text } from 'rebass'
+import Box from '@material-ui/core/Box'
 
 export const DeductionEditorUniversalInstantiation = ({
   ruleInterface,
@@ -15,8 +14,8 @@ export const DeductionEditorUniversalInstantiation = ({
 
   const [errorMessage, setErrorMessage] = useState(undefined)
 
-  return <Flex flexDirection='column' alignItems='stretch' {...props}>
-    <Text as='h4' mb={2}>{t('label.enterTheInstanceTerm')}</Text>
+  return <Box flexDirection='column' alignItems='stretch' {...props}>
+    <Box as='h4' mb={2}>{t('label.enterTheInstanceTerm')}</Box>
     <IndividualVariableEditor
       flexGrow={1}
       onSubmit={({ sym, presentationCtx }) => {
@@ -39,6 +38,6 @@ export const DeductionEditorUniversalInstantiation = ({
       }}
       onCancel={onCancel} />
     {errorMessage !== undefined &&
-    <Message variant={MessageVariant.DANGER} text={errorMessage} mt={2} />}
-  </Flex>
+    <Box text={errorMessage} mt={2} />}
+  </Box>
 }

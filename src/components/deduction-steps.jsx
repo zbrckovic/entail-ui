@@ -1,7 +1,7 @@
 import { ExpressionView } from 'components/expression-view'
 import { useRuleDescriber } from 'hooks'
 import React, { Fragment, useMemo } from 'react'
-import { Box, Text } from 'rebass'
+import Box from '@material-ui/core/Box'
 
 export const DeductionSteps = ({ steps, selectedSteps, onSelectedStepsChange, ...props }) => {
   const lastStepNumber = steps.size
@@ -13,7 +13,8 @@ export const DeductionSteps = ({ steps, selectedSteps, onSelectedStepsChange, ..
         display: 'grid',
         gridTemplateColumns: 'min-content max-content auto min-content max-content'
       }}
-      {...props}>
+      {...props}
+    >
       {steps.map((step, i) => {
         const stepNumber = i + 1
 
@@ -88,10 +89,12 @@ const StepNumber = ({ stepNumber, selected, onSelect, onDeselect }) => {
       }}
       onClick={() => { if (selected) { onDeselect() } else { onSelect() } }}
     >
-      <Text
+      <Box
         as='span'
         fontWeight='semiBold'
-      >{stepNumber}</Text>
+      >
+        {stepNumber}
+      </Box>
     </Box>
   )
 }
@@ -100,7 +103,7 @@ export const StepAssumptions = ({ assumptions, ...props }) => {
   const assumptionSorted = useMemo(() => assumptions.sort().toArray(), [assumptions])
 
   return (
-    <Text
+    <Box
       as='span'
       fontStyle='italic'
       sx={{ color: 'textLight' }}
@@ -116,7 +119,7 @@ export const StepAssumptions = ({ assumptions, ...props }) => {
           </Fragment>
         )
       })}
-    </Text>
+    </Box>
   )
 }
 
@@ -124,7 +127,7 @@ export const StepPremises = ({ premises, sx, ...props }) => {
   const premisesOrdered = useMemo(() => premises.toArray(), [premises])
 
   return (
-    <Text
+    <Box
       as='span'
       fontStyle='italic'
       sx={{ color: 'textLight' }}
@@ -140,7 +143,7 @@ export const StepPremises = ({ premises, sx, ...props }) => {
           </Fragment>
         )
       })}
-    </Text>
+    </Box>
   )
 }
 
@@ -149,12 +152,12 @@ export const StepRule = ({ rule, ...props }) => {
   const { abbreviation } = ruleDescriber(rule)
 
   return (
-    <Text
+    <Box
       fontWeight='semiBold'
       as='span'
       {...props}
     >
       {abbreviation}
-    </Text>
+    </Box>
   )
 }

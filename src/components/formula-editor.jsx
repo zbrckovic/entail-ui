@@ -1,15 +1,11 @@
-import { css } from '@emotion/core'
-import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { ExpressionView } from 'components/expression-view'
-import { Button, ButtonVariant } from 'components/ui-toolkit/button'
-import { Message, MessageVariant } from 'components/ui-toolkit/message'
-import { Textarea } from 'components/ui-toolkit/textarea'
 import { SymPresentationCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Flex } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
@@ -40,12 +36,8 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const presentationCtx = parseResult?.success?.presentationCtx
   const error = parseResult?.error
 
-  return <Flex
-    flexDirection='column'
-    {...props}>
-    <Flex
-      alignItems='center'
-      flexBasis={38}>
+  return <Box flexDirection='column' {...props}>
+    <Box alignItems='center' flexBasis={38}>
       {
         formula !== undefined
           ? (
@@ -56,40 +48,33 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
       }
       {
         text.length > 0 && error !== undefined &&
-        <Message
-          flexGrow={1}
-          variant={MessageVariant.DANGER}
-          text={describeError(error)} />
+        <Box flexGrow={1} text={describeError(error)} />
       }
-    </Flex>
-    <Textarea
-      flexBasis={0}
-      flexGrow={1}
+    </Box>
+    <textarea
       rows={10}
       value={text}
       onChange={event => { setText(event.target.value) }}
-      css={css`resize: none;`}
-      mb={1} />
-    <Flex>
+    />
+    <Box>
       <Button
         flexGrow={1}
         title={t('button.submit')}
         onClick={() => { onSubmit(parseResult?.success) }}
         disabled={formula === undefined}
-        icon={faCheckCircle}
         mr={2}
-        variant={ButtonVariant.PRIMARY}>
+      >
         {t('button.submit')}
       </Button>
       <Button
         flexGrow={1}
         title={t('button.cancel')}
         onClick={() => { onCancel() }}
-        icon={faBan}>
+      >
         {t('button.cancel')}
       </Button>
-    </Flex>
-  </Flex>
+    </Box>
+  </Box>
 }
 
 const useParser = () => {

@@ -2,7 +2,7 @@ import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
 import React from 'react'
 import { useEnteredFormulaText } from 'storybook/use-entered-formula-text'
-import { Box } from 'rebass'
+import Box from '@material-ui/core/Box'
 
 export default {
   title: 'ExpressionView',
@@ -26,7 +26,7 @@ export const Default = ({ formula: formulaText }) => {
   const { formula, presentationCtx } = success
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <ExpressionView expression={formula}/>
+      <ExpressionView expression={formula} />
     </SymPresentationCtx.Provider>
   )
 }

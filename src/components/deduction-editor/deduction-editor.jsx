@@ -10,7 +10,7 @@ import { DeductionEditorUniversalInstantiation } from './deduction-editor-univer
 import { DeductionSteps } from 'components/deduction-steps'
 import { SymPresentationCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import { Box, Flex } from 'rebass'
+import Box from '@material-ui/core/Box'
 
 const createDefaultSelectedSteps = () => new Set()
 
@@ -81,8 +81,8 @@ export const DeductionEditor = ({ sx, ...props }) => {
 
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>
-      <Flex flexDirection='column' sx={{ ...sx }} {...props}>
-        <Flex flexBasis={0} flexGrow={1}>
+      <Box flexDirection='column' sx={{ ...sx }} {...props}>
+        <Box flexBasis={0} flexGrow={1}>
           <Box flexBasis={0} flexGrow={1}>
             <DeductionSteps
               flexAlign='stretch'
@@ -145,8 +145,8 @@ export const DeductionEditor = ({ sx, ...props }) => {
               onRuleDeselect={() => { setSelectedRule(undefined) }}
             />
           </Box>
-        </Flex>
-        <Flex
+        </Box>
+        <Box
           flexBasis={300}
           alignItems='stretch'
           sx={{
@@ -164,16 +164,16 @@ export const DeductionEditor = ({ sx, ...props }) => {
             mr={2}
           />
           <Box bg='planeBorder' flexBasis={1} />
-          <Flex
+          <Box
             flexBasis={0}
             flexGrow={1}
             ml={2}
             alignItems='stretch'
           >
             {determineRuleUI(selectedRule)}
-          </Flex>
-        </Flex>
-      </Flex>
+          </Box>
+        </Box>
+      </Box>
     </SymPresentationCtx.Provider>
   )
 }

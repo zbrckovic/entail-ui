@@ -1,10 +1,6 @@
-import {
-  MAX_ZOOM,
-  MIN_ZOOM
-} from './term-dependencies-graph-common'
+import { MAX_ZOOM, MIN_ZOOM } from './term-dependencies-graph-common'
 import { SymPresentationCtx } from 'contexts'
 import cytoscape from 'cytoscape'
-import { useTheme } from 'emotion-theming'
 import React, {
   forwardRef,
   useCallback,
@@ -13,11 +9,12 @@ import React, {
   useImperativeHandle,
   useState
 } from 'react'
-import { Box } from 'rebass'
+import useTheme from '@material-ui/core/styles/useTheme'
+import Box from '@material-ui/core/Box'
+import { Container } from '@material-ui/core'
 
 export const TermDependenciesGraphCanvas = forwardRef(({
   graph,
-  sx,
   onZoomChange,
   direction,
   ...props
@@ -99,19 +96,7 @@ export const TermDependenciesGraphCanvas = forwardRef(({
     }
   }, [cy, theme, onZoomChange])
 
-  return <Box
-    bg='surface'
-    ref={refCallback}
-    sx={{
-      borderWidth: 1,
-      borderColor: 'inputBorder',
-      borderStyle: 'solid',
-      borderRadius: 1,
-      ...sx
-    }}
-    {...props}
-  >
-  </Box>
+  return <Box height='100%' ref={refCallback} {...props} />
 })
 
 const useElementsFactory = () => {
@@ -173,24 +158,25 @@ const createGraphStyles = theme => ({
     height: 20,
     label: 'data(text)',
     'text-halign': 'center',
-    'text-valign': 'center',
-    'font-family': theme.fonts.mono,
-    padding: theme.space[0],
-    'font-size': theme.fontSizes.small
+    'text-valign': 'center'
+    // TODO: fix fonts
+    // 'font-family': theme.fonts.mono,
+    // padding: theme.space[0],
+    // 'font-size': theme.fontSizes.small
   },
   edge: {
     width: 1,
-    'line-color': theme.colors.primaryBtnBg,
+    'line-color': theme.palette.primary.main,
     'curve-style': 'bezier',
-    'target-arrow-color': theme.colors.primaryBtnBg,
+    'target-arrow-color': theme.palette.primary.main,
     'target-arrow-shape': 'triangle'
   },
   dependent: {
-    color: theme.colors.primaryBtnFg,
-    'background-color': theme.colors.primaryBtnBg
+    color: theme.palette.primary.contrastText,
+    'background-color': theme.palette.primary.main
   },
   dependency: {
-    color: theme.colors.neutralBtnFg,
-    'background-color': theme.colors.neutralBtnBg
+    color: theme.palette.background.paper,
+    'background-color': theme.palette.text.primary
   }
 })

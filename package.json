@@ -66,6 +66,7 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@zbrckovic/entail-core": "0.0.27",
     "core-js": "^3.6.5",
     "cytoscape": "^3.15.2",

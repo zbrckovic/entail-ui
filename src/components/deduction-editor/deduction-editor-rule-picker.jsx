@@ -1,9 +1,9 @@
 import { Rule } from '@zbrckovic/entail-core'
-import { Button, ButtonVariant } from 'components/ui-toolkit/button'
 import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Flex, Text } from 'rebass'
+import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 
 export const DeductionEditorRulePicker = ({
   rules = {},
@@ -14,13 +14,15 @@ export const DeductionEditorRulePicker = ({
   const ruleDescriber = useRuleDescriber()
   const { t } = useTranslation('DeductionEditor')
 
-  return <Flex flexDirection='column' alignItems='stretch'>
-    <Text as='h4' mb={2}>{t('label.rules')}</Text>
-    <Box sx={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(2, 48px)',
-      gridGap: 1
-    }}>
+  return <Box flexDirection='column' alignItems='stretch'>
+    <Box as='h4' mb={2}>{t('label.rules')}</Box>
+    <Box
+      sx={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 48px)',
+        gridGap: 1
+      }}
+    >
       {
         allRules.map(rule => {
           const { translation, abbreviation } = ruleDescriber(rule)
@@ -29,7 +31,6 @@ export const DeductionEditorRulePicker = ({
           return (
             <Button
               key={rule}
-              variant={selected ? ButtonVariant.PRIMARY : undefined}
               title={translation}
               disabled={!rules.has(rule)}
               onClick={() => {
@@ -45,7 +46,7 @@ export const DeductionEditorRulePicker = ({
         })
       }
     </Box>
-  </Flex>
+  </Box>
 }
 
 const allRules = [

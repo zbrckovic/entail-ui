@@ -1,7 +1,7 @@
+import Box from '@material-ui/core/Box'
 import { RootCtx } from 'contexts'
 import { ActivityStatus } from 'misc/activity-status'
 import React, { useContext } from 'react'
-import { Box } from 'rebass'
 import { Routes } from 'Routes'
 
 export const App = ({ className }) => {
@@ -10,7 +10,7 @@ export const App = ({ className }) => {
 
   return (
     <Box className={className}>
-      {loading ? <Box>spinner</Box> : <Routes/>}
+      {loading ? <Box>spinner</Box> : <Routes />}
     </Box>
   )
 }
