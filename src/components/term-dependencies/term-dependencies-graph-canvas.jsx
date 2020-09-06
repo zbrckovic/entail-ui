@@ -11,7 +11,6 @@ import React, {
 } from 'react'
 import useTheme from '@material-ui/core/styles/useTheme'
 import Box from '@material-ui/core/Box'
-import { Container } from '@material-ui/core'
 
 export const TermDependenciesGraphCanvas = forwardRef(({
   graph,
@@ -151,32 +150,33 @@ const createEdge = (symFrom, symTo) => ({
   }
 })
 
-const createGraphStyles = theme => ({
-  node: {
-    shape: 'rectangle',
-    width: 20,
-    height: 20,
-    label: 'data(text)',
-    'text-halign': 'center',
-    'text-valign': 'center'
-    // TODO: fix fonts
-    // 'font-family': theme.fonts.mono,
-    // padding: theme.space[0],
-    // 'font-size': theme.fontSizes.small
-  },
-  edge: {
-    width: 1,
-    'line-color': theme.palette.primary.main,
-    'curve-style': 'bezier',
-    'target-arrow-color': theme.palette.primary.main,
-    'target-arrow-shape': 'triangle'
-  },
-  dependent: {
-    color: theme.palette.primary.contrastText,
-    'background-color': theme.palette.primary.main
-  },
-  dependency: {
-    color: theme.palette.background.paper,
-    'background-color': theme.palette.text.primary
-  }
-})
+const createGraphStyles = theme => {
+  console.log(theme)
+  return ({
+    node: {
+      shape: 'rectangle',
+      width: 20,
+      height: 20,
+      label: 'data(text)',
+      'text-halign': 'center',
+      'text-valign': 'center',
+      'font-family': theme.typography.mono,
+      padding: theme.spacing(1)
+    },
+    edge: {
+      width: 1,
+      'line-color': theme.palette.primary.main,
+      'curve-style': 'bezier',
+      'target-arrow-color': theme.palette.primary.main,
+      'target-arrow-shape': 'triangle'
+    },
+    dependent: {
+      color: theme.palette.primary.contrastText,
+      'background-color': theme.palette.primary.main
+    },
+    dependency: {
+      color: theme.palette.background.paper,
+      'background-color': theme.palette.text.primary
+    }
+  })
+}
