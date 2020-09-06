@@ -90,12 +90,8 @@ const Binding = ({ sym }) => {
   return <ExpressionText text={text} kind={sym.kind} />
 }
 
-export const ExpressionText = ({ text, kind, ...props }) =>
-  <Box
-    as="span"
-    sx={{ color: kindToColor[kind] ?? 'onSurface' }}
-    {...props}
-  >
+export const ExpressionText = ({ text, kind, color, ...props }) =>
+  <Box component="span" color={kindToColor[kind] ?? 'text.secondary'} {...props}>
     {text ?? <wbr />}
   </Box>
 

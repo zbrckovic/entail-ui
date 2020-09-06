@@ -48,7 +48,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
       }
       {
         text.length > 0 && error !== undefined &&
-        <Box flexGrow={1} text={describeError(error)} />
+        <Box text={describeError(error)} />
       }
     </Box>
     <textarea
@@ -58,7 +58,6 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
     />
     <Box>
       <Button
-        flexGrow={1}
         title={t('button.submit')}
         onClick={() => { onSubmit(parseResult?.success) }}
         disabled={formula === undefined}
@@ -67,7 +66,6 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         {t('button.submit')}
       </Button>
       <Button
-        flexGrow={1}
         title={t('button.cancel')}
         onClick={() => { onCancel() }}
       >

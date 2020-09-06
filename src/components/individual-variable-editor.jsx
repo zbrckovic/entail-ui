@@ -45,19 +45,10 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const [isValid, setIsValid] = useState(false)
 
-  return <Box
-    flexDirection='column'
-    alignItems='stretch'
-    {...props}
-  >
-    <Input
-      value={text}
-      mb={1}
-      onChange={({ target: { value } }) => { setText(value) }}
-    />
+  return <Box flexDirection='column' alignItems='stretch' {...props}>
+    <Input value={text} onChange={({ target: { value } }) => { setText(value) }} />
     <Box>
       <Button
-        flexGrow={1}
         title={t('button.submit')}
         onClick={() => {
           if (existingSym !== undefined) {
@@ -73,15 +64,10 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
           }
         }}
         disabled={!isValid || errorMessage !== undefined}
-        mr={2}
       >
         {t('button.submit')}
       </Button>
-      <Button
-        flexGrow={1}
-        title={t('button.cancel')}
-        onClick={() => { onCancel() }}
-      >
+      <Button title={t('button.cancel')} onClick={() => { onCancel() }}>
         {t('button.cancel')}
       </Button>
     </Box>
