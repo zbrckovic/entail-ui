@@ -1,16 +1,11 @@
-import { faBan, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { Category, Sym, SymPresentation, SyntacticInfo } from '@zbrckovic/entail-core'
 import {
   createTextToSymMap,
   getMaxSymId
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
-import { Button, ButtonVariant } from 'components/ui-toolkit/button'
-import { Input } from 'components/ui-toolkit/input'
-import { Message, MessageVariant } from 'components/ui-toolkit/message'
 import { SymPresentationCtx } from 'contexts'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Flex } from 'rebass'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
