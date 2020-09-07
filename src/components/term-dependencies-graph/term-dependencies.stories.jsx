@@ -1,19 +1,21 @@
 import {
   getMaxSymId,
-  SymPresentation, SyntacticInfo
+  SymPresentation,
+  SyntacticInfo
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
-import { TermDependencies } from './term-dependencies'
+import { TermDependenciesGraph } from './term-dependencies-graph'
 import { SymPresentationCtx } from 'contexts'
 import { Map, Set } from 'immutable'
 import {
-  primitivePresentationCtx, Sym,
+  primitivePresentationCtx,
+  Sym,
   TermDependencyGraph as TermDependencyGraphModel
 } from '@zbrckovic/entail-core'
 import React, { useState } from 'react'
 
 export default {
-  title: 'TermDependencies',
-  component: TermDependencies
+  title: 'TermDependenciesGraph',
+  component: TermDependenciesGraph
 }
 
 let presentationCtx = primitivePresentationCtx
@@ -68,7 +70,9 @@ export const Default = () => {
     })
   ))
 
-  return <SymPresentationCtx.Provider value={presentationCtx}>
-    <TermDependencies height={300} graph={graph} />
-  </SymPresentationCtx.Provider>
+  return (
+    <SymPresentationCtx.Provider value={presentationCtx}>
+      <TermDependenciesGraph height={300} graph={graph} />
+    </SymPresentationCtx.Provider>
+  )
 }

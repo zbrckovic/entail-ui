@@ -7,6 +7,7 @@ import {
 } from './fonts'
 
 export const theme = createMuiTheme({
+  spacing: 4,
   palette: {
     formula: 'blue',
     term: 'purple'

@@ -5,27 +5,68 @@ import React, { useState } from 'react'
 
 export default {
   title: 'DeductionSteps',
-  component: DeductionSteps
+  component: DeductionSteps,
+  argTypes: {
+    isStepSelectionEnabled: {
+      control: 'boolean'
+    },
+    text: {
+      table: { disable: true },
+      control: { disable: true }
+    },
+    onSelectedStepsChange: {
+      action: 'selectedSteps',
+      table: { disable: true },
+      control: { disable: true }
+    }
+  }
 }
 
-export const Example1 = () => {
-  const { deduction, presentationCtx } = useDeduction(`
+const Template = ({ text, isStepSelectionEnabled, onSelectedStepsChange }) => {
+  const [{ deduction, presentationCtx }] = useState(() => {
+    const parser = new DeductionParser(primitivePresentationCtx)
+    const deduction = parser.parse(text)
+    const presentationCtx = parser.presentationCtx
+    return {
+      deduction,
+      presentationCtx
+    }
+  })
+
+  const [selectedSteps, setSelectedSteps] = useState(() => new Set())
+
+  return (
+    <SymPresentationCtx.Provider value={presentationCtx}>
+      <DeductionSteps
+        steps={deduction.steps}
+        selectedSteps={isStepSelectionEnabled ? selectedSteps : undefined}
+        onSelectedStepsChange={isStepSelectionEnabled
+          ? newSelectedSteps => {
+            onSelectedStepsChange([...newSelectedSteps.keys()])
+            setSelectedSteps(newSelectedSteps)
+          }
+          : undefined
+        }
+      />
+    </SymPresentationCtx.Provider>
+  )
+}
+
+export const Example1 = Template.bind({})
+Example1.args = {
+  text: `
       (1) E[y] A[x] F(x, y)                           / P;
   1   (2) A[x] F(x, a)                                / EI 1;
   1   (3) F(b, a)                                     / UI 2;
   1   (4) E[y] F(b, y)                                / EG 3;
   1   (5) A[x] E[y] F(x, y)                           / UG 4;
       (6) E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)      / D 1, 5;
-  `)
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionSteps steps={deduction.steps} />
-    </SymPresentationCtx.Provider>
-  )
+  `
 }
 
-export const Example2 = () => {
-  const { deduction, presentationCtx } = useDeduction(`
+export const Example2 = Template.bind({})
+Example2.args = {
+  text: `
         (1)  A[x] (F(x) -> G(x))                                                      / P;
         (2)  A[x] (G(x) -> H(x))                                                      / P;
         (3)  E[x] F(x)                                                                / P;
@@ -37,51 +78,24 @@ export const Example2 = () => {
     1,2 (9)  E[x] F(x) -> E[x] H(x)                                                   / D 3, 8;
       1 (10) A[x] (G(x) -> H(x)) -> (E[x] F(x) -> E[x] H(x))                          / D 2, 9;
         (11) A[x] (F(x) -> G(x)) -> (A[x] (G(x) -> H(x)) -> (E[x] F(x) -> E[x] H(x))) / D 1, 10; 
-  `)
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionSteps steps={deduction.steps} />
-    </SymPresentationCtx.Provider>
-  )
+  `
 }
 
-export const Example3 = () => {
-  const { deduction, presentationCtx } = useDeduction(`
+export const Example3 = Template.bind({})
+Example3.args = {
+  text: `
        (1) p     / P;
        (2) q     / P;
   1, 2 (3) p & q / TI 1, 2;
-  `)
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionSteps steps={deduction.steps} />
-    </SymPresentationCtx.Provider>
-  )
+  `
 }
 
-export const Example4 = () => {
-  const { deduction, presentationCtx } = useDeduction(`
+export const Example4 = Template.bind({})
+Example4.args = {
+  text: `
       (1) A[x] E[y] E[z] F(x, y, z) / P;
   1   (2) E[y] E[z] F(a, y, z)      / UI 1;
   1   (3) E[z] F(a, b, z)           / EI 2;
   1   (4) F(a, b, c)                / EI 3;
-  `)
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <DeductionSteps steps={deduction.steps} />
-    </SymPresentationCtx.Provider>
-  )
-}
-
-const useDeduction = deductionText => {
-  const [state] = useState(() => {
-    const parser = new DeductionParser(primitivePresentationCtx)
-    const deduction = parser.parse(deductionText)
-    const presentationCtx = parser.presentationCtx
-    return {
-      deduction,
-      presentationCtx
-    }
-  })
-
-  return state
+  `
 }
