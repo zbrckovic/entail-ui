@@ -10,10 +10,13 @@ import { SymPresentationCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import Box from '@material-ui/core/Box'
 import { FormulaEditor } from '../formula-editor'
+import { makeStyles } from '@material-ui/core/styles'
 
 const createDefaultSelectedSteps = () => new Set()
 
 export const DeductionEditor = ({ sx, ...props }) => {
+  const classes = useStyles()
+
   const initialPresentationCtx = useContext(SymPresentationCtx)
 
   const [{ deductionInterface, presentationCtx }, setState] = useState(() => ({
@@ -34,111 +37,133 @@ export const DeductionEditor = ({ sx, ...props }) => {
   const [selectedRule, setSelectedRule] = useState()
   useEffect(() => { setSelectedRule(undefined) }, [rules])
 
-  // eslint-disable-next-line no-unused-vars
-  const ruleUI = useMemo(() => {
-    const onRuleCancel = () => { setSelectedRule(undefined) }
-    const ruleInterface = rulesInterface?.[selectedRule]
+  const ruleUI = useSelectedRuleUI({
+    selectedRule,
+    ruleInterface: rulesInterface?.[selectedRule],
+    onApply: setState,
+    onCancel: useCallback(() => { setSelectedRule(undefined) }, [])
+  })
 
+  return (
+    <SymPresentationCtx.Provider value={presentationCtx}>
+      <Box display='flex' {...props}>
+        <Box component='main' className={classes.main}>
+          <DeductionSteps
+            steps={deductionInterface.deduction.steps}
+            selectedSteps={selectedSteps}
+            onSelectedStepsChange={setSelectedSteps}
+            lastStepAccessory={ruleUI}
+          />
+        </Box>
+        <Box component='aside' className={classes.aside}>
+          <DeductionEditorRulePicker
+            rules={rules}
+            selectedRule={selectedRule}
+            onRuleSelect={rule => {
+              switch (rule) {
+                case Rule.Deduction: {
+                  const deductionInterface = rulesInterface[Rule.Deduction].apply()
+                  setState({ presentationCtx, deductionInterface })
+                  break
+                }
+                case Rule.UniversalInstantiation: {
+                  const [stepOrdinal] = [...selectedSteps]
+                  const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
+                  const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
+
+                  if (quantificationIsVacuous) {
+                    const deductionInterface = rulesInterface[Rule.UniversalInstantiation].apply()
+                    setState({ presentationCtx, deductionInterface })
+                  } else {
+                    setSelectedRule(rule)
+                  }
+                  break
+                }
+                case Rule.ExistentialInstantiation: {
+                  const [stepOrdinal] = [...selectedSteps]
+                  const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
+                  const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
+
+                  if (quantificationIsVacuous) {
+                    const deductionInterface =
+                      rulesInterface[Rule.ExistentialInstantiation].apply()
+                    setState({ presentationCtx, deductionInterface })
+                  } else {
+                    setSelectedRule(rule)
+                  }
+                  break
+                }
+                default: {
+                  setSelectedRule(rule)
+                }
+              }
+            }}
+            onRuleDeselect={() => { setSelectedRule(undefined) }}
+          />
+        </Box>
+      </Box>
+    </SymPresentationCtx.Provider>
+  )
+}
+
+const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) =>
+  useMemo(() => {
     switch (selectedRule) {
       case Rule.Premise:
         return (
           <FormulaEditor
             onSubmit={({ formula, presentationCtx }) => {
               const deductionInterface = ruleInterface.apply(formula)
-              setState({ presentationCtx, deductionInterface })
+              onApply({ presentationCtx, deductionInterface })
             }}
-            onCancel={onRuleCancel}
+            onCancel={onCancel}
           />
         )
       case Rule.TautologicalImplication:
         return <DeductionEditorTautologicalImplication
           flexGrow={1}
           ruleInterface={ruleInterface}
-          onApply={setState}
-          onCancel={onRuleCancel} />
+          onApply={onApply}
+          onCancel={onCancel} />
       case Rule.UniversalInstantiation:
         return <DeductionEditorUniversalInstantiation
           flexGrow={1}
           ruleInterface={ruleInterface}
-          onApply={setState}
-          onCancel={onRuleCancel} />
+          onApply={onApply}
+          onCancel={onCancel} />
       case Rule.UniversalGeneralization:
         return <DeductionEditorUniversalGeneralization
           flexGrow={1}
           ruleInterface={ruleInterface}
-          onApply={setState}
-          onCancel={onRuleCancel} />
+          onApply={onApply}
+          onCancel={onCancel} />
       case Rule.ExistentialInstantiation:
         return <DeductionEditorExistentialInstantiation
           flexGrow={1}
           ruleInterface={ruleInterface}
-          onApply={setState}
-          onCancel={onRuleCancel} />
+          onApply={onApply}
+          onCancel={onCancel} />
       case Rule.ExistentialGeneralization:
         return <DeductionEditorExistentialGeneralization
           flexGrow={1}
           ruleInterface={ruleInterface}
-          onApply={setState}
-          onCancel={onRuleCancel} />
+          onApply={onApply}
+          onCancel={onCancel} />
       default:
         return undefined
     }
-  }, [rulesInterface, selectedRule])
+  }, [ruleInterface, selectedRule, onApply, onCancel])
 
-  return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
-      <Box flexBasis={0} flexGrow={1} {...props}>
-        <DeductionSteps
-          steps={deductionInterface.deduction.steps}
-          selectedSteps={selectedSteps}
-          onSelectedStepsChange={setSelectedSteps}
-          mb={4}
-        />
-        <DeductionEditorRulePicker
-          rules={rules}
-          selectedRule={selectedRule}
-          onRuleSelect={rule => {
-            switch (rule) {
-              case Rule.Deduction: {
-                const deductionInterface = rulesInterface[Rule.Deduction].apply()
-                setState({ presentationCtx, deductionInterface })
-                break
-              }
-              case Rule.UniversalInstantiation: {
-                const [stepOrdinal] = [...selectedSteps]
-                const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
-                const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
-
-                if (quantificationIsVacuous) {
-                  const deductionInterface = rulesInterface[Rule.UniversalInstantiation].apply()
-                  setState({ presentationCtx, deductionInterface })
-                } else {
-                  setSelectedRule(rule)
-                }
-                break
-              }
-              case Rule.ExistentialInstantiation: {
-                const [stepOrdinal] = [...selectedSteps]
-                const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
-                const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
-
-                if (quantificationIsVacuous) {
-                  const deductionInterface =
-                    rulesInterface[Rule.ExistentialInstantiation].apply()
-                  setState({ presentationCtx, deductionInterface })
-                } else {
-                  setSelectedRule(rule)
-                }
-                break
-              }
-              default: {
-                setSelectedRule(rule)
-              }
-            }
-          }}
-          onRuleDeselect={() => { setSelectedRule(undefined) }}
-        />
-      </Box>
-    </SymPresentationCtx.Provider>
-  )
-}
+const useStyles = makeStyles(theme => ({
+  main: {
+    backgroundColor: theme.palette.background.paper,
+    flexGrow: 1
+  },
+  aside: {
+    backgroundColor: theme.palette.background.default,
+    borderLeftWidth: 1,
+    borderLeftStyle: 'solid',
+    borderLeftColor: theme.palette.divider,
+    padding: theme.spacing(2)
+  }
+}))

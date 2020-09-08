@@ -13,7 +13,9 @@ export const DeductionSteps = ({
   lastStepAccessory,
   ...props
 }) => {
-  const isStepSelectionEnabled = selectedSteps !== undefined && onSelectedStepsChange !== undefined
+  const isStepSelectionEnabled = selectedSteps !== undefined &&
+    onSelectedStepsChange !== undefined &&
+    lastStepAccessory === undefined
 
   const classes = useStyles({ isStepSelectionEnabled })
 
@@ -77,13 +79,15 @@ export const Step = ({
   classes,
   children
 }) => {
-  const isStepSelectionEnabled =
-    onSelect !== undefined && onDeselect !== undefined && children === undefined
+  const isStepSelectionEnabled = onSelect !== undefined && onDeselect !== undefined
 
   return children !== undefined
     ? <>
+      {isStepSelectionEnabled && <Box/>}
       <Box className={classes.cell}>{stepNumber}</Box>
       <Box className={`${classes.cell} ${classes.accessory}`}>{children}</Box>
+      <Box/>
+      <Box/>
     </>
     : <>
       {
@@ -92,7 +96,6 @@ export const Step = ({
           <Checkbox
             className={classes.checkbox}
             disableRipple
-            size='small'
             checked={selected}
             onChange={() => {
               if (selected) {
@@ -183,7 +186,7 @@ const useStyles = makeStyles(theme => {
       borderBottomColor: theme.palette.divider
     },
     accessory: {
-      gridColumn: '2 / span 4'
+      gridColumn: ({ isStepSelectionEnabled }) => `${isStepSelectionEnabled ? 3 : 2} / span 3`
     }
   })
 })

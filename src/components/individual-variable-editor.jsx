@@ -9,8 +9,11 @@ import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import Box from '@material-ui/core/Box'
-import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
+import { IconButton } from '@material-ui/core'
+import CheckIcon from '@material-ui/icons/Check'
+import CloseIcon from '@material-ui/icons/Close'
+import TextField from '@material-ui/core/TextField'
 
 export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
@@ -45,10 +48,14 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const [isValid, setIsValid] = useState(false)
 
-  return <Box flexDirection='column' alignItems='stretch' {...props}>
-    <Input value={text} onChange={({ target: { value } }) => { setText(value) }} />
-    <Box>
-      <Button
+  return (
+    <Box {...props}>
+      <TextField
+        value={text}
+        onChange={({ target: { value } }) => { setText(value) }}
+      />
+      <IconButton
+        color='primary'
         title={t('button.submit')}
         onClick={() => {
           if (existingSym !== undefined) {
@@ -65,14 +72,13 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         }}
         disabled={!isValid || errorMessage !== undefined}
       >
-        {t('button.submit')}
-      </Button>
-      <Button title={t('button.cancel')} onClick={() => { onCancel() }}>
-        {t('button.cancel')}
-      </Button>
+        <CheckIcon />
+      </IconButton>
+      <IconButton title={t('button.cancel')} onClick={() => { onCancel() }}>
+        <CloseIcon />
+      </IconButton>
     </Box>
-    {errorMessage && <Box text={errorMessage} />}
-  </Box>
+  )
 }
 
 const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/

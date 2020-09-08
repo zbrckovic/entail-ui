@@ -1,5 +1,4 @@
 import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { ExpressionView } from 'components/expression-view'
 import { SymPresentationCtx } from 'contexts'
@@ -10,6 +9,9 @@ import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
+import { IconButton } from '@material-ui/core'
+import CheckIcon from '@material-ui/icons/Check'
+import CloseIcon from '@material-ui/icons/Close'
 
 export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const classes = useStyles()
@@ -40,51 +42,46 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const presentationCtx = parseResult?.success?.presentationCtx
   const error = parseResult?.error
 
-  return <Box flexDirection='column' {...props}>
-    <Box alignItems='center' flexBasis={38} mb={2}>
-      {
-        formula !== undefined
-          ? (
-            <SymPresentationCtx.Provider value={presentationCtx}>
-              <ExpressionView expression={formula} px={3} />
-            </SymPresentationCtx.Provider>
-          ) : <wbr />
-      }
-      {
-        text.length > 0 && error !== undefined &&
-        <Box text={describeError(error)} />
-      }
+  return (
+    <Box display='flex' flexDirection='column' {...props}>
+      <Box alignItems='center' mb={1}>
+        {
+          formula !== undefined
+            ? (
+              <SymPresentationCtx.Provider value={presentationCtx}>
+                <ExpressionView expression={formula} px={3} />
+              </SymPresentationCtx.Provider>
+            ) : <wbr />
+        }
+        {
+          text.length > 0 && error !== undefined &&
+          <Box text={describeError(error)} />
+        }
+      </Box>
+      <Box display='flex'>
+        <TextField
+          className={classes.textField}
+          rowsMax={10}
+          multiline
+          value={text}
+          onChange={event => { setText(event.target.value) }}
+          error={error !== undefined}
+          helperText={error !== undefined ? describeError(error) : undefined}
+        />
+        <IconButton
+          color='primary'
+          title={t('button.submit')}
+          onClick={() => { onSubmit(parseResult?.success) }}
+          disabled={formula === undefined}
+        >
+          <CheckIcon />
+        </IconButton>
+        <IconButton title={t('button.cancel')} onClick={() => { onCancel() }}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
     </Box>
-    <TextField
-      className={classes.textField}
-      variant='outlined'
-      rowsMax={10}
-      multiline
-      value={text}
-      onChange={event => { setText(event.target.value) }}
-      error={error !== undefined}
-      size='small'
-      helperText={error !== undefined ? describeError(error) : undefined}
-    />
-    <Box>
-      <Button
-        size='small'
-        color='primary'
-        title={t('button.submit')}
-        onClick={() => { onSubmit(parseResult?.success) }}
-        disabled={formula === undefined}
-      >
-        {t('button.submit')}
-      </Button>
-      <Button
-        size='small'
-        title={t('button.cancel')}
-        onClick={() => { onCancel() }}
-      >
-        {t('button.cancel')}
-      </Button>
-    </Box>
-  </Box>
+  )
 }
 
 const useParser = () => {
@@ -108,6 +105,7 @@ const useParser = () => {
 
 const useStyles = makeStyles(theme => ({
   textField: {
+    flexGrow: 1,
     marginBottom: theme.spacing(1),
     '& textarea': {
       fontFamily: theme.typography.mono
