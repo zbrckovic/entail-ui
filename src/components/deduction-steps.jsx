@@ -6,7 +6,13 @@ import { makeStyles } from '@material-ui/core/styles'
 import Checkbox from '@material-ui/core/Checkbox'
 
 /* Supports step selection if `selectedSteps` and `onSelectedStepsChange` are provided */
-export const DeductionSteps = ({ steps, selectedSteps, onSelectedStepsChange, ...props }) => {
+export const DeductionSteps = ({
+  steps,
+  selectedSteps,
+  onSelectedStepsChange,
+  lastStepAccessory,
+  ...props
+}) => {
   const isStepSelectionEnabled = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
   const classes = useStyles({ isStepSelectionEnabled })
@@ -49,55 +55,69 @@ export const DeductionSteps = ({ steps, selectedSteps, onSelectedStepsChange, ..
           />
         )
       })}
+      {
+        lastStepAccessory !== undefined
+          ? (
+            <Step key={steps.size + 1} stepNumber={steps.size + 1} classes={classes}>
+              {lastStepAccessory}
+            </Step>
+          )
+          : undefined
+      }
     </Box>
   )
 }
 
 export const Step = ({
-  step: { assumptions, formula, ruleApplicationSummary },
+  step,
   stepNumber,
   selected,
   onSelect,
   onDeselect,
-  classes
+  classes,
+  children
 }) => {
-  const isStepSelectionEnabled = onSelect !== undefined && onDeselect !== undefined
+  const isStepSelectionEnabled =
+    onSelect !== undefined && onDeselect !== undefined && children === undefined
 
-  return <>
-    {
-      isStepSelectionEnabled &&
+  return children !== undefined
+    ? <>
+      <Box className={classes.cell}>{stepNumber}</Box>
+      <Box className={`${classes.cell} ${classes.accessory}`}>{children}</Box>
+    </>
+    : <>
+      {
+        isStepSelectionEnabled &&
+        <Box className={classes.cell}>
+          <Checkbox
+            className={classes.checkbox}
+            disableRipple
+            size='small'
+            checked={selected}
+            onChange={() => {
+              if (selected) {
+                onDeselect()
+              } else {
+                onSelect()
+              }
+            }}
+          />
+        </Box>
+      }
+      <Box className={classes.cell}>{stepNumber}</Box>
       <Box className={classes.cell}>
-        <Checkbox
-          className={classes.checkbox}
-          disableRipple
-          size='small'
-          checked={selected}
-          onChange={() => {
-            if (selected) {
-              onDeselect()
-            } else {
-              onSelect()
-            }
-          }}
-        />
+        <StepAssumptions assumptions={step.assumptions} />
       </Box>
-    }
-    <Box className={classes.cell}>
-      {stepNumber}
-    </Box>
-    <Box className={classes.cell}>
-      <StepAssumptions assumptions={assumptions} />
-    </Box>
-    <Box className={classes.cell}>
-      <ExpressionView expression={formula} />
-    </Box>
-    <Box className={classes.cell}>
-      <StepRule rule={ruleApplicationSummary.rule} />
-    </Box>
-    <Box className={classes.cell}>
-      <StepPremises premises={ruleApplicationSummary.premises} />
-    </Box>
-  </>
+      <Box className={classes.cell}>
+        <ExpressionView expression={step.formula} />
+      </Box>
+      <Box className={classes.cell}>
+        <StepRule rule={step.ruleApplicationSummary.rule} />
+      </Box>
+      <Box className={classes.cell}>
+        <StepPremises premises={step.ruleApplicationSummary.premises} />
+      </Box>
+    </>
 }
 
 export const StepAssumptions = ({ assumptions, ...props }) => {
@@ -161,6 +181,9 @@ const useStyles = makeStyles(theme => {
       borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       borderBottomColor: theme.palette.divider
+    },
+    accessory: {
+      gridColumn: '2 / span 4'
     }
   })
 })

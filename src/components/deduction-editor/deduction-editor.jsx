@@ -1,7 +1,6 @@
 import { DeductionInterface, Rule } from '@zbrckovic/entail-core'
 import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
 import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
-import { DeductionEditorPremise } from './deduction-editor-premise'
 import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
 import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
 import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
@@ -10,6 +9,7 @@ import { DeductionSteps } from 'components/deduction-steps'
 import { SymPresentationCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import Box from '@material-ui/core/Box'
+import { FormulaEditor } from '../formula-editor'
 
 const createDefaultSelectedSteps = () => new Set()
 
@@ -35,17 +35,21 @@ export const DeductionEditor = ({ sx, ...props }) => {
   useEffect(() => { setSelectedRule(undefined) }, [rules])
 
   // eslint-disable-next-line no-unused-vars
-  const determineRuleUI = useCallback(rule => {
+  const ruleUI = useMemo(() => {
     const onRuleCancel = () => { setSelectedRule(undefined) }
-    const ruleInterface = rulesInterface?.[rule]
+    const ruleInterface = rulesInterface?.[selectedRule]
 
-    switch (rule) {
+    switch (selectedRule) {
       case Rule.Premise:
-        return <DeductionEditorPremise
-          flexGrow={1}
-          ruleInterface={ruleInterface}
-          onApply={setState}
-          onCancel={onRuleCancel} />
+        return (
+          <FormulaEditor
+            onSubmit={({ formula, presentationCtx }) => {
+              const deductionInterface = ruleInterface.apply(formula)
+              setState({ presentationCtx, deductionInterface })
+            }}
+            onCancel={onRuleCancel}
+          />
+        )
       case Rule.TautologicalImplication:
         return <DeductionEditorTautologicalImplication
           flexGrow={1}
@@ -76,8 +80,10 @@ export const DeductionEditor = ({ sx, ...props }) => {
           ruleInterface={ruleInterface}
           onApply={setState}
           onCancel={onRuleCancel} />
+      default:
+        return undefined
     }
-  }, [rulesInterface])
+  }, [rulesInterface, selectedRule])
 
   return (
     <SymPresentationCtx.Provider value={presentationCtx}>

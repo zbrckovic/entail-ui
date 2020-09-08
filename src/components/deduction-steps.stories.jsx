@@ -10,6 +10,9 @@ export default {
     isStepSelectionEnabled: {
       control: 'boolean'
     },
+    hasLastStepAccessory: {
+      control: 'boolean'
+    },
     text: {
       table: { disable: true },
       control: { disable: true }
@@ -22,7 +25,12 @@ export default {
   }
 }
 
-const Template = ({ text, isStepSelectionEnabled, onSelectedStepsChange }) => {
+const Template = ({
+  text,
+  isStepSelectionEnabled,
+  onSelectedStepsChange,
+  hasLastStepAccessory
+}) => {
   const [{ deduction, presentationCtx }] = useState(() => {
     const parser = new DeductionParser(primitivePresentationCtx)
     const deduction = parser.parse(text)
@@ -47,10 +55,13 @@ const Template = ({ text, isStepSelectionEnabled, onSelectedStepsChange }) => {
           }
           : undefined
         }
+        lastStepAccessory={hasLastStepAccessory ? <LastStepAccessory /> : undefined}
       />
     </SymPresentationCtx.Provider>
   )
 }
+
+const LastStepAccessory = () => <div>Last Step Accessory Example</div>
 
 export const Example1 = Template.bind({})
 Example1.args = {
