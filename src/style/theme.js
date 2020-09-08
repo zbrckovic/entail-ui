@@ -13,7 +13,7 @@ export const theme = createMuiTheme({
     term: 'purple'
   },
   typography: {
-    fontFamily: sourceSansFamily,
+    // fontFamily: sourceSansFamily,
     mono: sourceCodeProFamily
   },
   overrides: {
