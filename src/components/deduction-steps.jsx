@@ -22,8 +22,21 @@ export const DeductionSteps = ({
   const lastStepNumber = steps.size
   const lastStepNumberDigitsCount = Math.floor(Math.log10(lastStepNumber)) + 1
 
+  const columnWidths = {
+    checkbox: 0,
+    stepNumber: 50,
+    assumptions: 50,
+    rule: 50,
+    premises: 50
+  }
+
   return (
-    <Box className={classes.grid} {...props}>
+    <Box
+      display='flex'
+      flexDirection='column'
+      alignItems='stretch'
+      {...props}
+    >
       {steps.map((step, i) => {
         const stepNumber = i + 1
 
@@ -36,6 +49,7 @@ export const DeductionSteps = ({
             stepNumberColumnWidth={`${lastStepNumberDigitsCount}ch`}
             isLast={stepNumber === lastStepNumber}
             selected={isStepSelectionEnabled && selectedSteps.has(stepNumber)}
+            columnWidths={columnWidths}
             onSelect={
               isStepSelectionEnabled
                 ? () => {
@@ -60,7 +74,12 @@ export const DeductionSteps = ({
       {
         lastStepAccessory !== undefined
           ? (
-            <Step key={steps.size + 1} stepNumber={steps.size + 1} classes={classes}>
+            <Step
+              key={steps.size + 1}
+              stepNumber={steps.size + 1}
+              classes={classes}
+              columnWidths={columnWidths}
+            >
               {lastStepAccessory}
             </Step>
           )
@@ -77,50 +96,60 @@ export const Step = ({
   onSelect,
   onDeselect,
   classes,
-  children
+  children,
+  columnWidths
 }) => {
   const isStepSelectionEnabled = onSelect !== undefined && onDeselect !== undefined
 
-  return children !== undefined
-    ? <>
-      {isStepSelectionEnabled && <Box/>}
-      <Box className={classes.cell}>{stepNumber}</Box>
-      <Box className={`${classes.cell} ${classes.accessory}`}>{children}</Box>
-      <Box/>
-      <Box/>
-    </>
-    : <>
+  return (
+    <Box display='flex' className={classes.row}>
       {
-        isStepSelectionEnabled &&
-        <Box className={classes.cell}>
-          <Checkbox
-            className={classes.checkbox}
-            disableRipple
-            checked={selected}
-            onChange={() => {
-              if (selected) {
-                onDeselect()
-              } else {
-                onSelect()
+        children !== undefined
+          ? (
+            <>
+              {isStepSelectionEnabled && <Box flexBasis={columnWidths.checkbox} />}
+              <Box flexBasis={columnWidths.stepNumber}>{stepNumber}</Box>
+              <Box>{children}</Box>
+            </>
+          ) : (
+            <>
+              {
+                isStepSelectionEnabled &&
+                <Box flexBasis={columnWidths.checkbox}>
+                  <Checkbox
+                    className={classes.checkbox}
+                    disableRipple
+                    checked={selected}
+                    onChange={() => {
+                      if (selected) {
+                        onDeselect()
+                      } else {
+                        onSelect()
+                      }
+                    }}
+                  />
+                </Box>
               }
-            }}
-          />
-        </Box>
+              <Box flexBasis={columnWidths.stepNumber}>
+                {stepNumber}
+              </Box>
+              <Box flexBasis={columnWidths.assumptions}>
+                <StepAssumptions assumptions={step.assumptions} />
+              </Box>
+              <Box flexGrow={1}>
+                <ExpressionView expression={step.formula} />
+              </Box>
+              <Box flexBasis={columnWidths.rule}>
+                <StepRule rule={step.ruleApplicationSummary.rule} />
+              </Box>
+              <Box flexBasis={columnWidths.premises}>
+                <StepPremises premises={step.ruleApplicationSummary.premises} />
+              </Box>
+            </>
+          )
       }
-      <Box className={classes.cell}>{stepNumber}</Box>
-      <Box className={classes.cell}>
-        <StepAssumptions assumptions={step.assumptions} />
-      </Box>
-      <Box className={classes.cell}>
-        <ExpressionView expression={step.formula} />
-      </Box>
-      <Box className={classes.cell}>
-        <StepRule rule={step.ruleApplicationSummary.rule} />
-      </Box>
-      <Box className={classes.cell}>
-        <StepPremises premises={step.ruleApplicationSummary.premises} />
-      </Box>
-    </>
+    </Box>
+  )
 }
 
 export const StepAssumptions = ({ assumptions, ...props }) => {
@@ -170,23 +199,13 @@ export const StepRule = ({ rule, ...props }) => {
 
 const useStyles = makeStyles(theme => {
   return ({
-    grid: {
-      display: 'grid',
-      gridTemplateColumns: ({ isStepSelectionEnabled }) =>
-        `repeat(${isStepSelectionEnabled ? 2 : 1}, min-content) max-content auto min-content max-content`
-    },
     checkbox: {
       padding: 0
     },
-    cell: {
-      paddingLeft: theme.spacing(2),
-      paddingRight: theme.spacing(2),
+    row: {
       borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       borderBottomColor: theme.palette.divider
-    },
-    accessory: {
-      gridColumn: ({ isStepSelectionEnabled }) => `${isStepSelectionEnabled ? 3 : 2} / span 3`
     }
   })
 })
