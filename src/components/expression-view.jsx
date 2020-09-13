@@ -33,7 +33,7 @@ export const ExpressionView = ({
 
   return (
     root ? (
-      <Box fontFamily='mono'{...props}>
+      <Box fontFamily='mono' {...props}>
         {content}
       </Box>
     ) : content
