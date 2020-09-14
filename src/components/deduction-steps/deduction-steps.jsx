@@ -1,8 +1,12 @@
-import React, { useMemo } from 'react'
-import Box from '@material-ui/core/Box'
-import { Step } from './step'
-import { makeStyles } from '@material-ui/core/styles'
-import { MAX_PREMISES_LIST_LENGTH, MAX_RULE_ABBREVIATION_LENGTH } from '../../constants'
+import { TableRow } from '@material-ui/core'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import { StepAssumptions } from 'components/deduction-steps/step-assumptions'
+import { StepPremises } from 'components/deduction-steps/step-premises'
+import { StepRule } from 'components/deduction-steps/step-rule'
+import { ExpressionView } from 'components/expression-view'
+import React from 'react'
 
 /* Supports step selection if `selectedSteps` and `onSelectedStepsChange` are provided */
 export const DeductionSteps = ({
@@ -14,107 +18,64 @@ export const DeductionSteps = ({
 }) => {
   const hasStepSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
-  const classes = useStyles()
-
-  const columnWidths = useMemo(
-    () => calculateColumnWidths({ steps, lastStepAccessory }),
-    [steps, lastStepAccessory]
-  )
-
   return (
-    <Box
-      display='flex'
-      flexDirection='column'
-      alignItems='stretch'
-      {...props}
-    >
-      {steps.map((step, i) => {
-        const stepNumber = i + 1
+    <Table size='small' {...props}>
+      <TableBody>
+        {
+          steps.map((step, i) => {
+            const stepNumber = i + 1
 
-        return (
-          <Step
-            classes={classes}
-            key={i}
-            step={step}
-            stepNumber={stepNumber}
-            isLast={stepNumber === steps.size}
-            columnWidths={columnWidths}
-            hasStepSelection={hasStepSelection}
-            selected={hasStepSelection ? selectedSteps.has(stepNumber) : undefined}
-            onSelect={
-              hasStepSelection
-                ? () => {
-                  const newSelectedSteps = new Set(selectedSteps)
-                  newSelectedSteps.add(stepNumber)
-                  onSelectedStepsChange(newSelectedSteps)
-                }
-                : undefined
+            // eslint-disable-next-line no-unused-vars
+            const isSelected = hasStepSelection ? selectedSteps.has(stepNumber) : undefined
+
+            // eslint-disable-next-line no-unused-vars
+            const onSelect = () => {
+              const newSelectedSteps = new Set(selectedSteps)
+              newSelectedSteps.add(stepNumber)
+              onSelectedStepsChange(newSelectedSteps)
             }
-            onDeselect={
-              hasStepSelection
-                ? () => {
-                  const newSelectedSteps = new Set(selectedSteps)
-                  newSelectedSteps.delete(stepNumber)
-                  onSelectedStepsChange(newSelectedSteps)
-                }
-                : undefined
+
+            // eslint-disable-next-line no-unused-vars
+            const onDeselect = () => {
+              const newSelectedSteps = new Set(selectedSteps)
+              newSelectedSteps.delete(stepNumber)
+              onSelectedStepsChange(newSelectedSteps)
             }
-          />
-        )
-      })}
-      {
-        lastStepAccessory !== undefined
-          ? (
-            <Step
-              key={steps.size + 1}
-              stepNumber={steps.size + 1}
-              classes={classes}
-              columnWidths={columnWidths}
-              hasStepSelection={hasStepSelection}
-            >
-              {lastStepAccessory}
-            </Step>
+
+            return (
+              <TableRow key={i}>
+                <TableCell>
+                  {stepNumber}
+                </TableCell>
+                <TableCell>
+                  <StepAssumptions assumptions={step.assumptions}/>
+                </TableCell>
+                <TableCell>
+                  <ExpressionView expression={step.formula}/>
+                </TableCell>
+                <TableCell>
+                  <StepRule rule={step.ruleApplicationSummary.rule}/>
+                </TableCell>
+                <TableCell>
+                  <StepPremises premises={step.ruleApplicationSummary.premises}/>
+                </TableCell>
+              </TableRow>
+            )
+          })
+        }
+        {
+          lastStepAccessory !== undefined && (
+            <TableRow key={steps.size + 1}>
+              <TableCell>
+                {steps.size + 1}
+              </TableCell>
+              <TableCell>
+                {lastStepAccessory}
+              </TableCell>
+            </TableRow>
           )
-          : undefined
-      }
-    </Box>
+        }
+      </TableBody>
+    </Table>
   )
-}
-
-const useStyles = makeStyles(theme => {
-  return ({
-    checkbox: {
-      padding: 0
-    },
-    row: {
-      borderBottomWidth: 1,
-      borderBottomStyle: 'solid',
-      borderBottomColor: theme.palette.divider
-    }
-  })
-})
-
-const calculateColumnWidths = ({ steps, lastStepAccessory }) => {
-  let lastStepNumber = steps.size
-  if (lastStepAccessory !== undefined) {
-    lastStepNumber += 1
-  }
-  const lastStepNumberDigitsCount = Math.floor(Math.log10(lastStepNumber)) + 1
-
-  let assumptionsTextLength = 1
-  let premisesTextLength = 1
-  steps.forEach(({ assumptions, ruleApplicationSummary: { premises } }) => {
-    const assumptionsText = assumptions.map(assumption => `${assumption}`).join(',')
-    const premisesText = premises.map(assumption => `${assumption}`).join(',')
-    assumptionsTextLength = Math.max(assumptionsTextLength, assumptionsText.length)
-    premisesTextLength = Math.max(premisesTextLength, premisesText.length)
-  })
-
-  return {
-    checkbox: '20px',
-    stepNumber: `${lastStepNumberDigitsCount}ch`,
-    assumptions: `${Math.min(MAX_PREMISES_LIST_LENGTH, assumptionsTextLength)}ch`,
-    rule: `${MAX_RULE_ABBREVIATION_LENGTH}ch`,
-    premises: `${Math.min(MAX_PREMISES_LIST_LENGTH, premisesTextLength)}ch`
-  }
 }
