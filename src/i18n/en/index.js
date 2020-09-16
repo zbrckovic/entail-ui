@@ -5,6 +5,7 @@ import Rule from './rule.json'
 import DeductionEditor from './deduction-editor.json'
 import IndividualVariableEditor from './individual-variable-editor.json'
 import TermDependencies from './term-dependencies.json'
+import DeductionSteps from './deduction-steps.json'
 
 export const namespaces = {
   DevInfo,
@@ -13,5 +14,6 @@ export const namespaces = {
   Rule,
   DeductionEditor,
   IndividualVariableEditor,
-  TermDependencies
+  TermDependencies,
+  DeductionSteps
 }

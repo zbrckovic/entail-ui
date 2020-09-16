@@ -11,6 +11,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import TableContainer from '@material-ui/core/TableContainer'
 import Checkbox from '@material-ui/core/Checkbox'
 import TableHead from '@material-ui/core/TableHead'
+import { useTranslation } from 'react-i18next'
 
 /* Supports step selection if `selectedSteps` and `onSelectedStepsChange` are provided */
 export const DeductionSteps = ({
@@ -20,6 +21,8 @@ export const DeductionSteps = ({
   lastStepAccessory,
   ...props
 }) => {
+  const { t } = useTranslation('DeductionSteps')
+
   const classes = useStyles()
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
@@ -36,21 +39,27 @@ export const DeductionSteps = ({
             {
               hasRowSelection &&
               <TableCell className={classes.cell}>
-                <Checkbox
-                  indeterminate={areSomeRowsSelected && !areAllRowsSelected}
-                  checked={hasSteps && areAllRowsSelected}
-                  onChange={() => {
-                    if (areAllRowsSelected) {
-                      onSelectedStepsChange(new Set())
-                    } else {
-                      const allStepNumbers = new Set(steps.map((step, i) => i + 1))
-                      onSelectedStepsChange(allStepNumbers)
-                    }
-                  }}
-                />
+                {steps.size > 0 && (
+                  <Checkbox
+                    indeterminate={areSomeRowsSelected && !areAllRowsSelected}
+                    checked={hasSteps && areAllRowsSelected}
+                    onChange={() => {
+                      if (areAllRowsSelected) {
+                        onSelectedStepsChange(new Set())
+                      } else {
+                        const allStepNumbers = new Set(steps.map((step, i) => i + 1))
+                        onSelectedStepsChange(allStepNumbers)
+                      }
+                    }}
+                  />
+                )}
               </TableCell>
             }
-            <TableCell colSpan={5} />
+            <TableCell className={classes.cell}/>
+            <TableCell className={classes.cell}>{t('label.assumptions')}</TableCell>
+            <TableCell className={classes.cell}/>
+            <TableCell className={classes.cell}>{t('label.rule')}</TableCell>
+            <TableCell className={classes.cell}>{t('label.premises')}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -110,9 +119,8 @@ export const DeductionSteps = ({
                   {steps.size + 1}
                 </TableCell>
                 <TableCell />
-                <TableCell className={classes.cell} colSpan={3}>
-                  {lastStepAccessory}
-                </TableCell>
+                <TableCell className={classes.cell}>{lastStepAccessory}</TableCell>
+                <TableCell colSpan={2} />
               </TableRow>
             )
           }
@@ -122,7 +130,7 @@ export const DeductionSteps = ({
   )
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   cell: {
     padding: 0
   },
