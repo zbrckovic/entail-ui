@@ -1,4 +1,4 @@
-import { FormulaParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
+import { FormulaParser, primitiveSyms, primitivePresentations } from '@zbrckovic/entail-core'
 import { useEffect, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
@@ -28,18 +28,16 @@ const parse = text => {
   let error
 
   try {
-    const parser = new FormulaParser(primitivePresentationCtx)
-    const formula = parser.parse(text)
+    const parser = FormulaParser({ syms: primitiveSyms, presentations: primitivePresentations })
+
     success = {
-      formula,
-      presentationCtx: parser.presentationCtx
+      formula: parser.parse(text),
+      syms: parser.getSyms(),
+      presentations: parser.getPresentations()
     }
   } catch (e) {
     error = e
   }
 
-  return {
-    success,
-    error
-  }
+  return { success, error }
 }

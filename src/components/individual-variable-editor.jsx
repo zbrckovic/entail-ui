@@ -3,13 +3,12 @@ import {
   createTextToSymMap,
   getMaxSymId
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
 import { IconButton } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
@@ -17,14 +16,14 @@ import TextField from '@material-ui/core/TextField'
 
 export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
-  const presentationCtx = useContext(SymPresentationCtx)
-  const textToSymMap = useMemo(() => createTextToSymMap(presentationCtx), [presentationCtx])
+  const { syms, presentations } = useContext(SymCtx)
+  const textToSymMap = useMemo(() => createTextToSymMap(presentations, syms), [syms, presentations])
 
   const [text, setText] = useState('')
   const [textSubject] = useState(new Subject())
   useEffect(() => { textSubject.next(text) }, [textSubject, text])
 
-  const existingSym = textToSymMap.get(text)
+  const existingSym = textToSymMap[text]
 
   const errorMessage = useMemo(
     () =>
@@ -59,14 +58,15 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         title={t('button.submit')}
         onClick={() => {
           if (existingSym !== undefined) {
-            onSubmit({ sym: existingSym, presentationCtx })
+            onSubmit({ sym: existingSym, syms, presentations })
           } else {
-            const newSym = Sym.tt({ id: getMaxSymId(presentationCtx) + 1 })
+            const newSym = Sym.tt({ id: getMaxSymId(presentations) + 1 })
             const newPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix(text) })
 
             onSubmit({
               sym: newSym,
-              presentationCtx: presentationCtx.set(newSym, newPresentation)
+              syms: { ...syms, [newSym.id]: newSym },
+              presentations: { ...presentations, [newSym.id]: newPresentation }
             })
           }
         }}
@@ -83,6 +83,6 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
 
 const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/
 
-const isValidIndividualVariable = sym => sym.getCategory() === Category.TT && sym.arity === 0
+const isValidIndividualVariable = sym => Sym.getCategory(sym) === Category.TT && sym.arity === 0
 
 const validateText = text => INDIVIDUAL_VARIABLE_REGEX.test(text)

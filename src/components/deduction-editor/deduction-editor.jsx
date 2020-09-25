@@ -6,7 +6,7 @@ import { DeductionEditorTautologicalImplication } from './deduction-editor-tauto
 import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
 import { DeductionSteps } from 'components/deduction-steps'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import Box from '@material-ui/core/Box'
 import { FormulaEditor } from '../formula-editor'
@@ -17,7 +17,7 @@ const createDefaultSelectedSteps = () => new Set()
 export const DeductionEditor = ({ sx, ...props }) => {
   const classes = useStyles()
 
-  const initialPresentationCtx = useContext(SymPresentationCtx)
+  const initialPresentationCtx = useContext(SymCtx)
 
   const [{ deductionInterface, presentationCtx }, setState] = useState(() => ({
     presentationCtx: initialPresentationCtx,
@@ -45,7 +45,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
   })
 
   return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
+    <SymCtx.Provider value={presentationCtx}>
       <Box display='flex' {...props}>
         <Box component='main' className={classes.main}>
           <DeductionSteps
@@ -102,7 +102,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
           />
         </Box>
       </Box>
-    </SymPresentationCtx.Provider>
+    </SymCtx.Provider>
   )
 }
 

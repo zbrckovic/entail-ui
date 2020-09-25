@@ -1,5 +1,5 @@
 import { MAX_ZOOM, MIN_ZOOM } from './term-dependencies-graph-common'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import cytoscape from 'cytoscape'
 import React, {
   forwardRef,
@@ -123,7 +123,7 @@ const useElementsFactory = () => {
 }
 
 const useNodeFactories = () => {
-  const presentationCtx = useContext(SymPresentationCtx)
+  const presentationCtx = useContext(SymCtx)
 
   const createNode = sym => {
     const { ascii: { text } } = presentationCtx.get(sym)

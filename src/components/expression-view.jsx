@@ -1,6 +1,6 @@
 import Box from '@material-ui/core/Box'
 import { Kind, Placement, primitiveSyms } from '@zbrckovic/entail-core'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
 
 /** Shows textual representation of a provided expression. */
@@ -10,7 +10,7 @@ export const ExpressionView = ({
   sx,
   ...props
 }) => {
-  const presentationCtx = useContext(SymPresentationCtx)
+  const presentationCtx = useContext(SymCtx)
   const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
 
   const content = placement === Placement.Prefix ? (
@@ -77,7 +77,7 @@ const Infix = ({ sym, symText, childExpression1, childExpression2, root }) => <>
 </>
 
 const Binding = ({ sym }) => {
-  const presentationCtx = useContext(SymPresentationCtx)
+  const presentationCtx = useContext(SymCtx)
   const text = presentationCtx.get(sym).getDefaultSyntacticInfo().text
   return <ExpressionText text={text} kind={sym.kind} />
 }

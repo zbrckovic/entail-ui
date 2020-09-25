@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { theme } from 'style/theme'
 import Box from '@material-ui/core/Box'
 
-// add layout algorithm to cytoscape
+// Add layout algorithm to cytoscape.
 cytoscape.use(klay)
 
 export const RootWrapper = ({ children }) => {

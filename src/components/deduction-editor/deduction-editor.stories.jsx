@@ -1,6 +1,6 @@
 import { primitivePresentationCtx } from '@zbrckovic/entail-core'
 import { DeductionEditor } from 'components/deduction-editor/deduction-editor'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import React from 'react'
 
 export default {
@@ -9,6 +9,6 @@ export default {
 }
 
 export const Default = () =>
-  <SymPresentationCtx.Provider value={primitivePresentationCtx}>
+  <SymCtx.Provider value={primitivePresentationCtx}>
     <DeductionEditor height='100%'/>
-  </SymPresentationCtx.Provider>
+  </SymCtx.Provider>

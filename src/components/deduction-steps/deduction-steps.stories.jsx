@@ -1,6 +1,6 @@
 import { DeductionParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
 import { DeductionSteps } from './deduction-steps'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import React, { useState } from 'react'
 
 export default {
@@ -44,7 +44,7 @@ const Template = ({
   const [selectedSteps, setSelectedSteps] = useState(() => new Set())
 
   return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
+    <SymCtx.Provider value={presentationCtx}>
       <DeductionSteps
         steps={deduction.steps}
         selectedSteps={isStepSelectionEnabled ? selectedSteps : undefined}
@@ -57,7 +57,7 @@ const Template = ({
         }
         lastStepAccessory={hasLastStepAccessory ? <LastStepAccessory /> : undefined}
       />
-    </SymPresentationCtx.Provider>
+    </SymCtx.Provider>
   )
 }
 

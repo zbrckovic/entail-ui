@@ -1,9 +1,9 @@
-import { DeductionParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
+import { DeductionParser, primitiveSyms, primitivePresentations } from '@zbrckovic/entail-core'
 import { useEffect, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 
-/** Return the result of parsing the deduction text entered into the input field. */
+// Return the result of parsing the deduction text entered into the input field.
 export const useEnteredDeduction = initialText => {
   const lastText = initialText
 
@@ -31,19 +31,16 @@ const parse = text => {
   let error
 
   try {
-    const parser = new DeductionParser(primitivePresentationCtx)
-    const deduction = parser.parse(text)
-    const presentationCtx = parser.presentationCtx
+    const parser = DeductionParser({ syms: primitiveSyms, presentations: primitivePresentations })
+
     success = {
-      deduction,
-      presentationCtx
+      deduction: parser.parse(text),
+      syms: parser.getSyms(),
+      presentations: parser.getPresentations()
     }
   } catch (e) {
     error = e
   }
 
-  return {
-    success,
-    error
-  }
+  return { success, error }
 }

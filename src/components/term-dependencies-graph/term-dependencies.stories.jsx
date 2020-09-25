@@ -4,7 +4,7 @@ import {
   SyntacticInfo
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
 import { TermDependenciesGraph } from './term-dependencies-graph'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import { Map, Set } from 'immutable'
 import {
   primitivePresentationCtx,
@@ -71,8 +71,8 @@ export const Default = () => {
   ))
 
   return (
-    <SymPresentationCtx.Provider value={presentationCtx}>
+    <SymCtx.Provider value={presentationCtx}>
       <TermDependenciesGraph height={300} graph={graph} />
-    </SymPresentationCtx.Provider>
+    </SymCtx.Provider>
   )
 }

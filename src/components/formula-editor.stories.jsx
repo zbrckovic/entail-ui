@@ -1,6 +1,6 @@
-import { primitivePresentationCtx } from '@zbrckovic/entail-core'
+import { primitivePresentations, primitiveSyms } from '@zbrckovic/entail-core'
 import { FormulaEditor } from 'components/formula-editor'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import React from 'react'
 
 export default {
@@ -17,6 +17,6 @@ export default {
 }
 
 export const Default = args =>
-  <SymPresentationCtx.Provider value={primitivePresentationCtx}>
-    <FormulaEditor height={500} {...args}/>
-  </SymPresentationCtx.Provider>
+  <SymCtx.Provider value={{ syms: primitiveSyms, presentations: primitivePresentations }}>
+    <FormulaEditor height={500} {...args} />
+  </SymCtx.Provider>

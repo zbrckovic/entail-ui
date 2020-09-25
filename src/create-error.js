@@ -5,6 +5,3 @@ export const createError = (name, message = '', extra = undefined) => {
   error.extra = extra
   return error
 }
-
-export const ErrorName = {
-}

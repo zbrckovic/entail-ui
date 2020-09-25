@@ -1,7 +1,7 @@
 import Box from '@material-ui/core/Box'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { ExpressionView } from 'components/expression-view'
-import { SymPresentationCtx } from 'contexts'
+import { SymCtx } from 'contexts'
 import { useParserErrorDescriber } from 'hooks'
 import React, { useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +39,8 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   useEffect(() => { textSubject.next(text) }, [textSubject, text])
 
   const formula = parseResult?.success?.formula
-  const presentationCtx = parseResult?.success?.presentationCtx
+  const syms = parseResult?.success?.syms
+  const presentations = parseResult?.success?.presentations
   const error = parseResult?.error
 
   return (
@@ -48,9 +49,9 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         {
           formula !== undefined
             ? (
-              <SymPresentationCtx.Provider value={presentationCtx}>
+              <SymCtx.Provider value={{ syms, presentations }}>
                 <ExpressionView expression={formula} px={3} />
-              </SymPresentationCtx.Provider>
+              </SymCtx.Provider>
             ) : <wbr />
         }
         {
@@ -85,16 +86,17 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
 }
 
 const useParser = () => {
-  const presentationCtx = useContext(SymPresentationCtx)
+  const { syms, presentations } = useContext(SymCtx)
 
   return text => {
     try {
-      const parser = new FormulaParser(presentationCtx)
+      const parser = FormulaParser({ syms, presentations })
       const formula = parser.parse(text)
       return {
         success: {
           formula,
-          presentationCtx: parser.presentationCtx
+          syms: parser.getSyms(),
+          presentations: parser.getPresentations()
         }
       }
     } catch (error) {
