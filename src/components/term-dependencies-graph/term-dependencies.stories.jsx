@@ -1,13 +1,13 @@
 import {
   getMaxSymId,
+  primitivePresentations,
   SymPresentation,
   SyntacticInfo
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
 import { TermDependenciesGraph } from './term-dependencies-graph'
 import { SymCtx } from 'contexts'
-import { Map, Set } from 'immutable'
 import {
-  primitivePresentationCtx,
+  primitiveSyms,
   Sym,
   TermDependencyGraph as TermDependencyGraphModel
 } from '@zbrckovic/entail-core'
@@ -18,8 +18,26 @@ export default {
   component: TermDependenciesGraph
 }
 
-let presentationCtx = primitivePresentationCtx
-const maxSymId = getMaxSymId(presentationCtx)
+export const Default = () => {
+  const [graph] = useState(() => (
+    TermDependencyGraphModel({
+      [termA.id]: new Set([termB.id, termD.id]),
+      [termB.id]: new Set([termC.id]),
+      [termC.id]: new Set([termE.id]),
+      [termD.id]: new Set([termE.id]),
+      [termF.id]: new Set([termG.id]),
+      [termH.id]: new Set()
+    })
+  ))
+
+  return (
+    <SymCtx.Provider value={symCtx}>
+      <TermDependenciesGraph height={300} graph={graph} />
+    </SymCtx.Provider>
+  )
+}
+
+const maxSymId = getMaxSymId(primitiveSyms)
 
 const termA = Sym.tt({ id: maxSymId + 1 })
 const termB = Sym.tt({ id: maxSymId + 2 })
@@ -32,47 +50,43 @@ const termH = Sym.tt({ id: maxSymId + 8 })
 const termI = Sym.tt({ id: maxSymId + 9 })
 const termJ = Sym.tt({ id: maxSymId + 10 })
 
-const termAPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('a') })
-const termBPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('b') })
-const termCPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('c') })
-const termDPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('d') })
-const termEPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('e') })
-const termFPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('f') })
-const termGPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('g') })
-const termHPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('h') })
-const termIPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('i') })
-const termJPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix('j') })
+const termAPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('a') })
+const termBPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('b') })
+const termCPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('c') })
+const termDPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('d') })
+const termEPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('e') })
+const termFPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('f') })
+const termGPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('g') })
+const termHPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('h') })
+const termIPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('i') })
+const termJPresentation = SymPresentation({ ascii: SyntacticInfo.prefix('j') })
 
-presentationCtx = primitivePresentationCtx.withMutations(mutable => {
-  mutable.set(termA, termAPresentation)
-  mutable.set(termB, termBPresentation)
-  mutable.set(termC, termCPresentation)
-  mutable.set(termD, termDPresentation)
-  mutable.set(termE, termEPresentation)
-  mutable.set(termF, termFPresentation)
-  mutable.set(termG, termGPresentation)
-  mutable.set(termH, termHPresentation)
-  mutable.set(termI, termIPresentation)
-  mutable.set(termJ, termJPresentation)
-})
-
-export const Default = () => {
-  const [graph] = useState(() => (
-    new TermDependencyGraphModel({
-      dependencies: Map([
-        [termA, Set.of(termB, termD)],
-        [termB, Set.of(termC)],
-        [termC, Set.of(termE)],
-        [termD, Set.of(termE)],
-        [termF, Set.of(termG)],
-        [termH, Set()]
-      ])
-    })
-  ))
-
-  return (
-    <SymCtx.Provider value={presentationCtx}>
-      <TermDependenciesGraph height={300} graph={graph} />
-    </SymCtx.Provider>
-  )
+const presentations = {
+  ...primitivePresentations,
+  [termA.id]: termAPresentation,
+  [termB.id]: termBPresentation,
+  [termC.id]: termCPresentation,
+  [termD.id]: termDPresentation,
+  [termE.id]: termEPresentation,
+  [termF.id]: termFPresentation,
+  [termG.id]: termGPresentation,
+  [termH.id]: termHPresentation,
+  [termI.id]: termIPresentation,
+  [termJ.id]: termJPresentation
 }
+
+const syms = {
+  ...primitiveSyms,
+  [termA.id]: termA,
+  [termB.id]: termB,
+  [termC.id]: termC,
+  [termD.id]: termD,
+  [termE.id]: termE,
+  [termF.id]: termF,
+  [termG.id]: termG,
+  [termH.id]: termH,
+  [termI.id]: termI,
+  [termJ.id]: termJ
+}
+
+const symCtx = { syms, presentations }

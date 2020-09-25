@@ -2,7 +2,7 @@ import React, { Fragment, useMemo } from 'react'
 import Box from '@material-ui/core/Box'
 
 export const StepPremises = ({ premises, sx, ...props }) => {
-  const premisesOrdered = useMemo(() => premises.toArray(), [premises])
+  const premisesOrdered = useMemo(() => [...premises].sort(), [premises])
 
   return (
     <Box {...props} color='text.secondary' fontStyle='italic'>

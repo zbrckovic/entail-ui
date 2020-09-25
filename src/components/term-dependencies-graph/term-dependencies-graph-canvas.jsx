@@ -101,20 +101,27 @@ export const TermDependenciesGraphCanvas = forwardRef(({
 const useElementsFactory = () => {
   const { createDependencyNode, createDependentNode } = useNodeFactories()
 
-  return ({ dependencies }) => {
+  return graph => {
     const elements = []
 
-    dependencies.keySeq().forEach(dependentTerm => {
-      elements.push(createDependentNode(dependentTerm))
-    })
+    const dependentNodes = Object
+      .keys(graph)
+      .map(id => parseInt(id, 10))
+      .map(createDependentNode)
 
-    dependencies.forEach((dependencyTerms, dependentTerm) => {
-      dependencyTerms.forEach(dependencyTerm => {
-        if (!dependencies.has(dependencyTerm)) {
-          elements.push(createDependencyNode(dependencyTerm))
+    elements.push(...dependentNodes)
+
+    const traversedDependencies = new Set()
+
+    Object.entries(graph).forEach(([dependent, dependencies]) => {
+      dependencies.forEach(dependency => {
+        if (!traversedDependencies.has(dependency)) {
+          elements.push(createDependencyNode(dependency))
         }
 
-        elements.push(createEdge(dependentTerm, dependencyTerm))
+        elements.push(createEdge(dependent, dependency))
+
+        traversedDependencies.push(dependency)
       })
     })
 
@@ -123,21 +130,21 @@ const useElementsFactory = () => {
 }
 
 const useNodeFactories = () => {
-  const presentationCtx = useContext(SymCtx)
+  const { presentations } = useContext(SymCtx)
 
-  const createNode = sym => {
-    const { ascii: { text } } = presentationCtx.get(sym)
+  const createNode = symId => {
+    const { ascii: { text } } = presentations[symId]
 
     return {
       group: 'nodes',
       grabbable: false,
-      data: { id: `${sym.id}`, text }
+      data: { id: `${symId}`, text }
     }
   }
 
   return {
-    createDependencyNode: sym => ({ ...createNode(sym), classes: ['dependency'] }),
-    createDependentNode: sym => ({ ...createNode(sym), classes: ['dependent'] })
+    createDependencyNode: symId => ({ ...createNode(symId), classes: ['dependency'] }),
+    createDependentNode: symId => ({ ...createNode(symId), classes: ['dependent'] })
   }
 }
 
@@ -150,33 +157,30 @@ const createEdge = (symFrom, symTo) => ({
   }
 })
 
-const createGraphStyles = theme => {
-  console.log(theme)
-  return ({
-    node: {
-      shape: 'rectangle',
-      width: 20,
-      height: 20,
-      label: 'data(text)',
-      'text-halign': 'center',
-      'text-valign': 'center',
-      'font-family': theme.typography.mono,
-      padding: theme.spacing(1)
-    },
-    edge: {
-      width: 1,
-      'line-color': theme.palette.primary.main,
-      'curve-style': 'bezier',
-      'target-arrow-color': theme.palette.primary.main,
-      'target-arrow-shape': 'triangle'
-    },
-    dependent: {
-      color: theme.palette.primary.contrastText,
-      'background-color': theme.palette.primary.main
-    },
-    dependency: {
-      color: theme.palette.background.paper,
-      'background-color': theme.palette.text.primary
-    }
-  })
-}
+const createGraphStyles = theme => ({
+  node: {
+    shape: 'rectangle',
+    width: 20,
+    height: 20,
+    label: 'data(text)',
+    'text-halign': 'center',
+    'text-valign': 'center',
+    'font-family': theme.typography.mono,
+    padding: theme.spacing(1)
+  },
+  edge: {
+    width: 1,
+    'line-color': theme.palette.primary.main,
+    'curve-style': 'bezier',
+    'target-arrow-color': theme.palette.primary.main,
+    'target-arrow-shape': 'triangle'
+  },
+  dependent: {
+    color: theme.palette.primary.contrastText,
+    'background-color': theme.palette.primary.main
+  },
+  dependency: {
+    color: theme.palette.background.paper,
+    'background-color': theme.palette.text.primary
+  }
+})

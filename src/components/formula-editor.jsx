@@ -39,8 +39,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   useEffect(() => { textSubject.next(text) }, [textSubject, text])
 
   const formula = parseResult?.success?.formula
-  const syms = parseResult?.success?.syms
-  const presentations = parseResult?.success?.presentations
+  const symCtx = parseResult?.success?.symCtx
   const error = parseResult?.error
 
   return (
@@ -49,7 +48,7 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         {
           formula !== undefined
             ? (
-              <SymCtx.Provider value={{ syms, presentations }}>
+              <SymCtx.Provider value={symCtx}>
                 <ExpressionView expression={formula} px={3} />
               </SymCtx.Provider>
             ) : <wbr />
@@ -86,17 +85,19 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
 }
 
 const useParser = () => {
-  const { syms, presentations } = useContext(SymCtx)
+  const symCtx = useContext(SymCtx)
 
   return text => {
     try {
-      const parser = FormulaParser({ syms, presentations })
+      const parser = FormulaParser(symCtx)
       const formula = parser.parse(text)
       return {
         success: {
           formula,
-          syms: parser.getSyms(),
-          presentations: parser.getPresentations()
+          symCtx: {
+            syms: parser.getSyms(),
+            presentations: parser.getPresentations()
+          }
         }
       }
     } catch (error) {

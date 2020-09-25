@@ -16,8 +16,11 @@ import TextField from '@material-ui/core/TextField'
 
 export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
-  const { syms, presentations } = useContext(SymCtx)
-  const textToSymMap = useMemo(() => createTextToSymMap(presentations, syms), [syms, presentations])
+  const symCtx = useContext(SymCtx)
+  const textToSymMap = useMemo(
+    () => createTextToSymMap(symCtx.presentations, symCtx.syms),
+    [symCtx]
+  )
 
   const [text, setText] = useState('')
   const [textSubject] = useState(new Subject())
@@ -58,15 +61,17 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         title={t('button.submit')}
         onClick={() => {
           if (existingSym !== undefined) {
-            onSubmit({ sym: existingSym, syms, presentations })
+            onSubmit({ sym: existingSym, symCtx })
           } else {
-            const newSym = Sym.tt({ id: getMaxSymId(presentations) + 1 })
-            const newPresentation = new SymPresentation({ ascii: SyntacticInfo.prefix(text) })
+            const newSym = Sym.tt({ id: getMaxSymId(symCtx.syms) + 1 })
+            const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(text) })
 
             onSubmit({
               sym: newSym,
-              syms: { ...syms, [newSym.id]: newSym },
-              presentations: { ...presentations, [newSym.id]: newPresentation }
+              symCtx: {
+                syms: { ...symCtx.syms, [newSym.id]: newSym },
+                presentations: { ...symCtx.presentations, [newSym.id]: newPresentation }
+              }
             })
           }
         }}

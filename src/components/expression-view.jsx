@@ -1,17 +1,23 @@
 import Box from '@material-ui/core/Box'
-import { Kind, Placement, primitiveSyms } from '@zbrckovic/entail-core'
+import {
+  Kind,
+  Placement,
+  primitiveSyms,
+  primitivePresentations,
+  SymPresentation
+} from '@zbrckovic/entail-core'
 import { SymCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
 
-/** Shows textual representation of a provided expression. */
+// Shows textual representation of a provided expression.
 export const ExpressionView = ({
   expression: { sym, boundSym, children },
   root = true,
   sx,
   ...props
 }) => {
-  const presentationCtx = useContext(SymCtx)
-  const { text, placement } = presentationCtx.get(sym).getDefaultSyntacticInfo()
+  const { presentations } = useContext(SymCtx)
+  const { text, placement } = SymPresentation.getDefaultSyntacticInfo(presentations[sym.id])
 
   const content = placement === Placement.Prefix ? (
     <Prefix
@@ -25,8 +31,8 @@ export const ExpressionView = ({
       sym={sym}
       symText={text}
       boundSym={boundSym}
-      childExpression1={children.get(0)}
-      childExpression2={children.get(1)}
+      childExpression1={children[0]}
+      childExpression2={children[1]}
       root={root}
     />
   )
@@ -41,10 +47,10 @@ export const ExpressionView = ({
 }
 
 const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
-  const isPrimitive = primitiveSyms.has(sym)
-  const hasParentheses = childrenExpressions.size > 1 ||
-    (childrenExpressions.size === 1 && !primitiveSyms.has(sym))
-  const hasSpace = !childrenExpressions.isEmpty() && sym.binds && isPrimitive
+  const isPrimitive = primitiveSyms[sym.id] !== undefined
+  const hasParentheses =
+    childrenExpressions.length > 1 || (childrenExpressions.length === 1 && !isPrimitive)
+  const hasSpace = childrenExpressions.length > 0 && sym.binds && isPrimitive
 
   return <>
     <ExpressionText text={symText} kind={sym.kind} />
@@ -52,7 +58,7 @@ const Prefix = ({ sym, symText, boundSym, childrenExpressions }) => {
     {hasSpace && <> </>}
     {hasParentheses && <ExpressionText text="(" kind={sym.kind} />}
     {childrenExpressions.map((child, i) => {
-      const isLast = i === childrenExpressions.size - 1
+      const isLast = i === childrenExpressions.length - 1
 
       return <Fragment key={`${i}`}>
         <ExpressionView expression={child} root={false} />
@@ -77,8 +83,9 @@ const Infix = ({ sym, symText, childExpression1, childExpression2, root }) => <>
 </>
 
 const Binding = ({ sym }) => {
-  const presentationCtx = useContext(SymCtx)
-  const text = presentationCtx.get(sym).getDefaultSyntacticInfo().text
+  const { presentations } = useContext(SymCtx)
+  const presentation = presentations[sym.id]
+  const { text } = SymPresentation.getDefaultSyntacticInfo(presentation)
   return <ExpressionText text={text} kind={sym.kind} />
 }
 

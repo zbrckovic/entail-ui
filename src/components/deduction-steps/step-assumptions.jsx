@@ -2,7 +2,7 @@ import React, { Fragment, useMemo } from 'react'
 import Box from '@material-ui/core/Box'
 
 export const StepAssumptions = ({ assumptions, ...props }) => {
-  const assumptionSorted = useMemo(() => assumptions.sort().toArray(), [assumptions])
+  const assumptionSorted = useMemo(() => [...assumptions].sort(), [assumptions])
 
   return (
     <Box {...props} color='text.secondary' fontStyle='italic'>

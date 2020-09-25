@@ -18,7 +18,7 @@ export const DeductionEditorExistentialInstantiation = ({
     <Box as='h4' mb={2}>{t('label.enterTheInstanceTerm')}</Box>
     <IndividualVariableEditor
       flexGrow={1}
-      onSubmit={({ sym, presentationCtx }) => {
+      onSubmit={({ sym, symCtx }) => {
         let deductionInterface
         try {
           deductionInterface = ruleInterface.apply(sym)
@@ -40,9 +40,9 @@ export const DeductionEditorExistentialInstantiation = ({
 
         setErrorMessage(undefined)
 
-        onApply({ presentationCtx, deductionInterface })
+        onApply({ deductionInterface, symCtx })
       }}
       onCancel={onCancel} />
-    {errorMessage !== undefined && <Box text={errorMessage} mt={2} />}
+    {errorMessage !== undefined && errorMessage}
   </Box>
 }

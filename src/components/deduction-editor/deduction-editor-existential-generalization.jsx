@@ -40,7 +40,6 @@ export const DeductionEditorExistentialGeneralization = ({
         onApply({ presentationCtx, deductionInterface })
       }}
       onCancel={onCancel} />
-    {errorMessage !== undefined &&
-    <Message variant={MessageVariant.DANGER} text={errorMessage} mt={2} />}
+    {errorMessage}
   </Box>
 }

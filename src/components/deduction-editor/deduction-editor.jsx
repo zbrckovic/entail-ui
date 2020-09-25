@@ -1,4 +1,4 @@
-import { DeductionInterface, Rule } from '@zbrckovic/entail-core'
+import { Deduction, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
 import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
 import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
 import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
@@ -17,11 +17,11 @@ const createDefaultSelectedSteps = () => new Set()
 export const DeductionEditor = ({ sx, ...props }) => {
   const classes = useStyles()
 
-  const initialPresentationCtx = useContext(SymCtx)
+  const initialSymCtx = useContext(SymCtx)
 
-  const [{ deductionInterface, presentationCtx }, setState] = useState(() => ({
-    presentationCtx: initialPresentationCtx,
-    deductionInterface: DeductionInterface.start()
+  const [{ deductionInterface, symCtx }, setState] = useState(() => ({
+    symCtx: initialSymCtx,
+    deductionInterface: startDeduction()
   }))
 
   const [selectedSteps, setSelectedSteps] = useState(createDefaultSelectedSteps)
@@ -45,7 +45,7 @@ export const DeductionEditor = ({ sx, ...props }) => {
   })
 
   return (
-    <SymCtx.Provider value={presentationCtx}>
+    <SymCtx.Provider value={symCtx}>
       <Box display='flex' {...props}>
         <Box component='main' className={classes.main}>
           <DeductionSteps
@@ -63,17 +63,21 @@ export const DeductionEditor = ({ sx, ...props }) => {
               switch (rule) {
                 case Rule.Deduction: {
                   const deductionInterface = rulesInterface[Rule.Deduction].apply()
-                  setState({ presentationCtx, deductionInterface })
+                  setState({ deductionInterface, symCtx })
                   break
                 }
                 case Rule.UniversalInstantiation: {
                   const [stepOrdinal] = [...selectedSteps]
-                  const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
-                  const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
+
+                  const { formula } =
+                    Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
+
+                  const quantificationIsVacuous =
+                    Expression.findBoundOccurrences(formula).length === 0
 
                   if (quantificationIsVacuous) {
                     const deductionInterface = rulesInterface[Rule.UniversalInstantiation].apply()
-                    setState({ presentationCtx, deductionInterface })
+                    setState({ deductionInterface, symCtx })
                   } else {
                     setSelectedRule(rule)
                   }
@@ -81,13 +85,16 @@ export const DeductionEditor = ({ sx, ...props }) => {
                 }
                 case Rule.ExistentialInstantiation: {
                   const [stepOrdinal] = [...selectedSteps]
-                  const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
-                  const quantificationIsVacuous = formula.findBoundOccurrences().isEmpty()
+
+                  const { formula } =
+                    Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
+
+                  const quantificationIsVacuous =
+                    Expression.findBoundOccurrences(formula).length === 0
 
                   if (quantificationIsVacuous) {
-                    const deductionInterface =
-                      rulesInterface[Rule.ExistentialInstantiation].apply()
-                    setState({ presentationCtx, deductionInterface })
+                    const deductionInterface = rulesInterface[Rule.ExistentialInstantiation].apply()
+                    setState({ deductionInterface, symCtx })
                   } else {
                     setSelectedRule(rule)
                   }
@@ -112,9 +119,9 @@ const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) =
       case Rule.Premise:
         return (
           <FormulaEditor
-            onSubmit={({ formula, presentationCtx }) => {
+            onSubmit={({ formula, symCtx }) => {
               const deductionInterface = ruleInterface.apply(formula)
-              onApply({ presentationCtx, deductionInterface })
+              onApply({ deductionInterface, symCtx })
             }}
             onCancel={onCancel}
           />

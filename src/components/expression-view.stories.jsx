@@ -23,9 +23,9 @@ export const Default = ({ formula: formulaText }) => {
   const { success, error } = parseResult
   if (error !== undefined) return <Box>{error.message}</Box>
 
-  const { formula, presentationCtx } = success
+  const { formula, symCtx } = success
   return (
-    <SymCtx.Provider value={presentationCtx}>
+    <SymCtx.Provider value={symCtx}>
       <ExpressionView expression={formula} />
     </SymCtx.Provider>
   )

@@ -28,12 +28,14 @@ const parse = text => {
   let error
 
   try {
-    const parser = FormulaParser({ syms: primitiveSyms, presentations: primitivePresentations })
+    const parser = FormulaParser(primitiveSymCtx)
 
     success = {
-      formula: parser.parse(text),
-      syms: parser.getSyms(),
-      presentations: parser.getPresentations()
+      symCtx: {
+        syms: parser.getSyms(),
+        presentations: parser.getPresentations()
+      },
+      formula: parser.parse(text)
     }
   } catch (e) {
     error = e
@@ -41,3 +43,5 @@ const parse = text => {
 
   return { success, error }
 }
+
+const primitiveSymCtx = { syms: primitiveSyms, presentations: primitivePresentations }

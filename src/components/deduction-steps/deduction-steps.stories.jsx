@@ -1,4 +1,4 @@
-import { DeductionParser, primitivePresentationCtx } from '@zbrckovic/entail-core'
+import { DeductionParser, primitivePresentations, primitiveSyms } from '@zbrckovic/entail-core'
 import { DeductionSteps } from './deduction-steps'
 import { SymCtx } from 'contexts'
 import React, { useState } from 'react'
@@ -31,26 +31,27 @@ const Template = ({
   onSelectedStepsChange,
   hasLastStepAccessory
 }) => {
-  const [{ deduction, presentationCtx }] = useState(() => {
-    const parser = new DeductionParser(primitivePresentationCtx)
+  const [{ deduction, symCtx }] = useState(() => {
+    const parser = DeductionParser(primitiveSymCtx)
     const deduction = parser.parse(text)
-    const presentationCtx = parser.presentationCtx
+    const syms = parser.getSyms()
+    const presentations = parser.getPresentations()
     return {
       deduction,
-      presentationCtx
+      symCtx: { syms, presentations }
     }
   })
 
   const [selectedSteps, setSelectedSteps] = useState(() => new Set())
 
   return (
-    <SymCtx.Provider value={presentationCtx}>
+    <SymCtx.Provider value={symCtx}>
       <DeductionSteps
         steps={deduction.steps}
         selectedSteps={isStepSelectionEnabled ? selectedSteps : undefined}
         onSelectedStepsChange={isStepSelectionEnabled
           ? newSelectedSteps => {
-            onSelectedStepsChange([...newSelectedSteps.keys()])
+            onSelectedStepsChange(newSelectedSteps)
             setSelectedSteps(newSelectedSteps)
           }
           : undefined
@@ -109,4 +110,9 @@ Example4.args = {
   1   (3) E[z] F(a, b, z)           / EI 2;
   1   (4) F(a, b, c)                / EI 3;
   `
+}
+
+const primitiveSymCtx = {
+  syms: primitiveSyms,
+  presentations: primitivePresentations
 }

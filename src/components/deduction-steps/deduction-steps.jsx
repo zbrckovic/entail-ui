@@ -13,10 +13,13 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TableHead from '@material-ui/core/TableHead'
 import { useTranslation } from 'react-i18next'
 
-/* Supports step selection if `selectedSteps` and `onSelectedStepsChange` are provided */
 export const DeductionSteps = ({
   steps,
+
+  // Must be provided to support step selection.
   selectedSteps,
+
+  // Must be provided to support step selection.
   onSelectedStepsChange,
   lastStepAccessory,
   ...props
@@ -27,9 +30,9 @@ export const DeductionSteps = ({
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
-  const hasSteps = steps.size > 0
-  const areAllRowsSelected = hasRowSelection ? steps.size === selectedSteps.size : undefined
-  const areSomeRowsSelected = hasRowSelection ? selectedSteps.size > 0 : undefined
+  const hasSteps = steps.length > 0
+  const areAllRowsSelected = hasRowSelection ? steps.length === selectedSteps.length : undefined
+  const areSomeRowsSelected = hasRowSelection ? selectedSteps.length > 0 : undefined
 
   return (
     <TableContainer {...props}>
@@ -39,7 +42,7 @@ export const DeductionSteps = ({
             {
               hasRowSelection &&
               <TableCell className={classes.cell}>
-                {steps.size > 0 && (
+                {steps.length > 0 && (
                   <Checkbox
                     indeterminate={areSomeRowsSelected && !areAllRowsSelected}
                     checked={hasSteps && areAllRowsSelected}
@@ -55,9 +58,9 @@ export const DeductionSteps = ({
                 )}
               </TableCell>
             }
-            <TableCell className={classes.cell}/>
+            <TableCell className={classes.cell} />
             <TableCell className={classes.cell}>{t('label.assumptions')}</TableCell>
-            <TableCell className={classes.cell}/>
+            <TableCell className={classes.cell} />
             <TableCell className={classes.cell}>{t('label.rule')}</TableCell>
             <TableCell className={classes.cell}>{t('label.premises')}</TableCell>
           </TableRow>
@@ -113,7 +116,7 @@ export const DeductionSteps = ({
           }
           {
             lastStepAccessory !== undefined && (
-              <TableRow key={steps.size + 1} className={classes.row}>
+              <TableRow key={steps.length + 1} className={classes.row}>
                 {hasRowSelection && <TableCell className={classes.cell} />}
                 <TableCell className={classes.cell}>
                   {steps.size + 1}

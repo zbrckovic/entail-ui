@@ -18,7 +18,7 @@ export const DeductionEditorTautologicalImplication = ({
     <Box as='h4' mb={2}>{t('label.enterTheConsequent')}</Box>
     <FormulaEditor
       flexGrow={1}
-      onSubmit={({ formula, presentationCtx }) => {
+      onSubmit={({ formula, symCtx }) => {
         let deductionInterface
         try {
           deductionInterface = ruleInterface.apply(formula)
@@ -33,7 +33,7 @@ export const DeductionEditorTautologicalImplication = ({
 
         setErrorMessage(undefined)
 
-        onApply({ presentationCtx, deductionInterface })
+        onApply({ deductionInterface, symCtx })
       }}
       onCancel={onCancel}
     />

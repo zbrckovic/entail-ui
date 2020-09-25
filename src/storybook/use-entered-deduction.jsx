@@ -31,12 +31,14 @@ const parse = text => {
   let error
 
   try {
-    const parser = DeductionParser({ syms: primitiveSyms, presentations: primitivePresentations })
+    const parser = DeductionParser(primitiveSymCtx)
 
     success = {
-      deduction: parser.parse(text),
-      syms: parser.getSyms(),
-      presentations: parser.getPresentations()
+      symCtx: {
+        syms: parser.getSyms(),
+        presentations: parser.getPresentations()
+      },
+      deduction: parser.parse(text)
     }
   } catch (e) {
     error = e
@@ -44,3 +46,5 @@ const parse = text => {
 
   return { success, error }
 }
+
+const primitiveSymCtx = { syms: primitiveSyms, presentations: primitivePresentations }
