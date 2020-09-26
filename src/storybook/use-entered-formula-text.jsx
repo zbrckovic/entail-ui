@@ -30,12 +30,14 @@ const parse = text => {
   try {
     const parser = FormulaParser(primitiveSymCtx)
 
+    const formula = parser.parse(text)
+
     success = {
       symCtx: {
         syms: parser.getSyms(),
         presentations: parser.getPresentations()
       },
-      formula: parser.parse(text)
+      formula
     }
   } catch (e) {
     error = e

@@ -119,9 +119,10 @@ const useElementsFactory = () => {
           elements.push(createDependencyNode(dependency))
         }
 
+        console.log(dependent, dependency)
         elements.push(createEdge(dependent, dependency))
 
-        traversedDependencies.push(dependency)
+        traversedDependencies.add(dependency)
       })
     })
 
@@ -151,9 +152,9 @@ const useNodeFactories = () => {
 const createEdge = (symFrom, symTo) => ({
   group: 'edges',
   data: {
-    id: `${symFrom.id} -> ${symTo.id}`,
-    source: `${symFrom.id}`,
-    target: `${symTo.id}`
+    id: `${symFrom} -> ${symTo}`,
+    source: `${symFrom}`,
+    target: `${symTo}`
   }
 })
 
