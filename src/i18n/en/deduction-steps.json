@@ -2,6 +2,7 @@
   "label": {
     "assumptions": "Assumptions",
     "rule": "Rule",
-    "premises": "Premises"
+    "premises": "Premises",
+    "number": "#"
   }
 }

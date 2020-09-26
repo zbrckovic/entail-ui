@@ -11,7 +11,14 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import TableContainer from '@material-ui/core/TableContainer'
 import Checkbox from '@material-ui/core/Checkbox'
 import TableHead from '@material-ui/core/TableHead'
-import { useTranslation } from 'react-i18next'
+
+const columnWidths = {
+  checkbox: 38,
+  number: '3ch',
+  assumptions: 100,
+  rule: 100,
+  premises: 100
+}
 
 export const DeductionSteps = ({
   steps,
@@ -24,9 +31,13 @@ export const DeductionSteps = ({
   lastStepAccessory,
   ...props
 }) => {
-  const { t } = useTranslation('DeductionSteps')
-
-  const classes = useStyles()
+  const classes = useStyles({
+    checkbox: 38,
+    number: '10ch',
+    assumptions: 100,
+    rule: 100,
+    premises: 100
+  })
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
@@ -41,7 +52,7 @@ export const DeductionSteps = ({
           <TableRow className={classes.row}>
             {
               hasRowSelection &&
-              <TableCell className={classes.cell}>
+              <TableCell width={columnWidths.checkbox} className={classes.cell}>
                 {steps.length > 0 && (
                   <Checkbox
                     indeterminate={areSomeRowsSelected && !areAllRowsSelected}
@@ -58,11 +69,14 @@ export const DeductionSteps = ({
                 )}
               </TableCell>
             }
-            <TableCell className={classes.cell} />
-            <TableCell className={classes.cell}>{t('label.assumptions')}</TableCell>
-            <TableCell className={classes.cell} />
-            <TableCell className={classes.cell}>{t('label.rule')}</TableCell>
-            <TableCell className={classes.cell}>{t('label.premises')}</TableCell>
+            <TableCell
+              width={columnWidths.number}
+              className={`${classes.cell} ${classes.cellNumber}`}
+            />
+            <TableCell width={columnWidths.assumptions} className={classes.cell} />
+            <TableCell width={columnWidths.formula} className={classes.cell} />
+            <TableCell width={columnWidths.rule} className={classes.cell} />
+            <TableCell width={columnWidths.premises} className={classes.cell} />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -121,9 +135,9 @@ export const DeductionSteps = ({
                 <TableCell className={classes.cell}>
                   {steps.length + 1}
                 </TableCell>
-                <TableCell />
+                <TableCell className={classes.cell} />
                 <TableCell className={classes.cell}>{lastStepAccessory}</TableCell>
-                <TableCell colSpan={2} />
+                <TableCell className={classes.cell} colSpan={2} />
               </TableRow>
             )
           }
@@ -134,8 +148,12 @@ export const DeductionSteps = ({
 }
 
 const useStyles = makeStyles(() => ({
+  row: {},
   cell: {
-    padding: 0
+    padding: 0,
+    verticalAlign: 'top'
   },
-  row: {}
+  cellNumber: {
+    width: ({ number }) => number
+  }
 }))
