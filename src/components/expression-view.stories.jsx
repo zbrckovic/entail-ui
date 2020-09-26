@@ -23,7 +23,6 @@ export const Default = ({ formula: formulaText }) => {
   const { success, error } = parseResult
   if (error !== undefined) return <Box>{error.message}</Box>
 
-  console.log(success)
   const { formula, symCtx } = success
   return (
     <SymCtx.Provider value={symCtx}>

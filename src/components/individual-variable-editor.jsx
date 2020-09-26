@@ -49,8 +49,6 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
     [textInputValueSubject, textInputValue]
   )
 
-  console.log(textInputError)
-
   return (
     <Box {...props}>
       <TextField

@@ -7,13 +7,11 @@ import {
   sourceCodeProFamily
 } from './fonts'
 
-const BASE_FONT_SIZE = 14
-
 export const theme = createMuiTheme({
   spacing: 4,
   palette: {
-    primary: { main: purple['500'] },
-    secondary: { main: green.A700 },
+    // primary: { main: purple['500'] },
+    // secondary: { main: green.A700 },
     formula: purple['500'],
     term: green.A700
   },
@@ -23,6 +21,9 @@ export const theme = createMuiTheme({
   },
   props: {
     MuiButton: {
+      size: 'small'
+    },
+    MuiButtonGroup: {
       size: 'small'
     },
     MuiIconButton: {
@@ -44,9 +45,6 @@ export const theme = createMuiTheme({
     MuiButton: {
       root: {
         minWidth: 48
-      },
-      sizeSmall: {
-        padding: 0
       }
     }
   }

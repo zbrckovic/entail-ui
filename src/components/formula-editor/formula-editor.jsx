@@ -1,23 +1,18 @@
 import Box from '@material-ui/core/Box'
 import { FormulaParser } from '@zbrckovic/entail-core'
-import { ExpressionView } from 'components/expression-view'
 import { SymCtx } from 'contexts'
-import { useParserErrorDescriber } from 'hooks'
-import React, { useContext, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
-import { IconButton, Typography } from '@material-ui/core'
-import CheckIcon from '@material-ui/icons/Check'
-import CloseIcon from '@material-ui/icons/Close'
+import { Display } from './display'
+import { Controls } from './controls'
 
+// Allows user to input formula as text.
 export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const parse = useParser()
-  const { t } = useTranslation('FormulaEditor')
-
-  const describeError = useParserErrorDescriber()
+  const inputRef = useRef()
 
   const [textInputValue, setTextInputValue] = useState('')
   const [textInputIsPristine, setTextInputIsPristine] = useState(true)
@@ -50,7 +45,9 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
 
   return (
     <Box display='flex' flexDirection='column' {...props}>
+      <Display formula={formula} error={error} symCtx={symCtx} />
       <TextField
+        inputRef={inputRef}
         className={classes.textField}
         variant="outlined"
         rowsMax={10}
@@ -62,38 +59,24 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
         }}
         error={error !== undefined}
       />
-      <Box display='flex' flexGrow={1}>
-        <Box flexGrow={1}>
-          {
-            formula !== undefined
-              ? (
-                <SymCtx.Provider value={symCtx}>
-                  <ExpressionView expression={formula} px={3} />
-                </SymCtx.Provider>
-              ) : (
-                error !== undefined
-                  ? <Typography className={classes.error}>{describeError(error)}</Typography>
-                  : <wbr />
-              )
-          }
-        </Box>
-        <IconButton
-          color='primary'
-          title={t('button.submit')}
-          onClick={() => { onSubmit(parseResult?.success) }}
-          disabled={formula === undefined}
-        >
-          <CheckIcon />
-        </IconButton>
-        <IconButton title={t('button.cancel')} onClick={() => { onCancel() }}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
+      <Controls
+        onSubmit={() => { onSubmit(parseResult?.success) }}
+        onCancel={onCancel}
+        isSubmitDisabled={formula === undefined}
+        onSymbol={symbol => {
+          const { selectionStart, selectionEnd } = inputRef.current
+
+          const leftPart = textInputValue.slice(0, selectionStart)
+          const rightPart = textInputValue.slice(selectionEnd)
+
+          setTextInputValue(leftPart + symbol + rightPart)
+        }}
+      />
     </Box>
   )
 }
 
-// Parses the `text` and returns `{ formula, symCtx }` if succesful, otherwise returns `{ error }`
+// Parses the `text` and returns `{ formula, symCtx }` if successful, otherwise returns `{ error }`
 // where `error` is an error message to show.
 const useParser = () => {
   const symCtx = useContext(SymCtx)
@@ -122,9 +105,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     '& textarea': {
       fontFamily: theme.typography.mono
-    }
-  },
-  error: {
-    color: theme.palette.error.main
+    },
+    marginBottom: theme.spacing(1)
   }
 }))

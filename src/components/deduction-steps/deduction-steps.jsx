@@ -14,10 +14,8 @@ import TableHead from '@material-ui/core/TableHead'
 
 export const DeductionSteps = ({
   steps,
-
   // Must be provided to support step selection.
   selectedSteps,
-
   // Must be provided to support step selection.
   onSelectedStepsChange,
   lastStepAccessory,
@@ -30,8 +28,6 @@ export const DeductionSteps = ({
     assumptions: '10ch',
     premises: '10ch'
   })
-
-  console.log(classes)
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 

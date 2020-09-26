@@ -119,7 +119,6 @@ const useElementsFactory = () => {
           elements.push(createDependencyNode(dependency))
         }
 
-        console.log(dependent, dependency)
         elements.push(createEdge(dependent, dependency))
 
         traversedDependencies.add(dependency)
