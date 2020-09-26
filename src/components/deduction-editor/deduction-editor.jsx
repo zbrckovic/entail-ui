@@ -11,6 +11,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import Box from '@material-ui/core/Box'
 import { FormulaEditor } from '../formula-editor'
 import { makeStyles } from '@material-ui/core/styles'
+import { useTranslation } from 'react-i18next'
 
 const createDefaultSelectedSteps = () => new Set()
 
@@ -113,12 +114,15 @@ export const DeductionEditor = ({ sx, ...props }) => {
   )
 }
 
-const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) =>
-  useMemo(() => {
+const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) => {
+  const { t } = useTranslation('DeductionEditor')
+
+  return useMemo(() => {
     switch (selectedRule) {
       case Rule.Premise:
         return (
           <FormulaEditor
+            label={t('label.enterThePremise')}
             onSubmit={({ formula, symCtx }) => {
               const deductionInterface = ruleInterface.apply(formula)
               onApply({ deductionInterface, symCtx })
@@ -159,7 +163,8 @@ const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) =
       default:
         return undefined
     }
-  }, [ruleInterface, selectedRule, onApply, onCancel])
+  }, [ruleInterface, selectedRule, onApply, onCancel, t])
+}
 
 const useStyles = makeStyles(theme => ({
   main: {

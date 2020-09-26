@@ -50,7 +50,7 @@ export const Controls = ({ onSymbol, onSubmit, onCancel, isSubmitDisabled }) => 
         </Button>
         <Button
           title={t('button.cancel')}
-          onCancel={() => { onCancel() }}
+          onClick={() => { onCancel() }}
           startIcon={<CloseIcon />}
         >
           {t('button.cancel')}

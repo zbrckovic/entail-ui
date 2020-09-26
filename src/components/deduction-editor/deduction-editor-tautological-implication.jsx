@@ -2,22 +2,21 @@ import { ErrorName } from '@zbrckovic/entail-core'
 import { FormulaEditor } from 'components/formula-editor'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Box from '@material-ui/core/Box'
 
 export const DeductionEditorTautologicalImplication = ({
   ruleInterface,
   onApply,
-  onCancel,
-  ...props
+  onCancel
 }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const [errorMessage, setErrorMessage] = useState(undefined)
 
-  return <Box flexDirection='column' alignItems='stretch' {...props}>
-    <Box as='h4' mb={2}>{t('label.enterTheConsequent')}</Box>
+  return (
     <FormulaEditor
       flexGrow={1}
+      label={t('label.enterTheConsequent')}
+      error={errorMessage}
       onSubmit={({ formula, symCtx }) => {
         let deductionInterface
         try {
@@ -37,6 +36,5 @@ export const DeductionEditorTautologicalImplication = ({
       }}
       onCancel={onCancel}
     />
-    {errorMessage !== undefined && <Box mt={2} text={errorMessage} />}
-  </Box>
+  )
 }
