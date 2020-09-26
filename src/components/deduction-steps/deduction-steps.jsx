@@ -14,7 +14,6 @@ import TableHead from '@material-ui/core/TableHead'
 
 export const DeductionSteps = ({
   steps,
-
   // Must be provided to support step selection.
   selectedSteps,
 
