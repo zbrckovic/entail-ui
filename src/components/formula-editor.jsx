@@ -9,13 +9,11 @@ import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
-import { IconButton } from '@material-ui/core'
+import { IconButton, Typography } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 
 export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
-  const classes = useStyles()
-
   const parse = useParser()
   const { t } = useTranslation('FormulaEditor')
 
@@ -48,31 +46,37 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   const symCtx = parseResult?.success?.symCtx
   const error = parseResult?.error
 
+  const classes = useStyles(error !== undefined)
+
   return (
     <Box display='flex' flexDirection='column' {...props}>
-      <Box alignItems='center' mb={1}>
-        {
-          formula !== undefined
-            ? (
-              <SymCtx.Provider value={symCtx}>
-                <ExpressionView expression={formula} px={3} />
-              </SymCtx.Provider>
-            ) : <wbr />
-        }
-      </Box>
-      <Box display='flex'>
-        <TextField
-          className={classes.textField}
-          rowsMax={10}
-          multiline
-          value={textInputValue}
-          onChange={event => {
-            setTextInputIsPristine(false)
-            setTextInputValue(event.target.value)
-          }}
-          error={error !== undefined}
-          helperText={error !== undefined ? describeError(error) : undefined}
-        />
+      <TextField
+        className={classes.textField}
+        variant="outlined"
+        rowsMax={10}
+        multiline
+        value={textInputValue}
+        onChange={event => {
+          setTextInputIsPristine(false)
+          setTextInputValue(event.target.value)
+        }}
+        error={error !== undefined}
+      />
+      <Box display='flex' flexGrow={1}>
+        <Box flexGrow={1}>
+          {
+            formula !== undefined
+              ? (
+                <SymCtx.Provider value={symCtx}>
+                  <ExpressionView expression={formula} px={3} />
+                </SymCtx.Provider>
+              ) : (
+                error !== undefined
+                  ? <Typography className={classes.error}>{describeError(error)}</Typography>
+                  : <wbr />
+              )
+          }
+        </Box>
         <IconButton
           color='primary'
           title={t('button.submit')}
@@ -116,9 +120,11 @@ const useParser = () => {
 const useStyles = makeStyles(theme => ({
   textField: {
     flexGrow: 1,
-    marginBottom: theme.spacing(1),
     '& textarea': {
       fontFamily: theme.typography.mono
     }
+  },
+  error: {
+    color: theme.palette.error.main
   }
 }))

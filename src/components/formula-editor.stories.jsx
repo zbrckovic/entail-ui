@@ -18,7 +18,7 @@ export default {
 
 export const Default = args =>
   <SymCtx.Provider value={symCtx}>
-    <FormulaEditor height={500} {...args} />
+    <FormulaEditor {...args} />
   </SymCtx.Provider>
 
 const symCtx = { syms: primitiveSyms, presentations: primitivePresentations }

@@ -3,11 +3,12 @@ import {
   Kind,
   Placement,
   primitiveSyms,
-  primitivePresentations,
   SymPresentation
 } from '@zbrckovic/entail-core'
 import { SymCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 
 // Shows textual representation of a provided expression.
 export const ExpressionView = ({
@@ -19,12 +20,15 @@ export const ExpressionView = ({
   const { presentations } = useContext(SymCtx)
   const { text, placement } = SymPresentation.getDefaultSyntacticInfo(presentations[sym.id])
 
+  const classes = useStyles()
+
   const content = placement === Placement.Prefix ? (
     <Prefix
       sym={sym}
       symText={text}
       boundSym={boundSym}
       childrenExpressions={children}
+      {...props}
     />
   ) : (
     <Infix
@@ -34,14 +38,15 @@ export const ExpressionView = ({
       childExpression1={children[0]}
       childExpression2={children[1]}
       root={root}
+      {...props}
     />
   )
 
   return (
     root ? (
-      <Box fontFamily='mono' {...props}>
+      <Typography className={classes.text}>
         {content}
-      </Box>
+      </Typography>
     ) : content
   )
 }
@@ -98,3 +103,9 @@ const kindToColor = {
   [Kind.Formula]: 'formula',
   [Kind.Term]: 'term'
 }
+
+const useStyles = makeStyles(theme => ({
+  text: {
+    fontFamily: theme.typography.mono
+  }
+}))

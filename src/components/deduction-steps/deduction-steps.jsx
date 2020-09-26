@@ -1,4 +1,4 @@
-import { TableRow } from '@material-ui/core'
+import { TableRow, Typography } from '@material-ui/core'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -11,14 +11,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 import TableContainer from '@material-ui/core/TableContainer'
 import Checkbox from '@material-ui/core/Checkbox'
 import TableHead from '@material-ui/core/TableHead'
-
-const columnWidths = {
-  checkbox: 38,
-  number: '3ch',
-  assumptions: 100,
-  rule: 100,
-  premises: 100
-}
 
 export const DeductionSteps = ({
   steps,
@@ -33,17 +25,19 @@ export const DeductionSteps = ({
 }) => {
   const classes = useStyles({
     checkbox: 38,
-    number: '10ch',
-    assumptions: 100,
-    rule: 100,
-    premises: 100
+    number: '3ch',
+    rule: '2ch',
+    assumptions: '10ch',
+    premises: '10ch'
   })
+
+  console.log(classes)
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
   const hasSteps = steps.length > 0
-  const areAllRowsSelected = hasRowSelection ? steps.length === selectedSteps.length : undefined
-  const areSomeRowsSelected = hasRowSelection ? selectedSteps.length > 0 : undefined
+  const areAllRowsSelected = hasRowSelection ? steps.length === selectedSteps.size : undefined
+  const areSomeRowsSelected = hasRowSelection ? selectedSteps.size > 0 : undefined
 
   return (
     <TableContainer {...props}>
@@ -52,9 +46,10 @@ export const DeductionSteps = ({
           <TableRow className={classes.row}>
             {
               hasRowSelection &&
-              <TableCell width={columnWidths.checkbox} className={classes.cell}>
+              <TableCell className={`${classes.cell} ${classes.cellCheckbox}`}>
                 {steps.length > 0 && (
                   <Checkbox
+                    disableRipple
                     indeterminate={areSomeRowsSelected && !areAllRowsSelected}
                     checked={hasSteps && areAllRowsSelected}
                     onChange={() => {
@@ -69,14 +64,11 @@ export const DeductionSteps = ({
                 )}
               </TableCell>
             }
-            <TableCell
-              width={columnWidths.number}
-              className={`${classes.cell} ${classes.cellNumber}`}
-            />
-            <TableCell width={columnWidths.assumptions} className={classes.cell} />
-            <TableCell width={columnWidths.formula} className={classes.cell} />
-            <TableCell width={columnWidths.rule} className={classes.cell} />
-            <TableCell width={columnWidths.premises} className={classes.cell} />
+            <TableCell className={`${classes.cell} ${classes.cellNumber}`} />
+            <TableCell className={`${classes.cell} ${classes.cellAssumptions}`} />
+            <TableCell className={`${classes.cell} ${classes.cellFormula}`} />
+            <TableCell className={`${classes.cell} ${classes.cellRule}`} />
+            <TableCell className={`${classes.cell} ${classes.cellPremises}`} />
           </TableRow>
         </TableHead>
         <TableBody>
@@ -107,21 +99,23 @@ export const DeductionSteps = ({
                   }
                 >
                   {hasRowSelection && (
-                    <TableCell className={classes.cell}>
+                    <TableCell className={`${classes.cell} ${classes.cellCheckbox}`}>
                       <Checkbox checked={isSelected} />
                     </TableCell>
                   )}
-                  <TableCell className={classes.cell}>{stepNumber}</TableCell>
-                  <TableCell className={classes.cell}>
+                  <TableCell className={`${classes.cell} ${classes.cellNumber}`}>
+                    <Typography>{stepNumber}</Typography>
+                  </TableCell>
+                  <TableCell className={`${classes.cell} ${classes.cellAssumptions}`}>
                     <StepAssumptions assumptions={step.assumptions} />
                   </TableCell>
-                  <TableCell className={classes.cell}>
+                  <TableCell className={`${classes.cell} ${classes.cellFormula}`}>
                     <ExpressionView expression={step.formula} />
                   </TableCell>
-                  <TableCell className={classes.cell}>
+                  <TableCell className={`${classes.cell} ${classes.cellRule}`}>
                     <StepRule rule={step.ruleApplicationSummary.rule} />
                   </TableCell>
-                  <TableCell className={classes.cell}>
+                  <TableCell className={`${classes.cell} ${classes.cellPremises}`}>
                     <StepPremises premises={step.ruleApplicationSummary.premises} />
                   </TableCell>
                 </TableRow>
@@ -132,8 +126,8 @@ export const DeductionSteps = ({
             lastStepAccessory !== undefined && (
               <TableRow key={steps.length + 1} className={classes.row}>
                 {hasRowSelection && <TableCell className={classes.cell} />}
-                <TableCell className={classes.cell}>
-                  {steps.length + 1}
+                <TableCell className={`${classes.cell} ${classes.cellNumber}`}>
+                  <Typography>{steps.length + 1}</Typography>
                 </TableCell>
                 <TableCell className={classes.cell} />
                 <TableCell className={classes.cell}>{lastStepAccessory}</TableCell>
@@ -147,13 +141,38 @@ export const DeductionSteps = ({
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   row: {},
   cell: {
-    padding: 0,
-    verticalAlign: 'top'
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1)
+  },
+  cellCheckbox: {
+    width: ({ checkbox }) => checkbox,
+    padding: 0
   },
   cellNumber: {
-    width: ({ number }) => number
+    width: ({ number }) => number,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
+  },
+  cellAssumptions: {
+    width: ({ assumptions }) => assumptions,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
+  },
+  cellFormula: {
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
+  },
+  cellRule: {
+    width: ({ rule }) => rule,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
+  },
+  cellPremises: {
+    width: ({ premises }) => premises,
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
   }
 }))

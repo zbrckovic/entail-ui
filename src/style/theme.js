@@ -7,6 +7,8 @@ import {
   sourceCodeProFamily
 } from './fonts'
 
+const BASE_FONT_SIZE = 14
+
 export const theme = createMuiTheme({
   spacing: 4,
   palette: {
@@ -17,8 +19,7 @@ export const theme = createMuiTheme({
   },
   typography: {
     fontFamily: sourceSansFamily,
-    mono: sourceCodeProFamily,
-    fontSize: 14
+    mono: sourceCodeProFamily
   },
   props: {
     MuiButton: {
