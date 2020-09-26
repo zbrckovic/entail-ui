@@ -4,6 +4,7 @@
     "cancel": "Cancel"
   },
   "message": {
-    "invalidInstanceVariableSymbol": "Symbol {{sym}} is already used exists and it isn't a valid individual variable."
+    "invalidInstanceVariableSymbol": "\"{{sym}}\" is not a valid individual variable symbol.",
+    "symbolAlreadyUsed": "Symbol \"{{sym}}\" is already used and it isn't a valid individual variable."
   }
 }

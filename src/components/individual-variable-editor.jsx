@@ -4,10 +4,10 @@ import {
   getMaxSymId
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
 import { SymCtx } from 'contexts'
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 import Box from '@material-ui/core/Box'
 import { IconButton } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
@@ -16,55 +16,65 @@ import TextField from '@material-ui/core/TextField'
 
 export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
+
   const symCtx = useContext(SymCtx)
   const textToSymMap = useMemo(
     () => createTextToSymMap(symCtx.presentations, symCtx.syms),
     [symCtx]
   )
 
-  const [text, setText] = useState('')
-  const [textSubject] = useState(new Subject())
-  useEffect(() => { textSubject.next(text) }, [textSubject, text])
+  const [textInputValue, setTextInputValue] = useState('')
+  const [textInputIsPristine, setTextInputIsPristine] = useState(true)
+  const [textInputError, setTextInputError] = useState()
 
-  const existingSym = textToSymMap[text]
+  const validate = useValidator(textToSymMap)
 
-  const errorMessage = useMemo(
-    () =>
-      (existingSym !== undefined && !isValidIndividualVariable(existingSym))
-        ? t('message.invalidInstanceVariableSymbol')
-        : undefined,
-    [existingSym, t]
-  )
-
+  const [textInputValueSubject] = useState(() => new Subject())
   useEffect(() => {
-    const subscription = textSubject
-      .pipe(
+    // Validate only if `textInputIsPristine` is false.
+    const derivedSubject = textInputIsPristine
+      ? textInputValueSubject.pipe(
+        map(() => undefined)
+      )
+      : textInputValueSubject.pipe(
         distinctUntilChanged(),
         debounceTime(200),
-        map(validateText)
+        map(validate)
       )
-      .subscribe(setIsValid)
+
+    const subscription = derivedSubject.subscribe(setTextInputError)
 
     return () => { subscription.unsubscribe() }
-  }, [textSubject])
+  }, [textInputValueSubject, textInputIsPristine, validate])
+  useEffect(
+    () => { textInputValueSubject.next(textInputValue) },
+    [textInputValueSubject, textInputValue]
+  )
 
-  const [isValid, setIsValid] = useState(false)
+  console.log(textInputError)
 
   return (
     <Box {...props}>
       <TextField
-        value={text}
-        onChange={({ target: { value } }) => { setText(value) }}
+        value={textInputValue}
+        onChange={({ target: { value } }) => {
+          setTextInputValue(value)
+          setTextInputIsPristine(false)
+        }}
+        error={textInputError !== undefined}
+        helperText={textInputError}
       />
       <IconButton
         color='primary'
         title={t('button.submit')}
         onClick={() => {
+          const existingSym = textToSymMap[textInputValue]
+
           if (existingSym !== undefined) {
             onSubmit({ sym: existingSym, symCtx })
           } else {
             const newSym = Sym.tt({ id: getMaxSymId(symCtx.syms) + 1 })
-            const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(text) })
+            const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(textInputValue) })
 
             onSubmit({
               sym: newSym,
@@ -75,7 +85,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
             })
           }
         }}
-        disabled={!isValid || errorMessage !== undefined}
+        disabled={textInputIsPristine || textInputError !== undefined}
       >
         <CheckIcon />
       </IconButton>
@@ -86,8 +96,28 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   )
 }
 
-const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/
+// Validates `text` and returns `undefined` if `text` is valid, an error message to show.
+const useValidator = textToSymMap => {
+  const { t } = useTranslation('IndividualVariableEditor')
+
+  return useCallback(text => {
+    if (!isValidText(text)) {
+      return t('message.invalidInstanceVariableSymbol', { sym: text })
+    }
+
+    const existingSym = textToSymMap[text]
+    if (existingSym !== undefined && !isValidIndividualVariable(existingSym)) {
+      return t('message.symbolAlreadyUsed', { sym: text })
+    }
+
+    return undefined
+  }, [t, textToSymMap])
+}
+
+const isValidText = (() => {
+  const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/
+
+  return text => INDIVIDUAL_VARIABLE_REGEX.test(text)
+})()
 
 const isValidIndividualVariable = sym => Sym.getCategory(sym) === Category.TT && sym.arity === 0
-
-const validateText = text => INDIVIDUAL_VARIABLE_REGEX.test(text)
