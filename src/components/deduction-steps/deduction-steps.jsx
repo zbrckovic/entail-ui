@@ -119,7 +119,7 @@ export const DeductionSteps = ({
               <TableRow key={steps.length + 1} className={classes.row}>
                 {hasRowSelection && <TableCell className={classes.cell} />}
                 <TableCell className={classes.cell}>
-                  {steps.size + 1}
+                  {steps.length + 1}
                 </TableCell>
                 <TableCell />
                 <TableCell className={classes.cell}>{lastStepAccessory}</TableCell>

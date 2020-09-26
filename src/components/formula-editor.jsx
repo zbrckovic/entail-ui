@@ -21,22 +21,28 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
 
   const describeError = useParserErrorDescriber()
 
-  const [text, setText] = useState('')
-  const [textSubject] = useState(new Subject())
+  const [textInputValue, setTextInputValue] = useState('')
+  const [textInputIsPristine, setTextInputIsPristine] = useState(true)
+  const [textInputValueSubject] = useState(() => new Subject())
   const [parseResult, setParseResult] = useState()
 
   useEffect(() => {
-    const subscription = textSubject
-      .pipe(
+    const derivedSubject = textInputIsPristine
+      ? textInputValueSubject.pipe(map(() => undefined))
+      : textInputValueSubject.pipe(
         distinctUntilChanged(),
         debounceTime(200),
-        map(text => text !== '' ? parse(text) : undefined)
+        map(parse)
       )
-      .subscribe(setParseResult)
+
+    const subscription = derivedSubject.subscribe(setParseResult)
 
     return () => { subscription.unsubscribe() }
-  }, [parse, textSubject])
-  useEffect(() => { textSubject.next(text) }, [textSubject, text])
+  }, [textInputValueSubject, textInputIsPristine, parse])
+  useEffect(
+    () => { textInputValueSubject.next(textInputValue) },
+    [textInputValueSubject, textInputValue]
+  )
 
   const formula = parseResult?.success?.formula
   const symCtx = parseResult?.success?.symCtx
@@ -53,18 +59,17 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
               </SymCtx.Provider>
             ) : <wbr />
         }
-        {
-          text.length > 0 && error !== undefined &&
-          <Box text={describeError(error)} />
-        }
       </Box>
       <Box display='flex'>
         <TextField
           className={classes.textField}
           rowsMax={10}
           multiline
-          value={text}
-          onChange={event => { setText(event.target.value) }}
+          value={textInputValue}
+          onChange={event => {
+            setTextInputIsPristine(false)
+            setTextInputValue(event.target.value)
+          }}
           error={error !== undefined}
           helperText={error !== undefined ? describeError(error) : undefined}
         />
@@ -84,6 +89,8 @@ export const FormulaEditor = ({ onSubmit, onCancel, ...props }) => {
   )
 }
 
+// Parses the `text` and returns `{ formula, symCtx }` if succesful, otherwise returns `{ error }`
+// where `error` is an error message to show.
 const useParser = () => {
   const symCtx = useContext(SymCtx)
 

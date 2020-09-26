@@ -7,7 +7,7 @@ import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
-import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import Box from '@material-ui/core/Box'
 import { IconButton } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
@@ -33,9 +33,7 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
   useEffect(() => {
     // Validate only if `textInputIsPristine` is false.
     const derivedSubject = textInputIsPristine
-      ? textInputValueSubject.pipe(
-        map(() => undefined)
-      )
+      ? textInputValueSubject.pipe(map(() => undefined))
       : textInputValueSubject.pipe(
         distinctUntilChanged(),
         debounceTime(200),
@@ -58,8 +56,8 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
       <TextField
         value={textInputValue}
         onChange={({ target: { value } }) => {
-          setTextInputValue(value)
           setTextInputIsPristine(false)
+          setTextInputValue(value)
         }}
         error={textInputError !== undefined}
         helperText={textInputError}
