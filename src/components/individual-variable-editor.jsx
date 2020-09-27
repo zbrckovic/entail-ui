@@ -9,13 +9,16 @@ import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import Box from '@material-ui/core/Box'
-import { IconButton } from '@material-ui/core'
+import { Button, ButtonGroup } from '@material-ui/core'
 import CheckIcon from '@material-ui/icons/Check'
 import CloseIcon from '@material-ui/icons/Close'
 import TextField from '@material-ui/core/TextField'
+import { makeStyles } from '@material-ui/core/styles'
 
-export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
+export const IndividualVariableEditor = ({ label, onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
+
+  const classes = useStyles()
 
   const symCtx = useContext(SymCtx)
   const textToSymMap = useMemo(
@@ -23,16 +26,16 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
     [symCtx]
   )
 
-  const [textInputValue, setTextInputValue] = useState('')
-  const [textInputIsPristine, setTextInputIsPristine] = useState(true)
-  const [textInputError, setTextInputError] = useState()
+  const [text, setText] = useState('')
+  const [isPristine, setIsPristine] = useState(true)
+  const [error, setError] = useState()
 
   const validate = useValidator(textToSymMap)
 
   const [textInputValueSubject] = useState(() => new Subject())
   useEffect(() => {
     // Validate only if `textInputIsPristine` is false.
-    const derivedSubject = textInputIsPristine
+    const derivedSubject = isPristine
       ? textInputValueSubject.pipe(map(() => undefined))
       : textInputValueSubject.pipe(
         distinctUntilChanged(),
@@ -40,54 +43,65 @@ export const IndividualVariableEditor = ({ onSubmit, onCancel, ...props }) => {
         map(validate)
       )
 
-    const subscription = derivedSubject.subscribe(setTextInputError)
+    const subscription = derivedSubject.subscribe(setError)
 
     return () => { subscription.unsubscribe() }
-  }, [textInputValueSubject, textInputIsPristine, validate])
+  }, [textInputValueSubject, isPristine, validate])
   useEffect(
-    () => { textInputValueSubject.next(textInputValue) },
-    [textInputValueSubject, textInputValue]
+    () => { textInputValueSubject.next(text) },
+    [textInputValueSubject, text]
   )
 
   return (
-    <Box {...props}>
+    <Box display='flex' alignItems='flex-start' {...props}>
       <TextField
-        value={textInputValue}
+        className={classes.textField}
+        label={label}
+        value={text}
+        variant="outlined"
+
         onChange={({ target: { value } }) => {
-          setTextInputIsPristine(false)
-          setTextInputValue(value)
+          setIsPristine(false)
+          setText(value)
         }}
-        error={textInputError !== undefined}
-        helperText={textInputError}
+        error={error !== undefined}
+        helperText={error}
       />
-      <IconButton
-        color='primary'
-        title={t('button.submit')}
-        onClick={() => {
-          const existingSym = textToSymMap[textInputValue]
+      <ButtonGroup size='medium'>
+        <Button
+          color='primary'
+          title={t('button.submit')}
+          onClick={() => {
+            const existingSym = textToSymMap[text]
 
-          if (existingSym !== undefined) {
-            onSubmit({ sym: existingSym, symCtx })
-          } else {
-            const newSym = Sym.tt({ id: getMaxSymId(symCtx.syms) + 1 })
-            const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(textInputValue) })
+            if (existingSym !== undefined) {
+              onSubmit({ sym: existingSym, symCtx })
+            } else {
+              const newSym = Sym.tt({ id: getMaxSymId(symCtx.syms) + 1 })
+              const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(text) })
 
-            onSubmit({
-              sym: newSym,
-              symCtx: {
-                syms: { ...symCtx.syms, [newSym.id]: newSym },
-                presentations: { ...symCtx.presentations, [newSym.id]: newPresentation }
-              }
-            })
-          }
-        }}
-        disabled={textInputIsPristine || textInputError !== undefined}
-      >
-        <CheckIcon />
-      </IconButton>
-      <IconButton title={t('button.cancel')} onClick={() => { onCancel() }}>
-        <CloseIcon />
-      </IconButton>
+              onSubmit({
+                sym: newSym,
+                symCtx: {
+                  syms: { ...symCtx.syms, [newSym.id]: newSym },
+                  presentations: { ...symCtx.presentations, [newSym.id]: newPresentation }
+                }
+              })
+            }
+          }}
+          disabled={isPristine || error !== undefined}
+          startIcon={<CheckIcon />}
+        >
+          {t('button.submit')}
+        </Button>
+        <Button
+          title={t('button.cancel')}
+          onClick={() => { onCancel() }}
+          startIcon={<CloseIcon />}
+        >
+          {t('button.cancel')}
+        </Button>
+      </ButtonGroup>
     </Box>
   )
 }
@@ -117,3 +131,10 @@ const isValidText = (() => {
 })()
 
 const isValidIndividualVariable = sym => Sym.getCategory(sym) === Category.TT && sym.arity === 0
+
+const useStyles = makeStyles(theme => ({
+  textField: {
+    marginRight: theme.spacing(1),
+    flexGrow: 1
+  }
+}))
