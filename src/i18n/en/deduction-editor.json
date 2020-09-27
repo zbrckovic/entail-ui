@@ -6,6 +6,9 @@
     "enterTheBoundTerm": "Enter the bound term",
     "rules": "Rules"
   },
+  "button": {
+    "delete": "Delete"
+  },
   "message": {
     "invalidTautologicalImplication": "Invalid tautological implication.",
     "instanceTermBecomesIllegallyBound": "Instance term becomes illegally bound.",

@@ -26,11 +26,11 @@ export const DeductionSteps = ({
   const { t } = useTranslation('DeductionSteps')
 
   const classes = useStyles({
-    checkbox: 38,
-    number: '3ch',
-    rule: '2ch',
-    assumptions: '10ch',
-    premises: '10ch'
+    checkbox: 42,
+    number: 42,
+    rule: 42,
+    assumptions: 80,
+    premises: 80
   })
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
@@ -157,10 +157,27 @@ export const DeductionSteps = ({
   )
 }
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles(theme => ({
   row: {},
-  cell: {},
+  cell: {
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    '&:first-child': {
+      paddingLeft: theme.spacing(2)
+    },
+    '&:not(:first-child)': {
+      paddingLeft: theme.spacing(1)
+    },
+    '&:not(:last-child)': {
+      paddingRight: theme.spacing(1)
+    },
+    '&:last-child': {
+      paddingRight: theme.spacing(2)
+    }
+  },
   cellCheckbox: {
+    paddingTop: 0,
+    paddingBottom: 0,
     width: ({ checkbox }) => checkbox
   },
   cellStepNumber: {
@@ -175,5 +192,8 @@ const useStyles = makeStyles(() => ({
   },
   cellPremises: {
     width: ({ premises }) => premises
+  },
+  stepAccessoryCell: {
+    padding: '0 !important'
   }
 }))

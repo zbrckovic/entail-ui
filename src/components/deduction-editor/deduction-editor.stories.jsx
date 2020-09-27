@@ -10,7 +10,7 @@ export default {
 
 export const Default = () =>
   <SymCtx.Provider value={symCtx}>
-    <DeductionEditor height='100%' />
+    <DeductionEditor width='100%' height='100%' />
   </SymCtx.Provider>
 
 const symCtx = {

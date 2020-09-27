@@ -14,11 +14,14 @@ import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
 import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
 import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
+import Button from '@material-ui/core/Button'
+import DeleteIcon from '@material-ui/icons/Delete'
 
 const createDefaultSelectedSteps = () => new Set()
 
 export const DeductionEditor = ({ ...props }) => {
   const classes = useStyles()
+  const { t } = useTranslation('DeductionEditor')
 
   const initialSymCtx = useContext(SymCtx)
 
@@ -61,8 +64,15 @@ export const DeductionEditor = ({ ...props }) => {
             lastStepAccessory={ruleUI}
           />
         </Box>
-        <Box component='aside' className={classes.aside}>
+        <Box
+          display='flex'
+          flexDirection='column'
+          alignItems='stretch'
+          component='aside'
+          className={classes.aside}
+        >
           <DeductionEditorRulePicker
+            mb={1}
             rules={rules}
             selectedRule={selectedRule}
             onRuleSelect={rule => {
@@ -113,6 +123,14 @@ export const DeductionEditor = ({ ...props }) => {
             }}
             onRuleDeselect={() => { setSelectedRule(undefined) }}
           />
+          <Button
+            variant='outlined'
+            title={t('button.delete')}
+            disabled={selectedSteps.size === 0}
+            startIcon={<DeleteIcon />}
+          >
+            {t('button.delete')}
+          </Button>
         </Box>
       </Box>
       <Snackbar
