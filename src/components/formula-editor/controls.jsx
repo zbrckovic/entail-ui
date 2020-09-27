@@ -29,6 +29,7 @@ export const Controls = ({ onSymbol, onSubmit, onCancel, isSubmitDisabled }) => 
 
             return (
               <Button
+                className={classes.symbolButton}
                 key={id}
                 onClick={() => { onSymbol(text) }}
               >
@@ -73,5 +74,8 @@ const primitiveSyms = [
 const useStyles = makeStyles(theme => ({
   symbols: {
     marginRight: theme.spacing(1)
+  },
+  symbolButton: {
+    fontFamily: theme.typography.mono
   }
 }))

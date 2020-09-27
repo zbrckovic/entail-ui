@@ -1,24 +1,28 @@
+import Box from '@material-ui/core/Box'
+import Snackbar from '@material-ui/core/Snackbar'
+import { makeStyles } from '@material-ui/core/styles'
+import Alert from '@material-ui/lab/Alert'
 import { Deduction, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
+import { DeductionSteps } from 'components/deduction-steps'
+import { SymCtx } from 'contexts'
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { FormulaEditor } from '../formula-editor'
 import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
 import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
 import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
 import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
 import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
-import { DeductionSteps } from 'components/deduction-steps'
-import { SymCtx } from 'contexts'
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
-import Box from '@material-ui/core/Box'
-import { FormulaEditor } from '../formula-editor'
-import { makeStyles } from '@material-ui/core/styles'
-import { useTranslation } from 'react-i18next'
 
 const createDefaultSelectedSteps = () => new Set()
 
-export const DeductionEditor = ({ sx, ...props }) => {
+export const DeductionEditor = ({ ...props }) => {
   const classes = useStyles()
 
   const initialSymCtx = useContext(SymCtx)
+
+  const [errorMsg, setErrorMsg] = useState(undefined)
 
   const [{ deductionInterface, symCtx }, setState] = useState(() => ({
     symCtx: initialSymCtx,
@@ -42,7 +46,8 @@ export const DeductionEditor = ({ sx, ...props }) => {
     selectedRule,
     ruleInterface: rulesInterface?.[selectedRule],
     onApply: setState,
-    onCancel: useCallback(() => { setSelectedRule(undefined) }, [])
+    onCancel: useCallback(() => { setSelectedRule(undefined) }, []),
+    onError: setErrorMsg
   })
 
   return (
@@ -110,11 +115,21 @@ export const DeductionEditor = ({ sx, ...props }) => {
           />
         </Box>
       </Box>
+      <Snackbar
+        open={errorMsg !== undefined}
+        onClose={(event, reason) => {
+          if (reason === 'clickaway') return
+          setErrorMsg(undefined)
+        }}
+        message={errorMsg}
+      >
+        <Alert severity="error">{errorMsg}</Alert>
+      </Snackbar>
     </SymCtx.Provider>
   )
 }
 
-const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) => {
+const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel, onError }) => {
   const { t } = useTranslation('DeductionEditor')
 
   return useMemo(() => {
@@ -135,35 +150,45 @@ const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel }) =
           flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
-          onCancel={onCancel} />
+          onCancel={onCancel}
+          onError={onError}
+        />
       case Rule.UniversalInstantiation:
         return <DeductionEditorUniversalInstantiation
           flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
-          onCancel={onCancel} />
+          onCancel={onCancel}
+          onError={onError}
+        />
       case Rule.UniversalGeneralization:
         return <DeductionEditorUniversalGeneralization
           flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
-          onCancel={onCancel} />
+          onCancel={onCancel}
+          onError={onError}
+        />
       case Rule.ExistentialInstantiation:
         return <DeductionEditorExistentialInstantiation
           flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
-          onCancel={onCancel} />
+          onCancel={onCancel}
+          onError={onError}
+        />
       case Rule.ExistentialGeneralization:
         return <DeductionEditorExistentialGeneralization
           flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
-          onCancel={onCancel} />
+          onCancel={onCancel}
+          onError={onError}
+        />
       default:
         return undefined
     }
-  }, [ruleInterface, selectedRule, onApply, onCancel, t])
+  }, [ruleInterface, selectedRule, onApply, onCancel, onError, t])
 }
 
 const useStyles = makeStyles(theme => ({

@@ -14,7 +14,6 @@ import { makeStyles } from '@material-ui/core/styles'
 export const ExpressionView = ({
   expression: { sym, boundSym, children },
   root = true,
-  sx,
   ...props
 }) => {
   const { presentations } = useContext(SymCtx)

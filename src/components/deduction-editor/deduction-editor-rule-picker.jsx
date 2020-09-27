@@ -11,7 +11,8 @@ export const DeductionEditorRulePicker = ({
   rules = {},
   selectedRule,
   onRuleSelect,
-  onRuleDeselect
+  onRuleDeselect,
+  ...props
 }) => {
   const classes = useStyles()
 
@@ -19,7 +20,7 @@ export const DeductionEditorRulePicker = ({
   const { t } = useTranslation('DeductionEditor')
 
   return (
-    <Box>
+    <Box {...props}>
       <Typography component='label'>{t('label.rules')}</Typography>
       <Box className={classes.buttons}>
         {

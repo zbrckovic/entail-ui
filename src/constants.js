@@ -1,2 +1,0 @@
-export const MAX_RULE_ABBREVIATION_LENGTH = 3
-export const MAX_PREMISES_LIST_LENGTH = 10

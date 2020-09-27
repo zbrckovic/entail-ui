@@ -1,8 +1,14 @@
 {
   "label": {
+    "stepNumber": "Step Number",
+    "stepNumberAbbreviated": "#",
     "assumptions": "Assumptions",
+    "assumptionsAbbreviated": "A",
+    "formula": "Formula",
+    "formulaAbbreviated": "F",
     "rule": "Rule",
+    "ruleAbbreviated": "R",
     "premises": "Premises",
-    "number": "#"
+    "premisesAbbreviated": "P"
   }
 }

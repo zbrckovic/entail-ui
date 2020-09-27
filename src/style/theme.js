@@ -34,6 +34,12 @@ export const theme = createMuiTheme({
     },
     MuiCheckbox: {
       size: 'small'
+    },
+    MuiTable: {
+      size: 'small'
+    },
+    MuiSnackbar: {
+      autoHideDuration: 5000
     }
   },
   overrides: {

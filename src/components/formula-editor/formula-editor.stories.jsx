@@ -12,6 +12,10 @@ export default {
     },
     onCancel: {
       action: 'cancel'
+    },
+    label: {
+      control: 'text',
+      defaultValue: 'Default label'
     }
   }
 }

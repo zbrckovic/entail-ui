@@ -1,19 +1,18 @@
 import Box from '@material-ui/core/Box'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { SymCtx } from 'contexts'
-import React, { useContext, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import TextField from '@material-ui/core/TextField'
 import { makeStyles } from '@material-ui/core/styles'
 import { Controls } from './controls'
 import { ExpressionView } from '../expression-view'
-import { useParserErrorDescriber } from '../../hooks'
+import { useParserErrorDescriber } from 'hooks'
 
 // Allows user to input formula as text.
 export const FormulaEditor = ({
   label,
-  error: externalError,
   onSubmit,
   onCancel,
   ...props
@@ -51,29 +50,22 @@ export const FormulaEditor = ({
 
   const classes = useStyles(error !== undefined)
 
-  const helperText = useMemo(
-    () => {
-      if (externalError !== undefined) return externalError
-      if (error !== undefined) return describeError(error)
-      return undefined
-    },
-    [externalError, describeError, error]
-  )
-
   return (
     <Box display='flex' flexDirection='column' {...props}>
-      {
-        formula !== undefined
-          ? (
-            <SymCtx.Provider value={symCtx}>
-              <ExpressionView expression={formula} />
-            </SymCtx.Provider>
-          )
-          : <wbr />
-      }
+      <Box mb={2}>
+        {
+          formula !== undefined
+            ? (
+              <SymCtx.Provider value={symCtx}>
+                <ExpressionView expression={formula} />
+              </SymCtx.Provider>
+            )
+            : <wbr />
+        }
+      </Box>
       <TextField
         label={label}
-        helperText={helperText}
+        helperText={error === undefined ? undefined : describeError(error)}
         inputRef={inputRef}
         className={classes.textField}
         variant="outlined"
@@ -84,7 +76,7 @@ export const FormulaEditor = ({
           setTextInputIsPristine(false)
           setTextInputValue(event.target.value)
         }}
-        error={error !== undefined || externalError !== undefined}
+        error={error !== undefined}
       />
       <Controls
         onSubmit={() => { onSubmit(parseResult?.success) }}

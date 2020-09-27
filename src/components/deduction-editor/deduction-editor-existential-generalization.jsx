@@ -1,22 +1,20 @@
 import { ErrorName } from '@zbrckovic/entail-core'
 import { IndividualVariableEditor } from 'components/individual-variable-editor'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Box from '@material-ui/core/Box'
 
 export const DeductionEditorExistentialGeneralization = ({
   ruleInterface,
   onApply,
   onCancel,
+  onError,
   ...props
 }) => {
   const { t } = useTranslation('DeductionEditor')
 
-  const [errorMessage, setErrorMessage] = useState(undefined)
-
-  return <Box flexDirection='column' alignItems='stretch' {...props}>
-    <Box as='h4' mb={2}>{t('label.enterTheInstanceTerm')}</Box>
+  return (
     <IndividualVariableEditor
+      label={t('label.enterTheInstanceTerm')}
       flexGrow={1}
       onSubmit={({ sym, presentationCtx }) => {
         let deductionInterface
@@ -25,21 +23,20 @@ export const DeductionEditorExistentialGeneralization = ({
         } catch (error) {
           switch (error.name) {
             case ErrorName.GENERALIZED_TERM_ILLEGALLY_BINDS:
-              setErrorMessage(t('message.generalizedTermIllegallyBinds'))
+              onError(t('message.generalizedTermIllegallyBinds'))
               return
             case ErrorName.GENERALIZED_TERM_BECOMES_ILLEGALLY_BOUND:
-              setErrorMessage(t('message.generalizedTermBecomesIllegallyBound'))
+              onError(t('message.generalizedTermBecomesIllegallyBound'))
               return
             default:
               throw error
           }
         }
 
-        setErrorMessage(undefined)
-
         onApply({ presentationCtx, deductionInterface })
       }}
-      onCancel={onCancel} />
-    {errorMessage}
-  </Box>
+      onCancel={onCancel}
+      {...props}
+    />
+  )
 }
