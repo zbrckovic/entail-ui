@@ -1,8 +1,8 @@
+import Box from '@material-ui/core/Box'
 import { ExpressionView } from 'components/expression-view'
 import { SymCtx } from 'contexts'
-import React from 'react'
+import React, { useState } from 'react'
 import { useEnteredFormulaText } from 'storybook/use-entered-formula-text'
-import Box from '@material-ui/core/Box'
 
 export default {
   title: 'ExpressionView',
@@ -16,6 +16,8 @@ export default {
 }
 
 export const Default = ({ formula: formulaText }) => {
+  const [selectionTarget, setSelectionTarget] = useState()
+
   const parseResult = useEnteredFormulaText(formulaText)
 
   if (parseResult === undefined) return <Box>Enter formula</Box>
@@ -24,9 +26,14 @@ export const Default = ({ formula: formulaText }) => {
   if (error !== undefined) return <Box>{error.message}</Box>
 
   const { formula, symCtx } = success
+
   return (
     <SymCtx.Provider value={symCtx}>
-      <ExpressionView expression={formula} />
+      <ExpressionView
+        expression={formula}
+        onClick={setSelectionTarget}
+        selectionTarget={selectionTarget}
+      />
     </SymCtx.Provider>
   )
 }
