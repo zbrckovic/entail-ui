@@ -2,7 +2,15 @@ import Box from '@material-ui/core/Box'
 import Snackbar from '@material-ui/core/Snackbar'
 import { makeStyles } from '@material-ui/core/styles'
 import Alert from '@material-ui/lab/Alert'
-import { Deduction, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
+import {
+  Category,
+  Deduction,
+  Expression,
+  ExpressionPointer,
+  Rule,
+  startDeduction,
+  Sym
+} from '@zbrckovic/entail-core'
 import { DeductionSteps } from 'components/deduction-steps'
 import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
@@ -16,6 +24,7 @@ import { DeductionEditorUniversalGeneralization } from './deduction-editor-unive
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
 import Button from '@material-ui/core/Button'
 import DeleteIcon from '@material-ui/icons/Delete'
+import { TargetType } from '../expression-view'
 
 const createDefaultSelectedSteps = () => new Set()
 
@@ -45,8 +54,19 @@ export const DeductionEditor = ({ ...props }) => {
   const [selectedRule, setSelectedRule] = useState()
   useEffect(() => { setSelectedRule(undefined) }, [rules])
 
+  const [selectionTarget, setSelectionTarget] = useState()
+
+  const selectedFreeIndividualVariable = useMemo(
+    () =>
+      selectionTarget === undefined
+        ? undefined
+        : extractSelectedFreeIndividualVariable(deductionInterface.deduction, selectionTarget),
+    [deductionInterface, selectionTarget]
+  )
+
   const ruleUI = useSelectedRuleUI({
     selectedRule,
+    selectedFreeIndividualVariable,
     ruleInterface: rulesInterface?.[selectedRule],
     onApply: setState,
     onCancel: useCallback(() => { setSelectedRule(undefined) }, []),
@@ -62,6 +82,8 @@ export const DeductionEditor = ({ ...props }) => {
             selectedSteps={selectedSteps}
             onSelectedStepsChange={setSelectedSteps}
             lastStepAccessory={ruleUI}
+            selectionTarget={selectionTarget}
+            onSelectionTargetChange={setSelectionTarget}
           />
         </Box>
         <Box
@@ -147,7 +169,14 @@ export const DeductionEditor = ({ ...props }) => {
   )
 }
 
-const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel, onError }) => {
+const useSelectedRuleUI = ({
+  selectedRule,
+  selectedFreeIndividualVariable,
+  ruleInterface,
+  onApply,
+  onCancel,
+  onError
+}) => {
   const { t } = useTranslation('DeductionEditor')
 
   return useMemo(() => {
@@ -183,6 +212,7 @@ const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel, onE
         return <DeductionEditorUniversalGeneralization
           flexGrow={1}
           ruleInterface={ruleInterface}
+          oldTerm={selectedFreeIndividualVariable}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
@@ -199,6 +229,7 @@ const useSelectedRuleUI = ({ selectedRule, ruleInterface, onApply, onCancel, onE
         return <DeductionEditorExistentialGeneralization
           flexGrow={1}
           ruleInterface={ruleInterface}
+          oldTerm={selectedFreeIndividualVariable}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
@@ -222,3 +253,27 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2)
   }
 }))
+
+const extractSelectedFreeIndividualVariable = (deduction, target) => {
+  const { type, position, step } = target
+  if (type !== TargetType.MAIN) return undefined
+
+  const { formula } = deduction.steps[step]
+  const { sym } = Expression.getSubexpression(formula, position)
+
+  if (!isSymIndividualVariable(sym)) return undefined
+  if (!isSymFree(formula, sym)) return undefined
+
+  return sym
+}
+
+const isSymIndividualVariable = sym =>
+  sym.arity === 0 && Sym.getCategory(sym) === Category.TT
+
+// TODO: this check is not good because it doesn't consider the exact occurrence of the sym. If
+//  `sym` occurs both as free and bound it will be irrelevant which occurrence was selected - it'll
+//  be recognized as free.
+const isSymFree = (formula, sym) => {
+  const freeSyms = Expression.getFreeSyms(formula)
+  return freeSyms[sym.id] !== undefined
+}

@@ -8,6 +8,8 @@ import React, { Fragment, useContext } from 'react'
 // Shows textual representation of a provided expression.
 export const ExpressionView = ({
   expression: { sym, boundSym, children },
+  selectionTarget,
+  onSelectionTargetChange,
   root = true,
   ...props
 }) => {
@@ -22,6 +24,8 @@ export const ExpressionView = ({
       symText={text}
       boundSym={boundSym}
       childrenExpressions={children}
+      selectionTarget={selectionTarget}
+      onSelectionTargetChange={onSelectionTargetChange}
       {...props}
     />
   ) : (
@@ -32,6 +36,8 @@ export const ExpressionView = ({
       childExpression1={children[0]}
       childExpression2={children[1]}
       root={root}
+      selectionTarget={selectionTarget}
+      onSelectionTargetChange={onSelectionTargetChange}
       {...props}
     />
   )
@@ -45,28 +51,52 @@ export const ExpressionView = ({
   )
 }
 
-const Prefix = ({ sym, symText, boundSym, childrenExpressions, onClick, selectionTarget }) => {
+const Prefix = ({
+  sym,
+  symText,
+  boundSym,
+  childrenExpressions,
+  selectionTarget,
+  onSelectionTargetChange
+}) => {
   const isPrimitive = primitiveSyms[sym.id] !== undefined
   const hasParentheses =
     childrenExpressions.length > 1 || (childrenExpressions.length === 1 && !isPrimitive)
   const hasSpace = childrenExpressions.length > 0 && sym.binds && isPrimitive
 
   const isSelected = selectionTarget?.position.length === 0
+  const isMainSelected = isSelected && selectionTarget.type === TargetType.MAIN
+  const isBoundSelected = isSelected && selectionTarget.type === TargetType.BOUND
 
   return <>
     <ExpressionText
       text={symText}
       kind={sym.kind}
       onClick={() => {
-        if (onClick !== undefined) onClick({ type: TargetType.MAIN, position: [] })
+        if (onSelectionTargetChange === undefined) return
+
+        let selectionTargetToSend
+        if (!isMainSelected) {
+          selectionTargetToSend = { type: TargetType.MAIN, position: [] }
+        }
+
+        onSelectionTargetChange(selectionTargetToSend)
       }}
-      isSelected={isSelected && selectionTarget.type === TargetType.MAIN}
+      isSelected={isMainSelected}
     />
     {sym.binds && (
       <Binding
         sym={boundSym}
-        onClick={onClick}
-        isSelected={isSelected && selectionTarget.type === TargetType.BOUND}
+        onClick={() => {
+          if (onSelectionTargetChange === undefined) return
+
+          const selectionTargetToSend = isBoundSelected
+            ? undefined
+            : { type: TargetType.BOUND, position: [] }
+
+          onSelectionTargetChange(selectionTargetToSend)
+        }}
+        isSelected={isBoundSelected}
       />
     )}
     {hasSpace && <> </>}
@@ -87,10 +117,18 @@ const Prefix = ({ sym, symText, boundSym, childrenExpressions, onClick, selectio
         <ExpressionView
           expression={child}
           root={false}
-          onClick={({ type, position }) => {
-            if (onClick !== undefined) onClick({ type, position: [i, ...position] })
-          }}
           selectionTarget={selectionTargetForChild}
+          onSelectionTargetChange={newSelectionTargetFromChild => {
+            if (onSelectionTargetChange === undefined) return
+
+            let selectionTargetToSend
+            if (newSelectionTargetFromChild !== undefined) {
+              const { type, position } = newSelectionTargetFromChild
+              selectionTargetToSend = { type, position: [i, ...position] }
+            }
+
+            onSelectionTargetChange(selectionTargetToSend)
+          }}
         />
         {!isLast && <>
           <ExpressionText text="," kind={sym.kind} />
@@ -109,7 +147,7 @@ const Infix = ({
   childExpression2,
   root,
   selectionTarget,
-  onClick
+  onSelectionTargetChange
 }) => {
   const isSelected = selectionTarget?.position.length === 0
 
@@ -132,26 +170,51 @@ const Infix = ({
     <ExpressionView
       expression={childExpression1}
       root={false}
-      onClick={({ type, position }) => {
-        if (onClick !== undefined) onClick({ type, position: [0, ...position] })
-      }}
       selectionTarget={selectionTargetForChild1}
+      onSelectionTargetChange={newSelectionTargetFromChild => {
+        if (onSelectionTargetChange === undefined) return
+
+        let selectionTargetToSend
+        if (newSelectionTargetFromChild !== undefined) {
+          const { type, position } = newSelectionTargetFromChild
+          selectionTargetToSend = { type, position: [0, ...position] }
+        }
+
+        onSelectionTargetChange(selectionTargetToSend)
+      }}
     />
     <> </>
     <ExpressionText
       text={symText}
       kind={sym.kind}
-      onClick={() => { onClick?.({ type: TargetType.MAIN, position: [] }) }}
+      onClick={() => {
+        if (onSelectionTargetChange === undefined) return
+
+        let selectionTargetToSend
+        if (!isSelected) {
+          selectionTargetToSend = { type: TargetType.MAIN, position: [] }
+        }
+
+        onSelectionTargetChange(selectionTargetToSend)
+      }}
       isSelected={isSelected}
     />
     <> </>
     <ExpressionView
       expression={childExpression2}
       root={false}
-      onClick={({ type, position }) => {
-        if (onClick !== undefined) onClick({ type, position: [1, ...position] })
-      }}
       selectionTarget={selectionTargetForChild2}
+      onSelectionTargetChange={newSelectionTargetFromChild => {
+        if (onSelectionTargetChange === undefined) return
+
+        let selectionTargetToSend
+        if (newSelectionTargetFromChild !== undefined) {
+          const { type, position } = newSelectionTargetFromChild
+          selectionTargetToSend = { type, position: [1, ...position] }
+        }
+
+        onSelectionTargetChange(selectionTargetToSend)
+      }}
     />
     {root || <ExpressionText text=")" kind={sym.kind} />}
   </>
@@ -165,9 +228,7 @@ const Binding = ({ sym, onClick, ...props }) => {
     <ExpressionText
       text={text}
       kind={sym.kind}
-      onClick={() => {
-        if (onClick !== undefined) onClick({ type: TargetType.BOUND, position: [] })
-      }}
+      onClick={onClick}
       {...props}
     />
   )
@@ -178,7 +239,10 @@ export const ExpressionText = ({ text, kind, color, onClick, isSelected, ...prop
     component="span"
     color={kindToColor[kind] ?? 'text.secondary'}
     bgcolor={isSelected ? 'action.selected' : undefined}
-    onClick={() => { onClick?.() }}
+    onClick={e => {
+      e.stopPropagation()
+      onClick?.()
+    }}
     {...props}
   >
     {text ?? <wbr />}
@@ -195,7 +259,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const TargetType = {
+export const TargetType = {
   MAIN: 'MAIN',
   BOUND: 'BOUND'
 }

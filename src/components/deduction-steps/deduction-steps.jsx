@@ -21,6 +21,8 @@ export const DeductionSteps = ({
   // Must be provided to support step selection.
   onSelectedStepsChange,
   lastStepAccessory,
+  selectionTarget,
+  onSelectionTargetChange,
   ...props
 }) => {
   const { t } = useTranslation('DeductionSteps')
@@ -97,6 +99,14 @@ export const DeductionSteps = ({
               const stepNumber = i + 1
               const isSelected = hasRowSelection ? selectedSteps.has(stepNumber) : undefined
 
+              let selectionTargetForFormula
+              if (selectionTarget?.step === i) {
+                selectionTargetForFormula = {
+                  type: selectionTarget.type,
+                  position: selectionTarget.position
+                }
+              }
+
               return (
                 <TableRow
                   key={i}
@@ -130,7 +140,20 @@ export const DeductionSteps = ({
                     <StepAssumptions assumptions={step.assumptions} />
                   </TableCell>
                   <TableCell className={`${classes.cell} ${classes.cellFormula}`}>
-                    <ExpressionView expression={step.formula} />
+                    <ExpressionView
+                      expression={step.formula}
+                      selectionTarget={selectionTargetForFormula}
+                      onSelectionTargetChange={selectionTarget => {
+                        if (onSelectionTargetChange === undefined) return
+
+                        let selectionTargetToSend
+                        if (selectionTarget !== undefined) {
+                          selectionTargetToSend = { ...selectionTarget, step: i }
+                        }
+
+                        onSelectionTargetChange(selectionTargetToSend)
+                      }}
+                    />
                   </TableCell>
                   <TableCell className={`${classes.cell} ${classes.cellRule}`}>
                     <StepRule rule={step.ruleApplicationSummary.rule} />

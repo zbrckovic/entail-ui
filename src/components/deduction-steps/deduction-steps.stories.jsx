@@ -42,6 +42,7 @@ const Template = ({
     }
   })
 
+  const [selectionTarget, setSelectionTarget] = useState()
   const [selectedSteps, setSelectedSteps] = useState(() => new Set())
 
   return (
@@ -56,6 +57,8 @@ const Template = ({
           }
           : undefined
         }
+        selectionTarget={selectionTarget}
+        onSelectionTargetChange={setSelectionTarget}
         lastStepAccessory={hasLastStepAccessory ? <LastStepAccessory /> : undefined}
       />
     </SymCtx.Provider>

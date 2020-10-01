@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 export const DeductionEditorUniversalGeneralization = ({
   ruleInterface,
+  oldTerm,
   onApply,
   onCancel,
   onError,
@@ -19,7 +20,7 @@ export const DeductionEditorUniversalGeneralization = ({
       onSubmit={({ sym, symCtx }) => {
         let deductionInterface
         try {
-          deductionInterface = ruleInterface.apply(sym)
+          deductionInterface = ruleInterface.apply(sym, oldTerm)
         } catch (error) {
           switch (error.name) {
             case ErrorName.TERM_ALREADY_USED:

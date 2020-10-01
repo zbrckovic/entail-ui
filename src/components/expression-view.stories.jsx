@@ -31,8 +31,8 @@ export const Default = ({ formula: formulaText }) => {
     <SymCtx.Provider value={symCtx}>
       <ExpressionView
         expression={formula}
-        onClick={setSelectionTarget}
         selectionTarget={selectionTarget}
+        onSelectionTargetChange={setSelectionTarget}
       />
     </SymCtx.Provider>
   )

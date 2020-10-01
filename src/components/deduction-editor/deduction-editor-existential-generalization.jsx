@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 export const DeductionEditorExistentialGeneralization = ({
   ruleInterface,
+  oldTerm,
   onApply,
   onCancel,
   onError,
@@ -16,10 +17,10 @@ export const DeductionEditorExistentialGeneralization = ({
     <IndividualVariableEditor
       label={t('label.enterTheInstanceTerm')}
       flexGrow={1}
-      onSubmit={({ sym, presentationCtx }) => {
+      onSubmit={({ sym, symCtx }) => {
         let deductionInterface
         try {
-          deductionInterface = ruleInterface.apply(sym)
+          deductionInterface = ruleInterface.apply(sym, oldTerm)
         } catch (error) {
           switch (error.name) {
             case ErrorName.GENERALIZED_TERM_ILLEGALLY_BINDS:
@@ -33,7 +34,7 @@ export const DeductionEditorExistentialGeneralization = ({
           }
         }
 
-        onApply({ presentationCtx, deductionInterface })
+        onApply({ deductionInterface, symCtx })
       }}
       onCancel={onCancel}
       {...props}
