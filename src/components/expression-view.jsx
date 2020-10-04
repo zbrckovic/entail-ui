@@ -8,7 +8,9 @@ import React, { Fragment, useContext } from 'react'
 // Shows textual representation of a provided expression.
 export const ExpressionView = ({
   expression: { sym, boundSym, children },
+  // `{ type, position }`
   selectionTarget,
+  // Called with `{ type, position }` when selected.
   onSelectionTargetChange,
   root = true,
   ...props

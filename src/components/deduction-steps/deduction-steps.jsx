@@ -21,7 +21,9 @@ export const DeductionSteps = ({
   // Must be provided to support step selection.
   onSelectedStepsChange,
   lastStepAccessory,
+  // `{ step, type, position }`
   selectionTarget,
+  // Called with `{ step, type, position }`.
   onSelectionTargetChange,
   ...props
 }) => {
