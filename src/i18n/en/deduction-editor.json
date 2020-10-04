@@ -16,5 +16,11 @@
     "usageOfThisTermResultsInCyclicDependencies": "Usage of this term results in cyclic dependencies.",
     "generalizedTermIllegallyBinds": "Generalized term illegally binds.",
     "generalizedTermBecomesIllegallyBound": "Generalized term becomes illegally bound."
+  },
+  "deleteDialog": {
+    "title":  "Delete selected steps?",
+    "content":  "Are you sure you want to delete selected steps of deduction?",
+    "yes": "Yes",
+    "no": "No"
   }
 }

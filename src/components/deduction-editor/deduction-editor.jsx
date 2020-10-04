@@ -10,14 +10,17 @@ import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from '../formula-editor'
+import Dialog from '@material-ui/core/Dialog'
 import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
 import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
 import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
 import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
 import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
-
-const createDefaultSelectedSteps = () => new Set()
+import DialogTitle from '@material-ui/core/DialogTitle'
+import DialogContent from '@material-ui/core/DialogContent'
+import { DialogContentText } from '@material-ui/core'
+import DialogActions from '@material-ui/core/DialogActions'
 
 export const DeductionEditor = ({ ...props }) => {
   const classes = useStyles()
@@ -32,8 +35,15 @@ export const DeductionEditor = ({ ...props }) => {
     deductionInterface: startDeduction()
   }))
 
-  const [selectedSteps, setSelectedSteps] = useState(createDefaultSelectedSteps)
-  useEffect(() => { setSelectedSteps(createDefaultSelectedSteps()) }, [deductionInterface])
+  const [selectedSteps, setSelectedSteps] = useState(() => new Set())
+  useEffect(() => { setSelectedSteps(new Set()) }, [deductionInterface])
+
+  const areLastStepsSelected = useMemo(() => {
+    if (selectedSteps.size === 0) return false
+
+    // TODO: finish this
+    return false
+  }, [selectedSteps])
 
   const rulesInterface = useMemo(
     () => deductionInterface.selectSteps(...selectedSteps),
@@ -44,6 +54,8 @@ export const DeductionEditor = ({ ...props }) => {
 
   const [selectedRule, setSelectedRule] = useState()
   useEffect(() => { setSelectedRule(undefined) }, [rules])
+
+  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false)
 
   const ruleUI = useSelectedRuleUI({
     selectedRule,
@@ -128,6 +140,7 @@ export const DeductionEditor = ({ ...props }) => {
             title={t('button.delete')}
             disabled={selectedSteps.size === 0}
             startIcon={<DeleteIcon />}
+            onClick={() => { setIsConfirmationDialogOpen(true) }}
           >
             {t('button.delete')}
           </Button>
@@ -143,6 +156,29 @@ export const DeductionEditor = ({ ...props }) => {
       >
         <Alert severity="error">{errorMsg}</Alert>
       </Snackbar>
+      <Dialog
+        open={isConfirmationDialogOpen}
+        onClose={() => { setIsConfirmationDialogOpen(false) }}
+      >
+        <DialogTitle>{t('deleteDialog.title')}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{t('deleteDialog.content')}</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            onClick={() => {
+              // TODO: delete selected steps
+              setIsConfirmationDialogOpen(false)
+            }}
+          >
+            {t('deleteDialog.yes')}
+          </Button>
+          <Button onClick={() => { setIsConfirmationDialogOpen(false) }}>
+            {t('deleteDialog.no')}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </SymCtx.Provider>
   )
 }
