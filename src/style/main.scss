@@ -1,0 +1,191 @@
+@import "../../node_modules/normalize.css/normalize.css";
+@import "../../node_modules/@blueprintjs/core/lib/css/blueprint.css";
+@import "../../node_modules/@blueprintjs/icons/lib/css/blueprint-icons.css";
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-extra-light.ttf);
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-extra-light-italic.ttf);
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-light.ttf);
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-light-italic.ttf);
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-medium.ttf);
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-medium-italic.ttf);
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-semi-bold.ttf);
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-semi-bold-italic.ttf);
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-bold.ttf);
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-bold-italic.ttf);
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-black.ttf);
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url(../../resources/fonts/source-code-pro/source-code-pro-black-italic.ttf);
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-extra-light.ttf);
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-extra-light-italic.ttf);
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-light.ttf);
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-light-italic.ttf);
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-regular.ttf);
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-italic.ttf);
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-semi-bold.ttf);
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-semi-bold-italic.ttf);
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-bold.ttf);
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-bold-italic.ttf);
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-black.ttf);
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: SourceSansPro;
+  src: url(../../resources/fonts/source-sans-pro/source-sans-pro-black-italic.ttf);
+  font-weight: 900;
+  font-style: italic;
+}
+
+body {
+  //noinspection CssNoGenericFontName
+  font-family: SourceSansPro;
+}

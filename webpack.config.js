@@ -14,18 +14,6 @@ const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 module.exports = (options = {}) => {
   const development = Boolean(options.development)
 
-  const styleLoaderDefinition = development ? 'style-loader' : MiniCssExtractPlugin.loader
-
-  const sassLoaderDefinition = {
-    loader: 'sass-loader',
-    options: { sourceMap: development }
-  }
-
-  const cssModulesOptions = {
-    mode: 'local',
-    localIdentName: development ? '[path][name]_[local][hash:base64:5]' : '[hash:base64]'
-  }
-
   return {
     mode: development ? 'development' : 'production',
     entry: './src/index.jsx',
@@ -72,27 +60,38 @@ module.exports = (options = {}) => {
             {
               test: /\.module\.s[ac]ss$/,
               use: [
-                styleLoaderDefinition,
+                development ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
-                    modules: cssModulesOptions,
+                    modules: {
+                      mode: 'local',
+                      localIdentName: development
+                        ? '[path][name]_[local][hash:base64:5]'
+                        : '[hash:base64]'
+                    },
                     sourceMap: development
                   }
                 },
-                sassLoaderDefinition
+                {
+                  loader: 'sass-loader',
+                  options: { sourceMap: development }
+                }
               ]
             },
             {
               use: [
-                styleLoaderDefinition,
+                development ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
                     sourceMap: development
                   }
                 },
-                sassLoaderDefinition
+                {
+                  loader: 'sass-loader',
+                  options: { sourceMap: development }
+                }
               ]
             }
           ]
@@ -100,34 +99,15 @@ module.exports = (options = {}) => {
         {
           include: SRC_DIR,
           test: /\.css$/,
-          oneOf: [
+          use: [
+            development ? 'style-loader' : MiniCssExtractPlugin.loader,
             {
-              test: /\.module\.css$/,
-              use: [
-                styleLoaderDefinition,
-                {
-                  loader: 'css-loader',
-                  options: {
-                    modules: cssModulesOptions,
-                    sourceMap: development,
-                    importLoaders: 1,
-                    namedExport: true
-                  }
-                }
-              ]
-            },
-            {
-              use: [
-                styleLoaderDefinition,
-                {
-                  loader: 'css-loader',
-                  options: {
-                    sourceMap: development,
-                    importLoaders: 1,
-                    namedExport: true
-                  }
-                }
-              ]
+              loader: 'css-loader',
+              options: {
+                sourceMap: development,
+                importLoaders: 1,
+                namedExport: true
+              }
             }
           ]
         }

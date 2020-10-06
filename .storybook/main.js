@@ -2,6 +2,7 @@ const path = require('path')
 const Dotenv = require('dotenv-webpack')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const { EnvironmentPlugin } = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const gitRevisionPlugin = new GitRevisionPlugin()
 
@@ -24,6 +25,49 @@ module.exports = {
 
     config.resolve.modules = [STORYBOOK_DIR, NODE_MODULES_DIR, SRC_DIR]
 
+    config.module.rules.push({
+      test: /\.s[ac]ss$/,
+      oneOf: [
+        {
+          test: /\.module\.s[ac]ss$/,
+          use: [
+            development ? 'style-loader' : MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                modules: {
+                  mode: 'local',
+                  localIdentName: development
+                    ? '[path][name]_[local][hash:base64:5]'
+                    : '[hash:base64]'
+                },
+                sourceMap: development
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: development }
+            }
+          ]
+        },
+        {
+          use: [
+            development ? 'style-loader' : MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: development
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: development }
+            }
+          ]
+        }
+      ]
+    })
+
     config.plugins.push(
       new EnvironmentPlugin({
         DEVELOPMENT: JSON.stringify(development),
@@ -31,7 +75,11 @@ module.exports = {
         COMMIT_HASH: gitRevisionPlugin.commithash(),
         BRANCH: gitRevisionPlugin.branch()
       }),
-      new Dotenv()
+      new Dotenv(),
+      new MiniCssExtractPlugin({
+        filename: development ? '[name].css' : '[name].[hash].css',
+        chunkFilename: development ? '[id].css' : '[id].[hash].css'
+      })
     )
 
     return config

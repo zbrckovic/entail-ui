@@ -1,11 +1,5 @@
 import { createMuiTheme } from '@material-ui/core'
 import { purple, green } from '@material-ui/core/colors'
-import {
-  sourceSansFamily,
-  sourceCodeProDeclaration,
-  sourceSansProDeclaration,
-  sourceCodeProFamily
-} from './fonts'
 
 export const theme = createMuiTheme({
   spacing: 4,
@@ -16,8 +10,8 @@ export const theme = createMuiTheme({
     term: green.A700
   },
   typography: {
-    fontFamily: sourceSansFamily,
-    mono: sourceCodeProFamily
+    fontFamily: 'SourceSansPro',
+    mono: 'SourceCodePro'
   },
   props: {
     MuiButton: {
@@ -43,11 +37,6 @@ export const theme = createMuiTheme({
     }
   },
   overrides: {
-    MuiCssBaseline: {
-      '@global': {
-        '@font-face': [...sourceSansProDeclaration, ...sourceCodeProDeclaration]
-      }
-    },
     MuiButton: {
       root: {
         minWidth: 48

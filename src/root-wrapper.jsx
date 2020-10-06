@@ -1,5 +1,4 @@
 import { ThemeProvider } from '@material-ui/core'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import { RootCtx } from 'contexts'
 import cytoscape from 'cytoscape'
 import klay from 'cytoscape-klay'
@@ -7,6 +6,7 @@ import { environment } from 'environment'
 import { initI18n } from 'i18n'
 import { ActivityStatus } from 'misc/activity-status'
 import React, { useEffect, useState } from 'react'
+import 'style/main.scss'
 import { theme } from 'style/theme'
 import Box from '@material-ui/core/Box'
 
@@ -27,7 +27,6 @@ export const RootWrapper = ({ children }) => {
   return <>
     <RootCtx.Provider value={{ environment, initializationStatus }}>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
         <Box>
           {children}
         </Box>
