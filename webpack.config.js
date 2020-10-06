@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const { EnvironmentPlugin } = require('webpack')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const gitRevisionPlugin = new GitRevisionPlugin()
 
@@ -12,6 +13,18 @@ const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 
 module.exports = (options = {}) => {
   const development = Boolean(options.development)
+
+  const styleLoaderDefinition = development ? 'style-loader' : MiniCssExtractPlugin.loader
+
+  const sassLoaderDefinition = {
+    loader: 'sass-loader',
+    options: { sourceMap: development }
+  }
+
+  const cssModulesOptions = {
+    mode: 'local',
+    localIdentName: development ? '[path][name]_[local][hash:base64:5]' : '[hash:base64]'
+  }
 
   return {
     mode: development ? 'development' : 'production',
@@ -52,6 +65,71 @@ module.exports = (options = {}) => {
               }
             }
           ]
+        },
+        {
+          test: /\.s[ac]ss$/,
+          oneOf: [
+            {
+              test: /\.module\.s[ac]ss$/,
+              use: [
+                styleLoaderDefinition,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    modules: cssModulesOptions,
+                    sourceMap: development
+                  }
+                },
+                sassLoaderDefinition
+              ]
+            },
+            {
+              use: [
+                styleLoaderDefinition,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    sourceMap: development
+                  }
+                },
+                sassLoaderDefinition
+              ]
+            }
+          ]
+        },
+        {
+          include: SRC_DIR,
+          test: /\.css$/,
+          oneOf: [
+            {
+              test: /\.module\.css$/,
+              use: [
+                styleLoaderDefinition,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    modules: cssModulesOptions,
+                    sourceMap: development,
+                    importLoaders: 1,
+                    namedExport: true
+                  }
+                }
+              ]
+            },
+            {
+              use: [
+                styleLoaderDefinition,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    sourceMap: development,
+                    importLoaders: 1,
+                    namedExport: true
+                  }
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -64,7 +142,11 @@ module.exports = (options = {}) => {
       }),
       new Dotenv(),
       new HtmlWebpackPlugin({ template: './src/index.html' }),
-      new FaviconsWebpackPlugin('./resources/favicon.png')
+      new FaviconsWebpackPlugin('./resources/favicon.png'),
+      new MiniCssExtractPlugin({
+        filename: development ? '[name].css' : '[name].[hash].css',
+        chunkFilename: development ? '[id].css' : '[id].[hash].css'
+      })
     ]
   }
 }
