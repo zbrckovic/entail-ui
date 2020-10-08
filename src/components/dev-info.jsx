@@ -1,7 +1,7 @@
-import Box from '@material-ui/core/Box'
 import { RootCtx } from 'contexts'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import style from './dev-info.module.scss'
 
 export const DevInfo = ({ ...props }) => {
   const { environment } = useContext(RootCtx)
@@ -18,17 +18,13 @@ export const DevInfo = ({ ...props }) => {
   }, [t, environment])
 
   return (
-    <Box component='dl' {...props}>
+    <dl className={style.root} {...props}>
       {entries.map(([label, value], i) => (
-        <Box display='flex' key={i}>
-          <Box component='dt' flexGrow={0} width={'100px'} fontWeight='bold'>
-            {label}
-          </Box>
-          <Box component='dd' flexGrow={1} marginLeft={0}>
-            {value}
-          </Box>
-        </Box>
+        <div className={style.row} key={i}>
+          <dt>{label}</dt>
+          <dd>{value}</dd>
+        </div>
       ))}
-    </Box>
+    </dl>
   )
 }
