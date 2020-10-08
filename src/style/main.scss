@@ -2,6 +2,8 @@
 @import "../../node_modules/@blueprintjs/core/lib/css/blueprint.css";
 @import "../../node_modules/@blueprintjs/icons/lib/css/blueprint-icons.css";
 
+@import "variables";
+
 @font-face {
   font-family: SourceCodePro;
   src: url(../../resources/fonts/source-code-pro/source-code-pro-extra-light.ttf);
@@ -187,5 +189,5 @@
 
 body {
   //noinspection CssNoGenericFontName
-  font-family: SourceSansPro;
+  font-family: $font-family;
 }

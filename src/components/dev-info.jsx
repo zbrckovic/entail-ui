@@ -18,7 +18,7 @@ export const DevInfo = ({ ...props }) => {
   }, [t, environment])
 
   return (
-    <dl className={style.root} {...props}>
+    <dl {...props}>
       {entries.map(([label, value], i) => (
         <div className={style.row} key={i}>
           <dt>{label}</dt>

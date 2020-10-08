@@ -1,4 +1,3 @@
-import Box from '@material-ui/core/Box'
 import { ExpressionView } from 'components/expression-view'
 import { SymCtx } from 'contexts'
 import React, { useState } from 'react'
@@ -20,10 +19,10 @@ export const Default = ({ formula: formulaText }) => {
 
   const parseResult = useEnteredFormulaText(formulaText)
 
-  if (parseResult === undefined) return <Box>Enter formula</Box>
+  if (parseResult === undefined) return <div>Enter formula</div>
 
   const { success, error } = parseResult
-  if (error !== undefined) return <Box>{error.message}</Box>
+  if (error !== undefined) return <div>{error.message}</div>
 
   const { formula, symCtx } = success
 

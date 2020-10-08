@@ -1,9 +1,8 @@
-import Box from '@material-ui/core/Box'
-import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 import { Kind, Placement, primitiveSyms, SymPresentation } from '@zbrckovic/entail-core'
 import { SymCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
+import style from './expression-view.module.scss'
+import classnames from 'classnames'
 
 // Shows textual representation of a provided expression.
 export const ExpressionView = ({
@@ -17,8 +16,6 @@ export const ExpressionView = ({
 }) => {
   const { presentations } = useContext(SymCtx)
   const { text, placement } = SymPresentation.getDefaultSyntacticInfo(presentations[sym.id])
-
-  const classes = useStyles()
 
   const content = placement === Placement.Prefix ? (
     <Prefix
@@ -44,13 +41,7 @@ export const ExpressionView = ({
     />
   )
 
-  return (
-    root ? (
-      <Typography className={classes.text}>
-        {content}
-      </Typography>
-    ) : content
-  )
+  return root ? <div className={style.root}>{content}</div> : content
 }
 
 const Prefix = ({
@@ -237,10 +228,12 @@ const Binding = ({ sym, onClick, ...props }) => {
 }
 
 export const ExpressionText = ({ text, kind, color, onClick, isSelected, ...props }) =>
-  <Box
-    component="span"
-    color={kindToColor[kind] ?? 'text.secondary'}
-    bgcolor={isSelected ? 'action.selected' : undefined}
+  <span
+    className={classnames(
+      style.expressionText,
+      kindToClass[kind],
+      { [style.isSelected]: isSelected }
+    )}
     onClick={e => {
       e.stopPropagation()
       onClick?.()
@@ -248,18 +241,12 @@ export const ExpressionText = ({ text, kind, color, onClick, isSelected, ...prop
     {...props}
   >
     {text ?? <wbr />}
-  </Box>
+  </span>
 
-const kindToColor = {
-  [Kind.Formula]: 'formula',
-  [Kind.Term]: 'term'
+const kindToClass = {
+  [Kind.Formula]: style.formula,
+  [Kind.Term]: style.term
 }
-
-const useStyles = makeStyles(theme => ({
-  text: {
-    fontFamily: theme.typography.mono
-  }
-}))
 
 export const TargetType = {
   MAIN: 'MAIN',

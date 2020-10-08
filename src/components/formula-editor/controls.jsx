@@ -2,9 +2,13 @@ import { useTranslation } from 'react-i18next'
 import {
   conjunction,
   disjunction,
-  equivalence, existentialQuantifier,
+  equivalence,
+  existentialQuantifier,
   implication,
-  negation, primitivePresentations, SymPresentation, universalQuantifier
+  negation,
+  primitivePresentations,
+  SymPresentation,
+  universalQuantifier
 } from '@zbrckovic/entail-core'
 import Box from '@material-ui/core/Box'
 import { Button, ButtonGroup } from '@material-ui/core'

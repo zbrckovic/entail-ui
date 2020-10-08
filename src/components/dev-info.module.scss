@@ -1,16 +1,14 @@
-.root {
-  .row {
-    display: flex;
+.row {
+  display: flex;
 
-    dt {
-      flex-grow: 0;
-      width: 100px;
-      font-weight: bold;
-    }
+  dt {
+    flex-grow: 0;
+    width: 100px;
+    font-weight: bold;
+  }
 
-    dd {
-      flex-grow: 1;
-      margin-left: 0;
-    }
+  dd {
+    flex-grow: 1;
+    margin-left: 0;
   }
 }

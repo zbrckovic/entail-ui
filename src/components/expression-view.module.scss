@@ -1,0 +1,19 @@
+@import "style/variables";
+
+.root {
+  font-family: $font-family-mono;
+}
+
+.expressionText {
+  &.formula {
+    color: $color-formula;
+  }
+
+  &.term {
+    color: $color-term;
+  }
+
+  &.isSelected {
+    background: $pt-text-selection-color;
+  }
+}
