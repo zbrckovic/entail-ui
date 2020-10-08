@@ -8,17 +8,11 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
-import Box from '@material-ui/core/Box'
-import { Button, ButtonGroup } from '@material-ui/core'
-import CheckIcon from '@material-ui/icons/Check'
-import CloseIcon from '@material-ui/icons/Close'
-import TextField from '@material-ui/core/TextField'
-import { makeStyles } from '@material-ui/core/styles'
+import style from './individual-variable-editor.m.scss'
+import { Button, ButtonGroup, FormGroup, Intent, TextArea } from '@blueprintjs/core'
 
 export const IndividualVariableEditor = ({ label, onSubmit, onCancel, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
-
-  const classes = useStyles()
 
   const symCtx = useContext(SymCtx)
   const textToSymMap = useMemo(
@@ -52,25 +46,25 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, ...props }
     [textInputValueSubject, text]
   )
 
-  return (
-    <Box display='flex' alignItems='flex-start' {...props}>
-      <TextField
-        className={classes.textField}
-        label={label}
-        value={text}
-        variant="outlined"
+  const intent = error !== undefined ? Intent.DANGER : undefined
 
-        onChange={({ target: { value } }) => {
-          setIsPristine(false)
-          setText(value)
-        }}
-        error={error !== undefined}
-        helperText={error}
-      />
-      <ButtonGroup size='medium'>
+  return (
+    <div className={style.root}{...props}>
+      <FormGroup label={label} helperText={error} intent={intent}>
+        <TextArea
+          className={style.textArea}
+          label={label}
+          value={text}
+          onChange={({ target: { value } }) => {
+            setIsPristine(false)
+            setText(value)
+          }}
+          intent={intent}
+        />
+      </FormGroup>
+      <ButtonGroup>
         <Button
-          color='primary'
-          title={t('button.submit')}
+          intent={Intent.PRIMARY}
           onClick={() => {
             const existingSym = textToSymMap[text]
 
@@ -90,19 +84,14 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, ...props }
             }
           }}
           disabled={isPristine || error !== undefined}
-          startIcon={<CheckIcon />}
         >
           {t('button.submit')}
         </Button>
-        <Button
-          title={t('button.cancel')}
-          onClick={() => { onCancel() }}
-          startIcon={<CloseIcon />}
-        >
+        <Button onClick={() => { onCancel() }}>
           {t('button.cancel')}
         </Button>
       </ButtonGroup>
-    </Box>
+    </div>
   )
 }
 
@@ -131,10 +120,3 @@ const isValidText = (() => {
 })()
 
 const isValidIndividualVariable = sym => Sym.getCategory(sym) === Category.TT && sym.arity === 0
-
-const useStyles = makeStyles(theme => ({
-  textField: {
-    marginRight: theme.spacing(1),
-    flexGrow: 1
-  }
-}))

@@ -58,7 +58,7 @@ module.exports = (options = {}) => {
           test: /\.s[ac]ss$/,
           oneOf: [
             {
-              test: /\.module\.s[ac]ss$/,
+              test: /\.m\.s[ac]ss$/,
               use: [
                 development ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {

@@ -1,7 +1,7 @@
 import { Kind, Placement, primitiveSyms, SymPresentation } from '@zbrckovic/entail-core'
 import { SymCtx } from 'contexts'
 import React, { Fragment, useContext } from 'react'
-import style from './expression-view.module.scss'
+import style from './expression-view.m.scss'
 import classnames from 'classnames'
 
 // Shows textual representation of a provided expression.

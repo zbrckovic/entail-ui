@@ -5,6 +5,10 @@ export default {
   title: 'IndividualVariableEditor',
   component: IndividualVariableEditor,
   argTypes: {
+    label: {
+      control: 'text',
+      defaultValue: 'Title'
+    },
     onSubmit: {
       action: 'submit'
     },

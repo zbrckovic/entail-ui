@@ -1,7 +1,7 @@
 import { RootCtx } from 'contexts'
 import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import style from './dev-info.module.scss'
+import style from './dev-info.m.scss'
 
 export const DevInfo = ({ ...props }) => {
   const { environment } = useContext(RootCtx)
