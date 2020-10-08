@@ -1,0 +1,12 @@
+@import "style/variables";
+
+.root {
+  display: flex;
+  flex-direction: column;
+
+  .textArea {
+    font-family: $font-family-mono;
+  }
+}
+
+

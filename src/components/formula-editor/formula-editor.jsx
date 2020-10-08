@@ -1,14 +1,13 @@
-import Box from '@material-ui/core/Box'
 import { FormulaParser } from '@zbrckovic/entail-core'
 import { SymCtx } from 'contexts'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
-import TextField from '@material-ui/core/TextField'
-import { makeStyles } from '@material-ui/core/styles'
 import { Controls } from './controls'
 import { ExpressionView } from '../expression-view'
 import { useParserErrorDescriber } from 'hooks'
+import style from './formula-editor.m.scss'
+import { FormGroup, Intent, TextArea } from '@blueprintjs/core'
 
 // Allows user to input formula as text.
 export const FormulaEditor = ({
@@ -19,6 +18,8 @@ export const FormulaEditor = ({
 }) => {
   const parse = useParser()
   const inputRef = useRef()
+  const onInputMounted = useCallback(textarea => { inputRef.current = textarea }, [])
+
   const describeError = useParserErrorDescriber()
 
   const [textInputValue, setTextInputValue] = useState('')
@@ -48,11 +49,9 @@ export const FormulaEditor = ({
   const symCtx = parseResult?.success?.symCtx
   const error = parseResult?.error
 
-  const classes = useStyles(error !== undefined)
-
   return (
-    <Box display='flex' flexDirection='column' {...props}>
-      <Box mb={2}>
+    <div className={style.root} {...props}>
+      <div>
         {
           formula !== undefined
             ? (
@@ -62,22 +61,23 @@ export const FormulaEditor = ({
             )
             : <wbr />
         }
-      </Box>
-      <TextField
+      </div>
+      <FormGroup
         label={label}
         helperText={error === undefined ? undefined : describeError(error)}
-        inputRef={inputRef}
-        className={classes.textField}
-        variant="outlined"
-        rowsMax={10}
-        multiline
-        value={textInputValue}
-        onChange={event => {
-          setTextInputIsPristine(false)
-          setTextInputValue(event.target.value)
-        }}
-        error={error !== undefined}
-      />
+        intent={error !== undefined ? Intent.DANGER : undefined}
+      >
+        <TextArea
+          inputRef={onInputMounted}
+          className={style.textArea}
+          value={textInputValue}
+          onChange={event => {
+            setTextInputIsPristine(false)
+            setTextInputValue(event.target.value)
+          }}
+          intent={error !== undefined ? Intent.DANGER : undefined}
+        />
+      </FormGroup>
       <Controls
         onSubmit={() => { onSubmit(parseResult?.success) }}
         onCancel={onCancel}
@@ -91,7 +91,7 @@ export const FormulaEditor = ({
           setTextInputValue(leftPart + symbol + rightPart)
         }}
       />
-    </Box>
+    </div>
   )
 }
 
@@ -118,13 +118,3 @@ const useParser = () => {
     }
   }
 }
-
-const useStyles = makeStyles(theme => ({
-  textField: {
-    flexGrow: 1,
-    '& textarea': {
-      fontFamily: theme.typography.mono
-    },
-    marginBottom: theme.spacing(1)
-  }
-}))

@@ -10,20 +10,16 @@ import {
   SymPresentation,
   universalQuantifier
 } from '@zbrckovic/entail-core'
-import Box from '@material-ui/core/Box'
-import { Button, ButtonGroup } from '@material-ui/core'
-import CheckIcon from '@material-ui/icons/Check'
-import CloseIcon from '@material-ui/icons/Close'
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import style from './controls.m.scss'
+import { Button, ButtonGroup, Intent } from '@blueprintjs/core'
 
 export const Controls = ({ onSymbol, onSubmit, onCancel, isSubmitDisabled }) => {
   const { t } = useTranslation('FormulaEditor')
-  const classes = useStyles()
 
   return (
-    <Box display='flex' justifyContent='space-between'>
-      <ButtonGroup className={classes.symbols}>
+    <div className={style.root}>
+      <ButtonGroup className={style.symbols}>
         {
           primitiveSyms.map(({ id }) => {
             const presentation = primitivePresentations[id]
@@ -33,8 +29,8 @@ export const Controls = ({ onSymbol, onSubmit, onCancel, isSubmitDisabled }) => 
 
             return (
               <Button
-                className={classes.symbolButton}
                 key={id}
+                className={style.symbolButton}
                 onClick={() => { onSymbol(text) }}
               >
                 {displayText}
@@ -45,23 +41,17 @@ export const Controls = ({ onSymbol, onSubmit, onCancel, isSubmitDisabled }) => 
       </ButtonGroup>
       <ButtonGroup>
         <Button
-          color='primary'
-          title={t('button.submit')}
+          intent={Intent.PRIMARY}
           onClick={() => { onSubmit() }}
           disabled={isSubmitDisabled}
-          startIcon={<CheckIcon />}
         >
           {t('button.submit')}
         </Button>
-        <Button
-          title={t('button.cancel')}
-          onClick={() => { onCancel() }}
-          startIcon={<CloseIcon />}
-        >
+        <Button onClick={() => { onCancel() }}>
           {t('button.cancel')}
         </Button>
       </ButtonGroup>
-    </Box>
+    </div>
   )
 }
 
@@ -74,12 +64,3 @@ const primitiveSyms = [
   universalQuantifier,
   existentialQuantifier
 ]
-
-const useStyles = makeStyles(theme => ({
-  symbols: {
-    marginRight: theme.spacing(1)
-  },
-  symbolButton: {
-    fontFamily: theme.typography.mono
-  }
-}))

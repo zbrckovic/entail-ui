@@ -1,0 +1,14 @@
+@import "style/variables";
+
+.root {
+  display: flex;
+  justify-content: space-between;
+
+  .symbols {
+    margin-right: 8px;
+  }
+
+  .symbolButton {
+    font-family: $font-family-mono;
+  }
+}
