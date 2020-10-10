@@ -12,6 +12,7 @@ export const ExpressionView = ({
   // Called with `{ type, position }` when selected.
   onSelectionTargetChange,
   root = true,
+  className,
   ...props
 }) => {
   const { presentations } = useContext(SymCtx)
@@ -41,7 +42,7 @@ export const ExpressionView = ({
     />
   )
 
-  return root ? <div className={style.root}>{content}</div> : content
+  return root ? <div className={classnames(style.root, className)}>{content}</div> : content
 }
 
 const Prefix = ({
@@ -213,7 +214,7 @@ const Infix = ({
   </>
 }
 
-const Binding = ({ sym, onClick, ...props }) => {
+const Binding = ({ sym, onClick, className, ...props }) => {
   const { presentations } = useContext(SymCtx)
   const presentation = presentations[sym.id]
   const { text } = SymPresentation.getDefaultSyntacticInfo(presentation)
@@ -222,17 +223,19 @@ const Binding = ({ sym, onClick, ...props }) => {
       text={text}
       kind={sym.kind}
       onClick={onClick}
+      className={className}
       {...props}
     />
   )
 }
 
-export const ExpressionText = ({ text, kind, color, onClick, isSelected, ...props }) =>
+export const ExpressionText = ({ text, kind, color, onClick, isSelected, className, ...props }) =>
   <span
     className={classnames(
       style.expressionText,
       kindToClass[kind],
-      { [style.isSelected]: isSelected }
+      { [style.isSelected]: isSelected },
+      className
     )}
     onClick={e => {
       e.stopPropagation()

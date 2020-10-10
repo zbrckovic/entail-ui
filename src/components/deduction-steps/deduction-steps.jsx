@@ -1,18 +1,12 @@
-import { TableRow, Typography } from '@material-ui/core'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import Tooltip from '@material-ui/core/Tooltip'
 import { StepAssumptions } from 'components/deduction-steps/step-assumptions'
 import { StepPremises } from 'components/deduction-steps/step-premises'
 import { StepRule } from 'components/deduction-steps/step-rule'
 import { ExpressionView } from 'components/expression-view'
 import React from 'react'
-import makeStyles from '@material-ui/core/styles/makeStyles'
-import TableContainer from '@material-ui/core/TableContainer'
-import Checkbox from '@material-ui/core/Checkbox'
-import TableHead from '@material-ui/core/TableHead'
 import { useTranslation } from 'react-i18next'
+import style from './deduction-steps.m.scss'
+import { Tooltip } from '@blueprintjs/core'
+import classnames from 'classnames'
 
 export const DeductionSteps = ({
   steps,
@@ -25,17 +19,10 @@ export const DeductionSteps = ({
   selectionTarget,
   // Called with `{ step, type, position }`.
   onSelectionTargetChange,
+  className,
   ...props
 }) => {
   const { t } = useTranslation('DeductionSteps')
-
-  const classes = useStyles({
-    checkbox: 42,
-    number: 42,
-    rule: 42,
-    assumptions: 80,
-    premises: 80
-  })
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
@@ -44,58 +31,38 @@ export const DeductionSteps = ({
   const areSomeRowsSelected = hasRowSelection ? selectedSteps.size > 0 : undefined
 
   return (
-    <TableContainer {...props}>
-      <Table>
-        <TableHead>
-          <TableRow className={classes.row}>
-            {
-              hasRowSelection &&
-              <TableCell className={`${classes.cell} ${classes.cellCheckbox}`}>
-                {steps.length > 0 && (
-                  <Checkbox
-                    disableRipple
-                    indeterminate={areSomeRowsSelected && !areAllRowsSelected}
-                    checked={hasSteps && areAllRowsSelected}
-                    onChange={() => {
-                      if (areAllRowsSelected) {
-                        onSelectedStepsChange(new Set())
-                      } else {
-                        const allStepNumbers = new Set(steps.map((step, i) => i + 1))
-                        onSelectedStepsChange(allStepNumbers)
-                      }
-                    }}
-                  />
-                )}
-              </TableCell>
-            }
-            <TableCell className={`${classes.cell} ${classes.cellStepNumber}`}>
-              <Tooltip title={t('label.stepNumber')}>
-                <span>{t('label.stepNumberAbbreviated')}</span>
-              </Tooltip>
-            </TableCell>
-            <TableCell className={`${classes.cell} ${classes.cellAssumptions}`}>
-              <Tooltip title={t('label.assumptions')}>
-                <span>{t('label.assumptionsAbbreviated')}</span>
-              </Tooltip>
-            </TableCell>
-            <TableCell className={`${classes.cell} ${classes.cellFormula}`}>
-              <Tooltip title={t('label.formula')}>
-                <span>{t('label.formulaAbbreviated')}</span>
-              </Tooltip>
-            </TableCell>
-            <TableCell className={`${classes.cell} ${classes.cellRule}`}>
-              <Tooltip title={t('label.rule')}>
-                <span>{t('label.ruleAbbreviated')}</span>
-              </Tooltip>
-            </TableCell>
-            <TableCell className={`${classes.cell} ${classes.cellPremises}`}>
-              <Tooltip title={t('label.premises')}>
-                <span>{t('label.premisesAbbreviated')}</span>
-              </Tooltip>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
+    <div className={classnames(style.root, className)} {...props}>
+      <div className={style.header}>
+        <div className={style.headerRow}>
+          <div className={style.cell}>
+            <Tooltip content={t('label.stepNumber')}>
+              <span>{t('label.stepNumberAbbreviated')}</span>
+            </Tooltip>
+          </div>
+          <div className={style.cell}>
+            <Tooltip content={t('label.assumptions')}>
+              <span>{t('label.assumptionsAbbreviated')}</span>
+            </Tooltip>
+          </div>
+          <div className={style.cell}>
+            <Tooltip content={t('label.formula')}>
+              <span>{t('label.formulaAbbreviated')}</span>
+            </Tooltip>
+          </div>
+          <div className={style.cell}>
+            <Tooltip content={t('label.rule')}>
+              <span>{t('label.ruleAbbreviated')}</span>
+            </Tooltip>
+          </div>
+          <div className={style.cell}>
+            <Tooltip content={t('label.premises')}>
+              <span>{t('label.premisesAbbreviated')}</span>
+            </Tooltip>
+          </div>
+        </div>
+      </div>
+      <div className={style.body}>
+        <div className={style.bodyRow}>
           {
             steps.map((step, i) => {
               const stepNumber = i + 1
@@ -110,10 +77,9 @@ export const DeductionSteps = ({
               }
 
               return (
-                <TableRow
+                <div
                   key={i}
-                  className={classes.row}
-                  selected={isSelected}
+                  className={style.row}
                   onClick={
                     hasRowSelection
                       ? () => {
@@ -130,18 +96,13 @@ export const DeductionSteps = ({
                       : undefined
                   }
                 >
-                  {hasRowSelection && (
-                    <TableCell className={`${classes.cell} ${classes.cellCheckbox}`}>
-                      <Checkbox checked={isSelected} />
-                    </TableCell>
-                  )}
-                  <TableCell className={`${classes.cell} ${classes.cellStepNumber}`}>
-                    <Typography>{stepNumber}</Typography>
-                  </TableCell>
-                  <TableCell className={`${classes.cell} ${classes.cellAssumptions}`}>
+                  <div className={style.cell}>
+                    <span>{stepNumber}</span>
+                  </div>
+                  <div className={style.cell}>
                     <StepAssumptions assumptions={step.assumptions} />
-                  </TableCell>
-                  <TableCell className={`${classes.cell} ${classes.cellFormula}`}>
+                  </div>
+                  <div className={style.cell}>
                     <ExpressionView
                       expression={step.formula}
                       selectionTarget={selectionTargetForFormula}
@@ -156,69 +117,28 @@ export const DeductionSteps = ({
                         onSelectionTargetChange(selectionTargetToSend)
                       }}
                     />
-                  </TableCell>
-                  <TableCell className={`${classes.cell} ${classes.cellRule}`}>
+                  </div>
+                  <div className={style.cell}>
                     <StepRule rule={step.ruleApplicationSummary.rule} />
-                  </TableCell>
-                  <TableCell className={`${classes.cell} ${classes.cellPremises}`}>
+                  </div>
+                  <div className={style.cell}>
                     <StepPremises premises={step.ruleApplicationSummary.premises} />
-                  </TableCell>
-                </TableRow>
+                  </div>
+                </div>
               )
             })
           }
           {
             lastStepAccessory !== undefined && (
-              <TableRow key={steps.length + 1} className={classes.row}>
-                <TableCell className={classes.cell} colSpan={hasRowSelection ? 6 : 5}>
+              <div key={steps.length + 1} className={style.bodyRow}>
+                <div className={style.cell}>
                   {lastStepAccessory}
-                </TableCell>
-              </TableRow>
+                </div>
+              </div>
             )
           }
-        </TableBody>
-      </Table>
-    </TableContainer>
+        </div>
+      </div>
+    </div>
   )
 }
-
-const useStyles = makeStyles(theme => ({
-  row: {},
-  cell: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    '&:first-child': {
-      paddingLeft: theme.spacing(2)
-    },
-    '&:not(:first-child)': {
-      paddingLeft: theme.spacing(1)
-    },
-    '&:not(:last-child)': {
-      paddingRight: theme.spacing(1)
-    },
-    '&:last-child': {
-      paddingRight: theme.spacing(2)
-    }
-  },
-  cellCheckbox: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    width: ({ checkbox }) => checkbox
-  },
-  cellStepNumber: {
-    width: ({ number }) => number
-  },
-  cellAssumptions: {
-    width: ({ assumptions }) => assumptions
-  },
-  cellFormula: {},
-  cellRule: {
-    width: ({ rule }) => rule
-  },
-  cellPremises: {
-    width: ({ premises }) => premises
-  },
-  stepAccessoryCell: {
-    padding: '0 !important'
-  }
-}))

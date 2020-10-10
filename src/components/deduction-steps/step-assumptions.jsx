@@ -1,14 +1,12 @@
 import React, { Fragment, useMemo } from 'react'
-import { Typography } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
+import style from './step-assumptions.m.scss'
+import classnames from 'classnames'
 
-export const StepAssumptions = ({ assumptions }) => {
+export const StepAssumptions = ({ assumptions, className, ...props }) => {
   const assumptionSorted = useMemo(() => [...assumptions].sort(), [assumptions])
 
-  const classes = useStyles()
-
   return (
-    <Typography className={classes.text} variant='body2'>
+    <div className={classnames(style.root, className)} {...props}>
       {assumptionSorted.map((assumption, i) => {
         const isLast = i === assumptionSorted.length - 1
 
@@ -19,13 +17,6 @@ export const StepAssumptions = ({ assumptions }) => {
           </Fragment>
         )
       })}
-    </Typography>
+    </div>
   )
 }
-
-const useStyles = makeStyles(theme => ({
-  text: {
-    color: theme.palette.text.secondary,
-    fontStyle: 'italic'
-  }
-}))

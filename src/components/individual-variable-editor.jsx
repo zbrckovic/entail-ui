@@ -10,8 +10,9 @@ import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import style from './individual-variable-editor.m.scss'
 import { Button, ButtonGroup, FormGroup, Intent, TextArea } from '@blueprintjs/core'
+import classnames from 'classnames'
 
-export const IndividualVariableEditor = ({ label, onSubmit, onCancel, ...props }) => {
+export const IndividualVariableEditor = ({ label, onSubmit, onCancel, className, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
 
   const symCtx = useContext(SymCtx)
@@ -49,7 +50,7 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, ...props }
   const intent = error !== undefined ? Intent.DANGER : undefined
 
   return (
-    <div className={style.root}{...props}>
+    <div className={classnames(style.root, className)} {...props}>
       <FormGroup label={label} helperText={error} intent={intent}>
         <TextArea
           className={style.textArea}

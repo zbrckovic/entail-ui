@@ -1,14 +1,12 @@
 import React, { Fragment, useMemo } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
+import classnames from 'classnames'
+import style from './step-premises.m.scss'
 
-export const StepPremises = ({ premises }) => {
+export const StepPremises = ({ premises, className, ...props }) => {
   const premisesOrdered = useMemo(() => [...premises].sort(), [premises])
 
-  const classes = useStyles()
-
   return (
-    <Typography className={classes.text} variant='body2'>
+    <div className={classnames(style.root, className)} {...props}>
       {premisesOrdered.map((premise, i) => {
         const isLast = i === premisesOrdered.length - 1
 
@@ -19,13 +17,6 @@ export const StepPremises = ({ premises }) => {
           </Fragment>
         )
       })}
-    </Typography>
+    </div>
   )
 }
-
-const useStyles = makeStyles(theme => ({
-  text: {
-    color: theme.palette.text.secondary,
-    fontStyle: 'italic'
-  }
-}))

@@ -3,7 +3,7 @@ import React, { useContext, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './dev-info.m.scss'
 
-export const DevInfo = ({ ...props }) => {
+export const DevInfo = ({ className, ...props }) => {
   const { environment } = useContext(RootCtx)
   const { t } = useTranslation('DevInfo')
 
@@ -18,7 +18,7 @@ export const DevInfo = ({ ...props }) => {
   }, [t, environment])
 
   return (
-    <dl {...props}>
+    <dl className={className} {...props}>
       {entries.map(([label, value], i) => (
         <div className={style.row} key={i}>
           <dt>{label}</dt>

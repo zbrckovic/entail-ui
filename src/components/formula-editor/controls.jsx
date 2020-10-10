@@ -13,12 +13,20 @@ import {
 import React from 'react'
 import style from './controls.m.scss'
 import { Button, ButtonGroup, Intent } from '@blueprintjs/core'
+import classnames from 'classnames'
 
-export const Controls = ({ onSymbol, onSubmit, onCancel, isSubmitDisabled }) => {
+export const Controls = ({
+  onSymbol,
+  onSubmit,
+  onCancel,
+  isSubmitDisabled,
+  className,
+  ...props
+}) => {
   const { t } = useTranslation('FormulaEditor')
 
   return (
-    <div className={style.root}>
+    <div className={classnames(style.root, className)} {...props}>
       <ButtonGroup className={style.symbols}>
         {
           primitiveSyms.map(({ id }) => {

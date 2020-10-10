@@ -8,14 +8,10 @@ import { ExpressionView } from '../expression-view'
 import { useParserErrorDescriber } from 'hooks'
 import style from './formula-editor.m.scss'
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core'
+import classnames from 'classnames'
 
 // Allows user to input formula as text.
-export const FormulaEditor = ({
-  label,
-  onSubmit,
-  onCancel,
-  ...props
-}) => {
+export const FormulaEditor = ({ label, onSubmit, onCancel, className, ...props }) => {
   const parse = useParser()
   const inputRef = useRef()
   const onInputMounted = useCallback(textarea => { inputRef.current = textarea }, [])
@@ -50,7 +46,7 @@ export const FormulaEditor = ({
   const error = parseResult?.error
 
   return (
-    <div className={style.root} {...props}>
+    <div className={classnames(style.root, className)} {...props}>
       <div>
         {
           formula !== undefined
