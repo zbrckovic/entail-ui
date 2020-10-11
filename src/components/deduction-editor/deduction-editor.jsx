@@ -1,29 +1,20 @@
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
-import { makeStyles } from '@material-ui/core/styles'
-import DeleteIcon from '@material-ui/icons/Delete'
-import Alert from '@material-ui/lab/Alert'
 import { Deduction, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
 import { DeductionSteps } from 'components/deduction-steps'
 import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from '../formula-editor'
-import Dialog from '@material-ui/core/Dialog'
 import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
 import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
 import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
 import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
 import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
-import DialogTitle from '@material-ui/core/DialogTitle'
-import DialogContent from '@material-ui/core/DialogContent'
-import { DialogContentText } from '@material-ui/core'
-import DialogActions from '@material-ui/core/DialogActions'
+import classnames from 'classnames'
+import style from './deduction-editor.m.scss'
+import { Button } from '@blueprintjs/core'
 
-export const DeductionEditor = ({ ...props }) => {
-  const classes = useStyles()
+export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const initialSymCtx = useContext(SymCtx)
@@ -67,24 +58,17 @@ export const DeductionEditor = ({ ...props }) => {
 
   return (
     <SymCtx.Provider value={symCtx}>
-      <Box display='flex' {...props}>
-        <Box component='main' className={classes.main}>
+      <div className={classnames(style.root, className)} {...props}>
+        <main className={style.main}>
           <DeductionSteps
             steps={deductionInterface.deduction.steps}
             selectedSteps={selectedSteps}
             onSelectedStepsChange={setSelectedSteps}
             lastStepAccessory={ruleUI}
           />
-        </Box>
-        <Box
-          display='flex'
-          flexDirection='column'
-          alignItems='stretch'
-          component='aside'
-          className={classes.aside}
-        >
+        </main>
+        <div className={style.aside}>
           <DeductionEditorRulePicker
-            mb={1}
             rules={rules}
             selectedRule={selectedRule}
             onRuleSelect={rule => {
@@ -136,49 +120,14 @@ export const DeductionEditor = ({ ...props }) => {
             onRuleDeselect={() => { setSelectedRule(undefined) }}
           />
           <Button
-            variant='outlined'
             title={t('button.delete')}
             disabled={selectedSteps.size === 0}
-            startIcon={<DeleteIcon />}
             onClick={() => { setIsConfirmationDialogOpen(true) }}
           >
             {t('button.delete')}
           </Button>
-        </Box>
-      </Box>
-      <Snackbar
-        open={errorMsg !== undefined}
-        onClose={(event, reason) => {
-          if (reason === 'clickaway') return
-          setErrorMsg(undefined)
-        }}
-        message={errorMsg}
-      >
-        <Alert severity="error">{errorMsg}</Alert>
-      </Snackbar>
-      <Dialog
-        open={isConfirmationDialogOpen}
-        onClose={() => { setIsConfirmationDialogOpen(false) }}
-      >
-        <DialogTitle>{t('deleteDialog.title')}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{t('deleteDialog.content')}</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            color="primary"
-            onClick={() => {
-              // TODO: delete selected steps
-              setIsConfirmationDialogOpen(false)
-            }}
-          >
-            {t('deleteDialog.yes')}
-          </Button>
-          <Button onClick={() => { setIsConfirmationDialogOpen(false) }}>
-            {t('deleteDialog.no')}
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </div>
+      </div>
     </SymCtx.Provider>
   )
 }
@@ -207,7 +156,6 @@ const useSelectedRuleUI = ({
         )
       case Rule.TautologicalImplication:
         return <DeductionEditorTautologicalImplication
-          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
@@ -215,7 +163,6 @@ const useSelectedRuleUI = ({
         />
       case Rule.UniversalInstantiation:
         return <DeductionEditorUniversalInstantiation
-          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
@@ -223,7 +170,6 @@ const useSelectedRuleUI = ({
         />
       case Rule.UniversalGeneralization:
         return <DeductionEditorUniversalGeneralization
-          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
@@ -231,7 +177,6 @@ const useSelectedRuleUI = ({
         />
       case Rule.ExistentialInstantiation:
         return <DeductionEditorExistentialInstantiation
-          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
@@ -239,7 +184,6 @@ const useSelectedRuleUI = ({
         />
       case Rule.ExistentialGeneralization:
         return <DeductionEditorExistentialGeneralization
-          flexGrow={1}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
@@ -250,17 +194,3 @@ const useSelectedRuleUI = ({
     }
   }, [ruleInterface, selectedRule, onApply, onCancel, onError, t])
 }
-
-const useStyles = makeStyles(theme => ({
-  main: {
-    backgroundColor: theme.palette.background.paper,
-    flexGrow: 1
-  },
-  aside: {
-    backgroundColor: theme.palette.background.default,
-    borderLeftWidth: 1,
-    borderLeftStyle: 'solid',
-    borderLeftColor: theme.palette.divider,
-    padding: theme.spacing(2)
-  }
-}))

@@ -3,26 +3,25 @@ import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import { makeStyles } from '@material-ui/core/styles'
-import { Typography } from '@material-ui/core'
+import style from './deduction-editor-rule-picker.m.scss'
+import classnames from 'classnames'
+import { Button, Label } from '@blueprintjs/core'
 
 export const DeductionEditorRulePicker = ({
   rules = {},
   selectedRule,
   onRuleSelect,
   onRuleDeselect,
+  className,
   ...props
 }) => {
-  const classes = useStyles()
-
   const ruleDescriber = useRuleDescriber()
   const { t } = useTranslation('DeductionEditor')
 
   return (
-    <Box {...props}>
-      <Typography component='label'>{t('label.rules')}</Typography>
-      <Box className={classes.buttons}>
+    <Box className={classnames(style.root, className)} {...props}>
+      <Label>{t('label.rules')}</Label>
+      <div className={style.buttons}>
         {
           allRules.map(rule => {
             const { translation, abbreviation } = ruleDescriber(rule)
@@ -33,7 +32,6 @@ export const DeductionEditorRulePicker = ({
                 key={rule}
                 title={translation}
                 disabled={!rules.has(rule)}
-                variant='outlined'
                 onClick={() => {
                   if (selected) {
                     onRuleDeselect()
@@ -46,18 +44,10 @@ export const DeductionEditorRulePicker = ({
             )
           })
         }
-      </Box>
+      </div>
     </Box>
   )
 }
-
-const useStyles = makeStyles(theme => ({
-  buttons: {
-    display: 'grid',
-    gridTemplateColumns: 'min-content min-content',
-    gridGap: theme.spacing(1)
-  }
-}))
 
 const allRules = [
   Rule.Premise,

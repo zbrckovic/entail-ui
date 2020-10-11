@@ -1,0 +1,7 @@
+.root {
+  .buttons {
+    display: grid;
+    grid-template-columns: min-content min-content;
+    grid-gap: 4px;
+  }
+}
