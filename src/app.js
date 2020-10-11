@@ -1,4 +1,3 @@
-import Box from '@material-ui/core/Box'
 import { RootCtx } from 'contexts'
 import { ActivityStatus } from 'misc/activity-status'
 import React, { useContext } from 'react'
@@ -9,8 +8,8 @@ export const App = ({ className }) => {
   const loading = initializationStatus === ActivityStatus.InProgress
 
   return (
-    <Box className={className}>
-      {loading ? <Box>spinner</Box> : <Routes />}
-    </Box>
+    <div className={className}>
+      {loading ? <div>spinner</div> : <Routes />}
+    </div>
   )
 }

@@ -1,0 +1,9 @@
+@import "style/variables";
+
+.root {
+  &.dark {
+    background-color: $pt-dark-app-background-color;
+  }
+
+  background-color: $pt-app-background-color;
+}

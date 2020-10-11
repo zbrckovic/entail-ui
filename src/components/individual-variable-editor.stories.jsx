@@ -1,5 +1,6 @@
 import { IndividualVariableEditor } from 'components/individual-variable-editor'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import { RootCtx } from '../contexts'
 
 export default {
   title: 'IndividualVariableEditor',
@@ -14,8 +15,16 @@ export default {
     },
     onCancel: {
       action: 'cancel'
+    },
+    isDark: {
+      control: 'boolean'
     }
   }
 }
 
-export const Default = args => <IndividualVariableEditor {...args} />
+export const Default = ({ isDark, ...args }) => {
+  const { theme: { setIsDark } } = useContext(RootCtx)
+  useEffect(() => { setIsDark(isDark) }, [isDark, setIsDark])
+
+  return <IndividualVariableEditor {...args} />
+}

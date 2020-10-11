@@ -1,6 +1,6 @@
 import { ExpressionView } from 'components/expression-view'
-import { SymCtx } from 'contexts'
-import React, { useState } from 'react'
+import { RootCtx, SymCtx } from 'contexts'
+import React, { useContext, useEffect, useState } from 'react'
 import { useEnteredFormulaText } from 'storybook/use-entered-formula-text'
 
 export default {
@@ -10,20 +10,23 @@ export default {
     formula: {
       control: 'text',
       defaultValue: 'E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)'
+    },
+    isDark: {
+      control: 'boolean'
     }
   }
 }
 
-export const Default = ({ formula: formulaText }) => {
+export const Default = ({ formula: formulaText, isDark }) => {
+  const { theme: { setIsDark } } = useContext(RootCtx)
+  useEffect(() => { setIsDark(isDark) }, [isDark, setIsDark])
+
   const [selectionTarget, setSelectionTarget] = useState()
 
   const parseResult = useEnteredFormulaText(formulaText)
-
   if (parseResult === undefined) return <div>Enter formula</div>
-
   const { success, error } = parseResult
   if (error !== undefined) return <div>{error.message}</div>
-
   const { formula, symCtx } = success
 
   return (
