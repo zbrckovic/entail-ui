@@ -32,7 +32,7 @@ export const Default = () => {
 
   return (
     <SymCtx.Provider value={symCtx}>
-      <TermDependenciesGraph height={300} graph={graph} />
+      <TermDependenciesGraph graph={graph} />
     </SymCtx.Provider>
   )
 }

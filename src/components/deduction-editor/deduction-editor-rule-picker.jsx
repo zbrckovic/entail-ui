@@ -2,7 +2,6 @@ import { Rule } from '@zbrckovic/entail-core'
 import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import Box from '@material-ui/core/Box'
 import style from './deduction-editor-rule-picker.m.scss'
 import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
@@ -19,7 +18,7 @@ export const DeductionEditorRulePicker = ({
   const { t } = useTranslation('DeductionEditor')
 
   return (
-    <Box className={classnames(style.root, className)} {...props}>
+    <div className={classnames(style.root, className)} {...props}>
       <Label>{t('label.rules')}</Label>
       <div className={style.buttons}>
         {
@@ -45,7 +44,7 @@ export const DeductionEditorRulePicker = ({
           })
         }
       </div>
-    </Box>
+    </div>
   )
 }
 

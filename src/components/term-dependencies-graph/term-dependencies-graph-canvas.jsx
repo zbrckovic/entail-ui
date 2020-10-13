@@ -9,16 +9,16 @@ import React, {
   useImperativeHandle,
   useState
 } from 'react'
-import useTheme from '@material-ui/core/styles/useTheme'
-import Box from '@material-ui/core/Box'
+import style from './term-dependencies-graph-canvas.m.scss'
+import classnames from 'classnames'
 
 export const TermDependenciesGraphCanvas = forwardRef(({
   graph,
   onZoomChange,
   direction,
+  className,
   ...props
 }, ref) => {
-  const theme = useTheme()
   const [cy, setCy] = useState()
 
   useImperativeHandle(ref, () => ({
@@ -65,19 +65,17 @@ export const TermDependenciesGraphCanvas = forwardRef(({
 
   useEffect(() => {
     if (cy !== undefined) {
-      const styles = createGraphStyles(theme)
-
       cy
         .style()
         .resetToDefault()
         .selector('node')
-        .style(styles.node)
+        .style(graphStyles.node)
         .selector('.dependent')
-        .style(styles.dependent)
+        .style(graphStyles.dependent)
         .selector('.dependency')
-        .style(styles.dependency)
+        .style(graphStyles.dependency)
         .selector('edge')
-        .style(styles.edge)
+        .style(graphStyles.edge)
         .update()
 
       if (onZoomChange !== undefined) {
@@ -93,9 +91,9 @@ export const TermDependenciesGraphCanvas = forwardRef(({
 
       return () => { cy.removeAllListeners() }
     }
-  }, [cy, theme, onZoomChange])
+  }, [cy, onZoomChange])
 
-  return <Box height='100%' ref={refCallback} {...props} />
+  return <div className={classnames(style.root, className)} ref={refCallback} {...props} />
 })
 
 const useElementsFactory = () => {
@@ -157,7 +155,10 @@ const createEdge = (symFrom, symTo) => ({
   }
 })
 
-const createGraphStyles = theme => ({
+const PRIMARY = '#137cbd'
+const WHITE = '#ffffff'
+
+const graphStyles = {
   node: {
     shape: 'rectangle',
     width: 20,
@@ -165,22 +166,22 @@ const createGraphStyles = theme => ({
     label: 'data(text)',
     'text-halign': 'center',
     'text-valign': 'center',
-    'font-family': theme.typography.mono,
-    padding: theme.spacing(1)
+    'font-family': 'SourceCodePro',
+    padding: 4
   },
   edge: {
     width: 1,
-    'line-color': theme.palette.primary.main,
+    'line-color': PRIMARY,
     'curve-style': 'bezier',
-    'target-arrow-color': theme.palette.primary.main,
+    'target-arrow-color': PRIMARY,
     'target-arrow-shape': 'triangle'
   },
   dependent: {
-    color: theme.palette.primary.contrastText,
-    'background-color': theme.palette.primary.main
+    color: WHITE,
+    'background-color': PRIMARY
   },
   dependency: {
-    color: theme.palette.background.paper,
-    'background-color': theme.palette.text.primary
+    color: PRIMARY,
+    'background-color': WHITE
   }
-})
+}
