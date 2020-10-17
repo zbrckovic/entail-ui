@@ -1,11 +1,28 @@
-@import "style/variables";
+@import "style/definitions";
 
 .root {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
 
-  .textArea {
-    font-family: $font-family-mono;
+  .formulaView {
+    margin-bottom: 8px;
+    @include padding-h(10px);
+  }
+
+  .textAreaFormGroup {
+    &:not(.hasHelperText) {
+      margin-bottom: 35px;
+    }
+
+    .textArea {
+      width: 100%;
+      font-family: $font-family-mono;
+      resize: vertical;
+    }
+  }
+
+  .controls {
   }
 }
 

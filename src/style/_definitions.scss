@@ -1,0 +1,29 @@
+@import "~@blueprintjs/core/lib/scss/variables";
+
+$font-family-mono: SourceCodePro;
+$font-family: SourceSansPro;
+
+$color-formula: $pt-intent-primary;
+$color-term: $indigo4;
+
+@mixin padding-h($space) {
+  padding-left: $space;
+  padding-right: $space;
+}
+
+@mixin padding-v($space) {
+  padding-top: $space;
+  padding-bottom: $space;
+}
+
+@mixin space-between-h($space) {
+  &>*:not(:first-child) {
+    margin-left: $space;
+  }
+}
+
+@mixin space-between-v($space) {
+  &>*:not(:first-child) {
+    margin-top: $space;
+  }
+}

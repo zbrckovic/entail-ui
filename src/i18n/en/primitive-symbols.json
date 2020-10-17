@@ -1,0 +1,9 @@
+{
+  "negation": "Negation",
+  "implication": "Implication",
+  "conjunction": "Conjunction",
+  "disjunction": "Disjunction",
+  "equivalence": "Equivalence",
+  "universalQuantifier": "Universal quantifier",
+  "existentialQuantifier": "Existential quantifier"
+}

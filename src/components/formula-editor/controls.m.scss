@@ -1,4 +1,4 @@
-@import "style/variables";
+@import "style/definitions";
 
 .root {
   display: flex;
@@ -6,6 +6,10 @@
 
   .symbols {
     margin-right: 8px;
+
+    button {
+      width: 38px;
+    }
   }
 
   .symbolButton {

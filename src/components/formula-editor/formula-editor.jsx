@@ -47,7 +47,7 @@ export const FormulaEditor = ({ label, onSubmit, onCancel, className, ...props }
 
   return (
     <div className={classnames(style.root, className)} {...props}>
-      <div>
+      <div className={style.formulaView}>
         {
           formula !== undefined
             ? (
@@ -59,11 +59,16 @@ export const FormulaEditor = ({ label, onSubmit, onCancel, className, ...props }
         }
       </div>
       <FormGroup
+        className={classnames(
+          style.textAreaFormGroup,
+          { [style.hasHelperText]: error !== undefined }
+        )}
         label={label}
         helperText={error === undefined ? undefined : describeError(error)}
         intent={error !== undefined ? Intent.DANGER : undefined}
       >
         <TextArea
+          rows={4}
           inputRef={onInputMounted}
           className={style.textArea}
           value={textInputValue}
@@ -75,6 +80,7 @@ export const FormulaEditor = ({ label, onSubmit, onCancel, className, ...props }
         />
       </FormGroup>
       <Controls
+        className={style.controls}
         onSubmit={() => { onSubmit(parseResult?.success) }}
         onCancel={onCancel}
         isSubmitDisabled={formula === undefined}

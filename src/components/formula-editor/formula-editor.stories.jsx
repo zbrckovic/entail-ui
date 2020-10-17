@@ -1,12 +1,15 @@
 import { primitivePresentations, primitiveSyms } from '@zbrckovic/entail-core'
 import { FormulaEditor } from './formula-editor'
-import { SymCtx } from 'contexts'
-import React from 'react'
+import { RootCtx, SymCtx } from 'contexts'
+import React, { useContext, useEffect } from 'react'
 
 export default {
   title: 'FormulaEditor',
   component: FormulaEditor,
   argTypes: {
+    isDark: {
+      control: 'boolean'
+    },
     onSubmit: {
       action: 'submit'
     },
@@ -20,9 +23,15 @@ export default {
   }
 }
 
-export const Default = args =>
-  <SymCtx.Provider value={symCtx}>
-    <FormulaEditor {...args} />
-  </SymCtx.Provider>
+export const Default = ({ isDark, ...args }) => {
+  const { theme: { setIsDark } } = useContext(RootCtx)
+  useEffect(() => { setIsDark(isDark) }, [isDark, setIsDark])
+
+  return (
+    <SymCtx.Provider value={symCtx}>
+      <FormulaEditor {...args} />
+    </SymCtx.Provider>
+  )
+}
 
 const symCtx = { syms: primitiveSyms, presentations: primitivePresentations }

@@ -2,7 +2,7 @@
   "syntaxError": "Syntax error at line {{location.line}}, column {{location.column}}.",
   "recognizedAsPrefixUsedAsInfix": "Symbol {{sym}} was recognized as prefix, but then it was used as an infix.",
   "recognizedAsInfixUsedAsPrefix": "Symbol {{sym}} was recognized as an infix, but then it was used as a prefix.",
-  "symbolUsedWithWrongNumberOfArguments": "Symbol {{sym}} was recognized as {{recognizedArity}}-ary but it was used with {{usedArity}} arguments.",
+  "symbolUsedWithWrongNumberOfArguments": "Symbol {{sym}} was recognized as {{recognizedArity}}-ary but was used with {{usedArity}} arguments.",
   "recognizedAsSententialUsedAsNominal": "Symbol {{sym}} was recognized as formula symbol but was used where term symbol was expected.",
   "recognizedAsNominalUsedAsSentential": "Symbol {{sym}} was recognized as term symbol but was used where formula symbol was expected.",
   "boundSymbolNotTerm": "Formula symbol {{sym}} occurred as bound while only terms can be bound.",
