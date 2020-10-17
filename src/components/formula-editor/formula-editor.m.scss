@@ -10,7 +10,7 @@
     @include padding-h(10px);
   }
 
-  .textAreaFormGroup {
+  .formGroup {
     &:not(.hasHelperText) {
       margin-bottom: 35px;
     }

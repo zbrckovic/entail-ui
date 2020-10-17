@@ -60,7 +60,7 @@ export const FormulaEditor = ({ label, onSubmit, onCancel, className, ...props }
       </div>
       <FormGroup
         className={classnames(
-          style.textAreaFormGroup,
+          style.formGroup,
           { [style.hasHelperText]: error !== undefined }
         )}
         label={label}

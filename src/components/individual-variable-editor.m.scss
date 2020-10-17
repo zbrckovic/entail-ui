@@ -1,9 +1,26 @@
+@import "style/definitions";
+
 .root {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: flex-end;
 
-  .textArea {
+  @include space-between-h(8px);
+
+  .formGroup {
     flex-grow: 1;
+    margin-bottom: 0;
+
+    &:not(.hasHelperText) {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+    }
+  }
+
+  .buttonGroup {
+    margin-bottom: 20px;
   }
 }

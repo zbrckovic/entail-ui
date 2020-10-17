@@ -9,8 +9,9 @@ import { useTranslation } from 'react-i18next'
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import style from './individual-variable-editor.m.scss'
-import { Button, ButtonGroup, FormGroup, Intent, TextArea } from '@blueprintjs/core'
+import { Button, ButtonGroup, Classes, FormGroup, Intent } from '@blueprintjs/core'
 import classnames from 'classnames'
+import { IconNames } from '@blueprintjs/icons'
 
 export const IndividualVariableEditor = ({ label, onSubmit, onCancel, className, ...props }) => {
   const { t } = useTranslation('IndividualVariableEditor')
@@ -51,21 +52,32 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, className,
 
   return (
     <div className={classnames(style.root, className)} {...props}>
-      <FormGroup label={label} helperText={error} intent={intent}>
-        <TextArea
-          className={style.textArea}
-          label={label}
+      <FormGroup
+        className={classnames(
+          style.formGroup,
+          { [style.hasHelperText]: error !== undefined }
+        )}
+        label={label}
+        helperText={error}
+        intent={intent}
+      >
+        <input
+          className={classnames(
+            Classes.INPUT,
+            { [Classes.INTENT_DANGER]: error !== undefined }
+          )}
           value={text}
           onChange={({ target: { value } }) => {
             setIsPristine(false)
             setText(value)
           }}
-          intent={intent}
         />
       </FormGroup>
-      <ButtonGroup>
+      <ButtonGroup className={style.buttonGroup}>
         <Button
+          title={t('button.submit')}
           intent={Intent.PRIMARY}
+          icon={IconNames.CONFIRM}
           onClick={() => {
             const existingSym = textToSymMap[text]
 
@@ -88,7 +100,11 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, className,
         >
           {t('button.submit')}
         </Button>
-        <Button onClick={() => { onCancel() }}>
+        <Button
+          icon={IconNames.DISABLE}
+          title={t('button.cancel')}
+          onClick={() => { onCancel() }}
+        >
           {t('button.cancel')}
         </Button>
       </ButtonGroup>
