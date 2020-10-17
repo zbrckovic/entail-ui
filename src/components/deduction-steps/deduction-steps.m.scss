@@ -1,15 +1,35 @@
-.root {
-  .header {
-    .headerRow {
+@import "style/definitions";
 
-    }
+.root {
+  &:not(.dark) {
+    background: $pt-code-background-color;
   }
 
-  .body {
-    .bodyRow {
-      .cell {
+  &.dark {
+    background: $pt-dark-code-background-color;
+  }
 
+  display: grid;
+  grid-template-columns: 30px 60px auto 30px 60px;
+
+  .cell {
+    padding-top: 4px;
+    @include padding-h(4px);
+
+    &.header {
+      border-bottom: 1px solid $light-gray3;
+    }
+
+    &.lineNumber {
+      &:not(.dark) {
+        background: $light-gray3;
+      }
+
+      &.dark {
+        background: $dark-gray4;
       }
     }
   }
 }
+
+

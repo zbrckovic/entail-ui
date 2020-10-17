@@ -2,11 +2,12 @@ import { StepAssumptions } from 'components/deduction-steps/step-assumptions'
 import { StepPremises } from 'components/deduction-steps/step-premises'
 import { StepRule } from 'components/deduction-steps/step-rule'
 import { ExpressionView } from 'components/expression-view'
-import React from 'react'
+import React, { Fragment, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './deduction-steps.m.scss'
 import { Tooltip } from '@blueprintjs/core'
 import classnames from 'classnames'
+import { RootCtx } from '../../contexts'
 
 export const DeductionSteps = ({
   steps,
@@ -22,6 +23,8 @@ export const DeductionSteps = ({
   className,
   ...props
 }) => {
+  const { theme: { isDark } } = useContext(RootCtx)
+
   const { t } = useTranslation('DeductionSteps')
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
@@ -31,114 +34,126 @@ export const DeductionSteps = ({
   const areSomeRowsSelected = hasRowSelection ? selectedSteps.size > 0 : undefined
 
   return (
-    <div className={classnames(style.root, className)} {...props}>
-      <div className={style.header}>
-        <div className={style.headerRow}>
-          <div className={style.cell}>
-            <Tooltip content={t('label.stepNumber')}>
-              <span>{t('label.stepNumberAbbreviated')}</span>
-            </Tooltip>
-          </div>
-          <div className={style.cell}>
-            <Tooltip content={t('label.assumptions')}>
-              <span>{t('label.assumptionsAbbreviated')}</span>
-            </Tooltip>
-          </div>
-          <div className={style.cell}>
-            <Tooltip content={t('label.formula')}>
-              <span>{t('label.formulaAbbreviated')}</span>
-            </Tooltip>
-          </div>
-          <div className={style.cell}>
-            <Tooltip content={t('label.rule')}>
-              <span>{t('label.ruleAbbreviated')}</span>
-            </Tooltip>
-          </div>
-          <div className={style.cell}>
-            <Tooltip content={t('label.premises')}>
-              <span>{t('label.premisesAbbreviated')}</span>
-            </Tooltip>
-          </div>
-        </div>
+    <div
+      className={classnames(
+        style.root,
+        { [style.dark]: isDark },
+        className
+      )}
+      {...props}
+    >
+      <div
+        className={classnames(
+          style.cell,
+          style.header,
+          style.lineNumber,
+          { [style.dark]: isDark }
+        )}
+      >
+        <Tooltip content={t('label.stepNumber')}>
+          <strong>{t('label.stepNumberAbbreviated')}</strong>
+        </Tooltip>
       </div>
-      <div className={style.body}>
-        <div className={style.bodyRow}>
-          {
-            steps.map((step, i) => {
-              const stepNumber = i + 1
-              const isSelected = hasRowSelection ? selectedSteps.has(stepNumber) : undefined
+      <div
+        className={classnames(
+          style.cell,
+          style.header
+        )}
+      >
+        <Tooltip content={t('label.assumptions')}>
+          <strong>{t('label.assumptionsAbbreviated')}</strong>
+        </Tooltip>
+      </div>
+      <div
+        className={classnames(
+          style.cell,
+          style.header
+        )}
+      >
+        <Tooltip content={t('label.formula')}>
+          <strong>{t('label.formulaAbbreviated')}</strong>
+        </Tooltip>
+      </div>
+      <div
+        className={classnames(
+          style.cell,
+          style.header
+        )}
+      >
+        <Tooltip content={t('label.rule')}>
+          <strong>{t('label.ruleAbbreviated')}</strong>
+        </Tooltip>
+      </div>
+      <div
+        className={classnames(
+          style.cell,
+          style.header
+        )}
+      >
+        <Tooltip content={t('label.premises')}>
+          <strong>{t('label.premisesAbbreviated')}</strong>
+        </Tooltip>
+      </div>
+      {
+        steps.map((step, i) => {
+          const stepNumber = i + 1
+          const isSelected = hasRowSelection ? selectedSteps.has(stepNumber) : undefined
 
-              let selectionTargetForFormula
-              if (selectionTarget?.step === i) {
-                selectionTargetForFormula = {
-                  type: selectionTarget.type,
-                  position: selectionTarget.position
-                }
-              }
-
-              return (
-                <div
-                  key={i}
-                  className={style.row}
-                  onClick={
-                    hasRowSelection
-                      ? () => {
-                        const newSelectedSteps = new Set(selectedSteps)
-
-                        if (isSelected) {
-                          newSelectedSteps.delete(stepNumber)
-                        } else {
-                          newSelectedSteps.add(stepNumber)
-                        }
-
-                        onSelectedStepsChange(newSelectedSteps)
-                      }
-                      : undefined
-                  }
-                >
-                  <div className={style.cell}>
-                    <span>{stepNumber}</span>
-                  </div>
-                  <div className={style.cell}>
-                    <StepAssumptions assumptions={step.assumptions} />
-                  </div>
-                  <div className={style.cell}>
-                    <ExpressionView
-                      expression={step.formula}
-                      selectionTarget={selectionTargetForFormula}
-                      onSelectionTargetChange={selectionTarget => {
-                        if (onSelectionTargetChange === undefined) return
-
-                        let selectionTargetToSend
-                        if (selectionTarget !== undefined) {
-                          selectionTargetToSend = { ...selectionTarget, step: i }
-                        }
-
-                        onSelectionTargetChange(selectionTargetToSend)
-                      }}
-                    />
-                  </div>
-                  <div className={style.cell}>
-                    <StepRule rule={step.ruleApplicationSummary.rule} />
-                  </div>
-                  <div className={style.cell}>
-                    <StepPremises premises={step.ruleApplicationSummary.premises} />
-                  </div>
-                </div>
-              )
-            })
+          let selectionTargetForFormula
+          if (selectionTarget?.step === i) {
+            selectionTargetForFormula = {
+              type: selectionTarget.type,
+              position: selectionTarget.position
+            }
           }
-          {
-            lastStepAccessory !== undefined && (
-              <div key={steps.length + 1} className={style.bodyRow}>
-                <div className={style.cell}>
-                  {lastStepAccessory}
-                </div>
+
+          return (
+            <Fragment key={i}>
+              <div className={classnames(
+                style.cell,
+                style.lineNumber,
+                { [style.dark]: isDark })
+              }>
+                <span>{stepNumber}</span>
               </div>
-            )
-          }
-        </div>
-      </div>
+              <div className={style.cell}>
+                <StepAssumptions assumptions={step.assumptions} />
+              </div>
+              <div className={style.cell}>
+                <ExpressionView
+                  expression={step.formula}
+                  selectionTarget={selectionTargetForFormula}
+                  onSelectionTargetChange={selectionTarget => {
+                    if (onSelectionTargetChange === undefined) return
+
+                    let selectionTargetToSend
+                    if (selectionTarget !== undefined) {
+                      selectionTargetToSend = { ...selectionTarget, step: i }
+                    }
+
+                    onSelectionTargetChange(selectionTargetToSend)
+                  }}
+                />
+              </div>
+              <div className={style.cell}>
+                <StepRule rule={step.ruleApplicationSummary.rule} />
+              </div>
+              <div className={style.cell}>
+                <StepPremises premises={step.ruleApplicationSummary.premises} />
+              </div>
+            </Fragment>
+          )
+        })
+      }
+      {
+        lastStepAccessory !== undefined && (
+          <div key={steps.length + 1} className={style.bodyRow}>
+            <div className={style.cell}>
+              {lastStepAccessory}
+            </div>
+          </div>
+        )
+      }
     </div>
   )
 }

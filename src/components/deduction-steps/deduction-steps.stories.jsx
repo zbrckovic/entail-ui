@@ -1,12 +1,15 @@
 import { DeductionParser, primitivePresentations, primitiveSyms } from '@zbrckovic/entail-core'
 import { DeductionSteps } from './deduction-steps'
-import { SymCtx } from 'contexts'
-import React, { useState } from 'react'
+import { RootCtx, SymCtx } from 'contexts'
+import React, { useContext, useEffect, useState } from 'react'
 
 export default {
   title: 'DeductionSteps',
   component: DeductionSteps,
   argTypes: {
+    isDark: {
+      control: 'boolean'
+    },
     isStepSelectionEnabled: {
       control: 'boolean'
     },
@@ -29,8 +32,12 @@ const Template = ({
   text,
   isStepSelectionEnabled,
   onSelectedStepsChange,
-  hasLastStepAccessory
+  hasLastStepAccessory,
+  isDark
 }) => {
+  const { theme: { setIsDark } } = useContext(RootCtx)
+  useEffect(() => { setIsDark(isDark) }, [isDark, setIsDark])
+
   const [{ deduction, symCtx }] = useState(() => {
     const parser = DeductionParser(primitiveSymCtx)
     const deduction = parser.parse(text)
