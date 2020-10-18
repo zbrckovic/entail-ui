@@ -98,13 +98,7 @@ export const DeductionEditor = ({ className, ...props }) => {
         selectedRule: undefined
       })
     }, [state]),
-    onCancel: useCallback(() => {
-      setState({
-        ...state,
-        selectedSteps: new Set(),
-        selectedRule: undefined
-      })
-    }, [state]),
+    onCancel: useCallback(() => { setState({ ...state, selectedRule: undefined }) }, [state]),
     onError: message => {
       toaster.show({ message, intent: Intent.DANGER, timeout: 3000 })
     }
