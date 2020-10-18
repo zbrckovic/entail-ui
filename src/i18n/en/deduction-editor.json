@@ -15,7 +15,8 @@
     "termAlreadyDependantInDependencyGraph": "Term already appears as dependant in dependency graph.",
     "usageOfThisTermResultsInCyclicDependencies": "Usage of this term results in cyclic dependencies.",
     "generalizedTermIllegallyBinds": "Generalized term illegally binds.",
-    "generalizedTermBecomesIllegallyBound": "Generalized term becomes illegally bound."
+    "generalizedTermBecomesIllegallyBound": "Generalized term becomes illegally bound.",
+    "ruleCantBeAppliedToSelectedPremises": "Rule \"{{rule}}\" can't be applied to selected steps."
   },
   "deleteDialog": {
     "title":  "Delete selected steps?",

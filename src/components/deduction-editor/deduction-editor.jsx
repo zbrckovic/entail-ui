@@ -1,4 +1,4 @@
-import { Deduction, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
+import { Deduction, ErrorName, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
 import { DeductionSteps } from 'components/deduction-steps'
 import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
@@ -15,8 +15,11 @@ import style from './deduction-editor.m.scss'
 import { Button, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { toaster } from '../../toaster'
+import { useRuleDescriber } from '../../hooks'
 
 export const DeductionEditor = ({ className, ...props }) => {
+  const ruleDescriber = useRuleDescriber()
+
   const { t } = useTranslation('DeductionEditor')
 
   const initialSymCtx = useContext(SymCtx)
@@ -86,6 +89,10 @@ export const DeductionEditor = ({ className, ...props }) => {
     }
   }, [state])
 
+  const onError = useCallback(message => {
+    toaster.show({ message, intent: Intent.DANGER, timeout: 3000 })
+  }, [])
+
   const ruleUI = useSelectedRuleUI({
     selectedRule: state.selectedRule?.rule,
     ruleInterface: state.selectedRule?.ruleInterface,
@@ -99,9 +106,7 @@ export const DeductionEditor = ({ className, ...props }) => {
       })
     }, [state]),
     onCancel: useCallback(() => { setState({ ...state, selectedRule: undefined }) }, [state]),
-    onError: message => {
-      toaster.show({ message, intent: Intent.DANGER, timeout: 3000 })
-    }
+    onError
   })
 
   return (
@@ -125,14 +130,24 @@ export const DeductionEditor = ({ className, ...props }) => {
           <DeductionEditorRulePicker
             selectedRule={state.selectedRule?.rule}
             onRuleSelect={rule => {
-              const ruleInterface = state.deductionInterface
-                .selectSteps(...state.selectedSteps)
-                .chooseRule(rule)
+              try {
+                const ruleInterface = state.deductionInterface
+                  .selectSteps(...state.selectedSteps)
+                  .chooseRule(rule)
 
-              setState({
-                ...state,
-                selectedRule: { ruleInterface, rule }
-              })
+                setState({
+                  ...state,
+                  selectedRule: { ruleInterface, rule }
+                })
+              } catch (error) {
+                if (error.name === ErrorName.RULE_NOT_ALLOWED) {
+                  onError(t(
+                    'message.ruleCantBeAppliedToSelectedPremises',
+                    { rule: ruleDescriber(rule).translation }
+                  ))
+                  setState({ ...state, selectedRule: undefined })
+                }
+              }
             }}
             onRuleDeselect={() => { setState({ ...state, selectedRule: undefined }) }}
           />

@@ -28,6 +28,7 @@ export const DeductionEditorRulePicker = ({
             return (
               <Button
                 key={rule}
+                active={rule === selectedRule}
                 title={translation}
                 onClick={() => {
                   if (selected) {
