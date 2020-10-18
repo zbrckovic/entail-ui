@@ -4,7 +4,6 @@
   display: flex;
 
   .main {
-    background-color: $pt-app-background-color;
     flex-grow: 1;
   }
 
@@ -13,10 +12,9 @@
     flex-direction: column;
     align-items: stretch;
 
-    background-color: $pt-code-background-color;
-    border-left-width: 1px;
-    border-left-style: solid;
-    border-left-color: $black;
+    border-left: 1px solid $light-gray3;
     padding: 8px;
+
+    @include space-between-v(4px);
   }
 }

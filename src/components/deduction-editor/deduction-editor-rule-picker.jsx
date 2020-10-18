@@ -7,7 +7,6 @@ import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
 
 export const DeductionEditorRulePicker = ({
-  rules = {},
   selectedRule,
   onRuleSelect,
   onRuleDeselect,
@@ -30,7 +29,6 @@ export const DeductionEditorRulePicker = ({
               <Button
                 key={rule}
                 title={translation}
-                disabled={!rules.has(rule)}
                 onClick={() => {
                   if (selected) {
                     onRuleDeselect()

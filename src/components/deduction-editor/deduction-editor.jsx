@@ -12,117 +12,141 @@ import { DeductionEditorUniversalGeneralization } from './deduction-editor-unive
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
 import classnames from 'classnames'
 import style from './deduction-editor.m.scss'
-import { Button } from '@blueprintjs/core'
+import { Button, Intent } from '@blueprintjs/core'
+import { IconNames } from '@blueprintjs/icons'
+import { toaster } from '../../toaster'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
 
   const initialSymCtx = useContext(SymCtx)
 
-  const [errorMsg, setErrorMsg] = useState(undefined)
-
-  const [{ deductionInterface, symCtx }, setState] = useState(() => ({
+  const [state, setState] = useState(() => ({
     symCtx: initialSymCtx,
-    deductionInterface: startDeduction()
+    deductionInterface: startDeduction(),
+    selectedSteps: new Set(),
+    selectedRule: undefined
   }))
 
-  const [selectedSteps, setSelectedSteps] = useState(() => new Set())
-  useEffect(() => { setSelectedSteps(new Set()) }, [deductionInterface])
+  useEffect(() => {
+    if (state.selectedRule === undefined) return
+    const {
+      deductionInterface,
+      selectedSteps,
+      selectedRule: { rule, ruleInterface }
+    } = state
 
-  const areLastStepsSelected = useMemo(() => {
-    if (selectedSteps.size === 0) return false
+    switch (rule) {
+      case Rule.Deduction: {
+        const newDeductionInterface = ruleInterface.apply()
+        setState({
+          ...state,
+          deductionInterface: newDeductionInterface,
+          selectedSteps: new Set(),
+          selectedRule: undefined
+        })
+        break
+      }
+      case Rule.UniversalInstantiation: {
+        const [stepOrdinal] = [...selectedSteps]
 
-    // TODO: finish this
-    return false
-  }, [selectedSteps])
+        const { formula } = Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
+        const quantificationIsVacuous = Expression.findBoundOccurrences(formula).length === 0
 
-  const rulesInterface = useMemo(
-    () => deductionInterface.selectSteps(...selectedSteps),
-    [deductionInterface, selectedSteps]
-  )
+        if (quantificationIsVacuous) {
+          const newDeductionInterface = ruleInterface.apply()
+          setState({
+            ...state,
+            deductionInterface: newDeductionInterface,
+            selectedSteps: new Set(),
+            selectedRule: undefined
+          })
+        }
+        break
+      }
+      case Rule.ExistentialInstantiation: {
+        const [stepOrdinal] = [...state.selectedSteps]
 
-  const rules = useMemo(() => new Set(Object.keys(rulesInterface)), [rulesInterface])
+        const {
+          formula
+        } = Deduction.getStepByOrdinal(state.deductionInterface.deduction, stepOrdinal)
+        const quantificationIsVacuous = Expression.findBoundOccurrences(formula).length === 0
 
-  const [selectedRule, setSelectedRule] = useState()
-  useEffect(() => { setSelectedRule(undefined) }, [rules])
-
-  const [isConfirmationDialogOpen, setIsConfirmationDialogOpen] = useState(false)
+        if (quantificationIsVacuous) {
+          const newDeductionInterface = ruleInterface.apply()
+          setState({
+            ...state,
+            deductionInterface: newDeductionInterface,
+            selectedSteps: new Set(),
+            selectedRule: undefined
+          })
+        }
+        break
+      }
+    }
+  }, [state])
 
   const ruleUI = useSelectedRuleUI({
-    selectedRule,
-    ruleInterface: rulesInterface?.[selectedRule],
-    onApply: setState,
-    onCancel: useCallback(() => { setSelectedRule(undefined) }, []),
-    onError: setErrorMsg
+    selectedRule: state.selectedRule?.rule,
+    ruleInterface: state.selectedRule?.ruleInterface,
+    onApply: useCallback(({ deductionInterface, symCtx }) => {
+      setState({
+        ...state,
+        deductionInterface,
+        symCtx,
+        selectedSteps: new Set(),
+        selectedRule: undefined
+      })
+    }, [state]),
+    onCancel: useCallback(() => {
+      setState({
+        ...state,
+        selectedSteps: new Set(),
+        selectedRule: undefined
+      })
+    }, [state]),
+    onError: message => {
+      toaster.show({ message, intent: Intent.DANGER, timeout: 3000 })
+    }
   })
 
   return (
-    <SymCtx.Provider value={symCtx}>
+    <SymCtx.Provider value={state.symCtx}>
       <div className={classnames(style.root, className)} {...props}>
         <main className={style.main}>
           <DeductionSteps
-            steps={deductionInterface.deduction.steps}
-            selectedSteps={selectedSteps}
-            onSelectedStepsChange={setSelectedSteps}
-            lastStepAccessory={ruleUI}
+            steps={state.deductionInterface.deduction.steps}
+            selectedSteps={state.selectedSteps}
+            onSelectedStepsChange={newSelectedSteps => {
+              setState({
+                ...state,
+                selectedSteps: newSelectedSteps,
+                selectedRule: undefined
+              })
+            }}
           />
+          {ruleUI}
         </main>
         <div className={style.aside}>
           <DeductionEditorRulePicker
-            rules={rules}
-            selectedRule={selectedRule}
+            selectedRule={state.selectedRule?.rule}
             onRuleSelect={rule => {
-              switch (rule) {
-                case Rule.Deduction: {
-                  const deductionInterface = rulesInterface[Rule.Deduction].apply()
-                  setState({ deductionInterface, symCtx })
-                  break
-                }
-                case Rule.UniversalInstantiation: {
-                  const [stepOrdinal] = [...selectedSteps]
+              const ruleInterface = state.deductionInterface
+                .selectSteps(...state.selectedSteps)
+                .chooseRule(rule)
 
-                  const { formula } =
-                    Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
-
-                  const quantificationIsVacuous =
-                    Expression.findBoundOccurrences(formula).length === 0
-
-                  if (quantificationIsVacuous) {
-                    const deductionInterface = rulesInterface[Rule.UniversalInstantiation].apply()
-                    setState({ deductionInterface, symCtx })
-                  } else {
-                    setSelectedRule(rule)
-                  }
-                  break
-                }
-                case Rule.ExistentialInstantiation: {
-                  const [stepOrdinal] = [...selectedSteps]
-
-                  const { formula } =
-                    Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
-
-                  const quantificationIsVacuous =
-                    Expression.findBoundOccurrences(formula).length === 0
-
-                  if (quantificationIsVacuous) {
-                    const deductionInterface = rulesInterface[Rule.ExistentialInstantiation].apply()
-                    setState({ deductionInterface, symCtx })
-                  } else {
-                    setSelectedRule(rule)
-                  }
-                  break
-                }
-                default: {
-                  setSelectedRule(rule)
-                }
-              }
+              setState({
+                ...state,
+                selectedRule: { ruleInterface, rule }
+              })
             }}
-            onRuleDeselect={() => { setSelectedRule(undefined) }}
+            onRuleDeselect={() => { setState({ ...state, selectedRule: undefined }) }}
           />
           <Button
             title={t('button.delete')}
-            disabled={selectedSteps.size === 0}
-            onClick={() => { setIsConfirmationDialogOpen(true) }}
+            disabled={state.selectedSteps.size === 0}
+            intent={Intent.DANGER}
+            icon={IconNames.TRASH}
           >
             {t('button.delete')}
           </Button>
