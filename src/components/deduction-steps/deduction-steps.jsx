@@ -15,8 +15,6 @@ export const DeductionSteps = ({
   selectedSteps,
   // Must be provided to support step selection.
   onSelectedStepsChange,
-  lastStepAccessory,
-  // `{ step, type, position }`
   selectionTarget,
   // Called with `{ step, type, position }`.
   onSelectionTargetChange,
@@ -28,10 +26,6 @@ export const DeductionSteps = ({
   const { t } = useTranslation('DeductionSteps')
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
-
-  const hasSteps = steps.length > 0
-  const areAllRowsSelected = hasRowSelection ? steps.length === selectedSteps.size : undefined
-  const areSomeRowsSelected = hasRowSelection ? selectedSteps.size > 0 : undefined
 
   return (
     <div
@@ -46,7 +40,7 @@ export const DeductionSteps = ({
         className={classnames(
           style.cell,
           style.header,
-          style.lineNumber,
+          style.stepNumber,
           { [style.dark]: isDark }
         )}
       >
@@ -54,42 +48,22 @@ export const DeductionSteps = ({
           <strong>{t('label.stepNumberAbbreviated')}</strong>
         </Tooltip>
       </div>
-      <div
-        className={classnames(
-          style.cell,
-          style.header
-        )}
-      >
+      <div className={classnames(style.cell, style.header)}>
         <Tooltip content={t('label.assumptions')}>
           <strong>{t('label.assumptionsAbbreviated')}</strong>
         </Tooltip>
       </div>
-      <div
-        className={classnames(
-          style.cell,
-          style.header
-        )}
-      >
+      <div className={classnames(style.cell, style.header)}>
         <Tooltip content={t('label.formula')}>
           <strong>{t('label.formulaAbbreviated')}</strong>
         </Tooltip>
       </div>
-      <div
-        className={classnames(
-          style.cell,
-          style.header
-        )}
-      >
+      <div className={classnames(style.cell, style.header)}>
         <Tooltip content={t('label.rule')}>
           <strong>{t('label.ruleAbbreviated')}</strong>
         </Tooltip>
       </div>
-      <div
-        className={classnames(
-          style.cell,
-          style.header
-        )}
-      >
+      <div className={classnames(style.cell, style.header)}>
         <Tooltip content={t('label.premises')}>
           <strong>{t('label.premisesAbbreviated')}</strong>
         </Tooltip>
@@ -109,17 +83,37 @@ export const DeductionSteps = ({
 
           return (
             <Fragment key={i}>
-              <div className={classnames(
-                style.cell,
-                style.lineNumber,
-                { [style.dark]: isDark })
-              }>
+              <div
+                className={classnames(
+                  style.cell,
+                  style.stepNumber,
+                  {
+                    [style.dark]: isDark,
+                    [style.selected]: isSelected,
+                    [style.hasSelection]: hasRowSelection
+                  })
+                }
+                onClick={() => {
+                  if (hasRowSelection) {
+                    const newSelectedSteps = new Set(selectedSteps)
+                    if (newSelectedSteps.has(stepNumber)) {
+                      newSelectedSteps.delete(stepNumber)
+                    } else {
+                      newSelectedSteps.add(stepNumber)
+                    }
+                    onSelectedStepsChange(newSelectedSteps)
+                  }
+                }}
+              >
                 <span>{stepNumber}</span>
               </div>
               <div className={style.cell}>
                 <StepAssumptions assumptions={step.assumptions} />
               </div>
-              <div className={style.cell}>
+              <div
+                className={style.cell}
+                onClick={() => { onSelectionTargetChange?.(undefined) }}
+              >
                 <ExpressionView
                   expression={step.formula}
                   selectionTarget={selectionTargetForFormula}
@@ -144,15 +138,6 @@ export const DeductionSteps = ({
             </Fragment>
           )
         })
-      }
-      {
-        lastStepAccessory !== undefined && (
-          <div key={steps.length + 1} className={style.bodyRow}>
-            <div className={style.cell}>
-              {lastStepAccessory}
-            </div>
-          </div>
-        )
       }
     </div>
   )

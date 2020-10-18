@@ -20,13 +20,22 @@
       border-bottom: 1px solid $light-gray3;
     }
 
-    &.lineNumber {
+    &.stepNumber {
+      &.hasSelection {
+        cursor: pointer;
+      }
+
       &:not(.dark) {
         background: $light-gray3;
       }
 
       &.dark {
         background: $dark-gray4;
+      }
+
+      &.selected {
+        background: $pt-intent-primary;
+        color: white;
       }
     }
   }

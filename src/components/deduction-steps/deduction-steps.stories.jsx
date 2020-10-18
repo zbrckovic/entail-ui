@@ -13,9 +13,6 @@ export default {
     isStepSelectionEnabled: {
       control: 'boolean'
     },
-    hasLastStepAccessory: {
-      control: 'boolean'
-    },
     text: {
       table: { disable: true },
       control: { disable: true }
@@ -32,7 +29,6 @@ const Template = ({
   text,
   isStepSelectionEnabled,
   onSelectedStepsChange,
-  hasLastStepAccessory,
   isDark
 }) => {
   const { theme: { setIsDark } } = useContext(RootCtx)
@@ -66,13 +62,10 @@ const Template = ({
         }
         selectionTarget={selectionTarget}
         onSelectionTargetChange={setSelectionTarget}
-        lastStepAccessory={hasLastStepAccessory ? <LastStepAccessory /> : undefined}
       />
     </SymCtx.Provider>
   )
 }
-
-const LastStepAccessory = () => <div>Last Step Accessory Example</div>
 
 export const Example1 = Template.bind({})
 Example1.args = {
