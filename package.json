@@ -72,7 +72,7 @@
   "dependencies": {
     "@blueprintjs/core": "^3.33.0",
     "@blueprintjs/icons": "^3.22.0",
-    "@zbrckovic/entail-core": "0.0.33",
+    "@zbrckovic/entail-core": "0.0.34",
     "classnames": "^2.2.6",
     "core-js": "^3.6.5",
     "cytoscape": "^3.15.2",
