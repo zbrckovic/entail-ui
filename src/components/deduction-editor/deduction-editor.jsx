@@ -12,15 +12,15 @@ import { DeductionEditorUniversalGeneralization } from './deduction-editor-unive
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
 import classnames from 'classnames'
 import style from './deduction-editor.m.scss'
-import { Button, Intent } from '@blueprintjs/core'
+import { Button, Classes, Dialog, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { toaster } from '../../toaster'
 import { useRuleDescriber } from '../../hooks'
 
 export const DeductionEditor = ({ className, ...props }) => {
-  const ruleDescriber = useRuleDescriber()
-
   const { t } = useTranslation('DeductionEditor')
+
+  const ruleDescriber = useRuleDescriber()
 
   const initialSymCtx = useContext(SymCtx)
 
@@ -28,7 +28,8 @@ export const DeductionEditor = ({ className, ...props }) => {
     symCtx: initialSymCtx,
     deductionInterface: startDeduction(),
     selectedSteps: new Set(),
-    selectedRule: undefined
+    selectedRule: undefined,
+    isDeleteDialogOpen: false
   }))
 
   useEffect(() => {
@@ -156,11 +157,32 @@ export const DeductionEditor = ({ className, ...props }) => {
             disabled={state.selectedSteps.size === 0}
             intent={Intent.DANGER}
             icon={IconNames.TRASH}
+            onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
           >
             {t('button.delete')}
           </Button>
         </div>
       </div>
+      <DeleteDialog
+        isOpen={state.isDeleteDialogOpen}
+        selectedSteps={state.selectedSteps}
+        onConfirm={() => {
+          const newDeductionInterface = state.deductionInterface.deleteLastStep()
+          const newSymCtx = deleteExtraSymsFromSymCtx(
+            state.symCtx,
+            getAllSymsFromDeduction(newDeductionInterface.deduction)
+          )
+
+          setState({
+            ...state,
+            deductionInterface: newDeductionInterface,
+            symCtx: newSymCtx,
+            isDeleteDialogOpen: false,
+            selectedSteps: new Set()
+          })
+        }}
+        onCancel={() => { setState({ ...state, isDeleteDialogOpen: false }) }}
+      />
     </SymCtx.Provider>
   )
 }
@@ -226,4 +248,76 @@ const useSelectedRuleUI = ({
         return undefined
     }
   }, [ruleInterface, selectedRule, onApply, onCancel, onError, t])
+}
+
+const DeleteDialog = ({ isOpen, onConfirm, onCancel, selectedSteps }) => {
+  const { t } = useTranslation('DeductionEditor')
+
+  return (
+    <Dialog
+      title={t('deleteDialog.title')}
+      icon={IconNames.WARNING_SIGN}
+      isOpen={isOpen}
+      onClose={onCancel}
+    >
+      <div className={Classes.DIALOG_BODY}>
+        <p>{t('deleteDialog.content', { step: Math.min(...selectedSteps) })}</p>
+      </div>
+      <div className={Classes.DIALOG_FOOTER}>
+        <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+          <Button
+            title={t('deleteDialog.yes')}
+            intent={Intent.PRIMARY}
+            onClick={() => { onConfirm() }}
+            icon={IconNames.CONFIRM}
+          >
+            {t('deleteDialog.yes')}
+          </Button>
+          <Button
+            title={t('deleteDialog.no')}
+            onClick={() => { onCancel() }}
+            icon={IconNames.DISABLE}
+          >
+            {t('deleteDialog.no')}
+          </Button>
+        </div>
+      </div>
+    </Dialog>
+  )
+}
+
+// Deletes all symbols from `symCtx` not occurring in `syms`.
+export const deleteExtraSymsFromSymCtx = (symCtx, allowedSyms) => {
+  let newCtx = symCtx
+
+  Object.keys(symCtx.syms).forEach(sym => {
+    if (allowedSyms[sym] === undefined) {
+      newCtx = deleteSymFromSymCtx(newCtx, sym)
+    }
+  })
+
+  return newCtx
+}
+
+// Deletes `sym` from both `symCtx.syms` and `symCtx.presentations`.
+export const deleteSymFromSymCtx = (symCtx, sym) => {
+  const { syms, presentations } = symCtx
+
+  const newSyms = { ...syms }
+  const newPresentations = { ...presentations }
+
+  delete newSyms[sym]
+  delete newPresentations[sym]
+
+  return { sym: newSyms, presentations: newPresentations }
+}
+
+export const getAllSymsFromDeduction = deduction => {
+  const result = {}
+
+  deduction.steps.forEach(step => {
+    Object.assign(result, Expression.getSyms(step.formula))
+  })
+
+  return result
 }

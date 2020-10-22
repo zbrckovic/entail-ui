@@ -19,8 +19,8 @@
     "ruleCantBeAppliedToSelectedPremises": "Rule \"{{rule}}\" can't be applied to selected steps."
   },
   "deleteDialog": {
-    "title":  "Delete selected steps?",
-    "content":  "Are you sure you want to delete selected steps of deduction?",
+    "title":  "Delete steps?",
+    "content":  "Are you sure you want to delete all steps from step {{step}} til the end of deduction?",
     "yes": "Yes",
     "no": "No"
   }
