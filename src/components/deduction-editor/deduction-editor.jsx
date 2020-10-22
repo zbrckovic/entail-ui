@@ -1,4 +1,11 @@
-import { Deduction, ErrorName, Expression, Rule, startDeduction } from '@zbrckovic/entail-core'
+import {
+  Deduction,
+  ErrorName,
+  Expression,
+  primitiveSyms,
+  Rule,
+  startDeduction
+} from '@zbrckovic/entail-core'
 import { DeductionSteps } from 'components/deduction-steps'
 import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
@@ -12,10 +19,11 @@ import { DeductionEditorUniversalGeneralization } from './deduction-editor-unive
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
 import classnames from 'classnames'
 import style from './deduction-editor.m.scss'
-import { Button, Classes, Dialog, Intent } from '@blueprintjs/core'
+import { Button, Card, Classes, Dialog, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { toaster } from '../../toaster'
 import { useRuleDescriber } from '../../hooks'
+import { deleteExtraSymsFromSymCtx } from '../../misc/sym-ctx-util'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
@@ -125,7 +133,13 @@ export const DeductionEditor = ({ className, ...props }) => {
               })
             }}
           />
-          {ruleUI}
+          {ruleUI && (
+            <div className={style.ruleUIContainer}>
+              <Card>
+                {ruleUI}
+              </Card>
+            </div>
+          )}
         </main>
         <div className={style.aside}>
           <DeductionEditorRulePicker
@@ -170,7 +184,7 @@ export const DeductionEditor = ({ className, ...props }) => {
           const newDeductionInterface = state.deductionInterface.deleteLastStep()
           const newSymCtx = deleteExtraSymsFromSymCtx(
             state.symCtx,
-            getAllSymsFromDeduction(newDeductionInterface.deduction)
+            { ...primitiveSyms, ...Deduction.getSyms(newDeductionInterface.deduction) }
           )
 
           setState({
@@ -284,40 +298,4 @@ const DeleteDialog = ({ isOpen, onConfirm, onCancel, selectedSteps }) => {
       </div>
     </Dialog>
   )
-}
-
-// Deletes all symbols from `symCtx` not occurring in `syms`.
-export const deleteExtraSymsFromSymCtx = (symCtx, allowedSyms) => {
-  let newCtx = symCtx
-
-  Object.keys(symCtx.syms).forEach(sym => {
-    if (allowedSyms[sym] === undefined) {
-      newCtx = deleteSymFromSymCtx(newCtx, sym)
-    }
-  })
-
-  return newCtx
-}
-
-// Deletes `sym` from both `symCtx.syms` and `symCtx.presentations`.
-export const deleteSymFromSymCtx = (symCtx, sym) => {
-  const { syms, presentations } = symCtx
-
-  const newSyms = { ...syms }
-  const newPresentations = { ...presentations }
-
-  delete newSyms[sym]
-  delete newPresentations[sym]
-
-  return { sym: newSyms, presentations: newPresentations }
-}
-
-export const getAllSymsFromDeduction = deduction => {
-  const result = {}
-
-  deduction.steps.forEach(step => {
-    Object.assign(result, Expression.getSyms(step.formula))
-  })
-
-  return result
 }
