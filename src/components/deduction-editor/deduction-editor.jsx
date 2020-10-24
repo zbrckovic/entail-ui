@@ -147,7 +147,7 @@ export const DeductionEditor = ({ className, ...props }) => {
             onRuleSelect={rule => {
               try {
                 const ruleInterface = state.deductionInterface
-                  .selectSteps(...state.selectedSteps)
+                  .selectSteps(...[...state.selectedSteps].sort())
                   .chooseRule(rule)
 
                 setState({
