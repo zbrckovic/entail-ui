@@ -19,11 +19,12 @@ import { DeductionEditorUniversalGeneralization } from './deduction-editor-unive
 import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
 import classnames from 'classnames'
 import style from './deduction-editor.m.scss'
-import { Button, Card, Classes, Dialog, Intent } from '@blueprintjs/core'
+import { Button, Card, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { toaster } from '../../toaster'
 import { useRuleDescriber } from '../../hooks'
 import { deleteExtraSymsFromSymCtx } from '../../misc/sym-ctx-util'
+import { DeleteDialog } from './deduction-editor-delete-dialog'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
@@ -262,40 +263,4 @@ const useSelectedRuleUI = ({
         return undefined
     }
   }, [ruleInterface, selectedRule, onApply, onCancel, onError, t])
-}
-
-const DeleteDialog = ({ isOpen, onConfirm, onCancel, selectedSteps }) => {
-  const { t } = useTranslation('DeductionEditor')
-
-  return (
-    <Dialog
-      title={t('deleteDialog.title')}
-      icon={IconNames.WARNING_SIGN}
-      isOpen={isOpen}
-      onClose={onCancel}
-    >
-      <div className={Classes.DIALOG_BODY}>
-        <p>{t('deleteDialog.content', { step: Math.min(...selectedSteps) })}</p>
-      </div>
-      <div className={Classes.DIALOG_FOOTER}>
-        <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-          <Button
-            title={t('deleteDialog.yes')}
-            intent={Intent.PRIMARY}
-            onClick={() => { onConfirm() }}
-            icon={IconNames.CONFIRM}
-          >
-            {t('deleteDialog.yes')}
-          </Button>
-          <Button
-            title={t('deleteDialog.no')}
-            onClick={() => { onCancel() }}
-            icon={IconNames.DISABLE}
-          >
-            {t('deleteDialog.no')}
-          </Button>
-        </div>
-      </div>
-    </Dialog>
-  )
 }
