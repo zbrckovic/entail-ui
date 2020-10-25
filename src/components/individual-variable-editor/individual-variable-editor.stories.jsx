@@ -1,6 +1,6 @@
 import { IndividualVariableEditor } from 'components/individual-variable-editor'
 import React, { useContext, useEffect } from 'react'
-import { RootCtx } from '../contexts'
+import { RootCtx } from 'contexts'
 
 export default {
   title: 'IndividualVariableEditor',

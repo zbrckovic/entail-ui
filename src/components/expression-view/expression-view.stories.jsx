@@ -1,4 +1,4 @@
-import { ExpressionView } from 'components/expression-view'
+import { ExpressionView } from 'components/expression-view/expression-view'
 import { RootCtx, SymCtx } from 'contexts'
 import React, { useContext, useEffect, useState } from 'react'
 import { useEnteredFormulaText } from 'storybook/use-entered-formula-text'

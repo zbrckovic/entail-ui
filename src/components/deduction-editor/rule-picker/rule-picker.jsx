@@ -2,11 +2,11 @@ import { Rule } from '@zbrckovic/entail-core'
 import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import style from './deduction-editor-rule-picker.m.scss'
+import style from './rule-picker.m.scss'
 import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
 
-export const DeductionEditorRulePicker = ({
+export const RulePicker = ({
   selectedRule,
   onRuleSelect,
   onRuleDeselect,

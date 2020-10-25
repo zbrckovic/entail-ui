@@ -4,7 +4,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { Subject } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators'
 import { Controls } from './controls'
-import { ExpressionView } from '../expression-view'
+import { ExpressionView } from '../expression-view/expression-view'
 import { useParserErrorDescriber } from 'hooks'
 import style from './formula-editor.m.scss'
 import { FormGroup, Intent, TextArea } from '@blueprintjs/core'

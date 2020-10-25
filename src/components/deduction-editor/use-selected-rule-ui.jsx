@@ -2,11 +2,11 @@ import { useTranslation } from 'react-i18next'
 import React, { useMemo } from 'react'
 import { Deduction, Rule } from '@zbrckovic/entail-core'
 import { FormulaEditor } from '../formula-editor'
-import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
-import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
-import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
-import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
-import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
+import { TautologicalImplication } from './tautological-implication'
+import { UniversalInstantiation } from './universal-instantiation'
+import { UniversalGeneralization } from './universal-generalization'
+import { ExistentialInstantiation } from './existential-instantiation'
+import { ExistentialGeneralization } from './existential-generalization'
 
 export const useSelectedRuleUI = ({
   deduction,
@@ -33,28 +33,28 @@ export const useSelectedRuleUI = ({
           />
         )
       case Rule.TautologicalImplication:
-        return <DeductionEditorTautologicalImplication
+        return <TautologicalImplication
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.UniversalInstantiation:
-        return <DeductionEditorUniversalInstantiation
+        return <UniversalInstantiation
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.UniversalGeneralization:
-        return <DeductionEditorUniversalGeneralization
+        return <UniversalGeneralization
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.ExistentialInstantiation:
-        return <DeductionEditorExistentialInstantiation
+        return <ExistentialInstantiation
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
@@ -64,7 +64,7 @@ export const useSelectedRuleUI = ({
         const [stepOrdinal] = [...selectedSteps]
         const selectedStep = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
-        return <DeductionEditorExistentialGeneralization
+        return <ExistentialGeneralization
           formula={selectedStep.formula}
           ruleInterface={ruleInterface}
           onApply={onApply}

@@ -1,5 +1,5 @@
 import { primitivePresentations, primitiveSyms } from '@zbrckovic/entail-core'
-import { DeductionEditor } from 'components/deduction-editor/deduction-editor'
+import { DeductionEditor } from './deduction-editor'
 import { SymCtx } from 'contexts'
 import React from 'react'
 

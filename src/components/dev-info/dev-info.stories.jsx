@@ -1,6 +1,6 @@
 import { DevInfo } from 'components/dev-info'
 import React, { useContext, useEffect } from 'react'
-import { RootCtx } from '../contexts'
+import { RootCtx } from 'contexts'
 
 export default {
   title: 'DevInfo',

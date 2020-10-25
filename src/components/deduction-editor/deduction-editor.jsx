@@ -11,12 +11,12 @@ import { SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from '../formula-editor'
-import { DeductionEditorExistentialGeneralization } from './deduction-editor-existential-generalization'
-import { DeductionEditorExistentialInstantiation } from './deduction-editor-existential-instantiation'
-import { DeductionEditorRulePicker } from './deduction-editor-rule-picker'
-import { DeductionEditorTautologicalImplication } from './deduction-editor-tautological-implication'
-import { DeductionEditorUniversalGeneralization } from './deduction-editor-universal-generalization'
-import { DeductionEditorUniversalInstantiation } from './deduction-editor-universal-instantiation'
+import { ExistentialGeneralization } from './existential-generalization'
+import { ExistentialInstantiation } from './existential-instantiation'
+import { RulePicker } from './rule-picker'
+import { TautologicalImplication } from './tautological-implication'
+import { UniversalGeneralization } from './universal-generalization'
+import { UniversalInstantiation } from './universal-instantiation'
 import classnames from 'classnames'
 import style from './deduction-editor.m.scss'
 import { Button, Card, Intent } from '@blueprintjs/core'
@@ -143,7 +143,7 @@ export const DeductionEditor = ({ className, ...props }) => {
           )}
         </main>
         <div className={style.aside}>
-          <DeductionEditorRulePicker
+          <RulePicker
             selectedRule={state.selectedRule?.rule}
             onRuleSelect={rule => {
               try {
@@ -225,35 +225,35 @@ const useSelectedRuleUI = ({
           />
         )
       case Rule.TautologicalImplication:
-        return <DeductionEditorTautologicalImplication
+        return <TautologicalImplication
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.UniversalInstantiation:
-        return <DeductionEditorUniversalInstantiation
+        return <UniversalInstantiation
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.UniversalGeneralization:
-        return <DeductionEditorUniversalGeneralization
+        return <UniversalGeneralization
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.ExistentialInstantiation:
-        return <DeductionEditorExistentialInstantiation
+        return <ExistentialInstantiation
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
       case Rule.ExistentialGeneralization:
-        return <DeductionEditorExistentialGeneralization
+        return <ExistentialGeneralization
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}

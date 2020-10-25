@@ -3,9 +3,9 @@ import { IndividualVariableEditor } from 'components/individual-variable-editor'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import classnames from 'classnames'
-import style from './deduction-editor-universal-generalization.m.scss'
+import style from './universal-generalization.m.scss'
 
-export const DeductionEditorUniversalGeneralization = ({
+export const UniversalGeneralization = ({
   ruleInterface,
   oldTerm,
   onApply,

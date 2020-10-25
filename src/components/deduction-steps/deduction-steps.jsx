@@ -1,7 +1,7 @@
 import { StepAssumptions } from 'components/deduction-steps/step-assumptions'
 import { StepPremises } from 'components/deduction-steps/step-premises'
 import { StepRule } from 'components/deduction-steps/step-rule'
-import { ExpressionView } from 'components/expression-view'
+import { ExpressionView } from 'components/expression-view/expression-view'
 import React, { Fragment, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './deduction-steps.m.scss'

@@ -2,10 +2,10 @@ import { ErrorName } from '@zbrckovic/entail-core'
 import { IndividualVariableEditor } from 'components/individual-variable-editor'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import style from './deduction-editor-existential-generalization.m.scss'
+import style from './existential-generalization.m.scss'
 import classnames from 'classnames'
 
-export const DeductionEditorExistentialGeneralization = ({
+export const ExistentialGeneralization = ({
   ruleInterface,
   oldTerm,
   onApply,

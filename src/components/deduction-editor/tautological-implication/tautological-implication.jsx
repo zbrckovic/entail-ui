@@ -2,10 +2,10 @@ import { ErrorName } from '@zbrckovic/entail-core'
 import { FormulaEditor } from 'components/formula-editor'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import style from './deduction-editor-tautological-implication.m.scss'
+import style from './tautological-implication.m.scss'
 import classnames from 'classnames'
 
-export const DeductionEditorTautologicalImplication = ({
+export const TautologicalImplication = ({
   ruleInterface,
   onApply,
   onCancel,
