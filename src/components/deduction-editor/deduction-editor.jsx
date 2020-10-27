@@ -20,6 +20,7 @@ import { useRuleDescriber } from '../../hooks'
 import { deleteExtraSymsFromSymCtx } from '../../misc/sym-ctx-util'
 import { DeleteDialog } from './deduction-editor-delete-dialog'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
+import _ from 'lodash'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
@@ -178,7 +179,14 @@ export const DeductionEditor = ({ className, ...props }) => {
         isOpen={state.isDeleteDialogOpen}
         selectedSteps={state.selectedSteps}
         onConfirm={() => {
-          const newDeductionInterface = state.deductionInterface.deleteLastStep()
+          const firstSelectedStep = Math.min(...state.selectedSteps)
+          const stepsCount = Deduction.getSize(state.deductionInterface.deduction)
+
+          let newDeductionInterface = state.deductionInterface
+          _.range(firstSelectedStep, stepsCount + 1).forEach(() => {
+            newDeductionInterface = newDeductionInterface.deleteLastStep()
+          })
+
           const newSymCtx = deleteExtraSymsFromSymCtx(
             state.symCtx,
             { ...primitiveSyms, ...Deduction.getSyms(newDeductionInterface.deduction) }

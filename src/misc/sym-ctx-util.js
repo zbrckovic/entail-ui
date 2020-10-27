@@ -4,7 +4,6 @@ export const deleteExtraSymsFromSymCtx = (symCtx, allowedSyms) => {
 
   Object.keys(symCtx.syms).forEach(sym => {
     if (allowedSyms[sym] === undefined) {
-      console.log(`deleting sym: ${sym}`)
       newCtx = deleteSymFromSymCtx(newCtx, sym)
     }
   })
