@@ -5,20 +5,28 @@ import {
   SyntacticInfo
 } from '@zbrckovic/entail-core/lib/presentation/sym-presentation'
 import { TermDependenciesGraph } from './term-dependencies-graph'
-import { SymCtx } from 'contexts'
+import { RootCtx, SymCtx } from 'contexts'
 import {
   primitiveSyms,
   Sym,
   TermDependencyGraph as TermDependencyGraphModel
 } from '@zbrckovic/entail-core'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 export default {
   title: 'TermDependenciesGraph',
-  component: TermDependenciesGraph
+  component: TermDependenciesGraph,
+  argTypes: {
+    isDark: {
+      control: 'boolean'
+    }
+  }
 }
 
-export const Default = () => {
+export const Default = ({ isDark }) => {
+  const { theme: { setIsDark } } = useContext(RootCtx)
+  useEffect(() => { setIsDark(isDark) }, [isDark, setIsDark])
+
   const [graph] = useState(() => (
     TermDependencyGraphModel({
       [termA.id]: new Set([termB.id, termD.id]),

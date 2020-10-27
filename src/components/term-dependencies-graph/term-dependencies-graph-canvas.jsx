@@ -162,7 +162,7 @@ const graphStyles = {
   node: {
     shape: 'rectangle',
     width: 20,
-    height: 20,
+    height: 16,
     label: 'data(text)',
     'text-halign': 'center',
     'text-valign': 'center',
