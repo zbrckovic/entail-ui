@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TermPicker } from './term-picker'
 import { SymCtx } from '../../../contexts'
 import {
@@ -21,14 +21,18 @@ const terms = [
   Sym.tt({ id: maxSymId + 1 }),
   Sym.tt({ id: maxSymId + 2 }),
   Sym.tt({ id: maxSymId + 3 }),
-  Sym.tt({ id: maxSymId + 4 })
+  Sym.tt({ id: maxSymId + 4 }),
+  Sym.tt({ id: maxSymId + 5 }),
+  Sym.tt({ id: maxSymId + 6 })
 ]
 
 const termPresentations = [
-  SymPresentation({ ascii: SyntacticInfo.prefix('a') }),
-  SymPresentation({ ascii: SyntacticInfo.prefix('b') }),
-  SymPresentation({ ascii: SyntacticInfo.prefix('c') }),
-  SymPresentation({ ascii: SyntacticInfo.prefix('d') })
+  SymPresentation({ ascii: SyntacticInfo.prefix('x') }),
+  SymPresentation({ ascii: SyntacticInfo.prefix('y') }),
+  SymPresentation({ ascii: SyntacticInfo.prefix('z') }),
+  SymPresentation({ ascii: SyntacticInfo.prefix('x1') }),
+  SymPresentation({ ascii: SyntacticInfo.prefix('y1') }),
+  SymPresentation({ ascii: SyntacticInfo.prefix('z1') })
 ]
 
 const symCtx = {
@@ -42,8 +46,18 @@ const symCtx = {
   }
 }
 
-export const Default = () => (
-  <SymCtx.Provider value={symCtx}>
-    <TermPicker terms={terms} />
-  </SymCtx.Provider>
-)
+export const Default = () => {
+  const [selectedTerm, setSelectedTerm] = useState()
+
+  return (
+    <SymCtx.Provider value={symCtx}>
+      <TermPicker
+        terms={terms}
+        selectedTerm={selectedTerm}
+        onSelectTerm={term => {
+          setSelectedTerm(term.id === selectedTerm?.id ? undefined : term)
+        }}
+      />
+    </SymCtx.Provider>
+  )
+}

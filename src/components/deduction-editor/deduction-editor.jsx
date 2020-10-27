@@ -8,15 +8,9 @@ import {
 } from '@zbrckovic/entail-core'
 import { DeductionSteps } from 'components/deduction-steps'
 import { SymCtx } from 'contexts'
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FormulaEditor } from '../formula-editor'
-import { ExistentialGeneralization } from './existential-generalization'
-import { ExistentialInstantiation } from './existential-instantiation'
 import { RulePicker } from './rule-picker'
-import { TautologicalImplication } from './tautological-implication'
-import { UniversalGeneralization } from './universal-generalization'
-import { UniversalInstantiation } from './universal-instantiation'
 import classnames from 'classnames'
 import style from './deduction-editor.m.scss'
 import { Button, Card, Intent } from '@blueprintjs/core'
@@ -25,6 +19,7 @@ import { toaster } from '../../toaster'
 import { useRuleDescriber } from '../../hooks'
 import { deleteExtraSymsFromSymCtx } from '../../misc/sym-ctx-util'
 import { DeleteDialog } from './deduction-editor-delete-dialog'
+import { useSelectedRuleUI } from './use-selected-rule-ui'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
@@ -104,6 +99,8 @@ export const DeductionEditor = ({ className, ...props }) => {
   }, [])
 
   const ruleUI = useSelectedRuleUI({
+    deduction: state.deductionInterface.deduction,
+    selectedSteps: state.selectedSteps,
     selectedRule: state.selectedRule?.rule,
     ruleInterface: state.selectedRule?.ruleInterface,
     onApply: useCallback(({ deductionInterface, symCtx }) => {
@@ -151,10 +148,7 @@ export const DeductionEditor = ({ className, ...props }) => {
                   .selectSteps(...[...state.selectedSteps].sort())
                   .chooseRule(rule)
 
-                setState({
-                  ...state,
-                  selectedRule: { ruleInterface, rule }
-                })
+                setState({ ...state, selectedRule: { ruleInterface, rule } })
               } catch (error) {
                 if (error.name === ErrorName.RULE_NOT_ALLOWED) {
                   onError(t(
@@ -162,6 +156,8 @@ export const DeductionEditor = ({ className, ...props }) => {
                     { rule: ruleDescriber(rule).translation }
                   ))
                   setState({ ...state, selectedRule: undefined })
+                } else {
+                  throw error
                 }
               }
             }}
@@ -200,67 +196,4 @@ export const DeductionEditor = ({ className, ...props }) => {
       />
     </SymCtx.Provider>
   )
-}
-
-const useSelectedRuleUI = ({
-  selectedRule,
-  ruleInterface,
-  onApply,
-  onCancel,
-  onError
-}) => {
-  const { t } = useTranslation('DeductionEditor')
-
-  return useMemo(() => {
-    switch (selectedRule) {
-      case Rule.Premise:
-        return (
-          <FormulaEditor
-            label={t('label.enterThePremise')}
-            onSubmit={({ formula, symCtx }) => {
-              const deductionInterface = ruleInterface.apply(formula)
-              onApply({ deductionInterface, symCtx })
-            }}
-            onCancel={onCancel}
-          />
-        )
-      case Rule.TautologicalImplication:
-        return <TautologicalImplication
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
-      case Rule.UniversalInstantiation:
-        return <UniversalInstantiation
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
-      case Rule.UniversalGeneralization:
-        return <UniversalGeneralization
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
-      case Rule.ExistentialInstantiation:
-        return <ExistentialInstantiation
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
-      case Rule.ExistentialGeneralization:
-        return <ExistentialGeneralization
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
-      default:
-        return undefined
-    }
-  }, [ruleInterface, selectedRule, onApply, onCancel, onError, t])
 }

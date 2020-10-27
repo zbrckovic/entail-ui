@@ -46,13 +46,18 @@ export const useSelectedRuleUI = ({
           onCancel={onCancel}
           onError={onError}
         />
-      case Rule.UniversalGeneralization:
+      case Rule.UniversalGeneralization: {
+        const stepOrdinal = selectedSteps.values().next().value
+        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+
         return <UniversalGeneralization
+          formula={formula}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
+      }
       case Rule.ExistentialInstantiation:
         return <ExistentialInstantiation
           ruleInterface={ruleInterface}
@@ -61,11 +66,11 @@ export const useSelectedRuleUI = ({
           onError={onError}
         />
       case Rule.ExistentialGeneralization: {
-        const [stepOrdinal] = [...selectedSteps]
-        const selectedStep = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+        const stepOrdinal = selectedSteps.values().next().value
+        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
         return <ExistentialGeneralization
-          formula={selectedStep.formula}
+          formula={formula}
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}

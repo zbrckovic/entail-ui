@@ -1,3 +1,17 @@
-.root {
+@import "style/definitions";
 
+.root {
+  display: flex;
+
+  @include space-between-h(12px);
+
+  .term {
+    cursor: pointer;
+    font-family: $font-family-mono;
+    color: $color-term;
+
+    &.selected {
+      background: $pt-text-selection-color;
+    }
+  }
 }
