@@ -20,7 +20,7 @@ export const DeleteDialog = ({ isOpen, onConfirm, onCancel, selectedSteps }) => 
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
           <Button
             title={t('deleteDialog.yes')}
-            intent={Intent.PRIMARY}
+            intent={Intent.DANGER}
             onClick={() => { onConfirm() }}
             icon={IconNames.CONFIRM}
           >
