@@ -9,7 +9,7 @@ export default {
   argTypes: {
     formula: {
       control: 'text',
-      defaultValue: 'E[y] A[x] F(x, y) -> A[x] E[y] F(x, y)'
+      defaultValue: 'Ey Ax Fxy -> Ax Ey Fxy'
     },
     isDark: {
       control: 'boolean'
