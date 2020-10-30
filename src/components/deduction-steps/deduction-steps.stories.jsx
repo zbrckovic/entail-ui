@@ -82,8 +82,8 @@ Example1.args = {
 export const Example2 = Template.bind({})
 Example2.args = {
   text: `
-        (1)  Ax Fx -> Gx                                          / P;
-        (2)  Ax Gx -> Hx                                          / P;
+        (1)  Ax (Fx -> Gx)                                        / P;
+        (2)  Ax (Gx -> Hx)                                        / P;
         (3)  Ex Fx                                                / P;
       3 (4)  Fa                                                   / EI 3;
       1 (5)  Fa -> Ga                                             / UI 1;
