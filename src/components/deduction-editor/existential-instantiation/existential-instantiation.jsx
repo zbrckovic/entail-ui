@@ -18,7 +18,7 @@ export const ExistentialInstantiation = ({
   return (
     <IndividualVariableEditor
       className={classnames(style.root, className)}
-      label={t('label.enterTheInstanceTerm')}
+      label={t('label.enterTheInstanceVariable')}
       onSubmit={({ sym, symCtx }) => {
         let deductionInterface
         try {
@@ -26,13 +26,13 @@ export const ExistentialInstantiation = ({
         } catch (error) {
           switch (error.name) {
             case ErrorName.INSTANCE_TERM_BECOMES_ILLEGALLY_BOUND:
-              onError(t('message.instanceTermBecomesIllegallyBound'))
+              onError(t('message.introducedInstanceVariableBecomesIllegallyBound'))
               return
             case ErrorName.TERM_ALREADY_USED:
-              onError(t('message.termAlreadyDependantInDependencyGraph'))
+              onError(t('message.instanceVariableAlreadyDependantInDependencyGraph'))
               return
             case ErrorName.CYCLIC_DEPENDENCIES:
-              onError(t('message.usageOfThisTermResultsInCyclicDependencies'))
+              onError(t('message.usageOfThisInstanceVariableResultsInCyclicDependencies'))
               return
             default:
               throw error

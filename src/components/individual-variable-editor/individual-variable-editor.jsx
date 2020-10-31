@@ -1,4 +1,10 @@
-import { Category, Sym, SymPresentation, SyntacticInfo } from '@zbrckovic/entail-core'
+import {
+  Category,
+  isIndividualVariable,
+  Sym,
+  SymPresentation,
+  SyntacticInfo
+} from '@zbrckovic/entail-core'
 import {
   createTextToSymMap,
   getMaxSymId
@@ -48,19 +54,10 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, className,
     [textInputValueSubject, text]
   )
 
-  const intent = error !== undefined ? Intent.DANGER : undefined
-
   return (
     <div className={classnames(style.root, className)} {...props}>
-      <FormGroup
-        className={classnames(
-          style.formGroup,
-          { [style.hasHelperText]: error !== undefined }
-        )}
-        label={label}
-        helperText={error}
-        intent={intent}
-      >
+      <label>{label}</label>
+      <div className={style.inputWithButtons}>
         <input
           className={classnames(
             Classes.INPUT,
@@ -71,43 +68,45 @@ export const IndividualVariableEditor = ({ label, onSubmit, onCancel, className,
             setIsPristine(false)
             setText(value)
           }}
+          maxLength={2}
         />
-      </FormGroup>
-      <ButtonGroup className={style.buttonGroup}>
-        <Button
-          title={t('button.submit')}
-          intent={Intent.PRIMARY}
-          icon={IconNames.CONFIRM}
-          onClick={() => {
-            const existingSym = textToSymMap[text]
+        <ButtonGroup>
+          <Button
+            title={t('button.submit')}
+            intent={Intent.PRIMARY}
+            icon={IconNames.CONFIRM}
+            onClick={() => {
+              const existingSym = textToSymMap[text]
 
-            if (existingSym !== undefined) {
-              onSubmit({ sym: existingSym, symCtx })
-            } else {
-              const newSym = Sym.tt({ id: getMaxSymId(symCtx.syms) + 1 })
-              const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(text) })
+              if (existingSym !== undefined) {
+                onSubmit({ sym: existingSym, symCtx })
+              } else {
+                const newSym = Sym.tt({ id: getMaxSymId(symCtx.syms) + 1 })
+                const newPresentation = SymPresentation({ ascii: SyntacticInfo.prefix(text) })
 
-              onSubmit({
-                sym: newSym,
-                symCtx: {
-                  syms: { ...symCtx.syms, [newSym.id]: newSym },
-                  presentations: { ...symCtx.presentations, [newSym.id]: newPresentation }
-                }
-              })
-            }
-          }}
-          disabled={isPristine || error !== undefined}
-        >
-          {t('button.submit')}
-        </Button>
-        <Button
-          icon={IconNames.DISABLE}
-          title={t('button.cancel')}
-          onClick={() => { onCancel() }}
-        >
-          {t('button.cancel')}
-        </Button>
-      </ButtonGroup>
+                onSubmit({
+                  sym: newSym,
+                  symCtx: {
+                    syms: { ...symCtx.syms, [newSym.id]: newSym },
+                    presentations: { ...symCtx.presentations, [newSym.id]: newPresentation }
+                  }
+                })
+              }
+            }}
+            disabled={isPristine || error !== undefined}
+          >
+            {t('button.submit')}
+          </Button>
+          <Button
+            icon={IconNames.DISABLE}
+            title={t('button.cancel')}
+            onClick={() => { onCancel() }}
+          >
+            {t('button.cancel')}
+          </Button>
+        </ButtonGroup>
+      </div>
+      <small>{error ?? <wbr/>}</small>
     </div>
   )
 }
@@ -117,7 +116,7 @@ const useValidator = textToSymMap => {
   const { t } = useTranslation('IndividualVariableEditor')
 
   return useCallback(text => {
-    if (!isValidText(text)) {
+    if (!isIndividualVariable(text)) {
       return t('message.invalidInstanceVariableSymbol', { sym: text })
     }
 
@@ -129,11 +128,5 @@ const useValidator = textToSymMap => {
     return undefined
   }, [t, textToSymMap])
 }
-
-const isValidText = (() => {
-  const INDIVIDUAL_VARIABLE_REGEX = /^[a-z][a-zA-Z0-9_]*$/
-
-  return text => INDIVIDUAL_VARIABLE_REGEX.test(text)
-})()
 
 const isValidIndividualVariable = sym => Sym.getCategory(sym) === Category.TT && sym.arity === 0

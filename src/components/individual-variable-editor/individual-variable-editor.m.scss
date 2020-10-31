@@ -2,25 +2,23 @@
 
 .root {
   display: flex;
-  flex-direction: row;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: stretch;
 
-  @include space-between-h(8px);
+  @include space-between-v(5px);
 
-  .formGroup {
-    flex-grow: 1;
-    margin-bottom: 0;
+  .inputWithButtons {
+    display: flex;
+    align-items: flex-start;
 
-    &:not(.hasHelperText) {
-      margin-bottom: 20px;
-    }
+    @include space-between-h(8px);
 
     input {
-      width: 100%;
+      width: 38px;
     }
   }
 
-  .buttonGroup {
-    margin-bottom: 20px;
+  small {
+    color: $pt-intent-danger;
   }
 }

@@ -2,16 +2,26 @@
 
 .root {
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
 
-  @include space-between-h(12px);
+  @include space-between-v(5px);
 
-  .term {
-    cursor: pointer;
-    font-family: $font-family-mono;
-    color: $term-color;
+  .terms {
+    display: flex;
 
-    &.selected {
-      background: $pt-text-selection-color;
+    @include space-between-h(12px);
+
+    .term {
+      cursor: pointer;
+      font-family: $font-family-mono;
+      color: $term-color;
+
+      &.selected {
+        background: $pt-text-selection-color;
+      }
     }
   }
+
+
 }

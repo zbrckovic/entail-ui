@@ -25,10 +25,13 @@ export const RulePicker = ({
             const { translation, abbreviation } = ruleDescriber(rule)
             const selected = selectedRule === rule
 
+            const isActive = rule === selectedRule
+
             return (
               <Button
                 key={rule}
                 active={rule === selectedRule}
+                disabled={selectedRule !== undefined && !isActive}
                 title={translation}
                 onClick={() => {
                   if (selected) {

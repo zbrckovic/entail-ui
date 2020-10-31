@@ -18,6 +18,7 @@ export const UniversalInstantiation = ({
   return (
     <IndividualVariableEditor
       className={classnames(style.root, className)}
+      label={t('label.enterTheInstanceVariable')}
       onSubmit={({ sym, symCtx }) => {
         let deductionInterface
         try {
@@ -25,7 +26,7 @@ export const UniversalInstantiation = ({
         } catch (error) {
           switch (error.name) {
             case ErrorName.INSTANCE_TERM_BECOMES_ILLEGALLY_BOUND:
-              onError(t('message.instanceTermBecomesIllegallyBound'))
+              onError(t('message.introducedInstanceVariableBecomesIllegallyBound'))
               return
             default:
               throw error

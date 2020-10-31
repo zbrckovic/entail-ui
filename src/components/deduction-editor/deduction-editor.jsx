@@ -1,3 +1,5 @@
+import { Button, Card, Intent } from '@blueprintjs/core'
+import { IconNames } from '@blueprintjs/icons'
 import {
   Deduction,
   ErrorName,
@@ -6,21 +8,19 @@ import {
   Rule,
   startDeduction
 } from '@zbrckovic/entail-core'
+import classnames from 'classnames'
 import { DeductionSteps } from 'components/deduction-steps'
 import { RootCtx, SymCtx } from 'contexts'
+import { useRuleDescriber } from 'hooks'
+import _ from 'lodash'
+import { deleteExtraSymsFromSymCtx } from 'misc/sym-ctx-util'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RulePicker } from './rule-picker'
-import classnames from 'classnames'
-import style from './deduction-editor.m.scss'
-import { Button, Card, Intent } from '@blueprintjs/core'
-import { IconNames } from '@blueprintjs/icons'
 import { toaster } from 'toaster'
-import { useRuleDescriber } from 'hooks'
-import { deleteExtraSymsFromSymCtx } from 'misc/sym-ctx-util'
 import { DeleteDialog } from './deduction-editor-delete-dialog'
+import style from './deduction-editor.m.scss'
+import { RulePicker } from './rule-picker'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
-import _ from 'lodash'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
@@ -167,7 +167,7 @@ export const DeductionEditor = ({ className, ...props }) => {
           />
           <Button
             title={t('button.delete')}
-            disabled={state.selectedSteps.size === 0}
+            disabled={state.selectedRule !== undefined || state.selectedSteps.size === 0}
             intent={Intent.DANGER}
             icon={IconNames.TRASH}
             onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}

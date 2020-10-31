@@ -2,7 +2,9 @@
   "label": {
     "enterThePremise": "Enter the premise",
     "enterTheConsequent": "Enter the consequent",
-    "enterTheInstanceTerm": "Enter the instance term",
+    "chooseAFreeVariable": "Choose a free variable",
+    "enterTheQuantificationVariable": "Enter the quantification variable",
+    "enterTheInstanceVariable": "Enter the instance variable",
     "enterTheBoundTerm": "Enter the bound term",
     "rules": "Rules"
   },
@@ -11,11 +13,12 @@
   },
   "message": {
     "invalidTautologicalImplication": "Invalid tautological implication.",
-    "instanceTermBecomesIllegallyBound": "Instance term becomes illegally bound.",
-    "termAlreadyDependantInDependencyGraph": "Term already appears as dependant in dependency graph.",
-    "usageOfThisTermResultsInCyclicDependencies": "Usage of this term results in cyclic dependencies.",
-    "generalizedTermIllegallyBinds": "Generalized term illegally binds.",
-    "generalizedTermBecomesIllegallyBound": "Generalized term becomes illegally bound.",
+    "instanceVariableBecomesIllegallyBound": "Instance variable becomes illegally bound.",
+    "instanceVariableAlreadyDependantInDependencyGraph": "Instance variable already appears as dependant in dependency graph.",
+    "usageOfThisInstanceVariableResultsInCyclicDependencies": "Usage of this instance variable results in cyclic dependencies.",
+    "introducedQuantificatorIllegallyBinds": "Introduced quantificator illegally binds.",
+    "introducedBoundVariableBecomesIllegallyBound": "Introduced bound variable becomes illegally bound.",
+    "introducedInstanceVariableBecomesIllegallyBound": "Introduced instance variable becomes illegally bound.",
     "ruleCantBeAppliedToSelectedPremises": "Rule \"{{rule}}\" can't be applied to selected steps."
   },
   "deleteDialog": {

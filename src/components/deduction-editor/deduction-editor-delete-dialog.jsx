@@ -1,13 +1,24 @@
+import classnames from 'classnames'
+import { RootCtx } from 'contexts'
 import { useTranslation } from 'react-i18next'
 import { Button, Classes, Dialog, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import React from 'react'
+import React, { useContext } from 'react'
 
-export const DeleteDialog = ({ isOpen, onConfirm, onCancel, selectedSteps }) => {
+export const DeleteDialog = ({
+  isOpen,
+  onConfirm,
+  onCancel,
+  selectedSteps,
+  className,
+  ...props
+}) => {
+  const { theme: { isDark } } = useContext(RootCtx)
   const { t } = useTranslation('DeductionEditor')
 
   return (
     <Dialog
+      className={classnames({ [Classes.DARK]: isDark }, className)} {...props}
       title={t('deleteDialog.title')}
       icon={IconNames.WARNING_SIGN}
       isOpen={isOpen}

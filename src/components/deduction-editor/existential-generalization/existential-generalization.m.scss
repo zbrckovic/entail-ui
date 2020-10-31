@@ -1,3 +1,5 @@
+@import "style/definitions";
+
 .root {
-  flex-grow: 1;
+  @include space-between-v(8px);
 }

@@ -23,15 +23,16 @@ export const ExistentialGeneralization = ({
   useEffect(() => { setOldTerm(undefined) }, [terms])
 
   return (
-    <div>
-      <TermPicker
-        terms={terms}
-        selectedTerm={oldTerm}
-        onSelectTerm={term => { setOldTerm(oldTerm?.id === term.id ? undefined : term) }}
-      />
+    <div className={classnames(style.root, className)}>
+      {terms.length > 0 && (
+        <TermPicker
+          terms={terms}
+          selectedTerm={oldTerm}
+          onSelectTerm={term => { setOldTerm(oldTerm?.id === term.id ? undefined : term) }}
+        />
+      )}
       <IndividualVariableEditor
-        className={classnames(style.root, className)}
-        label={t('label.enterTheInstanceTerm')}
+        label={t('label.enterTheQuantificationVariable')}
         onSubmit={({ sym, symCtx }) => {
           let deductionInterface
           try {
@@ -39,10 +40,10 @@ export const ExistentialGeneralization = ({
           } catch (error) {
             switch (error.name) {
               case ErrorName.GENERALIZED_TERM_ILLEGALLY_BINDS:
-                onError(t('message.generalizedTermIllegallyBinds'))
+                onError(t('message.introducedQuantificatorIllegallyBinds'))
                 return
               case ErrorName.GENERALIZED_TERM_BECOMES_ILLEGALLY_BOUND:
-                onError(t('message.generalizedTermBecomesIllegallyBound'))
+                onError(t('message.introducedBoundVariableBecomesIllegallyBound'))
                 return
               default:
                 throw error
