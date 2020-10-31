@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { TermPicker } from './term-picker'
-import { SymCtx } from '../../../contexts'
+import { SymCtx } from 'contexts'
 import {
   primitivePresentations,
   primitiveSyms,

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { SymCtx } from '../../../contexts'
+import { SymCtx } from 'contexts'
 import { SymPresentation } from '@zbrckovic/entail-core'
 import style from './term-picker.m.scss'
 import classNames from 'classnames'

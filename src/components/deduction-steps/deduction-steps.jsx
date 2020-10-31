@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import style from './deduction-steps.m.scss'
 import { Tooltip } from '@blueprintjs/core'
 import classnames from 'classnames'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
 
 export const DeductionSteps = ({
   steps,

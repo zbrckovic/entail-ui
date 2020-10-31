@@ -1,7 +1,7 @@
 import React, { Fragment, useContext, useMemo } from 'react'
 import style from './step-assumptions.m.scss'
 import classnames from 'classnames'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
 
 export const StepAssumptions = ({ assumptions, className, ...props }) => {
   const { theme: { isDark } } = useContext(RootCtx)

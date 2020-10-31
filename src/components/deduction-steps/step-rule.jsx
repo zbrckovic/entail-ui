@@ -1,4 +1,4 @@
-import { useRuleDescriber } from '../../hooks'
+import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import classnames from 'classnames'
 
