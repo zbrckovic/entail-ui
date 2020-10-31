@@ -1,21 +1,38 @@
 @import "style/definitions";
 
+@mixin aside($background-color, $border-color) {
+  display: flex;
+  background: $background-color;
+  flex-direction: column;
+  align-items: stretch;
+
+  border-left: 1px solid $border-color;
+  padding: 8px;
+
+  @include space-between-v(4px);
+}
+
 .root {
+  &:not(.dark) {
+    background-color: $pt-code-background-color;
+
+    .aside {
+      @include aside($surface-color, $surface-border-color)
+    }
+  }
+
+  &.dark {
+    background-color: $pt-dark-code-background-color;
+
+    .aside {
+      @include aside($dark-surface-color, $dark-surface-border-color)
+    }
+  }
+
   display: flex;
 
   .main {
     flex-grow: 1;
-  }
-
-  .aside {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-
-    border-left: 1px solid $light-gray3;
-    padding: 8px;
-
-    @include space-between-v(4px);
   }
 
   .ruleUIContainer {

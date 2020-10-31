@@ -8,7 +8,7 @@
   .term {
     cursor: pointer;
     font-family: $font-family-mono;
-    color: $color-term;
+    color: $term-color;
 
     &.selected {
       background: $pt-text-selection-color;

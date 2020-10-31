@@ -7,7 +7,7 @@ import {
   startDeduction
 } from '@zbrckovic/entail-core'
 import { DeductionSteps } from 'components/deduction-steps'
-import { SymCtx } from 'contexts'
+import { RootCtx, SymCtx } from 'contexts'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RulePicker } from './rule-picker'
@@ -28,6 +28,7 @@ export const DeductionEditor = ({ className, ...props }) => {
   const ruleDescriber = useRuleDescriber()
 
   const initialSymCtx = useContext(SymCtx)
+  const { theme: { isDark } } = useContext(RootCtx)
 
   const [state, setState] = useState(() => ({
     symCtx: initialSymCtx,
@@ -119,7 +120,7 @@ export const DeductionEditor = ({ className, ...props }) => {
 
   return (
     <SymCtx.Provider value={state.symCtx}>
-      <div className={classnames(style.root, className)} {...props}>
+      <div className={classnames(style.root, { [style.dark]: isDark }, className)} {...props}>
         <main className={style.main}>
           <DeductionSteps
             steps={state.deductionInterface.deduction.steps}

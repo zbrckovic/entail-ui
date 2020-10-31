@@ -6,13 +6,26 @@
 }
 
 .expressionText {
-  &.formula {
-    color: $color-formula;
+  &.dark {
+    &.formula {
+      color: $dark-formula-color;
+    }
+
+    &.term {
+      color: $dark-term-color;
+    }
   }
 
-  &.term {
-    color: $color-term;
+  &:not(.dark) {
+    &.formula {
+      color: $formula-color;
+    }
+
+    &.term {
+      color: $term-color;
+    }
   }
+
 
   &.isSelected {
     background: $pt-text-selection-color;

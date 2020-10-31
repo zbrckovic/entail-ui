@@ -1,12 +1,24 @@
 @import "style/definitions";
 
+@mixin header($background-color, $border-color, $step-number-background-color) {
+  background: $background-color;
+
+  .header {
+    border-bottom: 1px solid $border-color;
+  }
+
+  .stepNumber {
+    background: $step-number-background-color;
+  }
+}
+
 .root {
   &:not(.dark) {
-    background: $pt-code-background-color;
+    @include header($pt-code-background-color, $surface-border-color, $surface-color);
   }
 
   &.dark {
-    background: $pt-dark-code-background-color;
+    @include header($pt-dark-code-background-color, $dark-surface-border-color, $dark-surface-color);
   }
 
   display: grid;
@@ -16,21 +28,9 @@
     padding-top: 4px;
     @include padding-h(4px);
 
-    &.header {
-      border-bottom: 1px solid $light-gray3;
-    }
-
     &.stepNumber {
       &.hasSelection {
         cursor: pointer;
-      }
-
-      &:not(.dark) {
-        background: $light-gray4;
-      }
-
-      &.dark {
-        background: $dark-gray4;
       }
 
       &.selected {

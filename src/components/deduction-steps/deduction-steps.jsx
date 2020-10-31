@@ -29,20 +29,11 @@ export const DeductionSteps = ({
 
   return (
     <div
-      className={classnames(
-        style.root,
-        { [style.dark]: isDark },
-        className
-      )}
+      className={classnames(style.root, { [style.dark]: isDark }, className)}
       {...props}
     >
       <div
-        className={classnames(
-          style.cell,
-          style.header,
-          style.stepNumber,
-          { [style.dark]: isDark }
-        )}
+        className={classnames(style.cell, style.header, style.stepNumber)}
       >
         <Tooltip content={t('label.stepNumber')}>
           <strong>{t('label.stepNumberAbbreviated')}</strong>
@@ -88,7 +79,6 @@ export const DeductionSteps = ({
                   style.cell,
                   style.stepNumber,
                   {
-                    [style.dark]: isDark,
                     [style.selected]: isSelected,
                     [style.hasSelection]: hasRowSelection
                   })

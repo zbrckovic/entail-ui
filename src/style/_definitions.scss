@@ -3,8 +3,17 @@
 $font-family-mono: SourceCodePro;
 $font-family: SourceSansPro;
 
-$color-formula: $pt-intent-primary;
-$color-term: $indigo4;
+$formula-color: $pt-text-color;
+$term-color: $pt-text-color-muted;
+
+$dark-formula-color: $pt-dark-text-color;
+$dark-term-color: $pt-dark-text-color-muted;
+
+$surface-color: $light-gray3;
+$dark-surface-color: $dark-gray3;
+
+$surface-border-color: $light-gray1;
+$dark-surface-border-color: $dark-gray5;
 
 @mixin padding-h($space) {
   padding-left: $space;
@@ -17,13 +26,13 @@ $color-term: $indigo4;
 }
 
 @mixin space-between-h($space) {
-  &>*:not(:first-child) {
+  & > *:not(:first-child) {
     margin-left: $space;
   }
 }
 
 @mixin space-between-v($space) {
-  &>*:not(:first-child) {
+  & > *:not(:first-child) {
     margin-top: $space;
   }
 }

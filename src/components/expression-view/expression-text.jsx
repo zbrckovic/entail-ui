@@ -1,12 +1,16 @@
 import classnames from 'classnames'
+import { RootCtx } from 'contexts'
 import style from './expression-view.m.scss'
 import { Kind } from '@zbrckovic/entail-core'
-import React from 'react'
+import React, { useContext } from 'react'
 
-export const ExpressionText = ({ text, kind, color, onClick, isSelected, className, ...props }) =>
-  <span
+export const ExpressionText = ({ text, kind, color, onClick, isSelected, className, ...props }) => {
+  const { theme: { isDark } } = useContext(RootCtx)
+
+  return <span
     className={classnames(
       style.expressionText,
+      { [style.dark]: isDark },
       kindToClass[kind],
       { [style.isSelected]: isSelected },
       className
@@ -19,6 +23,7 @@ export const ExpressionText = ({ text, kind, color, onClick, isSelected, classNa
   >
     {text ?? <wbr />}
   </span>
+}
 
 const kindToClass = {
   [Kind.Formula]: style.formula,
