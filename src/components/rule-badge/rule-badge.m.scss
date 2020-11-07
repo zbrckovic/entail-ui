@@ -1,0 +1,26 @@
+@import "style/definitions";
+
+.root {
+  font-family: $font-family-mono;
+
+  sup {
+    border-radius: 50%;
+    font-weight: bold;
+
+    &.superscriptGreen {
+      color: $pt-intent-success;
+    }
+
+    &.superscriptRed {
+      color: $pt-intent-danger;
+    }
+  }
+
+  &.premise {
+    color: $pt-intent-primary;
+  }
+
+  &.mainGreen {
+    color: $pt-intent-success;
+  }
+}

@@ -1,13 +1,12 @@
 import { StepAssumptions } from 'components/deduction-steps/step-assumptions'
 import { StepPremises } from 'components/deduction-steps/step-premises'
-import { StepRule } from 'components/deduction-steps/step-rule'
 import { ExpressionView } from 'components/expression-view/expression-view'
 import React, { Fragment, useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './deduction-steps.m.scss'
-import { Tooltip } from '@blueprintjs/core'
 import classnames from 'classnames'
 import { RootCtx } from 'contexts'
+import { RuleBadge } from '../rule-badge'
 
 export const DeductionSteps = ({
   steps,
@@ -35,29 +34,19 @@ export const DeductionSteps = ({
       <div
         className={classnames(style.cell, style.header, style.stepNumber)}
       >
-        <Tooltip content={t('label.stepNumber')}>
-          <strong>{t('label.stepNumberAbbreviated')}</strong>
-        </Tooltip>
+        <strong title={t('label.stepNumber')}>{t('label.stepNumberAbbreviated')}</strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <Tooltip content={t('label.assumptions')}>
-          <strong>{t('label.assumptionsAbbreviated')}</strong>
-        </Tooltip>
+        <strong title={t('label.assumptions')}>{t('label.assumptionsAbbreviated')}</strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <Tooltip content={t('label.formula')}>
-          <strong>{t('label.formulaAbbreviated')}</strong>
-        </Tooltip>
+        <strong title={t('label.formula')}>{t('label.formulaAbbreviated')}</strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <Tooltip content={t('label.rule')}>
-          <strong>{t('label.ruleAbbreviated')}</strong>
-        </Tooltip>
+        <strong title={t('label.rule')}>{t('label.ruleAbbreviated')}</strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <Tooltip content={t('label.premises')}>
-          <strong>{t('label.premisesAbbreviated')}</strong>
-        </Tooltip>
+        <strong title={t('label.premises')}>{t('label.premisesAbbreviated')}</strong>
       </div>
       {
         steps.map((step, i) => {
@@ -120,7 +109,7 @@ export const DeductionSteps = ({
                 />
               </div>
               <div className={style.cell}>
-                <StepRule rule={step.ruleApplicationSummary.rule} />
+                <RuleBadge rule={step.ruleApplicationSummary.rule} />
               </div>
               <div className={style.cell}>
                 <StepPremises premises={step.ruleApplicationSummary.premises} />

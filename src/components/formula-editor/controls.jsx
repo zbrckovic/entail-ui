@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import {
+  biconditional,
+  conditional,
   conjunction,
   disjunction,
-  equivalence,
   existentialQuantifier,
-  implication,
   negation,
   primitivePresentations,
   SymPresentation,
@@ -82,10 +82,10 @@ const usePrimitiveSymsTranslation = () => {
         return t('conjunction')
       case disjunction.id:
         return t('disjunction')
-      case implication.id:
-        return t('implication')
-      case equivalence.id:
-        return t('equivalence')
+      case conditional.id:
+        return t('conditional')
+      case biconditional.id:
+        return t('biconditional')
       case universalQuantifier.id:
         return t('universalQuantifier')
       case existentialQuantifier.id:
@@ -98,8 +98,8 @@ const primitiveSyms = [
   negation,
   conjunction,
   disjunction,
-  implication,
-  equivalence,
+  conditional,
+  biconditional,
   universalQuantifier,
   existentialQuantifier
 ]

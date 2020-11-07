@@ -108,6 +108,56 @@ export const useRuleDescriber = () => {
           translation: t('existentialGeneralization'),
           abbreviation: t('existentialGeneralizationAbbreviated')
         }
+      case Rule.ConditionalElimination:
+        return {
+          translation: t('conditionalElimination'),
+          abbreviation: t('conditionalEliminationAbbreviated')
+        }
+      case Rule.NegationIntroduction:
+        return {
+          translation: t('negationIntroduction'),
+          abbreviation: t('negationIntroductionAbbreviated')
+        }
+      case Rule.WeakNegationElimination:
+        return {
+          translation: t('weakNegationElimination'),
+          abbreviation: t('weakNegationEliminationAbbreviated')
+        }
+      case Rule.DoubleNegationElimination:
+        return {
+          translation: t('doubleNegationElimination'),
+          abbreviation: t('doubleNegationEliminationAbbreviated')
+        }
+      case Rule.ConjunctionIntroduction:
+        return {
+          translation: t('conjunctionIntroduction'),
+          abbreviation: t('conjunctionIntroductionAbbreviated')
+        }
+      case Rule.ConjunctionElimination:
+        return {
+          translation: t('conjunctionElimination'),
+          abbreviation: t('conjunctionEliminationAbbreviated')
+        }
+      case Rule.DisjunctionIntroduction:
+        return {
+          translation: t('disjunctionIntroduction'),
+          abbreviation: t('disjunctionIntroductionAbbreviated')
+        }
+      case Rule.DisjunctionElimination:
+        return {
+          translation: t('disjunctionElimination'),
+          abbreviation: t('disjunctionEliminationAbbreviated')
+        }
+      case Rule.BiconditionalIntroduction:
+        return {
+          translation: t('biconditionalIntroduction'),
+          abbreviation: t('biconditionalIntroductionAbbreviated')
+        }
+      case Rule.BiconditionalElimination:
+        return {
+          translation: t('biconditionalElimination'),
+          abbreviation: t('biconditionalEliminationAbbreviated')
+        }
     }
   }, [t])
 }

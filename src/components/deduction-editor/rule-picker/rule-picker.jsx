@@ -1,10 +1,10 @@
 import { Rule } from '@zbrckovic/entail-core'
-import { useRuleDescriber } from 'hooks'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './rule-picker.m.scss'
 import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
+import { RuleBadge } from '../../rule-badge'
 
 export const RulePicker = ({
   selectedRule,
@@ -13,7 +13,6 @@ export const RulePicker = ({
   className,
   ...props
 }) => {
-  const ruleDescriber = useRuleDescriber()
   const { t } = useTranslation('DeductionEditor')
 
   return (
@@ -22,7 +21,6 @@ export const RulePicker = ({
       <div className={style.buttons}>
         {
           allRules.map(rule => {
-            const { translation, abbreviation } = ruleDescriber(rule)
             const selected = selectedRule === rule
 
             const isActive = rule === selectedRule
@@ -32,7 +30,6 @@ export const RulePicker = ({
                 key={rule}
                 active={rule === selectedRule}
                 disabled={selectedRule !== undefined && !isActive}
-                title={translation}
                 onClick={() => {
                   if (selected) {
                     onRuleDeselect()
@@ -40,7 +37,7 @@ export const RulePicker = ({
                     onRuleSelect(rule)
                   }
                 }}>
-                {abbreviation}
+                <RuleBadge rule={rule}/>
               </Button>
             )
           })
@@ -52,9 +49,19 @@ export const RulePicker = ({
 
 const allRules = [
   Rule.Premise,
-  Rule.TautologicalImplication,
-  Rule.Deduction,
   Rule.Theorem,
+  Rule.Deduction,
+  Rule.ConditionalElimination,
+  Rule.ConjunctionIntroduction,
+  Rule.ConjunctionElimination,
+  Rule.DisjunctionIntroduction,
+  Rule.DisjunctionElimination,
+  Rule.BiconditionalIntroduction,
+  Rule.BiconditionalElimination,
+  Rule.NegationIntroduction,
+  Rule.WeakNegationElimination,
+  Rule.DoubleNegationElimination,
+  Rule.TautologicalImplication,
   Rule.UniversalInstantiation,
   Rule.UniversalGeneralization,
   Rule.ExistentialInstantiation,
