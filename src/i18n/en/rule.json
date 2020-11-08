@@ -1,55 +1,20 @@
 {
   "premise": "Premise",
-  "premiseAbbreviated": "P",
-
-  "tautologicalImplication": "Tautological implication",
-  "tautologicalImplicationAbbreviated": "TI",
-
-  "deduction": "Deduction",
-  "deductionAbbreviated": "D",
-
-  "conditionalElimination": "Conditional Elimination",
-  "conditionalEliminationAbbreviated": "IF-",
-
   "theorem": "Theorem",
-  "theoremAbbreviated": "T",
-
-  "universalInstantiation": "Universal Instantiation",
-  "universalInstantiationAbbreviated": "UI",
-
-  "universalGeneralization": "Universal Generalization",
-  "universalGeneralizationAbbreviated": "UG",
-
-  "existentialInstantiation": "Existential Instantiation",
-  "existentialInstantiationAbbreviated": "EI",
-
-  "existentialGeneralization": "Existential Generalization",
-  "existentialGeneralizationAbbreviated": "EG",
-
-  "conjunctionIntroduction": "Conjunction Introduction",
-  "conjunctionIntroductionAbbreviated": "AND+",
-
-  "conjunctionElimination": "Conjunction Elimination",
-  "conjunctionEliminationAbbreviated": "AND-",
-
-  "disjunctionIntroduction": "Disjunction Introduction",
-  "disjunctionIntroductionAbbreviated": "OR+",
-
-  "disjunctionElimination": "Disjunction Elimination",
-  "disjunctionEliminationAbbreviated": "OR-",
-
-  "biconditionalIntroduction": "Biconditional Introduction",
-  "biconditionalIntroductionAbbreviated": "IFF+",
-
-  "biconditionalElimination": "Biconditional Elimination",
-  "biconditionalEliminationAbbreviated": "IFF-",
-
+  "tautologicalImplication": "Tautological implication",
   "negationIntroduction": "Negation Introduction",
-  "negationIntroductionAbbreviated": "N+",
-
-  "weakNegationElimination": "Weak Negation Elimination",
-  "weakNegationEliminationAbbreviated": "N-",
-
-  "doubleNegationElimination": "Double Negation Elimination",
-  "doubleNegationEliminationAbbreviated": "NN-"
+  "negationElimination": "Negation Elimination",
+  "conditionalIntroduction": "Conditional Introduction",
+  "conditionalElimination": "Conditional Elimination",
+  "conjunctionIntroduction": "Conjunction Introduction",
+  "conjunctionElimination": "Conjunction Elimination",
+  "disjunctionIntroduction": "Disjunction Introduction",
+  "disjunctionElimination": "Disjunction Elimination",
+  "biconditionalIntroduction": "Biconditional Introduction",
+  "biconditionalElimination": "Biconditional Elimination",
+  "explosion": "Explosion",
+  "universalInstantiation": "Universal Instantiation",
+  "universalGeneralization": "Universal Generalization",
+  "existentialInstantiation": "Existential Instantiation",
+  "existentialGeneralization": "Existential Generalization"
 }

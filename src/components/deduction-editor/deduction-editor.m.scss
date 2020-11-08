@@ -9,7 +9,7 @@
   border-left: 1px solid $border-color;
   padding: 8px;
 
-  @include space-between-v(4px);
+  @include space-between-v(8px)
 }
 
 .root {

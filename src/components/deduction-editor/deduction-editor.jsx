@@ -46,17 +46,28 @@ export const DeductionEditor = ({ className, ...props }) => {
       selectedRule: { rule, ruleInterface }
     } = state
 
+    const rulesWhichCanBeHandledImmediately = new Set([
+      Rule.ConditionalIntroduction,
+      Rule.ConditionalElimination,
+      Rule.ConjunctionIntroduction,
+      Rule.NegationElimination
+    ])
+
+    if (rulesWhichCanBeHandledImmediately.has(rule)) {
+      const newDeductionInterface = ruleInterface.apply()
+
+      setState({
+        ...state,
+        deductionInterface: newDeductionInterface,
+        selectedSteps: new Set(),
+        selectedRule: undefined
+      })
+
+      return
+    }
+
+    // rules which can be handled immediately
     switch (rule) {
-      case Rule.Deduction: {
-        const newDeductionInterface = ruleInterface.apply()
-        setState({
-          ...state,
-          deductionInterface: newDeductionInterface,
-          selectedSteps: new Set(),
-          selectedRule: undefined
-        })
-        break
-      }
       case Rule.UniversalInstantiation: {
         const [stepOrdinal] = [...selectedSteps]
 
@@ -155,7 +166,7 @@ export const DeductionEditor = ({ className, ...props }) => {
                 if (error.name === ErrorName.RULE_NOT_ALLOWED) {
                   onError(t(
                     'message.ruleCantBeAppliedToSelectedPremises',
-                    { rule: ruleDescriber(rule).translation }
+                    { rule: ruleDescriber(rule) }
                   ))
                   setState({ ...state, selectedRule: undefined })
                 } else {

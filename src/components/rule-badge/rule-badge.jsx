@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react'
-import { Rule } from '@zbrckovic/entail-core'
+import React from 'react'
+import { Rule, getAbbreviation } from '@zbrckovic/entail-core'
 import style from './rule-badge.m.scss'
 import classnames from 'classnames'
 import { useRuleDescriber } from '../../hooks'
@@ -9,12 +9,6 @@ export const RuleBadge = ({ rule, className, ...props }) => {
 
   const describeRule = useRuleDescriber()
 
-  const title = useMemo(() => {
-    const { translation, abbreviation } = describeRule(rule)
-
-    return `${translation} ${abbreviation}`
-  }, [rule, describeRule])
-
   return (
     <div className={classnames(
       style.root,
@@ -22,7 +16,7 @@ export const RuleBadge = ({ rule, className, ...props }) => {
       { [style.premise]: rule === Rule.Premise },
       { [style.mainGreen]: rule === Rule.Theorem || rule === Rule.TautologicalImplication }
     )} {...props}>
-      <span title={title}>{main}</span>
+      <span title={`${describeRule(rule)} ${getAbbreviation(rule)}`}>{main}</span>
       {superscript && (
         <sup
           className={classnames({
@@ -37,73 +31,22 @@ export const RuleBadge = ({ rule, className, ...props }) => {
 }
 
 const ruleSignatures = {
-  [Rule.Premise]: {
-    main: 'P'
-  },
-  [Rule.Theorem]: {
-    main: 'T'
-  },
-  [Rule.TautologicalImplication]: {
-    main: 'TI'
-  },
-  [Rule.UniversalGeneralization]: {
-    main: '∀',
-    superscript: '+'
-  },
-  [Rule.UniversalInstantiation]: {
-    main: '∀',
-    superscript: '-'
-  },
-  [Rule.ExistentialGeneralization]: {
-    main: '∃',
-    superscript: '+'
-  },
-  [Rule.ExistentialInstantiation]: {
-    main: '∃',
-    superscript: '-'
-  },
-  [Rule.Deduction]: {
-    main: '→',
-    superscript: '+'
-  },
-  [Rule.ConditionalElimination]: {
-    main: '→',
-    superscript: '-'
-  },
-  [Rule.NegationIntroduction]: {
-    main: '¬',
-    superscript: '+'
-  },
-  [Rule.WeakNegationElimination]: {
-    main: '¬',
-    superscript: '-'
-  },
-  [Rule.DoubleNegationElimination]: {
-    main: '¬¬',
-    superscript: '-'
-  },
-  [Rule.ConjunctionIntroduction]: {
-    main: '∧',
-    superscript: '+'
-  },
-  [Rule.ConjunctionElimination]: {
-    main: '∧',
-    superscript: '-'
-  },
-  [Rule.DisjunctionIntroduction]: {
-    main: '∨',
-    superscript: '+'
-  },
-  [Rule.DisjunctionElimination]: {
-    main: '∨',
-    superscript: '-'
-  },
-  [Rule.BiconditionalIntroduction]: {
-    main: '↔',
-    superscript: '+'
-  },
-  [Rule.BiconditionalElimination]: {
-    main: '↔',
-    superscript: '-'
-  }
+  [Rule.Premise]: { main: 'P' },
+  [Rule.Theorem]: { main: 'T' },
+  [Rule.TautologicalImplication]: { main: 'TI' },
+  [Rule.ConditionalIntroduction]: { main: '→', superscript: '+' },
+  [Rule.ConditionalElimination]: { main: '→', superscript: '-' },
+  [Rule.NegationIntroduction]: { main: '¬', superscript: '+' },
+  [Rule.NegationElimination]: { main: '¬', superscript: '-' },
+  [Rule.ConjunctionIntroduction]: { main: '∧', superscript: '+' },
+  [Rule.ConjunctionElimination]: { main: '∧', superscript: '-' },
+  [Rule.DisjunctionIntroduction]: { main: '∨', superscript: '+' },
+  [Rule.DisjunctionElimination]: { main: '∨', superscript: '-' },
+  [Rule.BiconditionalIntroduction]: { main: '↔', superscript: '+' },
+  [Rule.BiconditionalElimination]: { main: '↔', superscript: '-' },
+  [Rule.Explosion]: { main: 'X' },
+  [Rule.UniversalGeneralization]: { main: '∀', superscript: '+' },
+  [Rule.UniversalInstantiation]: { main: '∀', superscript: '-' },
+  [Rule.ExistentialGeneralization]: { main: '∃', superscript: '+' },
+  [Rule.ExistentialInstantiation]: { main: '∃', superscript: '-' }
 }

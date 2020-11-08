@@ -20,50 +20,100 @@ export const RulePicker = ({
       <Label>{t('label.rules')}</Label>
       <div className={style.buttons}>
         {
-          allRules.map(rule => {
-            const selected = selectedRule === rule
-
-            const isActive = rule === selectedRule
-
-            return (
-              <Button
-                key={rule}
-                active={rule === selectedRule}
-                disabled={selectedRule !== undefined && !isActive}
-                onClick={() => {
-                  if (selected) {
-                    onRuleDeselect()
-                  } else {
-                    onRuleSelect(rule)
-                  }
-                }}>
-                <RuleBadge rule={rule}/>
-              </Button>
-            )
-          })
+          [Rule.Premise, Rule.Theorem].map(rule => (
+            <RuleButton
+              key={rule}
+              rule={rule}
+              selectedRule={selectedRule}
+              onRuleSelect={onRuleSelect}
+              onRuleDeselect={onRuleDeselect}
+            />
+          ))
+        }
+        <RuleButton
+          className={style.fullWidth}
+          key={Rule.TautologicalImplication}
+          rule={Rule.TautologicalImplication}
+          selectedRule={selectedRule}
+          onRuleSelect={onRuleSelect}
+          onRuleDeselect={onRuleDeselect}
+        />
+      </div>
+      <hr/>
+      <div className={style.buttons}>
+        {
+          [
+            Rule.NegationIntroduction,
+            Rule.NegationElimination,
+            Rule.ConditionalIntroduction,
+            Rule.ConditionalElimination,
+            Rule.ConjunctionIntroduction,
+            Rule.ConjunctionElimination,
+            Rule.DisjunctionIntroduction,
+            Rule.DisjunctionElimination,
+            Rule.BiconditionalIntroduction,
+            Rule.BiconditionalElimination
+          ].map(rule => (
+            <RuleButton
+              key={rule}
+              rule={rule}
+              selectedRule={selectedRule}
+              onRuleSelect={onRuleSelect}
+              onRuleDeselect={onRuleDeselect}
+            />
+          ))
+        }
+        <RuleButton
+          className={style.fullWidth}
+          key={Rule.Explosion}
+          rule={Rule.Explosion}
+          selectedRule={selectedRule}
+          onRuleSelect={onRuleSelect}
+          onRuleDeselect={onRuleDeselect}
+        />
+      </div>
+      <hr/>
+      <div className={style.buttons}>
+        {
+          [
+            Rule.UniversalInstantiation,
+            Rule.UniversalGeneralization,
+            Rule.ExistentialInstantiation,
+            Rule.ExistentialGeneralization
+          ].map(rule => (
+            <RuleButton
+              key={rule}
+              rule={rule}
+              selectedRule={selectedRule}
+              onRuleSelect={onRuleSelect}
+              onRuleDeselect={onRuleDeselect}
+            />
+          ))
         }
       </div>
     </div>
   )
 }
 
-const allRules = [
-  Rule.Premise,
-  Rule.Theorem,
-  Rule.Deduction,
-  Rule.ConditionalElimination,
-  Rule.ConjunctionIntroduction,
-  Rule.ConjunctionElimination,
-  Rule.DisjunctionIntroduction,
-  Rule.DisjunctionElimination,
-  Rule.BiconditionalIntroduction,
-  Rule.BiconditionalElimination,
-  Rule.NegationIntroduction,
-  Rule.WeakNegationElimination,
-  Rule.DoubleNegationElimination,
-  Rule.TautologicalImplication,
-  Rule.UniversalInstantiation,
-  Rule.UniversalGeneralization,
-  Rule.ExistentialInstantiation,
-  Rule.ExistentialGeneralization
-]
+const RuleButton = ({ rule, selectedRule, onRuleSelect, onRuleDeselect, className }) => {
+  const selected = selectedRule === rule
+
+  const isActive = rule === selectedRule
+
+  return (
+    <Button
+      className={className}
+      key={rule}
+      active={rule === selectedRule}
+      disabled={selectedRule !== undefined && !isActive}
+      onClick={() => {
+        if (selected) {
+          onRuleDeselect()
+        } else {
+          onRuleSelect(rule)
+        }
+      }}>
+      <RuleBadge rule={rule} />
+    </Button>
+  )
+}

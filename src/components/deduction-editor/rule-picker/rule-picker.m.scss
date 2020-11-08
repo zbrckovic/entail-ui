@@ -3,5 +3,9 @@
     display: grid;
     grid-template-columns: 42px 42px;
     grid-gap: 4px;
+
+    .fullWidth {
+      grid-column: 1 / span 2;
+    }
   }
 }

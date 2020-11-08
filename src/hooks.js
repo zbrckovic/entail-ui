@@ -1,5 +1,5 @@
 import { Rule, ErrorName, Placement, Kind } from '@zbrckovic/entail-core'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const useParserErrorDescriber = () => {
@@ -66,98 +66,25 @@ export const useParserErrorDescriber = () => {
 export const useRuleDescriber = () => {
   const { t } = useTranslation('Rule')
 
-  return useCallback(rule => {
-    switch (rule) {
-      case Rule.Premise:
-        return {
-          translation: t('premise'),
-          abbreviation: t('premiseAbbreviated')
-        }
-      case Rule.TautologicalImplication:
-        return {
-          translation: t('tautologicalImplication'),
-          abbreviation: t('tautologicalImplicationAbbreviated')
-        }
-      case Rule.Deduction:
-        return {
-          translation: t('deduction'),
-          abbreviation: t('deductionAbbreviated')
-        }
-      case Rule.Theorem:
-        return {
-          translation: t('theorem'),
-          abbreviation: t('theoremAbbreviated')
-        }
-      case Rule.UniversalInstantiation:
-        return {
-          translation: t('universalInstantiation'),
-          abbreviation: t('universalInstantiationAbbreviated')
-        }
-      case Rule.UniversalGeneralization:
-        return {
-          translation: t('universalGeneralization'),
-          abbreviation: t('universalGeneralizationAbbreviated')
-        }
-      case Rule.ExistentialInstantiation:
-        return {
-          translation: t('existentialInstantiation'),
-          abbreviation: t('existentialInstantiationAbbreviated')
-        }
-      case Rule.ExistentialGeneralization:
-        return {
-          translation: t('existentialGeneralization'),
-          abbreviation: t('existentialGeneralizationAbbreviated')
-        }
-      case Rule.ConditionalElimination:
-        return {
-          translation: t('conditionalElimination'),
-          abbreviation: t('conditionalEliminationAbbreviated')
-        }
-      case Rule.NegationIntroduction:
-        return {
-          translation: t('negationIntroduction'),
-          abbreviation: t('negationIntroductionAbbreviated')
-        }
-      case Rule.WeakNegationElimination:
-        return {
-          translation: t('weakNegationElimination'),
-          abbreviation: t('weakNegationEliminationAbbreviated')
-        }
-      case Rule.DoubleNegationElimination:
-        return {
-          translation: t('doubleNegationElimination'),
-          abbreviation: t('doubleNegationEliminationAbbreviated')
-        }
-      case Rule.ConjunctionIntroduction:
-        return {
-          translation: t('conjunctionIntroduction'),
-          abbreviation: t('conjunctionIntroductionAbbreviated')
-        }
-      case Rule.ConjunctionElimination:
-        return {
-          translation: t('conjunctionElimination'),
-          abbreviation: t('conjunctionEliminationAbbreviated')
-        }
-      case Rule.DisjunctionIntroduction:
-        return {
-          translation: t('disjunctionIntroduction'),
-          abbreviation: t('disjunctionIntroductionAbbreviated')
-        }
-      case Rule.DisjunctionElimination:
-        return {
-          translation: t('disjunctionElimination'),
-          abbreviation: t('disjunctionEliminationAbbreviated')
-        }
-      case Rule.BiconditionalIntroduction:
-        return {
-          translation: t('biconditionalIntroduction'),
-          abbreviation: t('biconditionalIntroductionAbbreviated')
-        }
-      case Rule.BiconditionalElimination:
-        return {
-          translation: t('biconditionalElimination'),
-          abbreviation: t('biconditionalEliminationAbbreviated')
-        }
-    }
-  }, [t])
+  const translations = useMemo(() => ({
+    [Rule.Premise]: t('premise'),
+    [Rule.Theorem]: t('theorem'),
+    [Rule.TautologicalImplication]: t('tautologicalImplication'),
+    [Rule.NegationIntroduction]: t('negationIntroduction'),
+    [Rule.NegationElimination]: t('negationElimination'),
+    [Rule.ConditionalIntroduction]: t('conditionalIntroduction'),
+    [Rule.ConditionalElimination]: t('conditionalElimination'),
+    [Rule.ConjunctionIntroduction]: t('conjunctionIntroduction'),
+    [Rule.ConjunctionElimination]: t('conjunctionElimination'),
+    [Rule.DisjunctionIntroduction]: t('disjunctionIntroduction'),
+    [Rule.DisjunctionElimination]: t('disjunctionElimination'),
+    [Rule.BiconditionalIntroduction]: t('biconditionalIntroduction'),
+    [Rule.BiconditionalElimination]: t('biconditionalElimination'),
+    [Rule.UniversalGeneralization]: t('universalGeneralization'),
+    [Rule.UniversalInstantiation]: t('universalInstantiation'),
+    [Rule.ExistentialGeneralization]: t('existentialGeneralization'),
+    [Rule.ExistentialInstantiation]: t('existentialInstantiation')
+  }), [t])
+
+  return rule => translations[rule]
 }
