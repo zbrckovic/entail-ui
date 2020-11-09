@@ -1,0 +1,8 @@
+@import "style/definitions";
+
+.root {
+  display: flex;
+  flex-direction: column;
+
+  @include space-between-v(8px)
+}

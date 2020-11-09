@@ -1,0 +1,19 @@
+@import "style/definitions";
+
+.root {
+  &.primary {
+    color: $pt-intent-primary;
+  }
+
+  &.success {
+    color: $pt-intent-success;
+  }
+
+  &.warning {
+    color: $pt-intent-warning;
+  }
+
+  &.danger {
+    color: $pt-intent-danger;
+  }
+}

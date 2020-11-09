@@ -1,0 +1,24 @@
+@import "style/definitions";
+
+.root {
+  display: flex;
+  flex-direction: column;
+
+  .status {
+    &.primary {
+      background: $pt-intent-primary;
+    }
+
+    &.success {
+      background: $pt-intent-success;
+    }
+
+    &.warning {
+      background: $pt-intent-warning;
+    }
+
+    &.danger {
+      background: $pt-intent-danger;
+    }
+  }
+}
