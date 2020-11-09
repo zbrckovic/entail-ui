@@ -12,6 +12,12 @@
   @include space-between-v(8px)
 }
 
+@mixin footer($background-color, $border-color) {
+  background: $background-color;
+  border-top: 1px solid $border-color;
+  padding: 8px;
+}
+
 .root {
   &:not(.dark) {
     background-color: $pt-code-background-color;
@@ -19,23 +25,40 @@
     .aside {
       @include aside($surface-color, $surface-border-color)
     }
+
+    .footer {
+      @include footer($surface-color, $surface-border-color)
+    }
   }
 
-  &.dark {
+  &.dark  {
     background-color: $pt-dark-code-background-color;
 
     .aside {
       @include aside($dark-surface-color, $dark-surface-border-color)
     }
+
+    .footer {
+      @include footer($dark-surface-color, $dark-surface-border-color)
+    }
   }
 
   display: flex;
+  flex-direction: column;
 
-  .main {
-    flex-grow: 1;
+  .middle {
+    display: flex;
+
+    .main {
+      flex-grow: 1;
+    }
+
+    .ruleUIContainer {
+      padding: 8px;
+    }
   }
 
-  .ruleUIContainer {
-    padding: 8px;
+  .footer {
+    background: red;
   }
 }

@@ -132,60 +132,65 @@ export const DeductionEditor = ({ className, ...props }) => {
   return (
     <SymCtx.Provider value={state.symCtx}>
       <div className={classnames(style.root, { [style.dark]: isDark }, className)} {...props}>
-        <main className={style.main}>
-          <DeductionSteps
-            steps={state.deductionInterface.deduction.steps}
-            selectedSteps={state.selectedSteps}
-            onSelectedStepsChange={newSelectedSteps => {
-              setState({
-                ...state,
-                selectedSteps: newSelectedSteps,
-                selectedRule: undefined
-              })
-            }}
-          />
-          {ruleUI && (
-            <div className={style.ruleUIContainer}>
-              <Card>
-                {ruleUI}
-              </Card>
-            </div>
-          )}
-        </main>
-        <div className={style.aside}>
-          <RulePicker
-            selectedRule={state.selectedRule?.rule}
-            onRuleSelect={rule => {
-              try {
-                const ruleInterface = state.deductionInterface
-                  .selectSteps(...[...state.selectedSteps].sort())
-                  .chooseRule(rule)
+        <div className={style.middle}>
+          <main className={style.main}>
+            <DeductionSteps
+              steps={state.deductionInterface.deduction.steps}
+              selectedSteps={state.selectedSteps}
+              onSelectedStepsChange={newSelectedSteps => {
+                setState({
+                  ...state,
+                  selectedSteps: newSelectedSteps,
+                  selectedRule: undefined
+                })
+              }}
+            />
+            {ruleUI && (
+              <div className={style.ruleUIContainer}>
+                <Card>
+                  {ruleUI}
+                </Card>
+              </div>
+            )}
+          </main>
+          <div className={style.aside}>
+            <RulePicker
+              selectedRule={state.selectedRule?.rule}
+              onRuleSelect={rule => {
+                try {
+                  const ruleInterface = state.deductionInterface
+                    .selectSteps(...state.selectedSteps)
+                    .chooseRule(rule)
 
-                setState({ ...state, selectedRule: { ruleInterface, rule } })
-              } catch (error) {
-                if (error.name === ErrorName.RULE_NOT_ALLOWED) {
-                  onError(t(
-                    'message.ruleCantBeAppliedToSelectedPremises',
-                    { rule: ruleDescriber(rule) }
-                  ))
-                  setState({ ...state, selectedRule: undefined })
-                } else {
-                  throw error
+                  setState({ ...state, selectedRule: { ruleInterface, rule } })
+                } catch (error) {
+                  if (error.name === ErrorName.RULE_NOT_ALLOWED) {
+                    onError(t(
+                      'message.ruleCantBeAppliedToSelectedPremises',
+                      { rule: ruleDescriber(rule) }
+                    ))
+                    setState({ ...state, selectedRule: undefined })
+                  } else {
+                    throw error
+                  }
                 }
-              }
-            }}
-            onRuleDeselect={() => { setState({ ...state, selectedRule: undefined }) }}
-          />
-          <Button
-            title={t('button.delete')}
-            disabled={state.selectedRule !== undefined || state.selectedSteps.size === 0}
-            intent={Intent.DANGER}
-            icon={IconNames.TRASH}
-            onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
-          >
-            {t('button.delete')}
-          </Button>
+              }}
+              onRuleDeselect={() => { setState({ ...state, selectedRule: undefined }) }}
+            />
+            <Button
+              title={t('button.delete')}
+              disabled={state.selectedRule !== undefined || state.selectedSteps.size === 0}
+              intent={Intent.DANGER}
+              icon={IconNames.TRASH}
+              onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
+            >
+              {t('button.delete')}
+            </Button>
+          </div>
         </div>
+        <footer className={style.footer}>
+          footer
+        </footer>
       </div>
       <DeleteDialog
         isOpen={state.isDeleteDialogOpen}
