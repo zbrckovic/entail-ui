@@ -11,7 +11,6 @@ import {
 import classnames from 'classnames'
 import { DeductionSteps } from 'components/deduction-steps'
 import { RootCtx, SymCtx } from 'contexts'
-import { useRuleDescriber } from 'hooks'
 import _ from 'lodash'
 import { deleteExtraSymsFromSymCtx } from 'misc/sym-ctx-util'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
@@ -24,8 +23,6 @@ import { useSelectedRuleUI } from './use-selected-rule-ui'
 
 export const DeductionEditor = ({ className, ...props }) => {
   const { t } = useTranslation('DeductionEditor')
-
-  const ruleDescriber = useRuleDescriber()
 
   const initialSymCtx = useContext(SymCtx)
   const { theme: { isDark } } = useContext(RootCtx)
@@ -163,13 +160,12 @@ export const DeductionEditor = ({ className, ...props }) => {
                     .chooseRule(rule)
 
                   setState({ ...state, selectedRule: { ruleInterface, rule } })
+
+                  return true
                 } catch (error) {
                   if (error.name === ErrorName.RULE_NOT_ALLOWED) {
-                    onError(t(
-                      'message.ruleCantBeAppliedToSelectedPremises',
-                      { rule: ruleDescriber(rule) }
-                    ))
                     setState({ ...state, selectedRule: undefined })
+                    return false
                   } else {
                     throw error
                   }

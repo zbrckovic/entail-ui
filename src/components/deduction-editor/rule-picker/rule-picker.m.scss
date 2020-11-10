@@ -1,3 +1,20 @@
+@import "style/definitions";
+
+@keyframes wiggle-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
 .root {
   .buttons {
     display: grid;
@@ -6,6 +23,11 @@
 
     .fullWidth {
       grid-column: 1 / span 2;
+    }
+
+    .wiggling {
+      outline-color: $pt-intent-danger;
+      animation: wiggle-rotate $pt-transition-duration $pt-transition-ease infinite;
     }
   }
 }

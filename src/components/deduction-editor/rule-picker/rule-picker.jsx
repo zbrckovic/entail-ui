@@ -1,6 +1,7 @@
 import { Rule } from '@zbrckovic/entail-core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { timer } from 'rxjs'
 import style from './rule-picker.m.scss'
 import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
@@ -22,6 +23,7 @@ export const RulePicker = ({
         {
           [Rule.Premise, Rule.Theorem].map(rule => (
             <RuleButton
+              disabled={rule === Rule.Theorem}
               key={rule}
               rule={rule}
               selectedRule={selectedRule}
@@ -95,14 +97,23 @@ export const RulePicker = ({
   )
 }
 
-const RuleButton = ({ rule, selectedRule, onRuleSelect, onRuleDeselect, className }) => {
+const RuleButton = ({ rule, selectedRule, onRuleSelect, onRuleDeselect, className, ...props }) => {
+  const [isWiggling, setIsWiggling] = useState(false)
+
+  useEffect(() => {
+    if (isWiggling) {
+      const subscription = timer(500).subscribe({ complete: () => { setIsWiggling(false) } })
+      return () => { subscription.unsubscribe() }
+    }
+  }, [isWiggling])
+
   const selected = selectedRule === rule
 
   const isActive = rule === selectedRule
 
   return (
     <Button
-      className={className}
+      className={classnames({ [style.wiggling]: isWiggling }, className)}
       key={rule}
       active={rule === selectedRule}
       disabled={selectedRule !== undefined && !isActive}
@@ -110,10 +121,13 @@ const RuleButton = ({ rule, selectedRule, onRuleSelect, onRuleDeselect, classNam
         if (selected) {
           onRuleDeselect()
         } else {
-          onRuleSelect(rule)
+          const success = onRuleSelect(rule)
+          if (!success) { setIsWiggling(true) }
         }
-      }}>
-      <RuleBadge rule={rule} />
+      }}
+      {...props}
+    >
+      <RuleBadge rule={rule}/>
     </Button>
   )
 }
