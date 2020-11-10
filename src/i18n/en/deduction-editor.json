@@ -2,6 +2,10 @@
   "label": {
     "enterThePremise": "Enter the premise",
     "enterTheConsequent": "Enter the consequent",
+    "enterTheDisjunct": "Enter the disjunct",
+    "enterTheLeftDisjunct": "Enter the left disjunct",
+    "enterTheRightDisjunct": "Enter the right disjunct",
+    "changeNewDisjunctPosition": "Change new disjunct position",
     "chooseAFreeVariable": "Choose a free variable",
     "enterTheQuantificationVariable": "Enter the quantification variable",
     "enterTheInstanceVariable": "Enter the instance variable",

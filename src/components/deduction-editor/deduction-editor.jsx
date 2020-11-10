@@ -44,10 +44,9 @@ export const DeductionEditor = ({ className, ...props }) => {
     } = state
 
     const rulesWhichCanBeHandledImmediately = new Set([
+      Rule.NegationElimination,
       Rule.ConditionalIntroduction,
-      Rule.ConditionalElimination,
-      Rule.ConjunctionIntroduction,
-      Rule.NegationElimination
+      Rule.ConditionalElimination
     ])
 
     if (rulesWhichCanBeHandledImmediately.has(rule)) {
@@ -184,9 +183,7 @@ export const DeductionEditor = ({ className, ...props }) => {
             </Button>
           </div>
         </div>
-        <footer className={style.footer}>
-          footer
-        </footer>
+        <footer className={style.footer} />
       </div>
       <DeleteDialog
         isOpen={state.isDeleteDialogOpen}

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { useTranslation } from 'react-i18next'
 import React, { useMemo } from 'react'
 import { Deduction, Rule } from '@zbrckovic/entail-core'
@@ -7,6 +8,7 @@ import { UniversalInstantiation } from './universal-instantiation'
 import { UniversalGeneralization } from './universal-generalization'
 import { ExistentialInstantiation } from './existential-instantiation'
 import { ExistentialGeneralization } from './existential-generalization'
+import { DisjunctionIntroduction } from './disjunction-introduction'
 
 export const useSelectedRuleUI = ({
   deduction,
@@ -19,34 +21,49 @@ export const useSelectedRuleUI = ({
 }) => {
   const { t } = useTranslation('DeductionEditor')
 
-  return useMemo(() => {
-    switch (selectedRule) {
-      case Rule.Premise:
+  const handlers = useMemo(
+    () => ({
+      [Rule.Premise]: () => (
+        <FormulaEditor
+          label={t('label.enterThePremise')}
+          onSubmit={({ formula, symCtx }) => {
+            const deductionInterface = ruleInterface.apply(formula)
+            onApply({ deductionInterface, symCtx })
+          }}
+          onCancel={onCancel}
+        />
+      ),
+      [Rule.DisjunctionIntroduction]: () => {
+        const stepOrdinal = selectedSteps.values().next().value
+        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+
         return (
-          <FormulaEditor
-            label={t('label.enterThePremise')}
-            onSubmit={({ formula, symCtx }) => {
-              const deductionInterface = ruleInterface.apply(formula)
-              onApply({ deductionInterface, symCtx })
-            }}
+          <DisjunctionIntroduction
+            formula={formula}
+            ruleInterface={ruleInterface}
+            onApply={onApply}
             onCancel={onCancel}
+            onError={onError}
           />
         )
-      case Rule.TautologicalImplication:
-        return <TautologicalImplication
+      },
+      [Rule.TautologicalImplication]: () => (
+        <TautologicalImplication
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
-      case Rule.UniversalInstantiation:
-        return <UniversalInstantiation
+      ),
+      [Rule.UniversalInstantiation]: () => (
+        <UniversalInstantiation
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
-      case Rule.UniversalGeneralization: {
+      ),
+      [Rule.UniversalGeneralization]: () => {
         const stepOrdinal = selectedSteps.values().next().value
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
@@ -57,15 +74,16 @@ export const useSelectedRuleUI = ({
           onCancel={onCancel}
           onError={onError}
         />
-      }
-      case Rule.ExistentialInstantiation:
-        return <ExistentialInstantiation
+      },
+      [Rule.ExistentialInstantiation]: () => (
+        <ExistentialInstantiation
           ruleInterface={ruleInterface}
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
         />
-      case Rule.ExistentialGeneralization: {
+      ),
+      [Rule.ExistentialGeneralization]: () => {
         const stepOrdinal = selectedSteps.values().next().value
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
@@ -77,8 +95,9 @@ export const useSelectedRuleUI = ({
           onError={onError}
         />
       }
-      default:
-        return undefined
-    }
-  }, [deduction, selectedSteps, ruleInterface, selectedRule, onApply, onCancel, onError, t])
+    }),
+    [deduction, selectedSteps, ruleInterface, onApply, onCancel, onError, t]
+  )
+
+  return handlers[selectedRule]?.()
 }
