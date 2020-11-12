@@ -1,14 +1,15 @@
 /* eslint-disable react/display-name */
-import { useTranslation } from 'react-i18next'
-import React, { useMemo } from 'react'
 import { Deduction, Rule } from '@zbrckovic/entail-core'
+import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from '../formula-editor'
-import { TautologicalImplication } from './tautological-implication'
-import { UniversalInstantiation } from './universal-instantiation'
-import { UniversalGeneralization } from './universal-generalization'
-import { ExistentialInstantiation } from './existential-instantiation'
-import { ExistentialGeneralization } from './existential-generalization'
+import { ConjunctionIntroduction } from './conjunction-introduction'
 import { DisjunctionIntroduction } from './disjunction-introduction'
+import { ExistentialGeneralization } from './existential-generalization'
+import { ExistentialInstantiation } from './existential-instantiation'
+import { TautologicalImplication } from './tautological-implication'
+import { UniversalGeneralization } from './universal-generalization'
+import { UniversalInstantiation } from './universal-instantiation'
 
 export const useSelectedRuleUI = ({
   deduction,
@@ -33,6 +34,22 @@ export const useSelectedRuleUI = ({
           onCancel={onCancel}
         />
       ),
+      [Rule.ConjunctionIntroduction]: () => {
+        const [conjunct1, conjunct2] = [...selectedSteps]
+          .sort()
+          .map(stepOrdinal => Deduction.getStepByOrdinal(deduction, stepOrdinal).formula)
+
+        return (
+          <ConjunctionIntroduction
+            conjunct1={conjunct1}
+            conjunct2={conjunct2}
+            ruleInterface={ruleInterface}
+            onApply={onApply}
+            onCancel={onCancel}
+            onError={onError}
+          />
+        )
+      },
       [Rule.DisjunctionIntroduction]: () => {
         const stepOrdinal = selectedSteps.values().next().value
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)

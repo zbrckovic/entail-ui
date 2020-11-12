@@ -37,35 +37,31 @@ export const Prefix = ({
     <ExpressionText
       text={symText}
       kind={sym.kind}
-      onClick={() => {
-        if (onSelectionTargetChange === undefined) return
-
+      onClick={onSelectionTargetChange !== undefined ? () => {
         let selectionTargetToSend
         if (!isMainSelected) {
           selectionTargetToSend = { type: TargetType.MAIN, position: [] }
         }
 
         onSelectionTargetChange(selectionTargetToSend)
-      }}
+      } : undefined}
       isSelected={isMainSelected}
     />
     {sym.binds && (
       <Binding
         sym={boundSym}
-        onClick={() => {
-          if (onSelectionTargetChange === undefined) return
-
+        onClick={onSelectionTargetChange !== undefined ? () => {
           const selectionTargetToSend = isBoundSelected
             ? undefined
             : { type: TargetType.BOUND, position: [] }
 
           onSelectionTargetChange(selectionTargetToSend)
-        }}
+        } : undefined}
         isSelected={isBoundSelected}
       />
     )}
     {hasSpace && <> </>}
-    {hasParenthesesAndComma && <ExpressionText text="(" kind={sym.kind} />}
+    {hasParenthesesAndComma && <ExpressionText text="(" kind={sym.kind}/>}
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.length - 1
 
@@ -97,12 +93,12 @@ export const Prefix = ({
         />
         {
           !isLast && hasParenthesesAndComma && <>
-            <ExpressionText text="," kind={sym.kind} />
+            <ExpressionText text="," kind={sym.kind}/>
             <> </>
           </>
         }
       </Fragment>
     })}
-    {hasParenthesesAndComma && <ExpressionText text=")" kind={sym.kind} />}
+    {hasParenthesesAndComma && <ExpressionText text=")" kind={sym.kind}/>}
   </>
 }

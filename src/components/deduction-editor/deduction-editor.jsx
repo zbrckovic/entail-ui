@@ -46,7 +46,8 @@ export const DeductionEditor = ({ className, ...props }) => {
     const rulesWhichCanBeHandledImmediately = new Set([
       Rule.NegationElimination,
       Rule.ConditionalIntroduction,
-      Rule.ConditionalElimination
+      Rule.ConditionalElimination,
+      Rule.DisjunctionElimination
     ])
 
     if (rulesWhichCanBeHandledImmediately.has(rule)) {
@@ -62,7 +63,7 @@ export const DeductionEditor = ({ className, ...props }) => {
       return
     }
 
-    // rules which can be handled immediately
+    // rules which can be handled immediately under specified condition
     switch (rule) {
       case Rule.UniversalInstantiation: {
         const [stepOrdinal] = [...selectedSteps]

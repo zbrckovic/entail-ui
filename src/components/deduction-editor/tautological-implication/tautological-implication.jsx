@@ -1,9 +1,9 @@
 import { ErrorName } from '@zbrckovic/entail-core'
+import classnames from 'classnames'
 import { FormulaEditor } from 'components/formula-editor'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './tautological-implication.m.scss'
-import classnames from 'classnames'
 
 export const TautologicalImplication = ({
   ruleInterface,

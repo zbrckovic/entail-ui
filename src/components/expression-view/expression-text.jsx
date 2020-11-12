@@ -16,8 +16,10 @@ export const ExpressionText = ({ text, kind, color, onClick, isSelected, classNa
       className
     )}
     onClick={e => {
-      e.stopPropagation()
-      onClick?.()
+      if (onClick !== undefined) {
+        e.stopPropagation()
+        onClick()
+      }
     }}
     {...props}
   >
