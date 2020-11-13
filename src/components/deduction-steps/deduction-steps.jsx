@@ -51,7 +51,13 @@ export const DeductionSteps = ({
       {
         steps.map((step, i) => {
           const stepNumber = i + 1
-          const isSelected = hasRowSelection ? selectedSteps.has(stepNumber) : undefined
+
+          let indexAmongSelected = -1
+          if (hasRowSelection) {
+            indexAmongSelected = selectedSteps.findIndex(n => n === stepNumber)
+          }
+
+          const isSelected = indexAmongSelected !== -1
 
           let selectionTargetForFormula
           if (selectionTarget?.step === i) {
@@ -74,20 +80,27 @@ export const DeductionSteps = ({
                 }
                 onClick={() => {
                   if (hasRowSelection) {
-                    const newSelectedSteps = new Set(selectedSteps)
-                    if (newSelectedSteps.has(stepNumber)) {
-                      newSelectedSteps.delete(stepNumber)
+                    const newSelectedSteps = [...selectedSteps]
+
+                    if (isSelected) {
+                      newSelectedSteps.splice(indexAmongSelected, 1)
                     } else {
-                      newSelectedSteps.add(stepNumber)
+                      newSelectedSteps.push(stepNumber)
                     }
                     onSelectedStepsChange(newSelectedSteps)
                   }
                 }}
               >
-                <span>{stepNumber}</span>
+                <span>
+                  {stepNumber}
+                  {
+                    isSelected &&
+                    <span className={style.selectionIndex}>{indexAmongSelected + 1}</span>
+                  }
+                </span>
               </div>
               <div className={style.cell}>
-                <StepAssumptions assumptions={step.assumptions} />
+                <StepAssumptions assumptions={step.assumptions}/>
               </div>
               <div
                 className={style.cell}
@@ -109,10 +122,10 @@ export const DeductionSteps = ({
                 />
               </div>
               <div className={style.cell}>
-                <RuleBadge rule={step.ruleApplicationSummary.rule} />
+                <RuleBadge rule={step.ruleApplicationSummary.rule}/>
               </div>
               <div className={style.cell}>
-                <StepPremises premises={step.ruleApplicationSummary.premises} />
+                <StepPremises premises={step.ruleApplicationSummary.premises}/>
               </div>
             </Fragment>
           )

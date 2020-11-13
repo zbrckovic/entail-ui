@@ -35,7 +35,7 @@ export const useSelectedRuleUI = ({
         />
       ),
       [Rule.ConjunctionIntroduction]: () => {
-        const [conjunct1, conjunct2] = [...selectedSteps]
+        const [conjunct1, conjunct2] = selectedSteps
           .sort()
           .map(stepOrdinal => Deduction.getStepByOrdinal(deduction, stepOrdinal).formula)
 
@@ -51,7 +51,7 @@ export const useSelectedRuleUI = ({
         )
       },
       [Rule.DisjunctionIntroduction]: () => {
-        const stepOrdinal = selectedSteps.values().next().value
+        const [stepOrdinal] = selectedSteps
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
         return (
@@ -81,7 +81,7 @@ export const useSelectedRuleUI = ({
         />
       ),
       [Rule.UniversalGeneralization]: () => {
-        const stepOrdinal = selectedSteps.values().next().value
+        const [stepOrdinal] = selectedSteps
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
         return <UniversalGeneralization
@@ -101,7 +101,7 @@ export const useSelectedRuleUI = ({
         />
       ),
       [Rule.ExistentialGeneralization]: () => {
-        const stepOrdinal = selectedSteps.values().next().value
+        const [stepOrdinal] = selectedSteps
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
         return <ExistentialGeneralization

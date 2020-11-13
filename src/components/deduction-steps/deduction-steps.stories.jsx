@@ -46,7 +46,7 @@ const Template = ({
   })
 
   const [selectionTarget, setSelectionTarget] = useState()
-  const [selectedSteps, setSelectedSteps] = useState(() => new Set())
+  const [selectedSteps, setSelectedSteps] = useState([])
 
   return (
     <SymCtx.Provider value={symCtx}>

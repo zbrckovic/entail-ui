@@ -29,6 +29,8 @@
     @include padding-h(4px);
 
     &.stepNumber {
+      text-align: right;
+
       &.hasSelection {
         cursor: pointer;
       }
@@ -36,6 +38,23 @@
       &.selected {
         background: $pt-intent-primary;
         color: white;
+
+        position: relative;
+
+        .selectionIndex {
+          height: 20px;
+          width: 20px;
+          border-radius: 50%;
+          position: absolute;
+          left: 0;
+          top: 0;
+          transform: translate(-50%, -40%);
+          background-color: $pt-intent-danger;
+          font-weight: bold;
+          padding-top: 2px;
+          text-align: center;
+          font-size: 12px;
+        }
       }
     }
   }

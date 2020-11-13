@@ -30,7 +30,7 @@ export const DeductionEditor = ({ className, ...props }) => {
   const [state, setState] = useState(() => ({
     symCtx: initialSymCtx,
     deductionInterface: startDeduction(),
-    selectedSteps: new Set(),
+    selectedSteps: [],
     selectedRule: undefined,
     isDeleteDialogOpen: false
   }))
@@ -56,7 +56,7 @@ export const DeductionEditor = ({ className, ...props }) => {
       setState({
         ...state,
         deductionInterface: newDeductionInterface,
-        selectedSteps: new Set(),
+        selectedSteps: [],
         selectedRule: undefined
       })
 
@@ -66,7 +66,7 @@ export const DeductionEditor = ({ className, ...props }) => {
     // rules which can be handled immediately under specified condition
     switch (rule) {
       case Rule.UniversalInstantiation: {
-        const [stepOrdinal] = [...selectedSteps]
+        const [stepOrdinal] = selectedSteps
 
         const { formula } = Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
         const quantificationIsVacuous = Expression.findBoundOccurrences(formula).length === 0
@@ -76,14 +76,14 @@ export const DeductionEditor = ({ className, ...props }) => {
           setState({
             ...state,
             deductionInterface: newDeductionInterface,
-            selectedSteps: new Set(),
+            selectedSteps: [],
             selectedRule: undefined
           })
         }
         break
       }
       case Rule.ExistentialInstantiation: {
-        const [stepOrdinal] = [...state.selectedSteps]
+        const [stepOrdinal] = selectedSteps
 
         const {
           formula
@@ -95,7 +95,7 @@ export const DeductionEditor = ({ className, ...props }) => {
           setState({
             ...state,
             deductionInterface: newDeductionInterface,
-            selectedSteps: new Set(),
+            selectedSteps: [],
             selectedRule: undefined
           })
         }
@@ -118,7 +118,7 @@ export const DeductionEditor = ({ className, ...props }) => {
         ...state,
         deductionInterface,
         symCtx,
-        selectedSteps: new Set(),
+        selectedSteps: [],
         selectedRule: undefined
       })
     }, [state]),
@@ -175,7 +175,7 @@ export const DeductionEditor = ({ className, ...props }) => {
             />
             <Button
               title={t('button.delete')}
-              disabled={state.selectedRule !== undefined || state.selectedSteps.size === 0}
+              disabled={state.selectedRule !== undefined || state.selectedSteps.length === 0}
               intent={Intent.DANGER}
               icon={IconNames.TRASH}
               onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
@@ -208,7 +208,7 @@ export const DeductionEditor = ({ className, ...props }) => {
             deductionInterface: newDeductionInterface,
             symCtx: newSymCtx,
             isDeleteDialogOpen: false,
-            selectedSteps: new Set()
+            selectedSteps: []
           })
         }}
         onCancel={() => { setState({ ...state, isDeleteDialogOpen: false }) }}
