@@ -32,7 +32,13 @@ export const DeductionSteps = ({
       {...props}
     >
       <div
-        className={classnames(style.cell, style.header, style.stepNumber)}
+        className={classnames(
+          style.cell,
+          style.header,
+          style.stepNumber,
+          { [style.hasSelection]: hasRowSelection }
+        )}
+        onClick={hasRowSelection ? () => { onSelectedStepsChange([]) } : undefined}
       >
         <strong title={t('label.stepNumber')}>{t('label.stepNumberAbbreviated')}</strong>
       </div>
