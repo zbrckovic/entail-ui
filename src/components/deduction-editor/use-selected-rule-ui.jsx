@@ -3,10 +3,11 @@ import { Deduction, Rule } from '@zbrckovic/entail-core'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from '../formula-editor'
-import { ConjunctionElimination } from './conjunction-elimination/conjunction-elimination'
+import { ConjunctionElimination } from './conjunction-elimination'
 import { DisjunctionIntroduction } from './disjunction-introduction'
 import { ExistentialGeneralization } from './existential-generalization'
 import { ExistentialInstantiation } from './existential-instantiation'
+import { Explosion } from './explosion'
 import { TautologicalImplication } from './tautological-implication'
 import { UniversalGeneralization } from './universal-generalization'
 import { UniversalInstantiation } from './universal-instantiation'
@@ -67,6 +68,13 @@ export const useSelectedRuleUI = ({
           onApply={onApply}
           onCancel={onCancel}
           onError={onError}
+        />
+      ),
+      [Rule.Explosion]: () => (
+        <Explosion
+          ruleInterface={ruleInterface}
+          onApply={onApply}
+          onCancel={onCancel}
         />
       ),
       [Rule.UniversalInstantiation]: () => (

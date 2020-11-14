@@ -35,7 +35,7 @@ export const Default = ({ isDark, hasLabels, onSelect }) => {
 }
 
 const parser = FormulaParser({ syms: primitiveSyms, presentations: primitivePresentations })
-const formulaTexts = ['p', 'q']
+const formulaTexts = ['~p', 'q']
 const formulas = formulaTexts.map(formulaText => parser.parse(formulaText))
 const symCtx = {
   syms: parser.getSyms(),

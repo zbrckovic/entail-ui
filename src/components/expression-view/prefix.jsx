@@ -37,26 +37,34 @@ export const Prefix = ({
     <ExpressionText
       text={symText}
       kind={sym.kind}
-      onClick={onSelectionTargetChange !== undefined ? () => {
-        let selectionTargetToSend
-        if (!isMainSelected) {
-          selectionTargetToSend = { type: TargetType.MAIN, position: [] }
-        }
+      onClick={
+        onSelectionTargetChange !== undefined
+          ? () => {
+            let selectionTargetToSend
+            if (!isMainSelected) {
+              selectionTargetToSend = { type: TargetType.MAIN, position: [] }
+            }
 
-        onSelectionTargetChange(selectionTargetToSend)
-      } : undefined}
+            onSelectionTargetChange(selectionTargetToSend)
+          }
+          : undefined
+      }
       isSelected={isMainSelected}
     />
     {sym.binds && (
       <Binding
         sym={boundSym}
-        onClick={onSelectionTargetChange !== undefined ? () => {
-          const selectionTargetToSend = isBoundSelected
-            ? undefined
-            : { type: TargetType.BOUND, position: [] }
+        onClick={
+          onSelectionTargetChange !== undefined
+            ? () => {
+              const selectionTargetToSend = isBoundSelected
+                ? undefined
+                : { type: TargetType.BOUND, position: [] }
 
-          onSelectionTargetChange(selectionTargetToSend)
-        } : undefined}
+              onSelectionTargetChange(selectionTargetToSend)
+            }
+            : undefined
+        }
         isSelected={isBoundSelected}
       />
     )}
@@ -79,17 +87,19 @@ export const Prefix = ({
           expression={child}
           root={false}
           selectionTarget={selectionTargetForChild}
-          onSelectionTargetChange={newSelectionTargetFromChild => {
-            if (onSelectionTargetChange === undefined) return
+          onSelectionTargetChange={
+            onSelectionTargetChange !== undefined
+              ? newSelectionTargetFromChild => {
+                let selectionTargetToSend
+                if (newSelectionTargetFromChild !== undefined) {
+                  const { type, position } = newSelectionTargetFromChild
+                  selectionTargetToSend = { type, position: [i, ...position] }
+                }
 
-            let selectionTargetToSend
-            if (newSelectionTargetFromChild !== undefined) {
-              const { type, position } = newSelectionTargetFromChild
-              selectionTargetToSend = { type, position: [i, ...position] }
-            }
-
-            onSelectionTargetChange(selectionTargetToSend)
-          }}
+                onSelectionTargetChange(selectionTargetToSend)
+              }
+              : undefined
+          }
         />
         {
           !isLast && hasParenthesesAndComma && <>

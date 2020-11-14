@@ -1,7 +1,9 @@
+import { Label } from '@blueprintjs/core'
+import classNames from 'classnames'
 import React, { useContext } from 'react'
+import { useTranslation } from 'react-i18next'
 import { SymCtx } from '../../../contexts'
 import { FormulaPicker } from '../../formula-picker'
-import classNames from 'classnames'
 
 export const ConjunctionElimination = ({
   formula,
@@ -12,12 +14,13 @@ export const ConjunctionElimination = ({
   className,
   ...props
 }) => {
+  const { t } = useTranslation('DeductionEditor')
   const symCtx = useContext(SymCtx)
 
   return (
     <div className={classNames(className)} {...props}>
+      <Label>{t('label.chooseTheConjunct')}</Label>
       <FormulaPicker
-        labels={['left', 'right']}
         formulas={formula.children}
         onSelect={(conjunct, i) => {
           const deductionInterface = ruleInterface.apply(i)

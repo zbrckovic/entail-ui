@@ -10,7 +10,9 @@
     "enterTheQuantificationVariable": "Enter the quantification variable",
     "enterTheInstanceVariable": "Enter the instance variable",
     "enterTheBoundTerm": "Enter the bound term",
-    "rules": "Rules"
+    "chooseTheConjunct": "Choose the conjunct",
+    "rules": "Rules",
+    "enterTheFormula": "Enter the formula"
   },
   "button": {
     "delete": "Delete"

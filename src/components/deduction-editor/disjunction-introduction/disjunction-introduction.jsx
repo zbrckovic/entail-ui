@@ -1,9 +1,9 @@
+import { Switch } from '@blueprintjs/core'
 import classnames from 'classnames'
-import style from '../tautological-implication/tautological-implication.m.scss'
-import { FormulaEditor } from '../../formula-editor'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Switch } from '@blueprintjs/core'
+import { FormulaEditor } from '../../formula-editor'
+import style from '../tautological-implication/tautological-implication.m.scss'
 
 export const DisjunctionIntroduction = ({
   formula,
@@ -19,7 +19,7 @@ export const DisjunctionIntroduction = ({
   const [isAddingRight, setIsAddingRight] = useState(false)
 
   return (
-    <div>
+    <div className={classnames(style.root, className)} {...props}>
       <Switch
         title={t('label.changeNewDisjunctPosition')}
         checked={isAddingRight}
@@ -28,14 +28,12 @@ export const DisjunctionIntroduction = ({
         {t('label.changeNewDisjunctPosition')}
       </Switch>
       <FormulaEditor
-        className={classnames(style.root, className)}
         label={isAddingRight ? t('label.enterTheRightDisjunct') : t('label.enterTheLeftDisjunct')}
         onSubmit={({ formula, symCtx }) => {
           const deductionInterface = ruleInterface.apply(formula, !isAddingRight)
           onApply({ deductionInterface, symCtx })
         }}
         onCancel={onCancel}
-        {...props}
       />
     </div>
   )
