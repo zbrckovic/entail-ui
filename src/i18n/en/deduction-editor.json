@@ -15,7 +15,8 @@
     "enterTheFormula": "Enter the formula"
   },
   "button": {
-    "delete": "Delete"
+    "delete": "Delete",
+    "graph": "Graph"
   },
   "message": {
     "invalidTautologicalImplication": "Invalid tautological implication.",
@@ -28,9 +29,13 @@
     "ruleCantBeAppliedToSelectedPremises": "Rule \"{{rule}}\" can't be applied to selected steps."
   },
   "deleteDialog": {
-    "title":  "Delete steps?",
-    "content":  "Are you sure you want to delete all steps from step {{step}} til the end of deduction?",
+    "title": "Delete steps?",
+    "content": "Are you sure you want to delete all steps from step {{step}} til the end of deduction?",
     "yes": "Yes",
     "no": "No"
+  },
+  "graphDialog": {
+    "title": "Term dependencies graph",
+    "close": "Close"
   }
 }

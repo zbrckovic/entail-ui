@@ -16,9 +16,10 @@ import { deleteExtraSymsFromSymCtx } from 'misc/sym-ctx-util'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toaster } from 'toaster'
-import { DeleteDialog } from './deduction-editor-delete-dialog'
+import { DeleteDialog } from './delete-dialog'
 import style from './deduction-editor.m.scss'
 import { RulePicker } from './rule-picker'
+import { GraphDialog } from './graph-dialog'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
 
 export const DeductionEditor = ({ className, ...props }) => {
@@ -32,7 +33,8 @@ export const DeductionEditor = ({ className, ...props }) => {
     deductionInterface: startDeduction(),
     selectedSteps: [],
     selectedRule: undefined,
-    isDeleteDialogOpen: false
+    isDeleteDialogOpen: false,
+    isGraphDialogOpen: false
   }))
 
   useEffect(() => {
@@ -186,9 +188,20 @@ export const DeductionEditor = ({ className, ...props }) => {
             >
               {t('button.delete')}
             </Button>
+            <Button
+              title={t('button.graph')}
+              disabled={
+                state.isDeleteDialogOpen ||
+                _.isEmpty(state.deductionInterface.deduction.termDependencyGraph)
+              }
+              icon={IconNames.GRAPH}
+              onClick={() => { setState({ ...state, isGraphDialogOpen: true }) }}
+            >
+              {t('button.graph')}
+            </Button>
           </div>
         </div>
-        <footer className={style.footer} />
+        <footer className={style.footer}/>
       </div>
       <DeleteDialog
         isOpen={state.isDeleteDialogOpen}
@@ -216,6 +229,11 @@ export const DeductionEditor = ({ className, ...props }) => {
           })
         }}
         onCancel={() => { setState({ ...state, isDeleteDialogOpen: false }) }}
+      />
+      <GraphDialog
+        isOpen={state.isGraphDialogOpen}
+        graph={state.deductionInterface.deduction.termDependencyGraph}
+        onClose={() => { setState({ ...state, isGraphDialogOpen: false }) }}
       />
     </SymCtx.Provider>
   )
