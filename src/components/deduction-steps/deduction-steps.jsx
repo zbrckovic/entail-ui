@@ -67,6 +67,17 @@ export const DeductionSteps = ({
             }
           }
 
+          const onSelect = hasRowSelection ? () => {
+            const newSelectedSteps = [...selectedSteps]
+
+            if (isSelected) {
+              newSelectedSteps.splice(indexAmongSelected, 1)
+            } else {
+              newSelectedSteps.push(stepNumber)
+            }
+            onSelectedStepsChange(newSelectedSteps)
+          } : undefined
+
           return (
             <Fragment key={i}>
               <div
@@ -76,20 +87,9 @@ export const DeductionSteps = ({
                   {
                     [style.selected]: isSelected,
                     [style.hasSelection]: hasRowSelection
-                  })
-                }
-                onClick={() => {
-                  if (hasRowSelection) {
-                    const newSelectedSteps = [...selectedSteps]
-
-                    if (isSelected) {
-                      newSelectedSteps.splice(indexAmongSelected, 1)
-                    } else {
-                      newSelectedSteps.push(stepNumber)
-                    }
-                    onSelectedStepsChange(newSelectedSteps)
                   }
-                }}
+                )}
+                onClick={onSelect}
               >
                 <span>
                   {stepNumber}
@@ -99,12 +99,15 @@ export const DeductionSteps = ({
                   }
                 </span>
               </div>
-              <div className={style.cell}>
+              <div className={style.cell} onClick={onSelect}>
                 <StepAssumptions assumptions={step.assumptions}/>
               </div>
               <div
                 className={style.cell}
-                onClick={() => { onSelectionTargetChange?.(undefined) }}
+                onClick={() => {
+                  onSelectionTargetChange?.(undefined)
+                  onSelect?.()
+                }}
               >
                 <ExpressionView
                   expression={step.formula}
@@ -121,10 +124,10 @@ export const DeductionSteps = ({
                   }}
                 />
               </div>
-              <div className={style.cell}>
+              <div className={style.cell} onClick={onSelect}>
                 <RuleBadge rule={step.ruleApplicationSummary.rule}/>
               </div>
-              <div className={style.cell}>
+              <div className={style.cell} onClick={onSelect}>
                 <StepPremises premises={step.ruleApplicationSummary.premises}/>
               </div>
             </Fragment>
