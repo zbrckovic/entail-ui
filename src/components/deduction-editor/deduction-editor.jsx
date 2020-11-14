@@ -44,10 +44,14 @@ export const DeductionEditor = ({ className, ...props }) => {
     } = state
 
     const rulesWhichCanBeHandledImmediately = new Set([
+      Rule.NegationIntroduction,
       Rule.NegationElimination,
       Rule.ConditionalIntroduction,
       Rule.ConditionalElimination,
-      Rule.DisjunctionElimination
+      Rule.ConjunctionIntroduction,
+      Rule.DisjunctionElimination,
+      Rule.BiconditionalIntroduction,
+      Rule.BiconditionalElimination
     ])
 
     if (rulesWhichCanBeHandledImmediately.has(rule)) {

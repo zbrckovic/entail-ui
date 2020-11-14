@@ -3,7 +3,7 @@ import { Deduction, Rule } from '@zbrckovic/entail-core'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from '../formula-editor'
-import { ConjunctionIntroduction } from './conjunction-introduction'
+import { ConjunctionElimination } from './conjunction-elimination/conjunction-elimination'
 import { DisjunctionIntroduction } from './disjunction-introduction'
 import { ExistentialGeneralization } from './existential-generalization'
 import { ExistentialInstantiation } from './existential-instantiation'
@@ -34,19 +34,16 @@ export const useSelectedRuleUI = ({
           onCancel={onCancel}
         />
       ),
-      [Rule.ConjunctionIntroduction]: () => {
-        const [conjunct1, conjunct2] = selectedSteps
-          .sort()
-          .map(stepOrdinal => Deduction.getStepByOrdinal(deduction, stepOrdinal).formula)
+      [Rule.ConjunctionElimination]: () => {
+        const [stepOrdinal] = selectedSteps
+        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
         return (
-          <ConjunctionIntroduction
-            conjunct1={conjunct1}
-            conjunct2={conjunct2}
+          <ConjunctionElimination
+            formula={formula}
             ruleInterface={ruleInterface}
             onApply={onApply}
             onCancel={onCancel}
-            onError={onError}
           />
         )
       },
@@ -84,13 +81,15 @@ export const useSelectedRuleUI = ({
         const [stepOrdinal] = selectedSteps
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
-        return <UniversalGeneralization
-          formula={formula}
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
+        return (
+          <UniversalGeneralization
+            formula={formula}
+            ruleInterface={ruleInterface}
+            onApply={onApply}
+            onCancel={onCancel}
+            onError={onError}
+          />
+        )
       },
       [Rule.ExistentialInstantiation]: () => (
         <ExistentialInstantiation
@@ -104,13 +103,15 @@ export const useSelectedRuleUI = ({
         const [stepOrdinal] = selectedSteps
         const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
 
-        return <ExistentialGeneralization
-          formula={formula}
-          ruleInterface={ruleInterface}
-          onApply={onApply}
-          onCancel={onCancel}
-          onError={onError}
-        />
+        return (
+          <ExistentialGeneralization
+            formula={formula}
+            ruleInterface={ruleInterface}
+            onApply={onApply}
+            onCancel={onCancel}
+            onError={onError}
+          />
+        )
       }
     }),
     [deduction, selectedSteps, ruleInterface, onApply, onCancel, onError, t]
