@@ -187,7 +187,21 @@
   font-style: italic;
 }
 
-body {
-  //noinspection CssNoGenericFontName
-  font-family: $font-family;
+html {
+  height: 100%;
+  width: 100%;
+
+  body {
+    height: 100%;
+    width: 100%;
+
+    font-family: $font-family;
+
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+  }
 }
+
+
