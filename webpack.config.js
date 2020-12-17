@@ -1,21 +1,26 @@
 const path = require('path')
-const Dotenv = require('dotenv-webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const GitRevisionPlugin = require('git-revision-webpack-plugin')
 const { EnvironmentPlugin } = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-
 const gitRevisionPlugin = new GitRevisionPlugin()
+
+const fileEnv = require('dotenv').config({ path: path.resolve(__dirname, '.env') }).parsed
 
 const SRC_DIR = path.resolve(__dirname, './src')
 const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 
 module.exports = (options = {}) => {
-  const development = Boolean(options.development)
+  const {
+    DEVELOPMENT = false,
+    PORT = 8080,
+    API_URL = 'https://localhost:2004/api',
+    LOCALE = 'hr'
+  } = Object.assign({}, fileEnv, options)
 
   return {
-    mode: development ? 'development' : 'production',
+    mode: DEVELOPMENT ? 'development' : 'production',
     entry: './src/index.jsx',
     devtool: 'source-map',
     output: {
@@ -28,8 +33,15 @@ module.exports = (options = {}) => {
     },
     devServer: {
       contentBase: SRC_DIR,
+      port: PORT,
       hot: true,
-      historyApiFallback: true
+      historyApiFallback: true,
+      publicPath: '/',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
+      }
     },
     module: {
       rules: [
@@ -60,37 +72,37 @@ module.exports = (options = {}) => {
             {
               test: /\.m\.s[ac]ss$/,
               use: [
-                development ? 'style-loader' : MiniCssExtractPlugin.loader,
+                DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
                     modules: {
                       mode: 'local',
-                      localIdentName: development
+                      localIdentName: DEVELOPMENT
                         ? '[path][name]_[local][hash:base64:5]'
                         : '[hash:base64]'
                     },
-                    sourceMap: development
+                    sourceMap: DEVELOPMENT
                   }
                 },
                 {
                   loader: 'sass-loader',
-                  options: { sourceMap: development }
+                  options: { sourceMap: DEVELOPMENT }
                 }
               ]
             },
             {
               use: [
-                development ? 'style-loader' : MiniCssExtractPlugin.loader,
+                DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
-                    sourceMap: development
+                    sourceMap: DEVELOPMENT
                   }
                 },
                 {
                   loader: 'sass-loader',
-                  options: { sourceMap: development }
+                  options: { sourceMap: DEVELOPMENT }
                 }
               ]
             }
@@ -100,11 +112,11 @@ module.exports = (options = {}) => {
           include: SRC_DIR,
           test: /\.css$/,
           use: [
-            development ? 'style-loader' : MiniCssExtractPlugin.loader,
+            DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
-                sourceMap: development,
+                sourceMap: DEVELOPMENT,
                 importLoaders: 1,
                 namedExport: true
               }
@@ -115,17 +127,18 @@ module.exports = (options = {}) => {
     },
     plugins: [
       new EnvironmentPlugin({
-        DEVELOPMENT: JSON.stringify(development),
+        API_URL,
         VERSION: gitRevisionPlugin.version(),
         COMMIT_HASH: gitRevisionPlugin.commithash(),
-        BRANCH: gitRevisionPlugin.branch()
+        BRANCH: gitRevisionPlugin.branch(),
+        DEVELOPMENT,
+        LOCALE
       }),
-      new Dotenv(),
       new HtmlWebpackPlugin({ template: './src/index.html' }),
       new FaviconsWebpackPlugin('./resources/favicon.png'),
       new MiniCssExtractPlugin({
-        filename: development ? '[name].css' : '[name].[hash].css',
-        chunkFilename: development ? '[id].css' : '[id].[hash].css'
+        filename: DEVELOPMENT ? '[name].css' : '[name].[hash].css',
+        chunkFilename: DEVELOPMENT ? '[id].css' : '[id].[hash].css'
       })
     ]
   }
