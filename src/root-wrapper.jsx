@@ -9,11 +9,6 @@ import 'style/main.scss'
 import { Classes } from '@blueprintjs/core'
 import style from './root-wrapper.m.scss'
 import classnames from 'classnames'
-import { ApiService } from './infrastructure/api-service'
-import { AuthenticationService } from './services/authentication-service'
-
-const apiService = ApiService({ apiUrl: environment.apiUrl })
-const authenticationService = AuthenticationService({ apiService })
 
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)
@@ -25,7 +20,7 @@ export const RootWrapper = ({ children, className, ...props }) => {
 
   useEffect(() => {
     const subscription = initI18n.subscribe({
-      complete() { setInitializationStatus(ActivityStatus.Succeeded) }
+      complete () { setInitializationStatus(ActivityStatus.Succeeded) }
     })
 
     return () => { subscription.unsubscribe() }
@@ -38,8 +33,7 @@ export const RootWrapper = ({ children, className, ...props }) => {
       theme: {
         isDark: isThemeDark,
         setIsDark: setIsThemeDark
-      },
-      authenticationService
+      }
     }}>
       <div
         className={classnames(

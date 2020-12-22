@@ -4,7 +4,7 @@ import { IconNames } from '@blueprintjs/icons'
 
 export const Login = ({ onSubmit }) => {
   const [state, setState] = useState({
-    username: undefined,
+    email: undefined,
     password: undefined
   })
 
@@ -13,11 +13,11 @@ export const Login = ({ onSubmit }) => {
       event.preventDefault()
       onSubmit(state)
     }}>
-      <FormGroup label="Username">
+      <FormGroup label="Email">
         <InputGroup
-          placeholder="Username"
+          placeholder="Email"
           onChange={({ target: { value } }) => {
-            setState({ ...state, username: value })
+            setState({ ...state, email: value })
           }}
         />
       </FormGroup>

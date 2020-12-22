@@ -1,16 +1,19 @@
 import axiosLib from 'axios'
 import { defer } from 'rxjs'
+import { environment } from '../environment'
 
-export const ApiService = ({ apiUrl }) => {
-  const axios = axiosLib.create({
-    baseURL: apiUrl,
-    timeout: 1000,
-    withCredentials: true
-  })
+const axios = axiosLib.create({
+  baseURL: environment.apiUrl,
+  timeout: 1000,
+  crossDomain: true,
+  withCredentials: true
+})
 
-  const login = (username, password) => defer(() => (
-    axios.post('login', { username, password })
-  ))
-
-  return { login }
-}
+export const apiService = ({
+  register (email, password) {
+    return defer(() => axios.post('register', { email, password }))
+  },
+  login (email, password) {
+    return defer(() => axios.post('login', { email, password }))
+  }
+})

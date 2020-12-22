@@ -1,13 +1,11 @@
 import { Login } from './login'
 import { Register } from './register'
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
-import { RootCtx } from '../../contexts'
+import React, { useEffect, useState } from 'react'
+import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { ActivityStatus } from '../../misc/activity-status'
+import { authenticationService } from '../../infrastructure/authentication-service'
 
 export const HomePage = () => {
-  const { authenticationService } = useContext(RootCtx)
-
   const { path, url } = useRouteMatch()
 
   const [loginState, setLoginState] = useState({
@@ -18,23 +16,21 @@ export const HomePage = () => {
   useEffect(() => {
     if (loginState.status !== ActivityStatus.InProgress) return
 
-    const { username, password } = loginState.credentials
+    const { email, password } = loginState.credentials
 
     const subscription = authenticationService
-      .login(username, password)
+      .login(email, password)
       .subscribe({
-        complete() {
-          setLoginState({ status: ActivityStatus.Succeeded })
+        complete () {
+          setLoginState({ credentials: undefined, status: ActivityStatus.Succeeded })
         },
-        error() {
-          setLoginState({ status: ActivityStatus.Failed })
+        error () {
+          setLoginState({ credentials: undefined, status: ActivityStatus.Failed })
         }
       })
 
     return () => { subscription.unsubscribe() }
-  }, [loginState, authenticationService])
-
-  console.log(loginState)
+  }, [loginState])
 
   return <>
     <Link to={`${url}login`}>Login</Link>
