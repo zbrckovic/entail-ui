@@ -1,0 +1,21 @@
+@import "style/definitions";
+
+.root {
+  display: flex;
+  flex-direction: column;
+
+  .passwordInputGroup {
+    margin-bottom: 8px;
+  }
+
+  .alreadyHaveAnAccountContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+
+  .actions {
+    background: red
+  }
+}

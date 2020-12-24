@@ -2,19 +2,18 @@ import { RegisterPage } from './register-page'
 import React from 'react'
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { LoginPage } from './login-page'
-import style from './home-page.m.scss'
+import style from './entry-page.m.scss'
 
-export const HomePage = () => {
-  let { path, url } = useRouteMatch()
-  if (url.endsWith('/')) { url = url.slice(0, -1) }
+export const EntryPage = () => {
+  let { path } = useRouteMatch()
   if (path.endsWith('/')) { path = path.slice(0, -1) }
 
   return <div className={style.root}>
     <Switch>
-      <Route path={`${path}/login`}>
+      <Route exact path={`${path}/login`}>
         <LoginPage />
       </Route>
-      <Route path={`${path}/register`}>
+      <Route exact path={`${path}/register`}>
         <RegisterPage />
       </Route>
       <Redirect to={`${path}/login`} />

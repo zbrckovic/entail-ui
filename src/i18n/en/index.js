@@ -7,6 +7,7 @@ import IndividualVariableEditor from './individual-variable-editor.json'
 import TermDependencies from './term-dependencies.json'
 import DeductionSteps from './deduction-steps.json'
 import PrimitiveSymbols from './primitive-symbols.json'
+import entryPage from './entry-page.json'
 
 export const namespaces = {
   DevInfo,
@@ -17,5 +18,6 @@ export const namespaces = {
   IndividualVariableEditor,
   TermDependencies,
   DeductionSteps,
-  PrimitiveSymbols
+  PrimitiveSymbols,
+  entryPage
 }

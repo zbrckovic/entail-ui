@@ -1,0 +1,32 @@
+{
+  "loginPage": {
+    "title": "Login",
+    "label": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "link": {
+      "forgotPassword": "Forgot password?",
+      "dontHaveAnAccountYet": "Don't have an account yet?"
+    },
+    "button": {
+      "login": "Login"
+    }
+  },
+  "registerPage": {
+    "title": "Register",
+    "label": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "link": {
+      "alreadyHaveAnAccount": "Already have an account?"
+    },
+    "button": {
+      "register": "Register"
+    },
+    "placeholder": {
+      "repeatYourPassword": "Repeat your password"
+    }
+  }
+}

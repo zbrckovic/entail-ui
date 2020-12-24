@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { useRouteMatch } from 'react-router-dom'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from '../../misc'
 import { authenticationService } from '../../infrastructure/authentication-service'
 import { Card } from '@blueprintjs/core'
 import style from './login-page.m.scss'
+import { useTranslation } from 'react-i18next'
 
 export const LoginPage = () => {
-  const { path, url } = useRouteMatch()
+  const { t } = useTranslation('entryPage')
+
   const [loginParams, setLoginParams] = useState(undefined)
   const [isLoginInProgress, setIsLoginInProgress] = useState(false)
 
@@ -22,7 +23,7 @@ export const LoginPage = () => {
   }, [loginParams])
 
   return <Card className={style.root}>
-    <h2 className={style.title}>Login</h2>
+    <h2 className={style.title}>{t('loginPage.title')}</h2>
     <LoginPageForm onSubmit={setLoginParams} isLoading={isLoginInProgress} />
   </Card>
 }

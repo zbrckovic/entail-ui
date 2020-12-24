@@ -4,7 +4,7 @@ import style from './app.m.scss'
 import classNames from 'classnames'
 import { Spinner } from '@blueprintjs/core'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-import { HomePage } from './pages/home-page'
+import { EntryPage } from './pages/entry-page'
 
 export const App = ({ className }) => {
   const { isInitializing } = useContext(RootCtx)
@@ -18,7 +18,7 @@ export const App = ({ className }) => {
   return <BrowserRouter>
     <Switch>
       <Route path="/">
-        <HomePage />
+        <EntryPage />
       </Route>
       <Redirect to="/" />
     </Switch>
