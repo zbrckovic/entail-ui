@@ -10,9 +10,8 @@ import {
 } from '@zbrckovic/entail-core'
 import classnames from 'classnames'
 import { DeductionSteps } from 'components/deduction-steps'
-import { RootCtx, SymCtx } from 'contexts'
+import { RootCtx, SymCtx, SymCtxUtil } from 'contexts'
 import _ from 'lodash'
-import { deleteExtraSymsFromSymCtx } from 'misc/sym-ctx-util'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toaster } from 'toaster'
@@ -215,7 +214,7 @@ export const DeductionEditor = ({ className, ...props }) => {
             newDeductionInterface = newDeductionInterface.deleteLastStep()
           })
 
-          const newSymCtx = deleteExtraSymsFromSymCtx(
+          const newSymCtx = SymCtxUtil.deleteExtraSymsFromSymCtx(
             state.symCtx,
             { ...primitiveSyms, ...Deduction.getSyms(newDeductionInterface.deduction) }
           )

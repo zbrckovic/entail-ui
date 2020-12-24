@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { withCancel } from '../../misc'
-import { authenticationService } from '../../infrastructure/authentication-service'
+import { withCancel } from 'utils/with-cancel'
+import { authenticationService } from 'services/authentication-service'
 import { Card } from '@blueprintjs/core'
 import style from './register-page.m.scss'
 import { RegisterPageForm } from './register-page-form'
@@ -17,7 +17,8 @@ export const RegisterPage = () => {
 
     setIsRegisterInProgress(true)
     const [register, cancel] = withCancel(authenticationService.register(registerParams))
-    register.finally(() => { setIsRegisterInProgress(false) })
+    register
+      .finally(() => { setIsRegisterInProgress(false) })
 
     return cancel
   }, [registerParams])

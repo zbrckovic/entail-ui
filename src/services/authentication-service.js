@@ -1,5 +1,10 @@
-export const AuthenticationService = ({ apiService }) => {
-  const login = (username, password) => apiService.login(username, password)
+import { apiService } from './api-service'
 
-  return { login }
-}
+export const authenticationService = ({
+  async register (credentials) {
+    return await apiService.register(credentials)
+  },
+  async login (credentials) {
+    return await apiService.login(credentials)
+  }
+})

@@ -2,7 +2,7 @@ import React from 'react'
 import { Rule, getAbbreviation } from '@zbrckovic/entail-core'
 import style from './rule-badge.m.scss'
 import classnames from 'classnames'
-import { useRuleDescriber } from '../../hooks'
+import { useRuleDescriber } from '../formula-editor/use-parser-error-describer'
 
 export const RuleBadge = ({ rule, className, ...props }) => {
   const { main, superscript } = ruleSignatures[rule]

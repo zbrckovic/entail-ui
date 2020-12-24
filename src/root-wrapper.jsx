@@ -8,7 +8,7 @@ import 'style/main.scss'
 import { Classes } from '@blueprintjs/core'
 import style from './root-wrapper.m.scss'
 import classnames from 'classnames'
-import { withCancel } from './misc'
+import { withCancel } from 'utils/with-cancel'
 
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)

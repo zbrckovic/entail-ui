@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { LoginPageForm } from './login-page-form'
-import { withCancel } from '../../misc'
-import { authenticationService } from '../../infrastructure/authentication-service'
+import { withCancel } from 'utils/with-cancel'
+import { authenticationService } from 'services/authentication-service'
 import { Card } from '@blueprintjs/core'
 import style from './login-page.m.scss'
 import { useTranslation } from 'react-i18next'
@@ -17,7 +17,13 @@ export const LoginPage = () => {
 
     setIsLoginInProgress(true)
     const [login, cancel] = withCancel(authenticationService.login(loginParams))
-    login.finally(() => { setIsLoginInProgress(false) })
+
+    login
+      .then(
+        () => { console.log('success') },
+        error => { console.log('error') }
+      )
+      .finally(() => { setIsLoginInProgress(false) })
 
     return cancel
   }, [loginParams])
