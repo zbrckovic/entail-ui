@@ -2,16 +2,20 @@ import React, { useState } from 'react'
 import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { Link, useRouteMatch } from 'react-router-dom'
+import style from './login-page-form.m.scss'
 
 export const LoginPageForm = ({ onSubmit, isLoading }) => {
   const [state, setState] = useState({ email: undefined, password: undefined })
   const { url } = useRouteMatch()
 
   return (
-    <form onSubmit={event => {
-      event.preventDefault()
-      onSubmit(state)
-    }}>
+    <form
+      className={style.root}
+      onSubmit={event => {
+        event.preventDefault()
+        onSubmit(state)
+      }}
+    >
       <FormGroup label="Email" disabled={isLoading}>
         <InputGroup
           placeholder="Email"
@@ -20,7 +24,10 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
           }}
         />
       </FormGroup>
-      <FormGroup label="Password">
+      <FormGroup
+        className={style.passwordFormGroup}
+        label="Password"
+      >
         <InputGroup
           type="password"
           placeholder="Password"
@@ -29,7 +36,11 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
           }}
         />
       </FormGroup>
-      <Link to={`${url}/forgot-password`}>Forgot password</Link>
+      <div className={style.forgotPasswordContainer}>
+        <Link to='/forgot-password'>
+          Forgot password?
+        </Link>
+      </div>
       <Button
         loading={isLoading}
         type="submit"
@@ -38,6 +49,11 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       >
         Login
       </Button>
+      <div className={style.dontHaveAnAccountContainer}>
+        <Link to={'/register'}>
+          {'Don\'t have an account yet?'}
+        </Link>
+      </div>
     </form>
   )
 }

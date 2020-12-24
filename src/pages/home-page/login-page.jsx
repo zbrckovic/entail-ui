@@ -3,6 +3,8 @@ import { useRouteMatch } from 'react-router-dom'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from '../../misc'
 import { authenticationService } from '../../infrastructure/authentication-service'
+import { Card } from '@blueprintjs/core'
+import style from './login-page.m.scss'
 
 export const LoginPage = () => {
   const { path, url } = useRouteMatch()
@@ -19,7 +21,8 @@ export const LoginPage = () => {
     return cancel
   }, [loginParams])
 
-  return (
+  return <Card className={style.root}>
+    <h2 className={style.title}>Login</h2>
     <LoginPageForm onSubmit={setLoginParams} isLoading={isLoginInProgress} />
-  )
+  </Card>
 }

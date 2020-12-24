@@ -1,0 +1,10 @@
+.root {
+  width: 260px;
+
+  display: flex;
+  flex-direction: column;
+
+  .title {
+    text-align: center;
+  }
+}

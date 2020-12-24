@@ -3,33 +3,33 @@ import cytoscape from 'cytoscape'
 import klay from 'cytoscape-klay'
 import { environment } from 'environment'
 import { initI18n } from 'i18n'
-import { ActivityStatus } from 'misc/activity-status'
 import React, { useEffect, useState } from 'react'
 import 'style/main.scss'
 import { Classes } from '@blueprintjs/core'
 import style from './root-wrapper.m.scss'
 import classnames from 'classnames'
+import { withCancel } from './misc'
 
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)
 
 export const RootWrapper = ({ children, className, ...props }) => {
-  const [initializationStatus, setInitializationStatus] = useState(ActivityStatus.InProgress)
-
+  const [isInitializing, setIsInitializing] = useState(true)
   const [isThemeDark, setIsThemeDark] = useState(false)
 
   useEffect(() => {
-    const subscription = initI18n.subscribe({
-      complete () { setInitializationStatus(ActivityStatus.Succeeded) }
-    })
+    setIsInitializing(true)
 
-    return () => { subscription.unsubscribe() }
+    const [init, cancel] = withCancel(initI18n())
+    init.finally(() => { setIsInitializing(false) })
+
+    return cancel
   }, [])
 
   return <>
     <RootCtx.Provider value={{
       environment,
-      initializationStatus,
+      isInitializing,
       theme: {
         isDark: isThemeDark,
         setIsDark: setIsThemeDark

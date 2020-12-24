@@ -1,0 +1,28 @@
+@import "style/definitions";
+
+.root {
+  display: flex;
+  flex-direction: column;
+
+  .passwordFormGroup {
+    margin-bottom: 4px;
+  }
+
+  .forgotPasswordContainer {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-bottom: 16px;
+  }
+
+  .dontHaveAnAccountContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+
+  .actions {
+    background: red
+  }
+}
