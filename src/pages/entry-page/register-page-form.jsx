@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
+import React, { useRef } from 'react'
+import { Button, FormGroup, InputGroup, Intent, ProgressBar } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { Link } from 'react-router-dom'
 import style from './register-page-form.m.scss'
@@ -9,6 +9,8 @@ import validator from 'validator'
 
 export const RegisterPageForm = ({ onSubmit, isLoading }) => {
   const { t } = useTranslation('entryPage')
+
+  const passwordStrength = useRef(0)
 
   const formik = useFormik({
     initialValues: {
@@ -25,9 +27,16 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
 
       if (validator.isEmpty(password)) {
         errors.password = t('registerPage.message.passwordIsNotProvided')
+        passwordStrength.current = 0
       } else {
-        if (password !== repeatedPassword) {
-          errors.repeatedPassword = t('registerPage.message.passwordsDontMatch')
+        passwordStrength.current = validator.isStrongPassword(password, { returnScore: true })
+
+        if (passwordStrength.current < 30) {
+          errors.password = t('registerPage.message.passwordIsNotStrongEnough')
+        } else {
+          if (password !== repeatedPassword) {
+            errors.repeatedPassword = t('registerPage.message.passwordsDontMatch')
+          }
         }
       }
 
@@ -35,6 +44,8 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
     },
     onSubmit
   })
+
+  console.log(passwordStrength.current)
 
   return (
     <form
@@ -60,15 +71,11 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       <FormGroup
         label={t('registerPage.label.password')}
         labelFor='password'
-        helperText={formik.errors.password || formik.errors.repeatedPassword}
+        helperText={formik.errors.password}
         disabled={isLoading}
-        intent={
-          formik.errors.password !== undefined || formik.errors.repeatedPassword !== undefined
-            ? Intent.DANGER
-            : undefined}
+        intent={formik.errors.password !== undefined ? Intent.DANGER : undefined}
       >
         <InputGroup
-          className={style.passwordInputGroup}
           id='password'
           name='password'
           type='password'
@@ -76,6 +83,18 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           onChange={formik.handleChange}
           intent={formik.errors.password !== undefined ? Intent.DANGER : undefined}
         />
+        <ProgressBar
+          intent={intentFromPasswordStrength(passwordStrength.current)}
+          value={Math.min(passwordStrength.current / 30, 1)}
+          stripes={false}
+        />
+      </FormGroup>
+      <FormGroup
+        labelFor='repeatedPassword'
+        helperText={formik.errors.repeatedPassword}
+        disabled={isLoading}
+        intent={formik.errors.repeatedPassword !== undefined ? Intent.DANGER : undefined}
+      >
         <InputGroup
           id='repeatedPassword'
           name='repeatedPassword'
@@ -100,4 +119,10 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       </div>
     </form>
   )
+}
+
+const intentFromPasswordStrength = strength => {
+  if (strength < 15) return Intent.DANGER
+  if (strength < 30) return Intent.WARNING
+  return Intent.SUCCESS
 }

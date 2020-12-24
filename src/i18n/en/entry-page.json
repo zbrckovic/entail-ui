@@ -29,7 +29,8 @@
     "message": {
       "emailIsNotValid": "Email is not valid",
       "passwordIsNotProvided": "Password is not provided",
-      "passwordsDontMatch": "Passwords don't match"
+      "passwordsDontMatch": "Passwords don't match",
+      "passwordIsNotStrongEnough": "Password is not strong enough"
     },
     "button": {
       "register": "Register"
