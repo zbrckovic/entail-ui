@@ -1,34 +1,22 @@
-import { Login } from './login'
-import { Register } from './register'
-import React, { useEffect, useState } from 'react'
-import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
-import { authenticationService } from '../../infrastructure/authentication-service'
-import { withCancel } from '../../misc'
+import { RegisterPage } from './register-page'
+import React from 'react'
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
+import { LoginPage } from './login-page'
 
 export const HomePage = () => {
-  const { path, url } = useRouteMatch()
-
-  const [loginParams, setLoginParams] = useState(undefined)
-  const [loginInProgress, setLoginInProgress] = useState(false)
-
-  useEffect(() => {
-    if (loginParams === undefined) return
-    setLoginInProgress(true)
-    const [login, cancel] = withCancel(authenticationService.login(loginParams))
-    login.finally(() => { setLoginInProgress(false) })
-    return cancel
-  }, [loginParams])
+  let { path, url } = useRouteMatch()
+  if (url.endsWith('/')) { url = url.slice(0, -1) }
+  if (path.endsWith('/')) { path = path.slice(0, -1) }
 
   return <>
-    <Link to={`${url}login`}>Login</Link>
-    <Link to={`${url}register`}>Register</Link>
     <Switch>
-      <Route path={`${path}login`}>
-        <Login onSubmit={setLoginParams} isLoading={loginInProgress} />
+      <Route path={`${path}/login`}>
+        <LoginPage />
       </Route>
-      <Route path={`${path}register`}>
-        <Register />
+      <Route path={`${path}/register`}>
+        <RegisterPage />
       </Route>
+      <Redirect to={`${path}/login`} />
     </Switch>
   </>
 }

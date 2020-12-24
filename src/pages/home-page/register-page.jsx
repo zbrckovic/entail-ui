@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Register = () => <>
+export const RegisterPage = () => <>
   <h1>register</h1>
 </>

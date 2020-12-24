@@ -3,7 +3,7 @@ import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { Link, useRouteMatch } from 'react-router-dom'
 
-export const Login = ({ onSubmit, isLoading }) => {
+export const LoginPageForm = ({ onSubmit, isLoading }) => {
   const [state, setState] = useState({ email: undefined, password: undefined })
   const { url } = useRouteMatch()
 
@@ -29,7 +29,7 @@ export const Login = ({ onSubmit, isLoading }) => {
           }}
         />
       </FormGroup>
-      <Link to={`${url}forgot-password`}>Forgot password</Link>
+      <Link to={`${url}/forgot-password`}>Forgot password</Link>
       <Button
         loading={isLoading}
         type="submit"
