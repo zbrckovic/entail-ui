@@ -3,6 +3,7 @@ import { Register } from './register'
 import React, { useEffect, useState } from 'react'
 import { Link, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { authenticationService } from '../../infrastructure/authentication-service'
+import { withCancel } from '../../misc'
 
 export const HomePage = () => {
   const { path, url } = useRouteMatch()
@@ -12,20 +13,10 @@ export const HomePage = () => {
 
   useEffect(() => {
     if (loginParams === undefined) return
-    let isActive = true
-
-    ;(async () => {
-      try {
-        setLoginInProgress(true)
-        await authenticationService.login(loginParams)
-      } finally {
-        if (isActive) {
-          setLoginInProgress(false)
-        }
-      }
-    })()
-
-    return () => { isActive = false }
+    setLoginInProgress(true)
+    const [login, cancel] = withCancel(authenticationService.login(loginParams))
+    login.finally(() => { setLoginInProgress(false) })
+    return cancel
   }, [loginParams])
 
   return <>
