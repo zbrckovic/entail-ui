@@ -1,10 +1,10 @@
 import { apiService } from './api-service'
 
 export const authenticationService = ({
-  register (email, password) {
-    return apiService.register(email, password)
+  async register (credentials) {
+    return await apiService.register(credentials)
   },
-  login (email, password) {
-    return apiService.login(email, password)
+  async login (credentials) {
+    return await apiService.login(credentials)
   }
 })

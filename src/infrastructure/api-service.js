@@ -1,5 +1,4 @@
 import axiosLib from 'axios'
-import { defer } from 'rxjs'
 import { environment } from '../environment'
 
 const axios = axiosLib.create({
@@ -10,10 +9,10 @@ const axios = axiosLib.create({
 })
 
 export const apiService = ({
-  register (email, password) {
-    return defer(() => axios.post('register', { email, password }))
+  async register (credentials) {
+    return await axios.post('register', credentials)
   },
-  login (email, password) {
-    return defer(() => axios.post('login', { email, password }))
+  async login (credentials) {
+    return await axios.post('login', credentials)
   }
 })

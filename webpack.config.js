@@ -15,7 +15,7 @@ module.exports = (options = {}) => {
   const {
     DEVELOPMENT = false,
     PORT = 8080,
-    API_URL = 'https://localhost:2004/api',
+    API_URL = 'https://localhost:5000',
     LOCALE = 'hr'
   } = Object.assign({}, fileEnv, options)
 
@@ -36,12 +36,7 @@ module.exports = (options = {}) => {
       port: PORT,
       hot: true,
       historyApiFallback: true,
-      publicPath: '/',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-        'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
-      }
+      publicPath: '/'
     },
     module: {
       rules: [
