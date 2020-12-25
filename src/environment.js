@@ -16,6 +16,7 @@ const commitHash = process.env.COMMIT_HASH
 const branch = process.env.BRANCH
 const development = parseBoolean(process.env.DEVELOPMENT, true)
 const apiTokenRefreshPeriodMinutes = parseNumber(process.env.API_TOKEN_REFRESH_PERIOD_MINUTES, 5)
+const storybook = parseBoolean(process.env.STORYBOOK, false)
 
 export const environment = {
   apiUrl,
@@ -23,7 +24,8 @@ export const environment = {
   commitHash,
   branch,
   development,
-  apiTokenRefreshPeriodMinutes
+  apiTokenRefreshPeriodMinutes,
+  storybook
 }
 
 if (development) {

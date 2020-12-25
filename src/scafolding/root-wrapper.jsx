@@ -5,39 +5,66 @@ import { environment } from 'environment'
 import { initI18n } from 'i18n'
 import React, { useEffect, useState } from 'react'
 import 'style/main.scss'
-import { Classes } from '@blueprintjs/core'
+import { Classes, Spinner } from '@blueprintjs/core'
 import style from './root-wrapper.m.scss'
-import classnames from 'classnames'
 import { withCancel } from 'utils/with-cancel'
+import { ApiTokenRefreshService } from '../services/api-token-refresh-service'
+import classNames from 'classnames'
 
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)
 
 // Provides context necessary for both application and stories
 export const RootWrapper = ({ children, className, ...props }) => {
-  const [isInitializing, setIsInitializing] = useState(true)
+  const [i18nIsInitializing, setI18nIsInitializing] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState()
   const [isThemeDark, setIsThemeDark] = useState(false)
+  const [apiTokenRefreshService] = useState(() => {
+    if (environment.storybook) return undefined
+
+    return ApiTokenRefreshService(
+      () => {
+        if (isLoggedIn === undefined || !isLoggedIn) {
+          setIsLoggedIn(true)
+        }
+      },
+      () => { setIsLoggedIn(false) }
+    )
+  })
 
   useEffect(() => {
-    setIsInitializing(true)
-
     const [init, cancel] = withCancel(initI18n())
-    init.finally(() => { setIsInitializing(false) })
-
+    init.finally(() => { setI18nIsInitializing(false) })
     return cancel
   }, [])
+
+  useEffect(() => {
+    if (apiTokenRefreshService === undefined) return
+    if (isLoggedIn === true) return
+    apiTokenRefreshService.start()
+    return () => { apiTokenRefreshService.stop() }
+  }, [apiTokenRefreshService, isLoggedIn])
+
+  const isInitializing = i18nIsInitializing || (!environment.storybook && isLoggedIn === undefined)
+
+  if (isInitializing) {
+    return <div className={classNames(style.loadingContainer, className)}>
+      <Spinner />
+    </div>
+  }
 
   return <>
     <RootCtx.Provider value={{
       environment,
-      isInitializing,
       theme: {
         isDark: isThemeDark,
         setIsDark: setIsThemeDark
-      }
+      },
+      isLoggedIn,
+      setIsLoggedIn: isLoggedIn => { setIsLoggedIn(isLoggedIn) }
     }}>
       <div
-        className={classnames(
+        className={classNames(
           style.root,
           { [Classes.DARK]: isThemeDark, [style.dark]: isThemeDark },
           className
