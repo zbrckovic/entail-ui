@@ -1,4 +1,4 @@
-@import "../style/definitions";
+@import "style/definitions";
 
 .root {
   height: 100%;
@@ -9,4 +9,10 @@
   }
 
   background-color: $pt-app-background-color;
+
+  &.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

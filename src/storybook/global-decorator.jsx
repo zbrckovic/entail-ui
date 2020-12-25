@@ -1,13 +1,13 @@
 import { RootCtx } from 'contexts'
 import React, { useContext } from 'react'
-import { RootWrapper } from 'scafolding/root-wrapper'
+import { StorybookRootWrapper } from './storybook-root-wrapper'
 
 export const globalDecorator = Story =>
-  <RootWrapper>
+  <StorybookRootWrapper>
     <GlobalWrapper>
       <Story />
     </GlobalWrapper>
-  </RootWrapper>
+  </StorybookRootWrapper>
 
 const GlobalWrapper = ({ children }) => {
   const { isInitializing } = useContext(RootCtx)

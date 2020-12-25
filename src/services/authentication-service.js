@@ -7,6 +7,9 @@ export const authenticationService = ({
   async login (credentials) {
     return await apiService.login(credentials)
   },
+  async logout () {
+    return await apiService.logout()
+  },
   async refreshApiToken () {
     return await apiService.getApiToken()
   }

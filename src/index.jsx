@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { RootWrapper } from 'scafolding/root-wrapper'
+import { RootWrapper } from 'root-wrapper'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { EntryPage } from './pages/entry-page'
 

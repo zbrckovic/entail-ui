@@ -12,6 +12,9 @@ export const apiService = ({
   async login (credentials) {
     return await axios.post('login', credentials)
   },
+  async logout () {
+    return await axios.post('logout')
+  },
   async getApiToken () {
     return await axios.get('apiToken')
   }

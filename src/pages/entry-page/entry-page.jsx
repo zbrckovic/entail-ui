@@ -1,16 +1,24 @@
 import { RegisterPage } from './register-page'
-import React, { useContext } from 'react'
-import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Redirect, Route, Switch, useRouteMatch, useHistory } from 'react-router-dom'
 import { LoginPage } from './login-page'
 import style from './entry-page.m.scss'
 import { RootCtx } from '../../contexts'
+import { HomePage } from '../home-page'
 
 export const EntryPage = () => {
   const { isLoggedIn } = useContext(RootCtx)
   let { path } = useRouteMatch()
   if (path.endsWith('/')) { path = path.slice(0, -1) }
+  const history = useHistory()
 
-  console.log(isLoggedIn)
+  useEffect(() => {
+    if (isLoggedIn) {
+      history.replace('/')
+    } else {
+      history.replace('/login')
+    }
+  }, [history, isLoggedIn])
 
   return <div className={style.root}>
     <Switch>
@@ -20,7 +28,10 @@ export const EntryPage = () => {
       <Route exact path={`${path}/register`}>
         <RegisterPage />
       </Route>
-      <Redirect to={`${path}/login`} />
+      <Route>
+        <HomePage />
+      </Route>
+      <Redirect to={`${path}/`} />
     </Switch>
   </div>
 }
