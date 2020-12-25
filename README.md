@@ -1,7 +1,6 @@
-# entail-ui
+# Environment Variables
 
-This application provides an interface for the construction of proofs in the system of natural 
-deduction. The system is based on the one presented by W. V. Quine in `Methods of Logic`.
+Name                               | Default
+-----------------------------------|--------
+`API_TOKEN_REFRESH_PERIOD_MINUTES` | `5`
 
-Core functionality is extracted as a separate library 
-[entail-core](https://github.com/zbrckovic/entail-core).

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from 'utils/with-cancel'
 import { authenticationService } from 'services/authentication-service'
@@ -8,9 +8,11 @@ import { useTranslation } from 'react-i18next'
 import { ErrorName } from '../../error'
 import { toaster } from '../../toaster'
 import { IconNames } from '@blueprintjs/icons'
+import { RootCtx } from '../../contexts'
 
 export const LoginPage = () => {
   const { t } = useTranslation('entryPage')
+  const { setIsLoggedIn } = useContext(RootCtx)
 
   const [loginParams, setLoginParams] = useState(undefined)
   const [isLoginInProgress, setIsLoginInProgress] = useState(false)
@@ -23,7 +25,7 @@ export const LoginPage = () => {
 
     login
       .then(
-        () => { console.log('success') },
+        () => { setIsLoggedIn(true) },
         ({ name }) => {
           if (name === ErrorName.INVALID_CREDENTIALS) {
             toaster.show({
@@ -37,7 +39,7 @@ export const LoginPage = () => {
       .finally(() => { setIsLoginInProgress(false) })
 
     return cancel
-  }, [loginParams, t])
+  }, [loginParams, t, setIsLoggedIn])
 
   return <Card className={style.root}>
     <h2 className={style.title}>{t('loginPage.title')}</h2>

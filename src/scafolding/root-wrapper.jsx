@@ -13,6 +13,7 @@ import { withCancel } from 'utils/with-cancel'
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)
 
+// Provides context necessary for both application and stories
 export const RootWrapper = ({ children, className, ...props }) => {
   const [isInitializing, setIsInitializing] = useState(true)
   const [isThemeDark, setIsThemeDark] = useState(false)

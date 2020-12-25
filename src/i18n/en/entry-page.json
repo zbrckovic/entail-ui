@@ -31,7 +31,8 @@
       "emailIsNotValid": "Email is not valid",
       "passwordIsNotProvided": "Password is not provided",
       "passwordsDontMatch": "Passwords don't match",
-      "passwordIsNotStrongEnough": "Password is not strong enough"
+      "passwordIsNotStrongEnough": "Password is not strong enough",
+      "thisEmailIsAlreadyBeingUsed": "This email is already being used"
     },
     "button": {
       "register": "Register"

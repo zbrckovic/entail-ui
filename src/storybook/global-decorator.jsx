@@ -1,6 +1,6 @@
 import { RootCtx } from 'contexts'
 import React, { useContext } from 'react'
-import { RootWrapper } from 'root-wrapper'
+import { RootWrapper } from 'scafolding/root-wrapper'
 
 export const globalDecorator = Story =>
   <RootWrapper>
