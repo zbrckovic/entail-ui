@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from 'utils/with-cancel'
 import { authenticationService } from 'services/authentication-service'
-import { Card } from '@blueprintjs/core'
+import { Card, Intent } from '@blueprintjs/core'
 import style from './login-page.m.scss'
 import { useTranslation } from 'react-i18next'
+import { ErrorName } from '../../error'
+import { toaster } from '../../toaster'
+import { IconNames } from '@blueprintjs/icons'
 
 export const LoginPage = () => {
   const { t } = useTranslation('entryPage')
@@ -21,12 +24,20 @@ export const LoginPage = () => {
     login
       .then(
         () => { console.log('success') },
-        error => { console.log('error') }
+        ({ name }) => {
+          if (name === ErrorName.INVALID_CREDENTIALS) {
+            toaster.show({
+              message: t('loginPage.message.invalidCredentials'),
+              intent: Intent.DANGER,
+              icon: IconNames.WARNING_SIGN
+            })
+          }
+        }
       )
       .finally(() => { setIsLoginInProgress(false) })
 
     return cancel
-  }, [loginParams])
+  }, [loginParams, t])
 
   return <Card className={style.root}>
     <h2 className={style.title}>{t('loginPage.title')}</h2>

@@ -6,6 +6,7 @@ import style from './login-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import validator from 'validator'
 import { useFormik } from 'formik'
+import { getErrorForField, getIntentForField } from '../../utils/form-utils'
 
 export const LoginPageForm = ({ onSubmit, isLoading }) => {
   const { t } = useTranslation('entryPage')
@@ -39,9 +40,9 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       <FormGroup
         label={t('loginPage.label.email')}
         labelFor='email'
-        helperText={formik.errors.email}
+        helperText={getErrorForField(formik, 'email')}
         disabled={isLoading}
-        intent={formik.errors.email !== undefined ? Intent.DANGER : undefined}
+        intent={getIntentForField(formik, 'email')}
       >
         <InputGroup
           id='email'
@@ -49,16 +50,17 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
           type='text'
           value={formik.values.email}
           onChange={formik.handleChange}
-          intent={formik.errors.email !== undefined ? Intent.DANGER : undefined}
+          onBlur={formik.handleBlur}
+          intent={getIntentForField(formik, 'email')}
         />
       </FormGroup>
       <FormGroup
         className={style.passwordFormGroup}
         label={t('loginPage.label.password')}
         labelFor='password'
-        helperText={formik.errors.password}
+        helperText={getErrorForField(formik, 'password')}
+        intent={getIntentForField(formik, 'password')}
         disabled={isLoading}
-        intent={formik.errors.password !== undefined ? Intent.DANGER : undefined}
       >
         <InputGroup
           id='password'
@@ -66,7 +68,8 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
           type='password'
           value={formik.values.password}
           onChange={formik.handleChange}
-          intent={formik.errors.password !== undefined ? Intent.DANGER : undefined}
+          onBlur={formik.handleBlur}
+          intent={getIntentForField(formik, 'password')}
         />
       </FormGroup>
       <div className={style.forgotPasswordContainer}>

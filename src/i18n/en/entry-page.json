@@ -11,7 +11,8 @@
     },
     "message": {
       "emailIsNotValid": "Email is not valid",
-      "passwordIsNotProvided": "Password is not provided"
+      "passwordIsNotProvided": "Password is not provided",
+      "invalidCredentials": "Invalid credentials"
     },
     "button": {
       "login": "Login"
