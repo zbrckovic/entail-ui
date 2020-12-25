@@ -1,16 +1,20 @@
 import React, { useRef } from 'react'
-import { Button, FormGroup, InputGroup, Intent, ProgressBar } from '@blueprintjs/core'
+import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { Link } from 'react-router-dom'
 import style from './register-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import validator from 'validator'
+import { PasswordStrengthIndicator } from '../../components/password-strength-indicator/password-strength-indicator'
+
+const PASSWORD_STRENGTH_THRESHOLD_WEAK = 0.4
+const PASSWORD_STRENGTH_THRESHOLD_STRONG = 0.8
 
 export const RegisterPageForm = ({ onSubmit, isLoading }) => {
   const { t } = useTranslation('entryPage')
 
-  const passwordStrength = useRef(0)
+  const passwordStrength = useRef()
 
   const formik = useFormik({
     initialValues: {
@@ -27,11 +31,14 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
 
       if (validator.isEmpty(password)) {
         errors.password = t('registerPage.message.passwordIsNotProvided')
-        passwordStrength.current = 0
+        passwordStrength.current = undefined
       } else {
-        passwordStrength.current = validator.isStrongPassword(password, { returnScore: true })
+        passwordStrength.current = Math.min(
+          validator.isStrongPassword(password, { returnScore: true }) / 60,
+          1
+        )
 
-        if (passwordStrength.current < 30) {
+        if (passwordStrength.current < PASSWORD_STRENGTH_THRESHOLD_WEAK) {
           errors.password = t('registerPage.message.passwordIsNotStrongEnough')
         } else {
           if (password !== repeatedPassword) {
@@ -44,8 +51,6 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
     },
     onSubmit
   })
-
-  console.log(passwordStrength.current)
 
   return (
     <form
@@ -69,6 +74,7 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
         />
       </FormGroup>
       <FormGroup
+        className={style.passwordFormControl}
         label={t('registerPage.label.password')}
         labelFor='password'
         helperText={formik.errors.password}
@@ -83,11 +89,6 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           onChange={formik.handleChange}
           intent={formik.errors.password !== undefined ? Intent.DANGER : undefined}
         />
-        <ProgressBar
-          intent={intentFromPasswordStrength(passwordStrength.current)}
-          value={Math.min(passwordStrength.current / 30, 1)}
-          stripes={false}
-        />
       </FormGroup>
       <FormGroup
         labelFor='repeatedPassword'
@@ -101,9 +102,18 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           type='password'
           value={formik.values.repeatedPassword}
           onChange={formik.handleChange}
+          placeholder={t('registerPage.placeholder.repeatThePassword')}
           intent={formik.errors.repeatedPassword !== undefined ? Intent.DANGER : undefined}
         />
       </FormGroup>
+      {passwordStrength.current !== undefined && (
+        <PasswordStrengthIndicator
+          className={style.passwordStrengthIndicator}
+          strength={passwordStrength.current}
+          weakThreshold={PASSWORD_STRENGTH_THRESHOLD_WEAK}
+          strongThreshold={PASSWORD_STRENGTH_THRESHOLD_STRONG}
+        />
+      )}
       <Button
         loading={isLoading}
         type="submit"
@@ -119,10 +129,4 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       </div>
     </form>
   )
-}
-
-const intentFromPasswordStrength = strength => {
-  if (strength < 15) return Intent.DANGER
-  if (strength < 30) return Intent.WARNING
-  return Intent.SUCCESS
 }

@@ -8,6 +8,7 @@ import TermDependencies from './term-dependencies.json'
 import DeductionSteps from './deduction-steps.json'
 import PrimitiveSymbols from './primitive-symbols.json'
 import entryPage from './entry-page.json'
+import PasswordStrengthIndicator from './password-strength-indicator.json'
 
 export const namespaces = {
   DevInfo,
@@ -19,5 +20,6 @@ export const namespaces = {
   TermDependencies,
   DeductionSteps,
   PrimitiveSymbols,
-  entryPage
+  entryPage,
+  PasswordStrengthIndicator
 }

@@ -36,7 +36,7 @@
       "register": "Register"
     },
     "placeholder": {
-      "repeatYourPassword": "Repeat your password"
+      "repeatThePassword": "Repeat the password"
     }
   }
 }
