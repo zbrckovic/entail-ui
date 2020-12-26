@@ -29,16 +29,17 @@ export const ForgotPasswordPage = () => {
       authenticationService.requestPasswordChange(...requestPasswordChangeParams)
     )
 
-    requestPasswordChange
-      .then(() => {
+    requestPasswordChange.then(
+      () => {
         toaster.show({
           icon: IconNames.INFO_SIGN,
           intent: Intent.PRIMARY,
           message: t('message.passwordChangeText')
         })
         history.replace('/login')
-      })
-      .finally(() => { setIsRequestPasswordChangeInProgress(false) })
+      },
+      () => { setIsRequestPasswordChangeInProgress(false) }
+    )
 
     return cancel
   }, [requestPasswordChangeParams, authenticationService, history, t])

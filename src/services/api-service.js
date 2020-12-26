@@ -17,16 +17,16 @@ export const ApiService = ({ t }) => {
       return await axios.post('logout')
     },
     async getApiToken () {
-      return await axios.get('apiToken')
+      return await axios.get('api-token')
     },
     async requestPasswordChange (email) {
-      return await axios.post('requestPasswordChange', { email })
+      return await axios.post('request-password-change', { email })
     }
   })
 
   const axios = axiosLib.create({
     baseURL: environment.apiUrl,
-    timeout: 1000,
+    timeout: environment.apiClientTimeoutMs,
     crossDomain: true,
     withCredentials: true
   })

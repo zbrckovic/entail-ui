@@ -35,7 +35,9 @@ module.exports = (options = {}) => {
       contentBase: SRC_DIR,
       port: PORT,
       hot: true,
-      historyApiFallback: true,
+      historyApiFallback: {
+        disableDotRule: true
+      },
       publicPath: '/'
     },
     module: {

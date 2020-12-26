@@ -22,20 +22,22 @@ export const LoginPage = () => {
     setIsLoginInProgress(true)
     const [login, cancel] = withCancel(authenticationService.login(...loginParams))
 
-    login
-      .then(
-        () => { setIsLoggedIn(true) },
-        ({ name }) => {
-          if (name === ErrorName.INVALID_CREDENTIALS) {
-            toaster.show({
-              message: t('message.invalidCredentials'),
-              intent: Intent.DANGER,
-              icon: IconNames.WARNING_SIGN
-            })
-          }
+    login.then(
+      () => {
+        setIsLoggedIn(true)
+        setIsLoginInProgress(false)
+      },
+      ({ name }) => {
+        if (name === ErrorName.INVALID_CREDENTIALS) {
+          toaster.show({
+            message: t('message.invalidCredentials'),
+            intent: Intent.DANGER,
+            icon: IconNames.WARNING_SIGN
+          })
         }
-      )
-      .finally(() => { setIsLoginInProgress(false) })
+        setIsLoginInProgress(false)
+      }
+    )
 
     return cancel
   }, [loginParams, t, setIsLoggedIn, authenticationService])

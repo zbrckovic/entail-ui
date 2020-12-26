@@ -21,20 +21,20 @@ export const RegisterPage = () => {
 
     setIsRegisterInProgress(true)
     const [register, cancel] = withCancel(authenticationService.register(...registerParams))
-    register
-      .then(
-        () => { setIsLoggedIn(true) },
-        ({ name }) => {
-          if (name === ErrorName.EMAIL_ALREADY_USED) {
-            toaster.show({
-              message: t('message.thisEmailIsAlreadyBeingUsed'),
-              intent: Intent.DANGER,
-              icon: IconNames.WARNING_SIGN
-            })
-          }
+    register.then(
+      () => { setIsLoggedIn(true) },
+      ({ name }) => {
+        if (name === ErrorName.EMAIL_ALREADY_USED) {
+          toaster.show({
+            message: t('message.thisEmailIsAlreadyBeingUsed'),
+            intent: Intent.DANGER,
+            icon: IconNames.WARNING_SIGN
+          })
         }
-      )
-      .finally(() => { setIsRegisterInProgress(false) })
+        setIsRegisterInProgress(false)
+      },
+      () => { setIsRegisterInProgress(false) }
+    )
 
     return cancel
   }, [registerParams, t, setIsLoggedIn, authenticationService])

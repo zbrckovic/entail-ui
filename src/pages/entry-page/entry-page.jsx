@@ -4,6 +4,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom'
 import { LoginPage } from './login-page'
 import { HomePage } from 'pages/home-page'
 import { ForgotPasswordPage } from './forgot-password-page'
+import { ChangePasswordPage } from './change-password-page'
 
 export const EntryPage = () => {
   let { path } = useRouteMatch()
@@ -18,6 +19,9 @@ export const EntryPage = () => {
     </Route>
     <Route exact path={`${path}/forgot-password`}>
       <ForgotPasswordPage />
+    </Route>
+    <Route exact path={`${path}/change-password/:token`}>
+      <ChangePasswordPage />
     </Route>
     <Route exact path={`${path}/`}>
       <HomePage />

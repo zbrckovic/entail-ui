@@ -11,6 +11,7 @@ const parseNumber = (value, defaultValue) => {
 }
 
 const apiUrl = process.env.API_URL
+const apiClientTimeoutMs = parseNumber(process.env.API_CLIENT_TIMEOUT_MS, 5000)
 const version = process.env.VERSION
 const commitHash = process.env.COMMIT_HASH
 const branch = process.env.BRANCH
@@ -20,6 +21,7 @@ const storybook = parseBoolean(process.env.STORYBOOK, false)
 
 export const environment = {
   apiUrl,
+  apiClientTimeoutMs,
   version,
   commitHash,
   branch,
