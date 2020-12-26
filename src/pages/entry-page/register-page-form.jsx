@@ -6,16 +6,16 @@ import style from './register-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import validator from 'validator'
-import { PasswordStrengthIndicator } from '../../components/password-strength-indicator/password-strength-indicator'
+import { PasswordStrengthIndicator } from 'components/password-strength-indicator'
 import {
   calculatePasswordStrength,
   PASSWORD_STRENGTH_THRESHOLD_STRONG,
   PASSWORD_STRENGTH_THRESHOLD_WEAK
 } from '../../validators'
-import { getErrorForField, getIntentForField } from '../../utils/form-utils'
+import { getErrorForField, getIntentForField } from 'utils/form-utils'
 
 export const RegisterPageForm = ({ onSubmit, isLoading }) => {
-  const { t } = useTranslation('entryPage')
+  const { t } = useTranslation('RegisterPage')
 
   const passwordStrength = useRef()
 
@@ -29,20 +29,20 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       const errors = {}
 
       if (!validator.isEmail(email)) {
-        errors.email = t('registerPage.message.emailIsNotValid')
+        errors.email = t('message.emailIsNotValid')
       }
 
       if (validator.isEmpty(password)) {
-        errors.password = t('registerPage.message.passwordIsNotProvided')
+        errors.password = t('message.passwordIsNotProvided')
         passwordStrength.current = undefined
       } else {
         passwordStrength.current = calculatePasswordStrength(password)
 
         if (passwordStrength.current < PASSWORD_STRENGTH_THRESHOLD_WEAK) {
-          errors.password = t('registerPage.message.passwordIsNotStrongEnough')
+          errors.password = t('message.passwordIsNotStrongEnough')
         } else {
           if (password !== repeatedPassword) {
-            errors.repeatedPassword = t('registerPage.message.passwordsDontMatch')
+            errors.repeatedPassword = t('message.passwordsDontMatch')
           }
         }
       }
@@ -58,7 +58,7 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       onSubmit={formik.handleSubmit}
     >
       <FormGroup
-        label={t('registerPage.label.email')}
+        label={t('label.email')}
         labelFor='email'
         intent={getIntentForField(formik, 'email')}
         helperText={getErrorForField(formik, 'email')}
@@ -76,7 +76,7 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       </FormGroup>
       <FormGroup
         className={style.passwordFormControl}
-        label={t('registerPage.label.password')}
+        label={t('label.password')}
         labelFor='password'
         intent={getIntentForField(formik, 'password')}
         helperText={getErrorForField(formik, 'password')}
@@ -105,7 +105,7 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           value={formik.values.repeatedPassword}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          placeholder={t('registerPage.placeholder.repeatThePassword')}
+          placeholder={t('placeholder.repeatThePassword')}
           intent={getErrorForField(formik, 'repeatedPassword')}
         />
       </FormGroup>
@@ -123,11 +123,11 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
         icon={IconNames.MANUALLY_ENTERED_DATA}
         intent={Intent.PRIMARY}
       >
-        {t('registerPage.button.register')}
+        {t('button.register')}
       </Button>
       <div className={style.alreadyHaveAnAccountContainer}>
         <Link to={'/login'}>
-          {t('registerPage.link.alreadyHaveAnAccount')}
+          {t('link.alreadyHaveAnAccount')}
         </Link>
       </div>
     </form>

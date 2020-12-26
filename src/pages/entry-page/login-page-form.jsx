@@ -1,15 +1,15 @@
 import React from 'react'
 import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import style from './login-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import validator from 'validator'
 import { useFormik } from 'formik'
-import { getErrorForField, getIntentForField } from '../../utils/form-utils'
+import { getErrorForField, getIntentForField } from 'utils/form-utils'
 
 export const LoginPageForm = ({ onSubmit, isLoading }) => {
-  const { t } = useTranslation('entryPage')
+  const { t } = useTranslation('LoginPage')
 
   const formik = useFormik({
     initialValues: {
@@ -20,11 +20,11 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       const errors = {}
 
       if (!validator.isEmail(email)) {
-        errors.email = t('loginPage.message.emailIsNotValid')
+        errors.email = t('message.emailIsNotValid')
       }
 
       if (validator.isEmpty(password)) {
-        errors.password = t('loginPage.message.passwordIsNotProvided')
+        errors.password = t('message.passwordIsNotProvided')
       }
 
       return errors
@@ -38,7 +38,7 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       onSubmit={formik.handleSubmit}
     >
       <FormGroup
-        label={t('loginPage.label.email')}
+        label={t('label.email')}
         labelFor='email'
         helperText={getErrorForField(formik, 'email')}
         disabled={isLoading}
@@ -56,7 +56,7 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       </FormGroup>
       <FormGroup
         className={style.passwordFormGroup}
-        label={t('loginPage.label.password')}
+        label={t('label.password')}
         labelFor='password'
         helperText={getErrorForField(formik, 'password')}
         intent={getIntentForField(formik, 'password')}
@@ -74,7 +74,7 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       </FormGroup>
       <div className={style.forgotPasswordContainer}>
         <Link to='/forgot-password'>
-          {t('loginPage.link.forgotPassword')}
+          {t('link.forgotPassword')}
         </Link>
       </div>
       <Button
@@ -83,11 +83,11 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
         icon={IconNames.LOG_IN}
         intent={Intent.PRIMARY}
       >
-        {t('loginPage.button.login')}
+        {t('button.login')}
       </Button>
       <div className={style.dontHaveAnAccountYetContainer}>
         <Link to={'/register'}>
-          {t('loginPage.link.dontHaveAnAccountYet')}
+          {t('link.dontHaveAnAccountYet')}
         </Link>
       </div>
     </form>

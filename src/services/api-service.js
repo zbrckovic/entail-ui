@@ -17,6 +17,9 @@ export const apiService = ({
   },
   async getApiToken () {
     return await axios.get('apiToken')
+  },
+  async requestPasswordChange () {
+    return await axios.post('requestPasswordChange')
   }
 })
 

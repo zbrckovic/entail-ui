@@ -12,5 +12,8 @@ export const authenticationService = ({
   },
   async refreshApiToken () {
     return await apiService.getApiToken()
+  },
+  async requestPasswordChange () {
+    return await apiService.requestPasswordChange()
   }
 })

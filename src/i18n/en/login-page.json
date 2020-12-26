@@ -1,0 +1,19 @@
+{
+  "title": "Login",
+  "label": {
+    "email": "Email",
+    "password": "Password"
+  },
+  "link": {
+    "forgotPassword": "Forgot password?",
+    "dontHaveAnAccountYet": "Don't have an account yet?"
+  },
+  "message": {
+    "emailIsNotValid": "Email is not valid",
+    "passwordIsNotProvided": "Password is not provided",
+    "invalidCredentials": "Invalid credentials"
+  },
+  "button": {
+    "login": "Login"
+  }
+}

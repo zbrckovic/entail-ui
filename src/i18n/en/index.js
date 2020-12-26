@@ -7,8 +7,10 @@ import IndividualVariableEditor from './individual-variable-editor.json'
 import TermDependencies from './term-dependencies.json'
 import DeductionSteps from './deduction-steps.json'
 import PrimitiveSymbols from './primitive-symbols.json'
-import entryPage from './entry-page.json'
 import PasswordStrengthIndicator from './password-strength-indicator.json'
+import LoginPage from './login-page.json'
+import RegisterPage from './register-page.json'
+import ForgotPasswordPage from './forgot-password-page.json'
 
 export const namespaces = {
   DevInfo,
@@ -20,6 +22,8 @@ export const namespaces = {
   TermDependencies,
   DeductionSteps,
   PrimitiveSymbols,
-  entryPage,
-  PasswordStrengthIndicator
+  LoginPage,
+  RegisterPage,
+  PasswordStrengthIndicator,
+  ForgotPasswordPage
 }
