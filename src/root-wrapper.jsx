@@ -10,7 +10,8 @@ import style from './root-wrapper.m.scss'
 import { withCancel } from 'utils/with-cancel'
 import { startRefreshingToken } from './services/api-token-refresh'
 import classNames from 'classnames'
-import { authenticationService } from './services/authentication-service'
+import { ApiService } from './services/api-service'
+import { AuthenticationService } from './services/authentication-service'
 
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)
@@ -18,32 +19,46 @@ cytoscape.use(klay)
 // Provides context necessary for both application and stories
 export const RootWrapper = ({ children, className, ...props }) => {
   const [i18nIsInitializing, setI18nIsInitializing] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(undefined)
   const [isThemeDark, setIsThemeDark] = useState(false)
+  const [authenticationService, setAuthenticationService] = useState()
+  const [isLoggedIn, setIsLoggedIn] = useState(undefined)
 
   // Initialize i18n on start
   useEffect(() => {
     const [init, cancel] = withCancel(initI18n())
-    init.finally(() => { setI18nIsInitializing(false) })
+    init
+      .then(t => {
+        const apiService = ApiService({ t })
+        const authenticationService = AuthenticationService({ apiService })
+        setAuthenticationService(authenticationService)
+      })
+      .finally(() => {
+        setI18nIsInitializing(false)
+      })
     return cancel
   }, [])
 
   // Refresh api token on start (if not storybook)
   useEffect(() => {
+    if (authenticationService === undefined) return
     const [refreshApiToken, cancel] = withCancel(authenticationService.refreshApiToken())
     refreshApiToken.then(
-      () => { setIsLoggedIn(true) },
-      () => { setIsLoggedIn(false) }
+      () => {
+        setIsLoggedIn(true)
+      },
+      () => {
+        setIsLoggedIn(false)
+      }
     )
 
     return cancel
-  }, [])
+  }, [authenticationService])
 
   useEffect(() => {
     if (isLoggedIn) {
-      return startRefreshingToken(() => { setIsLoggedIn(false) })
+      return startRefreshingToken(authenticationService, () => { setIsLoggedIn(false) })
     }
-  }, [isLoggedIn])
+  }, [authenticationService, isLoggedIn])
 
   const isInitializing = i18nIsInitializing || isLoggedIn === undefined
 
@@ -60,6 +75,7 @@ export const RootWrapper = ({ children, className, ...props }) => {
         isDark: isThemeDark,
         setIsDark: setIsThemeDark
       },
+      authenticationService,
       isLoggedIn,
       setIsLoggedIn: isLoggedIn => { setIsLoggedIn(isLoggedIn) }
     }}>

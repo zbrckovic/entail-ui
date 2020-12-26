@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from 'utils/with-cancel'
-import { authenticationService } from 'services/authentication-service'
 import { Card, Intent } from '@blueprintjs/core'
 import style from './login-page.m.scss'
 import { useTranslation } from 'react-i18next'
@@ -13,15 +12,15 @@ import { Redirect } from 'react-router-dom'
 
 export const LoginPage = () => {
   const { t } = useTranslation('LoginPage')
-  const { isLoggedIn, setIsLoggedIn } = useContext(RootCtx)
-  const [loginParams, setLoginParams] = useState(undefined)
+  const { isLoggedIn, setIsLoggedIn, authenticationService } = useContext(RootCtx)
+  const [loginParams, setLoginParams] = useState()
   const [isLoginInProgress, setIsLoginInProgress] = useState(false)
 
   useEffect(() => {
     if (loginParams === undefined) return
 
     setIsLoginInProgress(true)
-    const [login, cancel] = withCancel(authenticationService.login(loginParams))
+    const [login, cancel] = withCancel(authenticationService.login(...loginParams))
 
     login
       .then(
@@ -39,14 +38,17 @@ export const LoginPage = () => {
       .finally(() => { setIsLoginInProgress(false) })
 
     return cancel
-  }, [loginParams, t, setIsLoggedIn])
+  }, [loginParams, t, setIsLoggedIn, authenticationService])
 
   if (isLoggedIn) return <Redirect to='/' />
 
   return <div className={style.root}>
     <Card className={style.card}>
       <h2 className={style.title}>{t('title')}</h2>
-      <LoginPageForm onSubmit={setLoginParams} isLoading={isLoginInProgress} />
+      <LoginPageForm
+        onSubmit={payload => { setLoginParams([payload]) }}
+        isLoading={isLoginInProgress}
+      />
     </Card>
   </div>
 }

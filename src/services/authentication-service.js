@@ -1,6 +1,4 @@
-import { apiService } from './api-service'
-
-export const authenticationService = ({
+export const AuthenticationService = ({ apiService }) => ({
   async register (credentials) {
     return await apiService.register(credentials)
   },

@@ -2,34 +2,46 @@ import React, { useContext, useEffect, useState } from 'react'
 import { RootCtx } from 'contexts'
 import { Redirect, useHistory } from 'react-router-dom'
 import style from './forgot-password-page.m.scss'
-import { Card } from '@blueprintjs/core'
+import { Card, Intent } from '@blueprintjs/core'
 import { useTranslation } from 'react-i18next'
-import { authenticationService } from 'services/authentication-service'
 import { withCancel } from 'utils/with-cancel'
 import { ForgotPasswordPageForm } from './forgot-password-page-form'
+import { toaster } from '../../toaster'
+import { IconNames } from '@blueprintjs/icons'
 
 export const ForgotPasswordPage = () => {
-  const { isLoggedIn } = useContext(RootCtx)
-  const { t } = useTranslation('ForgotPasswordPage')
-  const [requestRecoveryParams, setRequestRecoveryParams] = useState()
-  const [isSendingRecoveryLink, setIsSendingRecoveryLink] = useState(false)
+  const { isLoggedIn, authenticationService } = useContext(RootCtx)
   const history = useHistory()
+  const { t } = useTranslation('ForgotPasswordPage')
+
+  const [requestPasswordChangeParams, setRequestPasswordChangeParams] = useState()
+  const [isRequestPasswordChangeInProgress, setIsRequestPasswordChangeInProgress] = useState(false)
 
   useEffect(() => {
-    if (requestRecoveryParams === undefined) return
+    if (requestPasswordChangeParams === undefined) return
+
+    setIsRequestPasswordChangeInProgress(true)
 
     const [
       requestPasswordChange,
       cancel
-    ] = withCancel(authenticationService.requestPasswordChange(requestRecoveryParams.email))
+    ] = withCancel(
+      authenticationService.requestPasswordChange(...requestPasswordChangeParams)
+    )
 
-    setIsSendingRecoveryLink(true)
     requestPasswordChange
-      .then(() => { history.replace('/login') })
-      .finally(() => { setIsSendingRecoveryLink(false) })
+      .then(() => {
+        toaster.show({
+          icon: IconNames.INFO_SIGN,
+          intent: Intent.PRIMARY,
+          message: t('message.passwordChangeText')
+        })
+        history.replace('/login')
+      })
+      .finally(() => { setIsRequestPasswordChangeInProgress(false) })
 
     return cancel
-  }, [requestRecoveryParams, history])
+  }, [requestPasswordChangeParams, authenticationService, history, t])
 
   if (isLoggedIn) return <Redirect to='/' />
 
@@ -38,11 +50,11 @@ export const ForgotPasswordPage = () => {
       <h2 className={style.title}>{t('title')}</h2>
       <p className={style.text}>{t('text')}</p>
       <ForgotPasswordPageForm
-        onSubmit={setRequestRecoveryParams}
+        onSubmit={email => setRequestPasswordChangeParams([email])}
         onBackToLogin={() => {
           history.replace('/login')
         }}
-        isLoading={isSendingRecoveryLink}
+        isLoading={isRequestPasswordChangeInProgress}
       />
     </Card>
   </div>

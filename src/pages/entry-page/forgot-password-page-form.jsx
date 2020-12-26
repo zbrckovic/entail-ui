@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import { IconNames } from '@blueprintjs/icons'
 import React from 'react'
 
-export const ForgotPasswordPageForm = ({ isLoading, onSubmit, onBackToLogin }) => {
+export const ForgotPasswordPageForm = ({ isLoading, onSubmit }) => {
   const { t } = useTranslation('ForgotPasswordPage')
 
   const formik = useFormik({
@@ -22,7 +22,7 @@ export const ForgotPasswordPageForm = ({ isLoading, onSubmit, onBackToLogin }) =
 
       return errors
     },
-    onSubmit
+    onSubmit: ({ email }) => { onSubmit(email) }
   })
 
   return <form
