@@ -4,9 +4,10 @@ import { Button } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { authenticationService } from '../../services/authentication-service'
 import { withCancel } from '../../utils/with-cancel'
+import { Redirect } from 'react-router-dom'
 
 export const HomePage = () => {
-  const { setIsLoggedIn } = useContext(RootCtx)
+  const { setIsLoggedIn, isLoggedIn } = useContext(RootCtx)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   useEffect(() => {
@@ -15,6 +16,11 @@ export const HomePage = () => {
     logout.then(() => { setIsLoggedIn(false) })
     return cancel
   }, [isLoggingOut, setIsLoggedIn])
+
+  if (!isLoggedIn) {
+    console.log('redirecting')
+    return <Redirect to='/login' />
+  }
 
   return <div>
     <Button

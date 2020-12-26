@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import { Link } from 'react-router-dom'
+import { Link, useRouteMatch } from 'react-router-dom'
 import style from './login-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import validator from 'validator'

@@ -6,14 +6,14 @@ import { Card, Intent } from '@blueprintjs/core'
 import style from './login-page.m.scss'
 import { useTranslation } from 'react-i18next'
 import { ErrorName } from '../../error'
-import { toaster } from '../../toaster'
+import { toaster } from 'toaster'
 import { IconNames } from '@blueprintjs/icons'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
+import { Redirect } from 'react-router-dom'
 
 export const LoginPage = () => {
   const { t } = useTranslation('entryPage')
-  const { setIsLoggedIn } = useContext(RootCtx)
-
+  const { isLoggedIn, setIsLoggedIn } = useContext(RootCtx)
   const [loginParams, setLoginParams] = useState(undefined)
   const [isLoginInProgress, setIsLoginInProgress] = useState(false)
 
@@ -41,8 +41,12 @@ export const LoginPage = () => {
     return cancel
   }, [loginParams, t, setIsLoggedIn])
 
-  return <Card className={style.root}>
-    <h2 className={style.title}>{t('loginPage.title')}</h2>
-    <LoginPageForm onSubmit={setLoginParams} isLoading={isLoginInProgress} />
-  </Card>
+  if (isLoggedIn) return <Redirect to='/' />
+
+  return <div className={style.root}>
+    <Card className={style.card}>
+      <h2 className={style.title}>{t('loginPage.title')}</h2>
+      <LoginPageForm onSubmit={setLoginParams} isLoading={isLoginInProgress} />
+    </Card>
+  </div>
 }

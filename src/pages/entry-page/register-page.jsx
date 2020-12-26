@@ -5,15 +5,15 @@ import { authenticationService } from 'services/authentication-service'
 import { Card, Intent } from '@blueprintjs/core'
 import style from './register-page.m.scss'
 import { RegisterPageForm } from './register-page-form'
-import { ErrorName } from '../../error'
-import { toaster } from '../../toaster'
+import { ErrorName } from 'error'
+import { toaster } from 'toaster'
 import { IconNames } from '@blueprintjs/icons'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
+import { Redirect } from 'react-router-dom'
 
 export const RegisterPage = () => {
   const { t } = useTranslation('entryPage')
-  const { setIsLoggedIn } = useContext(RootCtx)
-
+  const { isLoggedIn, setIsLoggedIn } = useContext(RootCtx)
   const [registerParams, setRegisterParams] = useState(undefined)
   const [isRegisterInProgress, setIsRegisterInProgress] = useState(false)
 
@@ -40,8 +40,12 @@ export const RegisterPage = () => {
     return cancel
   }, [registerParams, t, setIsLoggedIn])
 
-  return <Card className={style.root}>
-    <h2 className={style.title}>{t('registerPage.title')}</h2>
-    <RegisterPageForm onSubmit={setRegisterParams} isLoading={isRegisterInProgress} />
-  </Card>
+  if (isLoggedIn) return <Redirect to='/' />
+
+  return <div className={style.root}>
+    <Card className={style.card}>
+      <h2 className={style.title}>{t('registerPage.title')}</h2>
+      <RegisterPageForm onSubmit={setRegisterParams} isLoading={isRegisterInProgress} />
+    </Card>
+  </div>
 }
