@@ -2,26 +2,26 @@ import React, { useContext, useEffect, useState } from 'react'
 import { RootCtx } from 'contexts'
 import { Redirect, useHistory } from 'react-router-dom'
 import style from './forgot-password-page.m.scss'
-import { Button, Card, Intent } from '@blueprintjs/core'
+import { Card } from '@blueprintjs/core'
 import { useTranslation } from 'react-i18next'
-import { IconNames } from '@blueprintjs/icons'
 import { authenticationService } from 'services/authentication-service'
-import { withCancel } from '../../utils/with-cancel'
+import { withCancel } from 'utils/with-cancel'
+import { ForgotPasswordPageForm } from './forgot-password-page-form'
 
 export const ForgotPasswordPage = () => {
   const { isLoggedIn } = useContext(RootCtx)
   const { t } = useTranslation('ForgotPasswordPage')
-  const [requestedRecoveryLink, setRequestedRecoveryLink] = useState(false)
+  const [requestRecoveryParams, setRequestRecoveryParams] = useState()
   const [isSendingRecoveryLink, setIsSendingRecoveryLink] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
-    if (!requestedRecoveryLink) return
+    if (requestRecoveryParams === undefined) return
 
     const [
       requestPasswordChange,
       cancel
-    ] = withCancel(authenticationService.requestPasswordChange())
+    ] = withCancel(authenticationService.requestPasswordChange(requestRecoveryParams.email))
 
     setIsSendingRecoveryLink(true)
     requestPasswordChange
@@ -29,22 +29,21 @@ export const ForgotPasswordPage = () => {
       .finally(() => { setIsSendingRecoveryLink(false) })
 
     return cancel
-  }, [requestedRecoveryLink, history])
+  }, [requestRecoveryParams, history])
 
   if (isLoggedIn) return <Redirect to='/' />
 
   return <div className={style.root}>
     <Card className={style.card}>
       <h2 className={style.title}>{t('title')}</h2>
-      <p>{t('text')}</p>
-      <Button
-        loading={isSendingRecoveryLink}
-        intent={Intent.PRIMARY}
-        icon={IconNames.SEND_MESSAGE}
-        onClick={() => { setRequestedRecoveryLink(true) }}
-      >
-        {t('button.sendRecoveryLink')}
-      </Button>
+      <p className={style.text}>{t('text')}</p>
+      <ForgotPasswordPageForm
+        onSubmit={setRequestRecoveryParams}
+        onBackToLogin={() => {
+          history.replace('/login')
+        }}
+        isLoading={isSendingRecoveryLink}
+      />
     </Card>
   </div>
 }

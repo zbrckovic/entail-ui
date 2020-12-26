@@ -18,8 +18,8 @@ export const apiService = ({
   async getApiToken () {
     return await axios.get('apiToken')
   },
-  async requestPasswordChange () {
-    return await axios.post('requestPasswordChange')
+  async requestPasswordChange (email) {
+    return await axios.post('requestPasswordChange', { email })
   }
 })
 
@@ -33,6 +33,7 @@ const axios = axiosLib.create({
 axios.interceptors.response.use(
   response => response,
   async error => {
+    console.log(error)
     if (error.response.status >= 500) {
       toaster.show({
         message: 'Server error',
