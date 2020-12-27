@@ -1,33 +1,39 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { RootCtx } from 'contexts'
-import { Button } from '@blueprintjs/core'
+import { Button, Label } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
 import { withCancel } from 'utils/with-cancel'
 import { Redirect } from 'react-router-dom'
+import style from './home-page.m.scss'
 
 export const HomePage = () => {
-  const { setIsLoggedIn, isLoggedIn, authenticationService } = useContext(RootCtx)
+  const { loggedIn, logout, authenticationService, user } = useContext(RootCtx)
   const [isLoggingOut, setIsLoggingOut] = useState(false)
 
   useEffect(() => {
     if (!isLoggingOut) return
-    const [logout, cancel] = withCancel(authenticationService.logout())
-    logout.then(() => { setIsLoggedIn(false) })
+    const [apiLogout, cancel] = withCancel(authenticationService.logout())
+    apiLogout.then(logout)
     return cancel
-  }, [isLoggingOut, setIsLoggedIn, authenticationService])
+  }, [isLoggingOut, logout, authenticationService])
 
-  if (!isLoggedIn) {
-    console.log('redirecting')
-    return <Redirect to='/login' />
-  }
+  if (!loggedIn) return <Redirect to='/login' />
 
-  return <div>
-    <Button
-      icon={IconNames.LOG_OUT}
-      onClick={() => { setIsLoggingOut(true) }}
-      loading={isLoggingOut}
-    >
-      Logout
-    </Button>
+  return <div className={style.root}>
+    <header>
+      <Label>{user.email}</Label>
+
+      <Button
+        minimal
+        icon={IconNames.LOG_OUT}
+        onClick={() => { setIsLoggingOut(true) }}
+        loading={isLoggingOut}
+      >
+        Logout
+      </Button>
+    </header>
+    <main>
+
+    </main>
   </div>
 }

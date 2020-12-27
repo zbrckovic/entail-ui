@@ -35,7 +35,7 @@ export const ApiService = ({ t }) => {
   })
 
   axios.interceptors.response.use(
-    response => response,
+    response => response.data,
     async error => {
       if (!error.isAxiosError) throw error
 

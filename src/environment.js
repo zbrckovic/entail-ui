@@ -2,30 +2,27 @@
 // Rest of the application will access this data only through exported `environment`, never directly
 // through `process.env`.
 
-const parseBoolean = (value, defaultValue) => {
-  return value === undefined ? defaultValue : JSON.parse(value)
-}
+const parseBoolean = (value, defaultValue) => value === undefined ? defaultValue : JSON.parse(value)
+const parseNumber = (value, defaultValue) => value === undefined ? defaultValue : JSON.parse(value)
 
-const parseNumber = (value, defaultValue) => {
-  return value === undefined ? defaultValue : JSON.parse(value)
-}
-
+const development = parseBoolean(process.env.DEVELOPMENT)
 const apiUrl = process.env.API_URL
-const apiClientTimeoutMs = parseNumber(process.env.API_CLIENT_TIMEOUT_MS, 5000)
+const apiClientTimeoutMs = parseNumber(process.env.API_CLIENT_TIMEOUT_MS)
+const locale = process.env.LOCALE
 const version = process.env.VERSION
 const commitHash = process.env.COMMIT_HASH
 const branch = process.env.BRANCH
-const development = parseBoolean(process.env.DEVELOPMENT, true)
-const apiTokenRefreshPeriodMinutes = parseNumber(process.env.API_TOKEN_REFRESH_PERIOD_MINUTES, 5)
+const apiTokenRefreshPeriodMinutes = parseNumber(process.env.API_TOKEN_REFRESH_PERIOD_MINUTES)
 const storybook = parseBoolean(process.env.STORYBOOK, false)
 
 export const environment = {
+  development,
   apiUrl,
   apiClientTimeoutMs,
+  locale,
   version,
   commitHash,
   branch,
-  development,
   apiTokenRefreshPeriodMinutes,
   storybook
 }

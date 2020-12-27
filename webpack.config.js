@@ -14,9 +14,11 @@ const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 module.exports = (options = {}) => {
   const {
     DEVELOPMENT = false,
+    API_URL = 'http://localhost:5000',
+    API_CLIENT_TIMEOUT_MS = 5000,
     PORT = 8080,
-    API_URL = 'https://localhost:5000',
-    LOCALE = 'hr'
+    LOCALE = 'hr',
+    API_TOKEN_REFRESH_PERIOD_MINUTES = 5
   } = Object.assign({}, fileEnv, options)
 
   return {
@@ -124,12 +126,14 @@ module.exports = (options = {}) => {
     },
     plugins: [
       new EnvironmentPlugin({
+        DEVELOPMENT,
         API_URL,
+        API_CLIENT_TIMEOUT_MS,
+        LOCALE,
+        API_TOKEN_REFRESH_PERIOD_MINUTES,
         VERSION: gitRevisionPlugin.version(),
         COMMIT_HASH: gitRevisionPlugin.commithash(),
-        BRANCH: gitRevisionPlugin.branch(),
-        DEVELOPMENT,
-        LOCALE
+        BRANCH: gitRevisionPlugin.branch()
       }),
       new HtmlWebpackPlugin({ template: './src/index.html' }),
       new FaviconsWebpackPlugin('./resources/favicon.png'),

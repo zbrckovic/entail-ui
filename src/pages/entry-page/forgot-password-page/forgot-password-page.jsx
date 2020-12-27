@@ -11,7 +11,7 @@ import { IconNames } from '@blueprintjs/icons'
 
 export const ForgotPasswordPage = () => {
   const { t } = useTranslation()
-  const { isLoggedIn, authenticationService } = useContext(RootCtx)
+  const { loggedIn, authenticationService } = useContext(RootCtx)
   const history = useHistory()
 
   const [requestPasswordChangeParams, setRequestPasswordChangeParams] = useState()
@@ -44,7 +44,7 @@ export const ForgotPasswordPage = () => {
     return cancel
   }, [requestPasswordChangeParams, authenticationService, history, t])
 
-  if (isLoggedIn) return <Redirect to='/' />
+  if (loggedIn) return <Redirect to='/' />
 
   return <div className={style.root}>
     <Card className={style.card}>

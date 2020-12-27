@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom'
 
 export const RegisterPage = () => {
   const { t } = useTranslation()
-  const { isLoggedIn, setIsLoggedIn, authenticationService } = useContext(RootCtx)
+  const { loggedIn, login, authenticationService } = useContext(RootCtx)
 
   const [registerState, registerDispatch] = useReducer(registerStateReducer, registerStateInit)
 
@@ -24,9 +24,9 @@ export const RegisterPage = () => {
     const [register, cancel] = withCancel(authenticationService.register(...registerState.params))
 
     register.then(
-      () => {
+      user => {
         registerDispatch({ type: 'stop' })
-        setIsLoggedIn(true)
+        login(user)
       },
       ({ name }) => {
         if (name === ErrorName.EMAIL_ALREADY_USED) {
@@ -41,9 +41,9 @@ export const RegisterPage = () => {
     )
 
     return cancel
-  }, [registerDispatch, registerState.params, t, setIsLoggedIn, authenticationService])
+  }, [registerDispatch, registerState.params, t, loggedIn, login, authenticationService])
 
-  if (isLoggedIn) return <Redirect to='/' />
+  if (loggedIn) return <Redirect to='/' />
 
   return <div className={style.root}>
     <Card className={style.card}>

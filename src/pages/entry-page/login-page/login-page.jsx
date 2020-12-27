@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from 'utils/with-cancel'
 import { Card, Intent } from '@blueprintjs/core'
@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom'
 
 export const LoginPage = () => {
   const { t } = useTranslation()
-  const { isLoggedIn, setIsLoggedIn, authenticationService } = useContext(RootCtx)
+  const { loggedIn, login, authenticationService } = useContext(RootCtx)
   const [loginState, loginDispatch] = useReducer(loginStateReducer, loginStateInit)
 
   useEffect(() => {
@@ -20,12 +20,12 @@ export const LoginPage = () => {
 
     loginDispatch({ type: 'start' })
 
-    const [login, cancel] = withCancel(authenticationService.login(...loginState.params))
+    const [apiLogin, apiLoginCancel] = withCancel(authenticationService.login(...loginState.params))
 
-    login.then(
-      () => {
+    apiLogin.then(
+      user => {
         loginDispatch({ type: 'stop' })
-        setIsLoggedIn(true)
+        login(user)
       },
       ({ name }) => {
         if (name === ErrorName.INVALID_CREDENTIALS) {
@@ -39,10 +39,10 @@ export const LoginPage = () => {
       }
     )
 
-    return cancel
-  }, [loginState.params, t, setIsLoggedIn, authenticationService])
+    return apiLoginCancel
+  }, [loginState.params, login, t, loggedIn, authenticationService])
 
-  if (isLoggedIn) return <Redirect to='/' />
+  if (loggedIn) return <Redirect to='/' />
 
   return <div className={style.root}>
     <Card className={style.card}>
