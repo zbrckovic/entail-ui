@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { withCancel } from 'utils/with-cancel'
 import { Card, Intent } from '@blueprintjs/core'
@@ -13,16 +13,24 @@ import { Redirect } from 'react-router-dom'
 export const RegisterPage = () => {
   const { t } = useTranslation()
   const { isLoggedIn, setIsLoggedIn, authenticationService } = useContext(RootCtx)
-  const [registerParams, setRegisterParams] = useState()
-  const [isRegisterInProgress, setIsRegisterInProgress] = useState(false)
+
+  const [registerState, registerDispatch] = useReducer(registerStateReducer, registerStateInit)
 
   useEffect(() => {
-    if (registerParams === undefined) return
+    if (registerState.params === undefined) return
 
-    setIsRegisterInProgress(true)
-    const [register, cancel] = withCancel(authenticationService.register(...registerParams))
+    registerDispatch({ type: 'start' })
+
+    const [
+      register,
+      cancel
+    ] = withCancel(authenticationService.register(...registerState.params))
+
     register.then(
-      () => { setIsLoggedIn(true) },
+      () => {
+        registerDispatch({ type: 'stop' })
+        setIsLoggedIn(true)
+      },
       ({ name }) => {
         if (name === ErrorName.EMAIL_ALREADY_USED) {
           toaster.show({
@@ -31,13 +39,12 @@ export const RegisterPage = () => {
             icon: IconNames.WARNING_SIGN
           })
         }
-        setIsRegisterInProgress(false)
-      },
-      () => { setIsRegisterInProgress(false) }
+        registerDispatch({ type: 'stop' })
+      }
     )
 
     return cancel
-  }, [registerParams, t, setIsLoggedIn, authenticationService])
+  }, [registerDispatch, registerState.params, t, setIsLoggedIn, authenticationService])
 
   if (isLoggedIn) return <Redirect to='/' />
 
@@ -45,9 +52,27 @@ export const RegisterPage = () => {
     <Card className={style.card}>
       <h2 className={style.title}>{t('registerPage.title')}</h2>
       <RegisterPageForm
-        onSubmit={credentials => { setRegisterParams([credentials]) }}
-        isLoading={isRegisterInProgress}
+        onSubmit={credentials => {
+          registerDispatch({ type: 'request', params: [credentials] })
+        }}
+        isLoading={registerState.inProgress}
       />
     </Card>
   </div>
+}
+
+const registerStateInit = {
+  params: undefined,
+  inProgress: false
+}
+
+const registerStateReducer = (state, action) => {
+  switch (action.type) {
+    case 'request':
+      return { ...state, params: action.params }
+    case 'start':
+      return { ...state, inProgress: true }
+    case 'stop':
+      return { ...state, inProgress: false }
+  }
 }

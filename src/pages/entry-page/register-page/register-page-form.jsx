@@ -49,7 +49,7 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
 
       return errors
     },
-    onSubmit
+    onSubmit: ({ email, password }) => { onSubmit({ email, password }) }
   })
 
   return (

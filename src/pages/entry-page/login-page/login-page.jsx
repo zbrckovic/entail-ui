@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import { LoginPageForm } from './login-page-form'
 import { withCancel } from 'utils/with-cancel'
 import { Card, Intent } from '@blueprintjs/core'
@@ -13,19 +13,19 @@ import { Redirect } from 'react-router-dom'
 export const LoginPage = () => {
   const { t } = useTranslation()
   const { isLoggedIn, setIsLoggedIn, authenticationService } = useContext(RootCtx)
-  const [loginParams, setLoginParams] = useState()
-  const [isLoginInProgress, setIsLoginInProgress] = useState(false)
+  const [loginState, loginDispatch] = useReducer(loginStateReducer, loginStateInit)
 
   useEffect(() => {
-    if (loginParams === undefined) return
+    if (loginState.params === undefined) return
 
-    setIsLoginInProgress(true)
-    const [login, cancel] = withCancel(authenticationService.login(...loginParams))
+    loginDispatch({ type: 'start' })
+
+    const [login, cancel] = withCancel(authenticationService.login(...loginState.params))
 
     login.then(
       () => {
+        loginDispatch({ type: 'stop' })
         setIsLoggedIn(true)
-        setIsLoginInProgress(false)
       },
       ({ name }) => {
         if (name === ErrorName.INVALID_CREDENTIALS) {
@@ -35,22 +35,42 @@ export const LoginPage = () => {
             icon: IconNames.WARNING_SIGN
           })
         }
-        setIsLoginInProgress(false)
+        loginDispatch({ type: 'stop' })
       }
     )
 
     return cancel
-  }, [loginParams, t, setIsLoggedIn, authenticationService])
+  }, [loginState.params, t, setIsLoggedIn, authenticationService])
 
-  if (isLoggedIn) return <Redirect to='/' />
+  if (isLoggedIn) {
+    return <Redirect to='/' />
+  }
 
   return <div className={style.root}>
     <Card className={style.card}>
       <h2 className={style.title}>{t('loginPage.title')}</h2>
       <LoginPageForm
-        onSubmit={payload => { setLoginParams([payload]) }}
-        isLoading={isLoginInProgress}
+        onSubmit={credentials => {
+          loginDispatch({ type: 'request', params: [credentials] })
+        }}
+        isLoading={loginState.inProgress}
       />
     </Card>
   </div>
+}
+
+const loginStateInit = {
+  params: undefined,
+  inProgress: false
+}
+
+const loginStateReducer = (state, action) => {
+  switch (action.type) {
+    case 'request':
+      return { ...state, params: action.params }
+    case 'start':
+      return { ...state, inProgress: true }
+    case 'stop':
+      return { ...state, inProgress: false }
+  }
 }
