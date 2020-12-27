@@ -32,8 +32,8 @@ export const ChangePasswordPage = () => {
     changePassword.then(
       () => {
         toaster.show({
-          icon: IconNames.INFO_SIGN,
-          intent: Intent.PRIMARY,
+          icon: IconNames.TICK_CIRCLE,
+          intent: Intent.SUCCESS,
           message: t('message.successText')
         })
         history.replace('/login')
