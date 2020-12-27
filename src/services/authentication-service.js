@@ -13,5 +13,8 @@ export const AuthenticationService = ({ apiService }) => ({
   },
   async requestPasswordChange (email) {
     return await apiService.requestPasswordChange(email)
+  },
+  async changePasswordWithToken ({ password, token }) {
+    return await apiService.changePasswordWithToken({ password, token })
   }
 })

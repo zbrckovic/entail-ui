@@ -10,9 +10,9 @@ import { toaster } from '../../toaster'
 import { IconNames } from '@blueprintjs/icons'
 
 export const ForgotPasswordPage = () => {
+  const { t } = useTranslation('ForgotPasswordPage')
   const { isLoggedIn, authenticationService } = useContext(RootCtx)
   const history = useHistory()
-  const { t } = useTranslation('ForgotPasswordPage')
 
   const [requestPasswordChangeParams, setRequestPasswordChangeParams] = useState()
   const [isRequestPasswordChangeInProgress, setIsRequestPasswordChangeInProgress] = useState(false)

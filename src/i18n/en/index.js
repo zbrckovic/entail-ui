@@ -12,6 +12,7 @@ import LoginPage from './login-page.json'
 import RegisterPage from './register-page.json'
 import ForgotPasswordPage from './forgot-password-page.json'
 import ApiService from './api-service.json'
+import ChangePasswordPage from './change-password-page.json'
 
 export const namespaces = {
   DevInfo,
@@ -27,5 +28,6 @@ export const namespaces = {
   RegisterPage,
   PasswordStrengthIndicator,
   ForgotPasswordPage,
-  ApiService
+  ApiService,
+  ChangePasswordPage
 }

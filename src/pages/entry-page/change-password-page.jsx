@@ -1,11 +1,74 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import style from './change-password-page.m.scss'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
+import { withCancel } from 'utils/with-cancel'
+import { toaster } from 'toaster'
+import { IconNames } from '@blueprintjs/icons'
+import { Card, Intent } from '@blueprintjs/core'
+import { useTranslation } from 'react-i18next'
+import { RootCtx } from 'contexts'
+import { ChangePasswordPageForm } from './change-password-page-form'
+import { ErrorName } from 'error'
 
 export const ChangePasswordPage = () => {
+  const { t } = useTranslation('ChangePasswordPage')
   const { token } = useParams()
+  const { authenticationService } = useContext(RootCtx)
+  const history = useHistory()
+
+  const [changePasswordParams, setChangePasswordParams] = useState()
+  const [isChangePasswordInProgress, setIsChangePasswordInProgress] = useState(false)
+
+  useEffect(() => {
+    if (changePasswordParams === undefined) return
+
+    setIsChangePasswordInProgress(true)
+
+    const [
+      changePassword,
+      cancel
+    ] = withCancel(authenticationService.changePasswordWithToken(...changePasswordParams))
+
+    changePassword.then(
+      () => {
+        toaster.show({
+          icon: IconNames.INFO_SIGN,
+          intent: Intent.PRIMARY,
+          message: t('message.successText')
+        })
+        history.replace('/login')
+      },
+      ({ name }) => {
+        if (name === ErrorName.INVALID_CREDENTIALS) {
+          toaster.show({
+            message: t('message.invalidEmail'),
+            intent: Intent.DANGER,
+            icon: IconNames.WARNING_SIGN
+          })
+          history.replace('/register')
+        } else if (name === ErrorName.TOKEN_EXPIRED) {
+          toaster.show({
+            message: t('message.expiredLink'),
+            intent: Intent.DANGER,
+            icon: IconNames.WARNING_SIGN
+          })
+          history.replace('/login')
+        } else {
+          setIsChangePasswordInProgress(false)
+        }
+      }
+    )
+
+    return cancel
+  }, [changePasswordParams, authenticationService, history, t])
 
   return <div className={style.root}>
-    {token}
+    <Card className={style.card}>
+      <h2 className={style.title}>{t('title')}</h2>
+      <ChangePasswordPageForm
+        isLoading={isChangePasswordInProgress}
+        onSubmit={password => { setChangePasswordParams([{ password, token }]) }}
+      />
+    </Card>
   </div>
 }

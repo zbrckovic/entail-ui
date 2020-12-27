@@ -21,6 +21,9 @@ export const ApiService = ({ t }) => {
     },
     async requestPasswordChange (email) {
       return await axios.post('request-password-change', { email })
+    },
+    async changePasswordWithToken ({ password, token }) {
+      return await axios.post('change-password-with-token', { password, token })
     }
   })
 
@@ -34,27 +37,28 @@ export const ApiService = ({ t }) => {
   axios.interceptors.response.use(
     response => response,
     async error => {
-      if (error.isAxiosError) {
-        if (error.response === undefined) {
-          toaster.show({
-            message: t('ApiService:connectionError'),
-            intent: Intent.DANGER,
-            icon: IconNames.ERROR
-          })
-        } else if (error.response.status >= 500) {
-          toaster.show({
-            message: t('ApiService:serverError'),
-            intent: Intent.DANGER,
-            icon: IconNames.ERROR
-          })
+      if (!error.isAxiosError) throw error
 
-          const { name, message, extra } = error.response.data
-
-          throw createError(name, message, extra)
-        }
+      if (error.response === undefined) {
+        toaster.show({
+          message: t('ApiService:connectionError'),
+          intent: Intent.DANGER,
+          icon: IconNames.ERROR
+        })
+        throw error
       }
 
-      throw error
+      if (error.response.status >= 500) {
+        toaster.show({
+          message: t('ApiService:serverError'),
+          intent: Intent.DANGER,
+          icon: IconNames.ERROR
+        })
+      }
+
+      const { name, message, extra } = error.response.data
+
+      throw createError(name, message, extra)
     }
   )
 
