@@ -20,29 +20,31 @@ export const ExpressionView = ({
   const { presentations } = useContext(SymCtx)
   const { text, placement } = SymPresentation.getDefaultSyntacticInfo(presentations[sym.id])
 
-  const content = placement === Placement.Prefix ? (
-    <Prefix
-      sym={sym}
-      symText={text}
-      boundSym={boundSym}
-      childrenExpressions={children}
-      selectionTarget={selectionTarget}
-      onSelectionTargetChange={onSelectionTargetChange}
-      {...props}
-    />
-  ) : (
-    <Infix
-      sym={sym}
-      symText={text}
-      boundSym={boundSym}
-      childExpression1={children[0]}
-      childExpression2={children[1]}
-      root={root}
-      selectionTarget={selectionTarget}
-      onSelectionTargetChange={onSelectionTargetChange}
-      {...props}
-    />
-  )
+  const content = (() => {
+    if (placement === Placement.Prefix) {
+      return <Prefix
+        sym={sym}
+        symText={text}
+        boundSym={boundSym}
+        childrenExpressions={children}
+        selectionTarget={selectionTarget}
+        onSelectionTargetChange={onSelectionTargetChange}
+        {...props}
+      />
+    } else {
+      return <Infix
+        sym={sym}
+        symText={text}
+        boundSym={boundSym}
+        childExpression1={children[0]}
+        childExpression2={children[1]}
+        root={root}
+        selectionTarget={selectionTarget}
+        onSelectionTargetChange={onSelectionTargetChange}
+        {...props}
+      />
+    }
+  })()
 
   return root ? <div className={classnames(style.root, className)}>{content}</div> : content
 }

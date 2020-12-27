@@ -14,35 +14,35 @@ export const DeleteDialog = ({
   ...props
 }) => {
   const { theme: { isDark } } = useContext(RootCtx)
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   return (
     <Dialog
       className={classnames({ [Classes.DARK]: isDark }, className)} {...props}
-      title={t('deleteDialog.title')}
+      title={t('deductionEditor.deleteDialog.title')}
       icon={IconNames.WARNING_SIGN}
       isOpen={isOpen}
       onClose={onCancel}
     >
       <div className={Classes.DIALOG_BODY}>
-        <p>{t('deleteDialog.content', { step: Math.min(...selectedSteps) })}</p>
+        <p>{t('deductionEditor.deleteDialog.content', { step: Math.min(...selectedSteps) })}</p>
       </div>
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
           <Button
-            title={t('deleteDialog.yes')}
+            title={t('yesLbl')}
             intent={Intent.DANGER}
             onClick={() => { onConfirm() }}
             icon={IconNames.CONFIRM}
           >
-            {t('deleteDialog.yes')}
+            {t('yesLbl')}
           </Button>
           <Button
-            title={t('deleteDialog.no')}
+            title={t('noLbl')}
             onClick={() => { onCancel() }}
             icon={IconNames.DISABLE}
           >
-            {t('deleteDialog.no')}
+            {t('noLbl')}
           </Button>
         </div>
       </div>

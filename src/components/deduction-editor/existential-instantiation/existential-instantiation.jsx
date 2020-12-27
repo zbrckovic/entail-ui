@@ -1,5 +1,5 @@
 import { ErrorName } from '@zbrckovic/entail-core'
-import { IndividualVariableEditor } from 'components/individual-variable-editor'
+import { IndividualVariableEditor } from 'components/deduction-editor/individual-variable-editor'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './existential-instantiation.m.scss'
@@ -13,12 +13,12 @@ export const ExistentialInstantiation = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   return (
     <IndividualVariableEditor
       className={classnames(style.root, className)}
-      label={t('label.enterTheInstanceVariable')}
+      label={t('deductionEditor.enterTheInstanceVariableLbl')}
       onSubmit={({ sym, symCtx }) => {
         let deductionInterface
         try {
@@ -26,13 +26,15 @@ export const ExistentialInstantiation = ({
         } catch (error) {
           switch (error.name) {
             case ErrorName.INSTANCE_TERM_BECOMES_ILLEGALLY_BOUND:
-              onError(t('message.introducedInstanceVariableBecomesIllegallyBound'))
+              onError(t('deductionEditor.introducedInstanceVariableBecomesIllegallyBoundMsg'))
               return
             case ErrorName.TERM_ALREADY_USED:
-              onError(t('message.instanceVariableAlreadyDependantInDependencyGraph'))
+              onError(t('deductionEditor.instanceVariableAlreadyDependantInDependencyGraphMsg'))
               return
             case ErrorName.CYCLIC_DEPENDENCIES:
-              onError(t('message.usageOfThisInstanceVariableResultsInCyclicDependencies'))
+              onError(
+                t('deductionEditor.usageOfThisInstanceVariableResultsInCyclicDependenciesMsg')
+              )
               return
             default:
               throw error

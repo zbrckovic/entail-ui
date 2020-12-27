@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import React, { useContext } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RootCtx } from 'contexts'
-import { TermDependenciesGraph } from 'components/term-dependencies-graph'
+import { TermDependenciesGraph } from 'components/deduction-editor/term-dependencies-graph'
 
 export const GraphDialog = ({
   graph,
@@ -14,12 +14,12 @@ export const GraphDialog = ({
   ...props
 }) => {
   const { theme: { isDark } } = useContext(RootCtx)
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   return (
     <Dialog
       className={classnames({ [Classes.DARK]: isDark }, className)}
-      title={t('graphDialog.title')}
+      title={t('deductionEditor.graphDialog.title')}
       icon={IconNames.GRAPH}
       isOpen={isOpen}
       onClose={onClose}
@@ -31,11 +31,11 @@ export const GraphDialog = ({
       <div className={Classes.DIALOG_FOOTER}>
         <div className={Classes.DIALOG_FOOTER_ACTIONS}>
           <Button
-            title={t('graphDialog.close')}
+            title={t('closeLbl')}
             onClick={() => { onClose() }}
             icon={IconNames.DISABLE}
           >
-            {t('graphDialog.close')}
+            {t('closeLbl')}
           </Button>
         </div>
       </div>

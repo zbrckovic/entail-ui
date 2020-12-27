@@ -2,7 +2,7 @@
 import { Deduction, Rule } from '@zbrckovic/entail-core'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FormulaEditor } from '../formula-editor'
+import { FormulaEditor } from './formula-editor'
 import { ConjunctionElimination } from './conjunction-elimination'
 import { DisjunctionIntroduction } from './disjunction-introduction'
 import { ExistentialGeneralization } from './existential-generalization'
@@ -21,13 +21,13 @@ export const useSelectedRuleUI = ({
   onCancel,
   onError
 }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   const handlers = useMemo(
     () => ({
       [Rule.Premise]: () => (
         <FormulaEditor
-          label={t('label.enterThePremise')}
+          label={t('deductionEditor.enterThePremiseLbl')}
           onSubmit={({ formula, symCtx }) => {
             const deductionInterface = ruleInterface.apply(formula)
             onApply({ deductionInterface, symCtx })

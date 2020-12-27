@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
 import { Button } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import { withCancel } from '../../utils/with-cancel'
+import { withCancel } from 'utils/with-cancel'
 import { Redirect } from 'react-router-dom'
 
 export const HomePage = () => {

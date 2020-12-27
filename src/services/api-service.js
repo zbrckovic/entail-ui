@@ -41,7 +41,7 @@ export const ApiService = ({ t }) => {
 
       if (error.response === undefined) {
         toaster.show({
-          message: t('ApiService:connectionError'),
+          message: t('apiService.connectionErrorMsg'),
           intent: Intent.DANGER,
           icon: IconNames.ERROR
         })
@@ -50,7 +50,7 @@ export const ApiService = ({ t }) => {
 
       if (error.response.status >= 500) {
         toaster.show({
-          message: t('ApiService:serverError'),
+          message: t('apiService.serverErrorMsg'),
           intent: Intent.DANGER,
           icon: IconNames.ERROR
         })

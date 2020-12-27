@@ -5,7 +5,7 @@ import { timer } from 'rxjs'
 import style from './rule-picker.m.scss'
 import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
-import { RuleBadge } from '../../rule-badge'
+import { RuleBadge } from 'components/deduction-editor/rule-badge'
 
 export const RulePicker = ({
   selectedRule,
@@ -14,11 +14,11 @@ export const RulePicker = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   return (
     <div className={classnames(style.root, className)} {...props}>
-      <Label>{t('label.rules')}</Label>
+      <Label>{t('deductionEditor.rulesLbl')}</Label>
       <div className={style.buttons}>
         {
           [Rule.Premise, Rule.Theorem].map(rule => (

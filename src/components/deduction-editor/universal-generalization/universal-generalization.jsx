@@ -1,9 +1,9 @@
 import { ErrorName, Expression } from '@zbrckovic/entail-core'
 import classnames from 'classnames'
-import { IndividualVariableEditor } from 'components/individual-variable-editor'
+import { IndividualVariableEditor } from 'components/deduction-editor/individual-variable-editor'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TermPicker } from '../term-picker'
+import { TermPicker } from 'components/deduction-editor/term-picker'
 import style from './universal-generalization.m.scss'
 
 export const UniversalGeneralization = ({
@@ -15,7 +15,7 @@ export const UniversalGeneralization = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   const [oldTerm, setOldTerm] = useState()
 
@@ -30,7 +30,7 @@ export const UniversalGeneralization = ({
         onSelectTerm={term => { setOldTerm(oldTerm?.id === term.id ? undefined : term) }}
       />}
       <IndividualVariableEditor
-        label={t('label.enterTheInstanceVariable')}
+        label={t('deductionEditor.enterTheInstanceVariableLbl')}
         onSubmit={({ sym, symCtx }) => {
           let deductionInterface
           try {
@@ -38,16 +38,18 @@ export const UniversalGeneralization = ({
           } catch (error) {
             switch (error.name) {
               case ErrorName.TERM_ALREADY_USED:
-                onError(t('message.instanceVariableAlreadyDependantInDependencyGraph'))
+                onError(t('deductionEditor.instanceVariableAlreadyDependantInDependencyGraphMsg'))
                 return
               case ErrorName.CYCLIC_DEPENDENCIES:
-                onError(t('message.usageOfThisInstanceVariableResultsInCyclicDependencies'))
+                onError(
+                  t('deductionEditor.usageOfThisInstanceVariableResultsInCyclicDependenciesMsg')
+                )
                 return
               case ErrorName.GENERALIZED_TERM_ILLEGALLY_BINDS:
-                onError(t('message.introducedQuantificatorIllegallyBinds'))
+                onError(t('deductionEditor.introducedQuantificatorIllegallyBindsMsg'))
                 return
               case ErrorName.GENERALIZED_TERM_BECOMES_ILLEGALLY_BOUND:
-                onError(t('message.introducedBoundVariableBecomesIllegallyBound'))
+                onError(t('deductionEditor.introducedBoundVariableBecomesIllegallyBoundMsg'))
                 return
               default:
                 throw error

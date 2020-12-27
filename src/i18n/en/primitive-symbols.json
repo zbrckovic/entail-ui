@@ -1,9 +1,0 @@
-{
-  "negation": "Negation",
-  "conditional": "Conditional",
-  "conjunction": "Conjunction",
-  "disjunction": "Disjunction",
-  "biconditional": "Biconditional",
-  "universalQuantifier": "Universal quantifier",
-  "existentialQuantifier": "Existential quantifier"
-}

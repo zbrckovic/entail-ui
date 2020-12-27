@@ -1,6 +1,6 @@
 import { ErrorName } from '@zbrckovic/entail-core'
 import classnames from 'classnames'
-import { FormulaEditor } from 'components/formula-editor'
+import { FormulaEditor } from 'components/deduction-editor/formula-editor'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './tautological-implication.m.scss'
@@ -13,19 +13,19 @@ export const TautologicalImplication = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   return (
     <FormulaEditor
       className={classnames(style.root, className)}
-      label={t('label.enterTheConsequent')}
+      label={t('deductionEditor.enterTheConsequentLbl')}
       onSubmit={({ formula, symCtx }) => {
         let deductionInterface
         try {
           deductionInterface = ruleInterface.apply(formula)
         } catch (error) {
           if (error.name === ErrorName.INVALID_TAUTOLOGICAL_IMPLICATION) {
-            onError(t('message.invalidTautologicalImplication'))
+            onError(t('deductionEditor.invalidTautologicalImplicationMsg'))
             return
           }
 

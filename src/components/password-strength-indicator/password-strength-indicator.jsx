@@ -11,17 +11,37 @@ export const PasswordStrengthIndicator = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation('PasswordStrengthIndicator')
+  const { t } = useTranslation()
 
   const [intent, messageClass, message] = useMemo(() => {
-    if (strength === undefined) return [undefined, undefined]
-    if (strength < weakThreshold) return [Intent.DANGER, style.insufficient, t('insufficient')]
-    if (strength < strongThreshold) return [Intent.WARNING, style.weak, t('weak')]
-    return [Intent.SUCCESS, style.strong, t('strong')]
+    if (strength === undefined) return [undefined, undefined, undefined]
+    if (strength < weakThreshold) {
+      return [
+        Intent.DANGER,
+        style.insufficient,
+        t('passwordStrengthIndicator.insufficientLbl')
+      ]
+    }
+    if (strength < strongThreshold) {
+      return [
+        Intent.WARNING,
+        style.weak,
+        t('passwordStrengthIndicator.weakLbl')
+      ]
+    }
+    return [
+      Intent.SUCCESS,
+      style.strong,
+      t('passwordStrengthIndicator.strongLbl')
+    ]
   }, [strength, weakThreshold, strongThreshold, t])
 
   return <div className={classNames(style.root, className)} {...props}>
-    <ProgressBar title={'bla'} intent={intent} value={strength} stripes={false} />
+    <ProgressBar
+      intent={intent}
+      value={strength}
+      stripes={false}
+    />
     <small className={classNames(style.message, messageClass)}>{message}</small>
   </div>
 }

@@ -5,15 +5,15 @@ import style from './dev-info.m.scss'
 
 export const DevInfo = ({ className, ...props }) => {
   const { environment } = useContext(RootCtx)
-  const { t } = useTranslation('DevInfo')
+  const { t } = useTranslation()
 
   const entries = useMemo(() => {
     const { apiUrl, version, branch } = environment
 
     return [
-      [t('label.apiUrl'), apiUrl],
-      [t('label.branch'), version],
-      [t('label.commit'), branch]
+      [t('devInfo.apiUrlLbl'), apiUrl],
+      [t('devInfo.branchLbl'), version],
+      [t('devInfo.commitLbl'), branch]
     ]
   }, [t, environment])
 

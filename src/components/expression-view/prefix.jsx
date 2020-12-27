@@ -38,8 +38,9 @@ export const Prefix = ({
       text={symText}
       kind={sym.kind}
       onClick={
-        onSelectionTargetChange !== undefined
-          ? () => {
+        (() => {
+          if (onSelectionTargetChange === undefined) return undefined
+          return () => {
             let selectionTargetToSend
             if (!isMainSelected) {
               selectionTargetToSend = { type: TargetType.MAIN, position: [] }
@@ -47,7 +48,7 @@ export const Prefix = ({
 
             onSelectionTargetChange(selectionTargetToSend)
           }
-          : undefined
+        })()
       }
       isSelected={isMainSelected}
     />
@@ -55,21 +56,22 @@ export const Prefix = ({
       <Binding
         sym={boundSym}
         onClick={
-          onSelectionTargetChange !== undefined
-            ? () => {
+          (() => {
+            if (onSelectionTargetChange === undefined) return undefined
+            return () => {
               const selectionTargetToSend = isBoundSelected
                 ? undefined
                 : { type: TargetType.BOUND, position: [] }
 
               onSelectionTargetChange(selectionTargetToSend)
             }
-            : undefined
+          })()
         }
         isSelected={isBoundSelected}
       />
     )}
     {hasSpace && <> </>}
-    {hasParenthesesAndComma && <ExpressionText text="(" kind={sym.kind}/>}
+    {hasParenthesesAndComma && <ExpressionText text="(" kind={sym.kind} />}
     {childrenExpressions.map((child, i) => {
       const isLast = i === childrenExpressions.length - 1
 
@@ -88,8 +90,9 @@ export const Prefix = ({
           root={false}
           selectionTarget={selectionTargetForChild}
           onSelectionTargetChange={
-            onSelectionTargetChange !== undefined
-              ? newSelectionTargetFromChild => {
+            (() => {
+              if (onSelectionTargetChange === undefined) return undefined
+              return newSelectionTargetFromChild => {
                 let selectionTargetToSend
                 if (newSelectionTargetFromChild !== undefined) {
                   const { type, position } = newSelectionTargetFromChild
@@ -98,17 +101,17 @@ export const Prefix = ({
 
                 onSelectionTargetChange(selectionTargetToSend)
               }
-              : undefined
+            })()
           }
         />
         {
           !isLast && hasParenthesesAndComma && <>
-            <ExpressionText text="," kind={sym.kind}/>
+            <ExpressionText text="," kind={sym.kind} />
             <> </>
           </>
         }
       </Fragment>
     })}
-    {hasParenthesesAndComma && <ExpressionText text=")" kind={sym.kind}/>}
+    {hasParenthesesAndComma && <ExpressionText text=")" kind={sym.kind} />}
   </>
 }

@@ -22,7 +22,7 @@ import { GraphDialog } from './graph-dialog'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
 
 export const DeductionEditor = ({ className, ...props }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   const initialSymCtx = useContext(SymCtx)
   const { theme: { isDark } } = useContext(RootCtx)
@@ -179,16 +179,16 @@ export const DeductionEditor = ({ className, ...props }) => {
               onRuleDeselect={() => { setState({ ...state, selectedRule: undefined }) }}
             />
             <Button
-              title={t('button.delete')}
+              title={t('deleteLbl')}
               disabled={state.selectedRule !== undefined || state.selectedSteps.length === 0}
               intent={Intent.DANGER}
               icon={IconNames.TRASH}
               onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
             >
-              {t('button.delete')}
+              {t('deleteLbl')}
             </Button>
             <Button
-              title={t('button.graph')}
+              title={t('deductionEditor.graphLbl')}
               disabled={
                 state.isDeleteDialogOpen ||
                 _.isEmpty(state.deductionInterface.deduction.termDependencyGraph)
@@ -196,11 +196,11 @@ export const DeductionEditor = ({ className, ...props }) => {
               icon={IconNames.GRAPH}
               onClick={() => { setState({ ...state, isGraphDialogOpen: true }) }}
             >
-              {t('button.graph')}
+              {t('deductionEditor.graphLbl')}
             </Button>
           </div>
         </div>
-        <footer className={style.footer}/>
+        <footer className={style.footer} />
       </div>
       <DeleteDialog
         isOpen={state.isDeleteDialogOpen}

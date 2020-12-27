@@ -1,10 +1,10 @@
 import { ErrorName, Expression } from '@zbrckovic/entail-core'
-import { IndividualVariableEditor } from 'components/individual-variable-editor'
+import { IndividualVariableEditor } from 'components/deduction-editor/individual-variable-editor'
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import style from './existential-generalization.m.scss'
 import classnames from 'classnames'
-import { TermPicker } from '../term-picker'
+import { TermPicker } from 'components/deduction-editor/term-picker'
 
 export const ExistentialGeneralization = ({
   formula,
@@ -15,7 +15,7 @@ export const ExistentialGeneralization = ({
   className,
   ...props
 }) => {
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   const [oldTerm, setOldTerm] = useState()
 
@@ -32,7 +32,7 @@ export const ExistentialGeneralization = ({
         />
       )}
       <IndividualVariableEditor
-        label={t('label.enterTheQuantificationVariable')}
+        label={t('deductionEditor.enterTheQuantificationVariableLbl')}
         onSubmit={({ sym, symCtx }) => {
           let deductionInterface
           try {
@@ -40,10 +40,10 @@ export const ExistentialGeneralization = ({
           } catch (error) {
             switch (error.name) {
               case ErrorName.GENERALIZED_TERM_ILLEGALLY_BINDS:
-                onError(t('message.introducedQuantificatorIllegallyBinds'))
+                onError(t('deductionEditor.introducedQuantificatorIllegallyBindsMsg'))
                 return
               case ErrorName.GENERALIZED_TERM_BECOMES_ILLEGALLY_BOUND:
-                onError(t('message.introducedBoundVariableBecomesIllegallyBound'))
+                onError(t('deductionEditor.introducedBoundVariableBecomesIllegallyBoundMsg'))
                 return
               default:
                 throw error

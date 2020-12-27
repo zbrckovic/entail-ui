@@ -8,11 +8,11 @@ import classNames from 'classnames'
 export const TermPicker = ({ terms = [], selectedTerm, onSelectTerm, className, ...props }) => {
   const { presentations } = useContext(SymCtx)
 
-  const { t } = useTranslation('DeductionEditor')
+  const { t } = useTranslation()
 
   return (
     <div className={classNames(style.root, className)} {...props}>
-      <label>{t('label.chooseAFreeVariable')}</label>
+      <label>{t('deductionEditor.chooseAFreeVariableLbl')}</label>
       <div className={style.terms}>
         {
           terms.map(term => {

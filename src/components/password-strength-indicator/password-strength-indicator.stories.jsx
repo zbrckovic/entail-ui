@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
 import { PasswordStrengthIndicator } from './password-strength-indicator'
 
 export default {

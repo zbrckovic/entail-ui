@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import style from './deduction-steps.m.scss'
 import classnames from 'classnames'
 import { RootCtx } from 'contexts'
-import { RuleBadge } from '../rule-badge'
+import { RuleBadge } from 'components/deduction-editor/rule-badge'
 
 export const DeductionSteps = ({
   steps,
@@ -22,7 +22,7 @@ export const DeductionSteps = ({
 }) => {
   const { theme: { isDark } } = useContext(RootCtx)
 
-  const { t } = useTranslation('DeductionSteps')
+  const { t } = useTranslation()
 
   const hasRowSelection = selectedSteps !== undefined && onSelectedStepsChange !== undefined
 
@@ -40,19 +40,29 @@ export const DeductionSteps = ({
         )}
         onClick={hasRowSelection ? () => { onSelectedStepsChange([]) } : undefined}
       >
-        <strong title={t('label.stepNumber')}>{t('label.stepNumberAbbreviated')}</strong>
+        <strong title={t('deductionSteps.stepNumberLbl')}>
+          {t('deductionSteps.stepNumberAbbreviatedLbl')}
+        </strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <strong title={t('label.assumptions')}>{t('label.assumptionsAbbreviated')}</strong>
+        <strong title={t('deductionSteps.assumptionsLbl')}>
+          {t('deductionSteps.assumptionsAbbreviatedLbl')}
+        </strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <strong title={t('label.formula')}>{t('label.formulaAbbreviated')}</strong>
+        <strong title={t('deductionSteps.formulaLbl')}>
+          {t('deductionSteps.formulaAbbreviatedLbl')}
+        </strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <strong title={t('label.rule')}>{t('label.ruleAbbreviated')}</strong>
+        <strong title={t('deductionSteps.ruleLbl')}>
+          {t('deductionSteps.ruleAbbreviatedLbl')}
+        </strong>
       </div>
       <div className={classnames(style.cell, style.header)}>
-        <strong title={t('label.premises')}>{t('label.premisesAbbreviated')}</strong>
+        <strong title={t('deductionSteps.premisesLbl')}>
+          {t('deductionSteps.premisesAbbreviatedLbl')}
+        </strong>
       </div>
       {
         steps.map((step, i) => {
@@ -73,16 +83,20 @@ export const DeductionSteps = ({
             }
           }
 
-          const onSelect = hasRowSelection ? () => {
-            const newSelectedSteps = [...selectedSteps]
+          const onSelect = (() => {
+            if (!hasRowSelection) return undefined
 
-            if (isSelected) {
-              newSelectedSteps.splice(indexAmongSelected, 1)
-            } else {
-              newSelectedSteps.push(stepNumber)
+            return () => {
+              const newSelectedSteps = [...selectedSteps]
+
+              if (isSelected) {
+                newSelectedSteps.splice(indexAmongSelected, 1)
+              } else {
+                newSelectedSteps.push(stepNumber)
+              }
+              onSelectedStepsChange(newSelectedSteps)
             }
-            onSelectedStepsChange(newSelectedSteps)
-          } : undefined
+          })()
 
           return (
             <Fragment key={i}>
@@ -106,7 +120,7 @@ export const DeductionSteps = ({
                 </span>
               </div>
               <div className={style.cell} onClick={onSelect}>
-                <StepAssumptions assumptions={step.assumptions}/>
+                <StepAssumptions assumptions={step.assumptions} />
               </div>
               <div
                 className={style.cell}
@@ -131,10 +145,10 @@ export const DeductionSteps = ({
                 />
               </div>
               <div className={style.cell} onClick={onSelect}>
-                <RuleBadge rule={step.ruleApplicationSummary.rule}/>
+                <RuleBadge rule={step.ruleApplicationSummary.rule} />
               </div>
               <div className={style.cell} onClick={onSelect}>
-                <StepPremises premises={step.ruleApplicationSummary.premises}/>
+                <StepPremises premises={step.ruleApplicationSummary.premises} />
               </div>
             </Fragment>
           )
