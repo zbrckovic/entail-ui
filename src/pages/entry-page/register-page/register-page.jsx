@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { withCancel } from 'utils/with-cancel'
 import { Card, Intent } from '@blueprintjs/core'
@@ -21,10 +21,7 @@ export const RegisterPage = () => {
 
     registerDispatch({ type: 'start' })
 
-    const [
-      register,
-      cancel
-    ] = withCancel(authenticationService.register(...registerState.params))
+    const [register, cancel] = withCancel(authenticationService.register(...registerState.params))
 
     register.then(
       () => {

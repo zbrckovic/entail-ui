@@ -42,9 +42,7 @@ export const LoginPage = () => {
     return cancel
   }, [loginState.params, t, setIsLoggedIn, authenticationService])
 
-  if (isLoggedIn) {
-    return <Redirect to='/' />
-  }
+  if (isLoggedIn) return <Redirect to='/' />
 
   return <div className={style.root}>
     <Card className={style.card}>
