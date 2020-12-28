@@ -28,27 +28,27 @@ export const RootWrapper = ({ children, className, ...props }) => {
   // Initialize i18n on start
   useEffect(() => {
     const [init, cancel] = withCancel(initI18n())
-    init
-      .then(
-        t => {
-          const apiService = ApiService({ t })
-          const authenticationService = AuthenticationService({ apiService })
-          setAuthenticationService(authenticationService)
-          setI18nIsInitializing(false)
-        },
-        () => { setI18nIsInitializing(false) }
-      )
+    init.then(
+      t => {
+        const apiService = ApiService({ t })
+        const authenticationService = AuthenticationService({ apiService })
+        setAuthenticationService(authenticationService)
+        setI18nIsInitializing(false)
+      },
+      () => { setI18nIsInitializing(false) }
+    )
     return cancel
   }, [])
 
-  // Refresh api token on start (if not storybook)
+  // Get user and api token on start (when authentication service is available)
   useEffect(() => {
     if (authenticationService === undefined) return
-    const [refreshApiToken, cancel] = withCancel(authenticationService.refreshApiToken())
-    refreshApiToken.then(login, logout)
+    const [getUserAndApiToken, cancel] = withCancel(authenticationService.getUserAndApiToken())
+    getUserAndApiToken.then(login, logout)
     return cancel
   }, [login, logout, authenticationService])
 
+  // Start refreshing api token when logged in
   useEffect(() => {
     if (accountState.loggedIn) {
       return startRefreshingToken(authenticationService, logout)

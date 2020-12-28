@@ -8,7 +8,10 @@ export const AuthenticationService = ({ apiService }) => ({
   async logout () {
     return await apiService.logout()
   },
-  async refreshApiToken () {
+  async getUserAndApiToken () {
+    return await apiService.getUserAndApiToken()
+  },
+  async getApiToken () {
     return await apiService.getApiToken()
   },
   async requestPasswordChange (email) {

@@ -16,6 +16,9 @@ export const ApiService = ({ t }) => {
     async logout () {
       return await axios.post('logout')
     },
+    async getUserAndApiToken () {
+      return await axios.get('user-and-api-token')
+    },
     async getApiToken () {
       return await axios.get('api-token')
     },
