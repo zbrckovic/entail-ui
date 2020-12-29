@@ -7,7 +7,6 @@ import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import 'style/main.scss'
 import { Classes, Spinner } from '@blueprintjs/core'
 import style from './root-wrapper.m.scss'
-import { withCancel } from 'utils/with-cancel'
 import { startRefreshingToken } from './services/api-token-refresh'
 import classNames from 'classnames'
 import { ApiService } from './services/api-service'
@@ -27,25 +26,31 @@ export const RootWrapper = ({ children, className, ...props }) => {
 
   // Initialize i18n on start
   useEffect(() => {
-    const [init, cancel] = withCancel(initI18n())
-    init.then(
-      t => {
+    const subscription = initI18n().subscribe({
+      next (t) {
         const apiService = ApiService({ t })
         const authenticationService = AuthenticationService({ apiService })
         setAuthenticationService(authenticationService)
         setI18nIsInitializing(false)
       },
-      () => { setI18nIsInitializing(false) }
-    )
-    return cancel
+      error () {
+        setI18nIsInitializing(false)
+      }
+    })
+
+    return () => { subscription.unsubscribe() }
   }, [])
 
   // Get user and api token on start (when authentication service is available)
   useEffect(() => {
     if (authenticationService === undefined) return
-    const [getUserAndApiToken, cancel] = withCancel(authenticationService.getUserAndApiToken())
-    getUserAndApiToken.then(login, logout)
-    return cancel
+
+    const subscription = authenticationService.getUserAndApiToken().subscribe({
+      next (user) { login(user) },
+      error () { logout() }
+    })
+
+    return () => { subscription.unsubscribe() }
   }, [login, logout, authenticationService])
 
   // Start refreshing api token when logged in

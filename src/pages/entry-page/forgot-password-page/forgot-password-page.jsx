@@ -4,7 +4,6 @@ import { Redirect, useHistory } from 'react-router-dom'
 import style from './forgot-password-page.m.scss'
 import { Card, Intent } from '@blueprintjs/core'
 import { useTranslation } from 'react-i18next'
-import { withCancel } from 'utils/with-cancel'
 import { ForgotPasswordPageForm } from './forgot-password-page-form'
 import { toaster } from 'toaster'
 import { IconNames } from '@blueprintjs/icons'
@@ -22,26 +21,23 @@ export const ForgotPasswordPage = () => {
 
     setIsRequestPasswordChangeInProgress(true)
 
-    const [
-      requestPasswordChange,
-      cancel
-    ] = withCancel(
-      authenticationService.requestPasswordChange(...requestPasswordChangeParams)
-    )
+    const subscription = authenticationService
+      .requestPasswordChange(...requestPasswordChangeParams)
+      .subscribe({
+        complete () {
+          toaster.show({
+            icon: IconNames.INFO_SIGN,
+            intent: Intent.PRIMARY,
+            message: t('forgotPasswordPage.successMsg')
+          })
+          history.replace('/login')
+        },
+        error () {
+          setIsRequestPasswordChangeInProgress(false)
+        }
+      })
 
-    requestPasswordChange.then(
-      () => {
-        toaster.show({
-          icon: IconNames.INFO_SIGN,
-          intent: Intent.PRIMARY,
-          message: t('forgotPasswordPage.successMsg')
-        })
-        history.replace('/login')
-      },
-      () => { setIsRequestPasswordChangeInProgress(false) }
-    )
-
-    return cancel
+    return () => { subscription.unsubscribe() }
   }, [requestPasswordChangeParams, authenticationService, history, t])
 
   if (loggedIn) return <Redirect to='/' />
@@ -52,9 +48,7 @@ export const ForgotPasswordPage = () => {
       <p className={style.text}>{t('forgotPasswordPage.text')}</p>
       <ForgotPasswordPageForm
         onSubmit={email => setRequestPasswordChangeParams([email])}
-        onBackToLogin={() => {
-          history.replace('/login')
-        }}
+        onBackToLogin={() => { history.replace('/login') }}
         isLoading={isRequestPasswordChangeInProgress}
       />
     </Card>

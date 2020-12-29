@@ -1,4 +1,4 @@
-import axiosLib from 'axios'
+import Axios from 'axios-observable'
 import { environment } from 'environment'
 import { toaster } from 'toaster'
 import { Intent } from '@blueprintjs/core'
@@ -7,30 +7,30 @@ import { createError } from 'error'
 
 export const ApiService = ({ t }) => {
   const result = ({
-    async register (credentials) {
-      return await axios.post('register', credentials)
+    register (credentials) {
+      return axios.post('register', credentials)
     },
-    async login (credentials) {
-      return await axios.post('login', credentials)
+    login (credentials) {
+      return axios.post('login', credentials)
     },
-    async logout () {
-      return await axios.post('logout')
+    logout () {
+      return axios.post('logout')
     },
-    async getUserAndApiToken () {
-      return await axios.get('user-and-api-token')
+    getUserAndApiToken () {
+      return axios.get('user-and-api-token')
     },
-    async getApiToken () {
-      return await axios.get('api-token')
+    getApiToken () {
+      return axios.get('api-token')
     },
-    async requestPasswordChange (email) {
-      return await axios.post('request-password-change', { email })
+    requestPasswordChange (email) {
+      return axios.post('request-password-change', { email })
     },
-    async changePasswordWithToken ({ password, token }) {
-      return await axios.post('change-password-with-token', { password, token })
+    changePasswordWithToken ({ password, token }) {
+      return axios.post('change-password-with-token', { password, token })
     }
   })
 
-  const axios = axiosLib.create({
+  const axios = Axios.create({
     baseURL: environment.apiUrl,
     timeout: environment.apiClientTimeoutMs,
     crossDomain: true,

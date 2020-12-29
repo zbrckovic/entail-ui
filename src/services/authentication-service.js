@@ -1,23 +1,23 @@
 export const AuthenticationService = ({ apiService }) => ({
-  async register (credentials) {
-    return await apiService.register(credentials)
+  register (credentials) {
+    return apiService.register(credentials)
   },
-  async login (credentials) {
-    return await apiService.login(credentials)
+  login (credentials) {
+    return apiService.login(credentials)
   },
-  async logout () {
-    return await apiService.logout()
+  logout () {
+    return apiService.logout()
   },
-  async getUserAndApiToken () {
-    return await apiService.getUserAndApiToken()
+  getUserAndApiToken () {
+    return apiService.getUserAndApiToken()
   },
-  async getApiToken () {
-    return await apiService.getApiToken()
+  getApiToken () {
+    return apiService.getApiToken()
   },
-  async requestPasswordChange (email) {
-    return await apiService.requestPasswordChange(email)
+  requestPasswordChange (email) {
+    return apiService.requestPasswordChange(email)
   },
-  async changePasswordWithToken ({ password, token }) {
-    return await apiService.changePasswordWithToken({ password, token })
+  changePasswordWithToken ({ password, token }) {
+    return apiService.changePasswordWithToken({ password, token })
   }
 })

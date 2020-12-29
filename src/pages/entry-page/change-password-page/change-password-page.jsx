@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import style from './change-password-page.m.scss'
-import { useParams, useHistory } from 'react-router-dom'
-import { withCancel } from 'utils/with-cancel'
+import { useHistory, useParams } from 'react-router-dom'
 import { toaster } from 'toaster'
 import { IconNames } from '@blueprintjs/icons'
 import { Card, Intent } from '@blueprintjs/core'
@@ -24,42 +23,39 @@ export const ChangePasswordPage = () => {
 
     setIsChangePasswordInProgress(true)
 
-    const [
-      changePassword,
-      cancel
-    ] = withCancel(authenticationService.changePasswordWithToken(...changePasswordParams))
-
-    changePassword.then(
-      () => {
-        toaster.show({
-          icon: IconNames.TICK_CIRCLE,
-          intent: Intent.SUCCESS,
-          message: t('changePasswordPage.successMsg')
-        })
-        history.replace('/login')
-      },
-      ({ name }) => {
-        if (name === ErrorName.INVALID_CREDENTIALS) {
+    const subscription = authenticationService
+      .changePasswordWithToken(...changePasswordParams)
+      .subscribe({
+        complete () {
           toaster.show({
-            message: t('changePasswordPage.emailNotValidMsg'),
-            intent: Intent.DANGER,
-            icon: IconNames.WARNING_SIGN
-          })
-          history.replace('/register')
-        } else if (name === ErrorName.TOKEN_EXPIRED) {
-          toaster.show({
-            message: t('changePasswordPage.expiredLinkMsg'),
-            intent: Intent.DANGER,
-            icon: IconNames.WARNING_SIGN
+            icon: IconNames.TICK_CIRCLE,
+            intent: Intent.SUCCESS,
+            message: t('changePasswordPage.successMsg')
           })
           history.replace('/login')
-        } else {
-          setIsChangePasswordInProgress(false)
+        },
+        error ({ name }) {
+          if (name === ErrorName.INVALID_CREDENTIALS) {
+            toaster.show({
+              message: t('changePasswordPage.emailNotValidMsg'),
+              intent: Intent.DANGER,
+              icon: IconNames.WARNING_SIGN
+            })
+            history.replace('/register')
+          } else if (name === ErrorName.TOKEN_EXPIRED) {
+            toaster.show({
+              message: t('changePasswordPage.expiredLinkMsg'),
+              intent: Intent.DANGER,
+              icon: IconNames.WARNING_SIGN
+            })
+            history.replace('/login')
+          } else {
+            setIsChangePasswordInProgress(false)
+          }
         }
-      }
-    )
+      })
 
-    return cancel
+    return () => { subscription.unsubscribe() }
   }, [changePasswordParams, authenticationService, history, t])
 
   return <div className={style.root}>

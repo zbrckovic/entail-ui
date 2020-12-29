@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react'
 import 'style/main.scss'
 import { Classes } from '@blueprintjs/core'
 import style from './storybook-root-wrapper.m.scss'
-import { withCancel } from 'utils/with-cancel'
 import classNames from 'classnames'
 
 // Add layout algorithm to cytoscape.
@@ -20,9 +19,16 @@ export const StorybookRootWrapper = ({ children, className, ...props }) => {
 
   // Initialize i18n on start
   useEffect(() => {
-    const [init, cancel] = withCancel(initI18n())
-    init.finally(() => { setI18nIsInitializing(false) })
-    return cancel
+    const subscription = initI18n().subscribe({
+      complete () {
+        setI18nIsInitializing(false)
+      },
+      error () {
+        setI18nIsInitializing(false)
+      }
+    })
+
+    return subscription.unsubscribe()
   }, [])
 
   if (i18nIsInitializing) return null

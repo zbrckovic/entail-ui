@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
-import { withCancel } from 'utils/with-cancel'
 import { Card, Intent } from '@blueprintjs/core'
 import style from './register-page.m.scss'
 import { RegisterPageForm } from './register-page-form'
@@ -21,26 +20,26 @@ export const RegisterPage = () => {
 
     registerDispatch({ type: 'start' })
 
-    const [register, cancel] = withCancel(authenticationService.register(...registerState.params))
-
-    register.then(
-      user => {
-        registerDispatch({ type: 'stop' })
-        login(user)
-      },
-      ({ name }) => {
-        if (name === ErrorName.EMAIL_ALREADY_USED) {
-          toaster.show({
-            message: t('registerPage.emailAlreadyBeingUsedMsg'),
-            intent: Intent.DANGER,
-            icon: IconNames.WARNING_SIGN
-          })
+    const subscription = authenticationService
+      .register(...registerState.params)
+      .subscribe({
+        next (user) {
+          registerDispatch({ type: 'stop' })
+          login(user)
+        },
+        error ({ name }) {
+          if (name === ErrorName.EMAIL_ALREADY_USED) {
+            toaster.show({
+              message: t('registerPage.emailAlreadyBeingUsedMsg'),
+              intent: Intent.DANGER,
+              icon: IconNames.WARNING_SIGN
+            })
+          }
+          registerDispatch({ type: 'stop' })
         }
-        registerDispatch({ type: 'stop' })
-      }
-    )
+      })
 
-    return cancel
+    return () => { subscription.unsubscribe() }
   }, [registerDispatch, registerState.params, t, loggedIn, login, authenticationService])
 
   if (loggedIn) return <Redirect to='/' />

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useReducer } from 'react'
 import { LoginPageForm } from './login-page-form'
-import { withCancel } from 'utils/with-cancel'
 import { Card, Intent } from '@blueprintjs/core'
 import style from './login-page.m.scss'
 import { useTranslation } from 'react-i18next'
@@ -20,26 +19,26 @@ export const LoginPage = () => {
 
     loginDispatch({ type: 'start' })
 
-    const [apiLogin, apiLoginCancel] = withCancel(authenticationService.login(...loginState.params))
-
-    apiLogin.then(
-      user => {
-        loginDispatch({ type: 'stop' })
-        login(user)
-      },
-      ({ name }) => {
-        if (name === ErrorName.INVALID_CREDENTIALS) {
-          toaster.show({
-            message: t('loginPage.invalidCredentialsMsg'),
-            intent: Intent.DANGER,
-            icon: IconNames.WARNING_SIGN
-          })
+    const subscription = authenticationService
+      .login(...loginState.params)
+      .subscribe({
+        next (user) {
+          loginDispatch({ type: 'stop' })
+          login(user)
+        },
+        error ({ name }) {
+          if (name === ErrorName.INVALID_CREDENTIALS) {
+            toaster.show({
+              message: t('loginPage.invalidCredentialsMsg'),
+              intent: Intent.DANGER,
+              icon: IconNames.WARNING_SIGN
+            })
+          }
+          loginDispatch({ type: 'stop' })
         }
-        loginDispatch({ type: 'stop' })
-      }
-    )
+      })
 
-    return apiLoginCancel
+    return () => { subscription.unsubscribe() }
   }, [loginState.params, login, t, loggedIn, authenticationService])
 
   if (loggedIn) return <Redirect to='/' />
