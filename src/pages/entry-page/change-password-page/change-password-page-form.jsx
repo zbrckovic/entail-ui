@@ -4,7 +4,6 @@ import { useFormik } from 'formik'
 import validator from 'validator'
 import style from './change-password-page-form.m.scss'
 import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
-import { getErrorForField, getIntentForField } from 'utils/form-utils'
 import { Link } from 'react-router-dom'
 import { IconNames } from '@blueprintjs/icons'
 import {
@@ -13,6 +12,7 @@ import {
   PASSWORD_STRENGTH_THRESHOLD_WEAK
 } from 'validators'
 import { PasswordStrengthIndicator } from '../../../components/password-strength-indicator'
+import { useFormikUtil } from '../../../utils/use-formik-util'
 
 export const ChangePasswordPageForm = ({ isLoading, onSubmit }) => {
   const { t } = useTranslation()
@@ -47,6 +47,8 @@ export const ChangePasswordPageForm = ({ isLoading, onSubmit }) => {
     onSubmit: ({ password }) => { onSubmit(password) }
   })
 
+  const formikUtil = useFormikUtil(formik)
+
   return (
     <form
       className={style.root}
@@ -56,8 +58,8 @@ export const ChangePasswordPageForm = ({ isLoading, onSubmit }) => {
         className={style.passwordFormControl}
         label={t('changePasswordPage.passwordLbl')}
         labelFor='password'
-        intent={getIntentForField(formik, 'password')}
-        helperText={getErrorForField(formik, 'password')}
+        intent={formikUtil.getIntent('password')}
+        helperText={formikUtil.getError('password')}
         disabled={isLoading}
       >
         <InputGroup
@@ -67,13 +69,13 @@ export const ChangePasswordPageForm = ({ isLoading, onSubmit }) => {
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          intent={getIntentForField(formik, 'password')}
+          intent={formikUtil.getIntent('password')}
         />
       </FormGroup>
       <FormGroup
         labelFor='repeatedPassword'
-        intent={getIntentForField(formik, 'repeatedPassword')}
-        helperText={getErrorForField(formik, 'repeatedPassword')}
+        intent={formikUtil.getIntent('repeatedPassword')}
+        helperText={formikUtil.getError('repeatedPassword')}
         disabled={isLoading}
       >
         <InputGroup
@@ -84,7 +86,7 @@ export const ChangePasswordPageForm = ({ isLoading, onSubmit }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           placeholder={t('changePasswordPage.repeatThePasswordMsg')}
-          intent={getErrorForField(formik, 'repeatedPassword')}
+          intent={formikUtil.getIntent('repeatedPassword')}
         />
       </FormGroup>
       {passwordStrength.current !== undefined && (

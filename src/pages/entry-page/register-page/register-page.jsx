@@ -48,9 +48,7 @@ export const RegisterPage = () => {
     <Card className={style.card}>
       <h2 className={style.title}>{t('registerPage.title')}</h2>
       <RegisterPageForm
-        onSubmit={credentials => {
-          registerDispatch({ type: 'request', params: [credentials] })
-        }}
+        onSubmit={credentials => { registerDispatch({ type: 'request', params: [credentials] }) }}
         isLoading={registerState.inProgress}
       />
     </Card>

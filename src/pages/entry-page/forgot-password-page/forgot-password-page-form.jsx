@@ -3,10 +3,10 @@ import validator from 'validator'
 import { useTranslation } from 'react-i18next'
 import style from './forgot-password-page-form.m.scss'
 import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
-import { getErrorForField, getIntentForField } from 'utils/form-utils'
 import { Link } from 'react-router-dom'
 import { IconNames } from '@blueprintjs/icons'
 import React from 'react'
+import { useFormikUtil } from '../../../utils/use-formik-util'
 
 export const ForgotPasswordPageForm = ({ isLoading, onSubmit }) => {
   const { t } = useTranslation()
@@ -25,6 +25,8 @@ export const ForgotPasswordPageForm = ({ isLoading, onSubmit }) => {
     onSubmit: ({ email }) => { onSubmit(email) }
   })
 
+  const formikUtil = useFormikUtil(formik)
+
   return <form
     className={style.root}
     onSubmit={formik.handleSubmit}
@@ -32,9 +34,9 @@ export const ForgotPasswordPageForm = ({ isLoading, onSubmit }) => {
     <FormGroup
       label={t('forgotPasswordPage.emailLbl')}
       labelFor='email'
-      helperText={getErrorForField(formik, 'email')}
+      helperText={formikUtil.getError('email')}
       disabled={isLoading}
-      intent={getIntentForField(formik, 'email')}
+      intent={formikUtil.getIntent('email')}
     >
       <InputGroup
         id='email'
@@ -43,7 +45,7 @@ export const ForgotPasswordPageForm = ({ isLoading, onSubmit }) => {
         value={formik.values.email}
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
-        intent={getIntentForField(formik, 'email')}
+        intent={formikUtil.getIntent('email')}
       />
     </FormGroup>
     <Button

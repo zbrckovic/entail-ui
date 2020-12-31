@@ -12,7 +12,7 @@ import {
   PASSWORD_STRENGTH_THRESHOLD_STRONG,
   PASSWORD_STRENGTH_THRESHOLD_WEAK
 } from 'validators'
-import { getErrorForField, getIntentForField } from 'utils/form-utils'
+import { useFormikUtil } from 'utils/use-formik-util'
 
 export const RegisterPageForm = ({ onSubmit, isLoading }) => {
   const { t } = useTranslation()
@@ -52,6 +52,8 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
     onSubmit: ({ email, password }) => { onSubmit({ email, password }) }
   })
 
+  const formikUtil = useFormikUtil(formik)
+
   return (
     <form
       className={style.root}
@@ -60,8 +62,8 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
       <FormGroup
         label={t('registerPage.emailLbl')}
         labelFor='email'
-        intent={getIntentForField(formik, 'email')}
-        helperText={getErrorForField(formik, 'email')}
+        intent={formikUtil.getIntent('email')}
+        helperText={formikUtil.getError('email')}
         disabled={isLoading}
       >
         <InputGroup
@@ -71,15 +73,15 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          intent={getIntentForField(formik, 'email')}
+          intent={formikUtil.getIntent('email')}
         />
       </FormGroup>
       <FormGroup
         className={style.passwordFormControl}
         label={t('registerPage.passwordLbl')}
         labelFor='password'
-        intent={getIntentForField(formik, 'password')}
-        helperText={getErrorForField(formik, 'password')}
+        intent={formikUtil.getIntent('password')}
+        helperText={formikUtil.getError('password')}
         disabled={isLoading}
       >
         <InputGroup
@@ -89,13 +91,13 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          intent={getIntentForField(formik, 'password')}
+          intent={formikUtil.getIntent('password')}
         />
       </FormGroup>
       <FormGroup
         labelFor='repeatedPassword'
-        intent={getIntentForField(formik, 'repeatedPassword')}
-        helperText={getErrorForField(formik, 'repeatedPassword')}
+        intent={formikUtil.getIntent('repeatedPassword')}
+        helperText={formikUtil.getError('repeatedPassword')}
         disabled={isLoading}
       >
         <InputGroup
@@ -106,7 +108,7 @@ export const RegisterPageForm = ({ onSubmit, isLoading }) => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           placeholder={t('registerPage.repeatThePasswordMsg')}
-          intent={getErrorForField(formik, 'repeatedPassword')}
+          intent={formikUtil.getIntent('repeatedPassword')}
         />
       </FormGroup>
       {passwordStrength.current !== undefined && (

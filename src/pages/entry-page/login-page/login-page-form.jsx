@@ -6,7 +6,7 @@ import style from './login-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import validator from 'validator'
 import { useFormik } from 'formik'
-import { getErrorForField, getIntentForField } from 'utils/form-utils'
+import { useFormikUtil } from '../../../utils/use-formik-util'
 
 export const LoginPageForm = ({ onSubmit, isLoading }) => {
   const { t } = useTranslation()
@@ -32,6 +32,8 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
     onSubmit
   })
 
+  const formikUtil = useFormikUtil(formik)
+
   return (
     <form
       className={style.root}
@@ -40,9 +42,9 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
       <FormGroup
         label={t('loginPage.emailLbl')}
         labelFor='email'
-        helperText={getErrorForField(formik, 'email')}
+        helperText={formikUtil.getError('email')}
         disabled={isLoading}
-        intent={getIntentForField(formik, 'email')}
+        intent={formikUtil.getIntent('email')}
       >
         <InputGroup
           id='email'
@@ -51,15 +53,15 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
           value={formik.values.email}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          intent={getIntentForField(formik, 'email')}
+          intent={formikUtil.getIntent('email')}
         />
       </FormGroup>
       <FormGroup
         className={style.passwordFormGroup}
         label={t('loginPage.passwordLbl')}
         labelFor='password'
-        helperText={getErrorForField(formik, 'password')}
-        intent={getIntentForField(formik, 'password')}
+        helperText={formikUtil.getError('password')}
+        intent={formikUtil.getIntent('password')}
         disabled={isLoading}
       >
         <InputGroup
@@ -69,7 +71,7 @@ export const LoginPageForm = ({ onSubmit, isLoading }) => {
           value={formik.values.password}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          intent={getIntentForField(formik, 'password')}
+          intent={formikUtil.getIntent('password')}
         />
       </FormGroup>
       <div className={style.forgotPasswordContainer}>
