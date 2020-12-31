@@ -150,6 +150,12 @@
     "emailNotValidMsg": "Email you used doesn't correspond to any user.",
     "expiredLinkMsg": "Link we sent you has expired. If you still want to change your password you can request another recovery email."
   },
+  "header": {
+    "projectsLbl": "Projects",
+    "userLbl": "User",
+    "logoutLbl": "Logout",
+    "usersLbl": "Users"
+  },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",
   "deleteLbl": "Delete",

@@ -1,15 +1,24 @@
+import { userMapper } from '../mappers'
+import { map } from 'rxjs/operators'
+
 export const AuthenticationService = ({ apiService }) => ({
   register (credentials) {
-    return apiService.register(credentials)
+    return apiService
+      .register(credentials)
+      .pipe(map(userRaw => userMapper.fromApi(userRaw)))
   },
   login (credentials) {
-    return apiService.login(credentials)
+    return apiService
+      .login(credentials)
+      .pipe(map(userRaw => userMapper.fromApi(userRaw)))
   },
   logout () {
     return apiService.logout()
   },
   getUserAndApiToken () {
-    return apiService.getUserAndApiToken()
+    return apiService
+      .getUserAndApiToken()
+      .pipe(map(userRaw => userMapper.fromApi(userRaw)))
   },
   getApiToken () {
     return apiService.getApiToken()
