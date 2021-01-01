@@ -35,6 +35,7 @@
   "dependencies": {
     "@blueprintjs/core": "^3.33.0",
     "@blueprintjs/icons": "^3.22.0",
+    "@blueprintjs/table": "^3.8.18",
     "@zbrckovic/entail-core": "0.0.45",
     "axios": "^0.21.0",
     "axios-observable": "^1.1.3",
