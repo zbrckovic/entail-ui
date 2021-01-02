@@ -3,7 +3,6 @@ import { RootCtx } from 'contexts'
 import {
   Alignment,
   Button,
-  Intent,
   Menu,
   MenuDivider,
   MenuItem,
