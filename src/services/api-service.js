@@ -27,6 +27,9 @@ export const ApiService = ({ t }) => {
     },
     changePasswordWithToken ({ password, token }) {
       return axios.post('change-password-with-token', { password, token })
+    },
+    getUsers ({ pageNumber, pageSize, orderProp, orderDir }) {
+      return axios.get('users', { params: { pageNumber, pageSize, orderProp, orderDir } })
     }
   })
 
@@ -38,7 +41,17 @@ export const ApiService = ({ t }) => {
   })
 
   axios.interceptors.response.use(
-    response => response.data,
+    async response => {
+      if (environment.apiDelay > 0) {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(response.data)
+          }, environment.apiDelay)
+        })
+      } else {
+        return response.data
+      }
+    },
     async error => {
       if (!error.isAxiosError) throw error
 

@@ -15,6 +15,7 @@ module.exports = (options = {}) => {
   const {
     DEVELOPMENT = false,
     API_URL = 'http://localhost:5000',
+    API_DELAY = 0,
     API_CLIENT_TIMEOUT_MS = 5000,
     PORT = 8080,
     LOCALE = 'hr',
@@ -128,6 +129,7 @@ module.exports = (options = {}) => {
       new EnvironmentPlugin({
         DEVELOPMENT,
         API_URL,
+        API_DELAY,
         API_CLIENT_TIMEOUT_MS,
         LOCALE,
         API_TOKEN_REFRESH_PERIOD_MINUTES,

@@ -7,6 +7,7 @@ const parseNumber = (value, defaultValue) => value === undefined ? defaultValue 
 
 const development = parseBoolean(process.env.DEVELOPMENT)
 const apiUrl = process.env.API_URL
+const apiDelay = parseInt(process.env.API_DELAY, 10)
 const apiClientTimeoutMs = parseNumber(process.env.API_CLIENT_TIMEOUT_MS)
 const locale = process.env.LOCALE
 const version = process.env.VERSION
@@ -18,6 +19,7 @@ const storybook = parseBoolean(process.env.STORYBOOK, false)
 export const environment = {
   development,
   apiUrl,
+  apiDelay,
   apiClientTimeoutMs,
   locale,
   version,

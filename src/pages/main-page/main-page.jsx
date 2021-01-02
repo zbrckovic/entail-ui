@@ -70,7 +70,6 @@ export const MainPage = () => {
                 user.isAdmin() && <>
                   <MenuDivider />
                   <MenuItem
-                    intent={Intent.DANGER}
                     text={t('header.usersLbl')}
                     icon={IconNames.USER}
                     onClick={() => { history.push('/users') }}
@@ -83,7 +82,6 @@ export const MainPage = () => {
         >
           <Button
             title={user.email}
-            intent={user.isAdmin() ? Intent.DANGER : Intent.PRIMARY}
             minimal
             rightIcon={IconNames.USER}
           >

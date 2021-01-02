@@ -156,6 +156,9 @@
     "logoutLbl": "Logout",
     "usersLbl": "Users"
   },
+  "usersPage": {
+    "emailLbl": "Email"
+  },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",
   "deleteLbl": "Delete",
