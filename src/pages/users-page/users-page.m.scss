@@ -9,6 +9,8 @@
 
   .tableContainer {
     flex-grow: 1;
+    min-height: 0;
+    overflow-y: scroll;
   }
   .footer {
     @include padding-v(8px);
