@@ -4,7 +4,8 @@ import { RootCtx } from '../../contexts'
 import { Cell, Column, Table, TableLoadingOption } from '@blueprintjs/table'
 import { useTranslation } from 'react-i18next'
 import style from './users-page.m.scss'
-import { ResizeSensor } from '@blueprintjs/core'
+import classnames from 'classnames'
+import { Button, Intent, ResizeSensor } from '@blueprintjs/core'
 
 export const UsersPage = () => {
   const { t } = useTranslation()
@@ -26,23 +27,58 @@ export const UsersPage = () => {
 
   const [tableSize, setTableSize] = useState({ width: 0, height: 0 })
 
-  console.log(tableSize)
-
   return <ResizeSensor
     onResize={([{ contentRect: { width, height } }]) => { setTableSize({ width, height }) }}
   >
     <div className={style.root}>
       <Table
+        defaultRowHeight={30}
+        enableRowReordering={true}
         style={tableSize}
         enableColumnResizing={false}
-        columnWidths={[tableSize.width]}
+        columnWidths={[tableSize.width - 170, 170]}
         numRows={pageInfo.pageSize}
+        enableRowHeader={false}
         loadingOptions={usersState.loading ? [TableLoadingOption.CELLS] : []}
       >
         <Column
           name={t('usersPage.emailLbl')}
           cellRenderer={
-            i => <Cell>{usersState.users[i]?.email}</Cell>
+            i => {
+              const user = usersState.users[i]
+
+              if (user === undefined) return <Cell />
+
+              return <Cell
+                className={style.cell}
+                intent={user.isEmailVerified ? undefined : Intent.WARNING}>
+                {user.email}
+              </Cell>
+            }
+          }
+        />
+        <Column
+          name={t('usersPage.verificationLbl')}
+          cellRenderer={
+            i => {
+              const user = usersState.users[i]
+
+              if (user === undefined) return <Cell />
+
+              if (user.isEmailVerified) {
+                return <Cell className={classnames(style.cell, style.verify)}>
+                  <Button minimal intent={Intent.WARNING}>
+                    {t('usersPage.markAsNotVerifiedLbl')}
+                  </Button>
+                </Cell>
+              } else {
+                return <Cell className={classnames(style.cell, style.verify)}>
+                  <Button minimal intent={Intent.PRIMARY}>
+                    {t('usersPage.markAsVerifiedLbl')}
+                  </Button>
+                </Cell>
+              }
+            }
           }
         />
       </Table>

@@ -157,7 +157,10 @@
     "usersLbl": "Users"
   },
   "usersPage": {
-    "emailLbl": "Email"
+    "emailLbl": "Email",
+    "verificationLbl": "Verification",
+    "markAsVerifiedLbl": "Mark as Verified",
+    "markAsNotVerifiedLbl": "Mark as not Verified"
   },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",
