@@ -161,6 +161,9 @@
     "verificationLbl": "Verification",
     "createdAtLbl": "Created at"
   },
+  "projectsPage": {
+    "createProjectLbl": "Create Project"
+  },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",
   "deleteLbl": "Delete",

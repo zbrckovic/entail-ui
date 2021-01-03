@@ -6,7 +6,7 @@ import { Button, FormGroup, InputGroup, Intent } from '@blueprintjs/core'
 import { Link } from 'react-router-dom'
 import { IconNames } from '@blueprintjs/icons'
 import React from 'react'
-import { useFormikUtil } from '../../../utils/use-formik-util'
+import { useFormikUtil } from 'utils/use-formik-util'
 
 export const ForgotPasswordPageForm = ({ isLoading, onSubmit }) => {
   const { t } = useTranslation()

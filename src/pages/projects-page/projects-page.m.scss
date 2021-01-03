@@ -1,0 +1,11 @@
+.root {
+  overflow-y: auto;
+  height: 100%;
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 250px));
+  grid-template-rows: repeat(auto-fit, 200px);
+  gap: 8px;
+  padding: 8px;
+}

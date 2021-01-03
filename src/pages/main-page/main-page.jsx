@@ -15,8 +15,9 @@ import { Redirect, Route, Switch, useHistory } from 'react-router-dom'
 import style from './main-page.m.scss'
 import { useAsyncState } from 'utils/use-async-state'
 import { useTranslation } from 'react-i18next'
-import { UsersPage } from '../users-page'
-import { HomePage } from '../home-page'
+import { UsersPage } from 'pages/users-page'
+import { HomePage } from 'pages/home-page'
+import { ProjectsPage } from '../projects-page/projects-page'
 
 export const MainPage = () => {
   const history = useHistory()
@@ -54,7 +55,12 @@ export const MainPage = () => {
           Entail
         </Navbar.Heading>
         <Navbar.Divider />
-        <Button minimal icon={IconNames.PROJECTS} text={t('header.projectsLbl')} />
+        <Button
+          minimal
+          icon={IconNames.PROJECTS}
+          text={t('header.projectsLbl')}
+          onClick={() => { history.push('/projects') }}
+        />
       </Navbar.Group>
       <Navbar.Group align={Alignment.RIGHT}>
         <Popover
@@ -93,6 +99,9 @@ export const MainPage = () => {
       <Switch>
         <Route path='/users'>
           <UsersPage />
+        </Route>
+        <Route path='/projects'>
+          <ProjectsPage />
         </Route>
         <Route exact path='/'>
           <HomePage />

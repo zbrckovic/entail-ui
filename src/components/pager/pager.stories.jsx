@@ -1,6 +1,6 @@
 import { Pager } from './pager'
 import React, { useContext, useEffect, useState } from 'react'
-import { RootCtx } from '../../contexts'
+import { RootCtx } from 'contexts'
 
 export default {
   title: 'Pager',
@@ -17,15 +17,23 @@ export default {
     },
     isDark: {
       control: 'boolean'
+    },
+    disabled: {
+      control: 'boolean'
     }
   }
 }
 
-export const Default = ({ total, isDark }) => {
+export const Default = ({ total, isDark, disabled }) => {
   const { theme: { setIsDark } } = useContext(RootCtx)
   useEffect(() => { setIsDark(isDark) }, [isDark, setIsDark])
 
   const [pageNumber, setPageNumber] = useState(0)
 
-  return <Pager pageNumber={pageNumber} onPageNumberChange={setPageNumber} total={total} />
+  return <Pager
+    value={pageNumber}
+    onChange={setPageNumber}
+    total={total}
+    disabled={disabled}
+  />
 }

@@ -1,0 +1,15 @@
+@import "style/definitions";
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.dark {
+    background: $pt-dark-app-background-color;
+  }
+
+  &:not(.dark) {
+    background: $pt-app-background-color;
+  }
+}

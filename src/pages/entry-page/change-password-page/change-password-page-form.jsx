@@ -11,8 +11,8 @@ import {
   PASSWORD_STRENGTH_THRESHOLD_STRONG,
   PASSWORD_STRENGTH_THRESHOLD_WEAK
 } from 'validators'
-import { PasswordStrengthIndicator } from '../../../components/password-strength-indicator'
-import { useFormikUtil } from '../../../utils/use-formik-util'
+import { PasswordStrengthIndicator } from 'components/password-strength-indicator'
+import { useFormikUtil } from 'utils/use-formik-util'
 
 export const ChangePasswordPageForm = ({ isLoading, onSubmit }) => {
   const { t } = useTranslation()

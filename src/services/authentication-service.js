@@ -1,4 +1,4 @@
-import { userMapper } from '../mappers'
+import { userMapper } from 'mappers'
 import { map } from 'rxjs/operators'
 
 export const AuthenticationService = ({ apiService }) => ({

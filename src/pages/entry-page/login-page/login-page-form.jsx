@@ -6,7 +6,7 @@ import style from './login-page-form.m.scss'
 import { useTranslation } from 'react-i18next'
 import validator from 'validator'
 import { useFormik } from 'formik'
-import { useFormikUtil } from '../../../utils/use-formik-util'
+import { useFormikUtil } from 'utils/use-formik-util'
 
 export const LoginPageForm = ({ onSubmit, isLoading }) => {
   const { t } = useTranslation()

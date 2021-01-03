@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react'
-import { OrderDirection } from '../../models/order-direction'
-import { RootCtx } from '../../contexts'
+import { OrderDirection } from 'models/order-direction'
+import { RootCtx } from 'contexts'
 import { Cell, Column, ColumnHeaderCell, Table, TableLoadingOption } from '@blueprintjs/table'
 import { useTranslation } from 'react-i18next'
 import style from './users-page.m.scss'
-import { HTMLSelect, Intent, Menu, MenuItem, ResizeSensor } from '@blueprintjs/core'
+import { Intent, Menu, MenuItem, ResizeSensor } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import { Pager } from '../../components/pager/pager'
+import { Pager } from 'components/pager/pager'
+import { PageSizePicker } from 'components/page-size-picker/page-size-picker'
 
 const columns = ['email', 'createdAt']
 const pageSizes = [25, 50, 100]
@@ -99,17 +100,16 @@ export const UsersPage = () => {
       <div className={style.footer}>
         <Pager
           disabled={usersState.loading}
-          pageNumber={pageInfo.pageNumber}
-          onPageNumberChange={pageNumber => { setPageInfo({ ...pageInfo, pageNumber }) }}
+          value={pageInfo.pageNumber}
+          onChange={pageNumber => { setPageInfo({ ...pageInfo, pageNumber }) }}
           total={pagesCount}
         />
-        <HTMLSelect
+        <PageSizePicker
+          disabled={usersState.loading}
           value={pageInfo.pageSize}
-          onChange={({ target: { value } }) => {
-            setPageInfo({ ...pageInfo, pageSize: parseInt(value, 10) })
-          }}>
-          {pageSizes.map(pageSize => <option key={pageSize} value={pageSize}>{pageSize}</option>)}
-        </HTMLSelect>
+          onChange={pageSize => { setPageInfo({ ...pageInfo, pageSize }) }}
+          sizes={pageSizes}
+        />
       </div>
     </div>
   </ResizeSensor>
