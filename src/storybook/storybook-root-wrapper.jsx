@@ -19,16 +19,13 @@ export const StorybookRootWrapper = ({ children, className, ...props }) => {
 
   // Initialize i18n on start
   useEffect(() => {
+    console.log('start')
     const subscription = initI18n().subscribe({
-      complete () {
-        setI18nIsInitializing(false)
-      },
-      error () {
-        setI18nIsInitializing(false)
-      }
+      complete () { setI18nIsInitializing(false) },
+      error () { setI18nIsInitializing(false) }
     })
 
-    return subscription.unsubscribe()
+    return () => { subscription.unsubscribe() }
   }, [])
 
   if (i18nIsInitializing) return null

@@ -1,4 +1,5 @@
-export const User = ({ email, isEmailVerified, roles }) => ({
+export const User = ({ id, email, isEmailVerified, roles, createdAt }) => ({
+  id,
   email,
   getUsername () {
     return this.email.match(usernamePattern)[1]
@@ -7,7 +8,8 @@ export const User = ({ email, isEmailVerified, roles }) => ({
     return this.roles.some(role => role === Role.ADMIN || role === Role.SUPER_ADMIN)
   },
   isEmailVerified,
-  roles
+  roles,
+  createdAt
 })
 
 export const Role = {

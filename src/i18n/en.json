@@ -159,13 +159,14 @@
   "usersPage": {
     "emailLbl": "Email",
     "verificationLbl": "Verification",
-    "markAsVerifiedLbl": "Mark as Verified",
-    "markAsNotVerifiedLbl": "Mark as not Verified"
+    "createdAtLbl": "Created at"
   },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",
   "deleteLbl": "Delete",
   "yesLbl": "Yes",
   "noLbl": "No",
-  "closeLbl": "Close"
+  "closeLbl": "Close",
+  "orderAscendingLbl": "Order Ascending",
+  "orderDescendingLbl": "Order Descending"
 }
