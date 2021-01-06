@@ -30,6 +30,9 @@ export const ApiService = ({ t }) => {
     },
     getUsers ({ pageNumber, pageSize, orderProp, orderDir }) {
       return axios.get('users', { params: { pageNumber, pageSize, orderProp, orderDir } })
+    },
+    getProjects () {
+      return axios.get('projects')
     }
   })
 

@@ -12,6 +12,7 @@ import classNames from 'classnames'
 import { ApiService } from './services/api-service'
 import { AuthenticationService } from './services/authentication-service'
 import { UsersService } from './services/users-service'
+import { ProjectsService } from './services/projects-service'
 
 // Add layout algorithm to cytoscape.
 cytoscape.use(klay)
@@ -34,8 +35,9 @@ export const RootWrapper = ({ children, className, ...props }) => {
         const apiService = ApiService({ t })
         const authenticationService = AuthenticationService({ apiService })
         const usersService = UsersService({ apiService })
+        const projectsService = ProjectsService({ apiService })
 
-        setServices({ authenticationService, usersService })
+        setServices({ authenticationService, usersService, projectsService })
 
         setI18nIsInitializing(false)
       },
