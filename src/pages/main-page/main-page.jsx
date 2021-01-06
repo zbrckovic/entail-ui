@@ -16,9 +16,7 @@ import style from './main-page.m.scss'
 import { useAsyncState } from 'utils/use-async-state'
 import { useTranslation } from 'react-i18next'
 import { UsersPage } from 'pages/users-page'
-import { HomePage } from 'pages/home-page'
-import { ProjectsPage } from '../projects-page/projects-page'
-import { ProjectPage } from '../project-page'
+import { ProjectsPage } from 'pages/projects-page'
 
 export const MainPage = () => {
   const history = useHistory()
@@ -104,13 +102,7 @@ export const MainPage = () => {
         <Route path='/projects'>
           <ProjectsPage />
         </Route>
-        <Route path='/projects/:id'>
-          <ProjectPage />
-        </Route>
-        <Route exact path='/'>
-          <HomePage />
-        </Route>
-        <Redirect to="/" />
+        <Redirect to="/projects" />
       </Switch>
     </main>
   </div>

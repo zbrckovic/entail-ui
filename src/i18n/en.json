@@ -162,7 +162,16 @@
     "createdAtLbl": "Created at"
   },
   "projectsPage": {
-    "createProjectLbl": "Create Project"
+    "createProjectLbl": "Create Project",
+    "firstOrderLbl": "First Order",
+    "propositionalRulesLbl": "Propositional Rules",
+    "nameNotProvidedMsg": "Name not provided",
+    "propositionalRulesSetDescription": {
+      "allLbl": "All",
+      "tautologicalImplicationOnlyLbl": "Tautological Implication Only",
+      "specificRulesOnlyLbl": "Specific Rules Only"
+    },
+    "firstOrderAbbreviatedLbl": "FO"
   },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",
@@ -171,5 +180,7 @@
   "noLbl": "No",
   "closeLbl": "Close",
   "orderAscendingLbl": "Order Ascending",
-  "orderDescendingLbl": "Order Descending"
+  "orderDescendingLbl": "Order Descending",
+  "nameLbl": "Name",
+  "descriptionLbl": "Description"
 }

@@ -21,7 +21,7 @@ ReactDOM.render(
         <Route exact path='/forgot-password'>
           <ForgotPasswordPage />
         </Route>
-        <Route exact path='change-password/:token'>
+        <Route exact path='/change-password/:token'>
           <ChangePasswordPage />
         </Route>
         <Route path='/'>

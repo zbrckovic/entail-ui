@@ -33,6 +33,9 @@ export const ApiService = ({ t }) => {
     },
     getProjects () {
       return axios.get('projects')
+    },
+    createProject ({ name, description, isFirstOrder, propositionalRulesSet }) {
+      return axios.post('projects', { name, description, isFirstOrder, propositionalRulesSet })
     }
   })
 

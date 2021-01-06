@@ -4,7 +4,7 @@ import style from './expression-view.m.scss'
 import { Kind } from '@zbrckovic/entail-core'
 import React, { useContext } from 'react'
 
-export const ExpressionText = ({ text, kind, color, onClick, isSelected, className, ...props }) => {
+export const ExpressionText = ({ text, kind, onClick, isSelected, className, ...props }) => {
   const { theme: { isDark } } = useContext(RootCtx)
 
   return <span

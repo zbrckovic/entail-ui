@@ -1,0 +1,29 @@
+@import "style/definitions";
+
+.header {
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+
+  .title {
+    flex-grow: 1;
+  }
+
+  @include space-between-h(8px);
+
+  .firstOrderBadge {
+    color: $pt-intent-primary;
+  }
+
+  margin-bottom: 16px;
+}
+
+.body {
+  @include space-between-v(16px);
+
+  .propositionalRules {
+    color: $pt-intent-primary
+  }
+}
+
+
