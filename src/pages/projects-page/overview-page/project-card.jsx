@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, Classes, H5, Label, Text } from '@blueprintjs/core'
+import { Card, Classes, Text } from '@blueprintjs/core'
 import classnames from 'classnames'
 import style from './project-card.m.scss'
 import { useTranslation } from 'react-i18next'
