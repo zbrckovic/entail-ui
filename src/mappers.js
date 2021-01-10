@@ -20,6 +20,7 @@ export const projectSummaryMapper = {
 export const projectMapper = {
   fromApi (projectDTO) {
     return Project({
+      ...projectDTO,
       createdAt: moment(projectDTO.createdAt),
       deductions: projectDTO.deductions.map(deductionDTO => deductionMapper.fromAPI(deductionDTO))
     })

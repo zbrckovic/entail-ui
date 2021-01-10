@@ -19,6 +19,6 @@ export const ProjectsService = ({ apiService }) => ({
 
     return apiService
       .createProject(createRequestDTO)
-      .pipe(map(projectDTO => projectMapper.fromApi(projectDTO)))
+      .pipe(map(projectDTO => projectSummaryMapper.fromApi(projectDTO)))
   }
 })
