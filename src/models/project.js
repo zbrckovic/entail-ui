@@ -1,31 +1,3 @@
-export const ProjectCreateRequest = ({
-  name,
-  description,
-  isFirstOrder,
-  propositionalRulesSet
-}) => ({
-  name,
-  description,
-  isFirstOrder,
-  propositionalRulesSet
-})
-
-export const ProjectSummary = ({
-  id,
-  name,
-  description,
-  isFirstOrder,
-  propositionalRulesSet,
-  createdAt
-}) => ({
-  id,
-  name,
-  description,
-  isFirstOrder,
-  propositionalRulesSet,
-  createdAt
-})
-
 export const Project = ({
   id,
   name,
