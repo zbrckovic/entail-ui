@@ -1,4 +1,4 @@
-import { projectMapper } from '../mappers'
+import { projectMapper, projectCreateRequestMapper, projectSummaryMapper } from '../mappers'
 import { map } from 'rxjs/operators'
 
 export const ProjectsService = ({ apiService }) => ({
@@ -6,17 +6,19 @@ export const ProjectsService = ({ apiService }) => ({
     return apiService
       .getProjects()
       .pipe(
-        map(({ projects }) => projects),
-        map(projects => projects.map(projectDTO => projectMapper.fromApi(projectDTO)))
+        map(({ projects }) => projects.map(projectDTO => projectSummaryMapper.fromApi(projectDTO)))
       )
   },
-  createProject (project) {
-    const projectDTOOutgoing = projectMapper.toApi(project)
+  getProject (id) {
+    return apiService
+      .getProject(id)
+      .pipe(map(projectDTO => projectMapper.fromApi(projectDTO)))
+  },
+  createProject (createRequest) {
+    const createRequestDTO = projectCreateRequestMapper.toApi(createRequest)
 
     return apiService
-      .createProject(projectDTOOutgoing)
-      .pipe(
-        map(projectDTOIncoming => projectMapper.fromApi(projectDTOIncoming))
-      )
+      .createProject(createRequestDTO)
+      .pipe(map(projectDTO => projectMapper.fromApi(projectDTO)))
   }
 })
