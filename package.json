@@ -37,7 +37,7 @@
     "@blueprintjs/icons": "^3.22.0",
     "@blueprintjs/table": "^3.8.18",
     "@stamp/it": "^1.1.0",
-    "@zbrckovic/entail-core": "0.0.46",
+    "@zbrckovic/entail-core": "0.0.47",
     "axios": "^0.21.1",
     "axios-observable": "^1.1.3",
     "classnames": "^2.2.6",
