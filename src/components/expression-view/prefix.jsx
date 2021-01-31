@@ -1,8 +1,8 @@
-import { Category, primitiveSyms, Sym } from '@zbrckovic/entail-core'
+import { Category, primitiveSyms } from '@zbrckovic/entail-core'
 import React, { Fragment, useMemo } from 'react'
-import { ExpressionView } from './expression-view'
-import { ExpressionText, TargetType } from './expression-text'
 import { Binding } from './binding'
+import { ExpressionText, TargetType } from './expression-text'
+import { ExpressionView } from './expression-view'
 
 export const Prefix = ({
   sym,
@@ -18,7 +18,7 @@ export const Prefix = ({
     if (childrenExpressions.length === 0) return false
     if (isPrimitive && childrenExpressions.length === 1) return false
 
-    const isPredicate = Sym.getCategory(sym) === Category.FT
+    const isPredicate = sym.getCategory() === Category.FT
     if (isPredicate) {
       const areAllChildrenNullary = childrenExpressions.every(({ sym }) => sym.arity === 0)
       if (areAllChildrenNullary) return false

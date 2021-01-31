@@ -1,10 +1,10 @@
-import { Placement, SymPresentation } from '@zbrckovic/entail-core'
+import { Placement } from '@zbrckovic/entail-core'
+import classnames from 'classnames'
 import { SymCtx } from 'contexts'
 import React, { useContext } from 'react'
 import style from './expression-view.m.scss'
-import classnames from 'classnames'
-import { Prefix } from './prefix'
 import { Infix } from './infix'
+import { Prefix } from './prefix'
 
 // Shows textual representation of a provided expression.
 export const ExpressionView = ({
@@ -18,7 +18,7 @@ export const ExpressionView = ({
   ...props
 }) => {
   const { presentations } = useContext(SymCtx)
-  const { text, placement } = SymPresentation.getDefaultSyntacticInfo(presentations[sym.id])
+  const { text, placement } = presentations[sym.id].getDefaultSyntacticInfo()
 
   const content = (() => {
     if (placement === Placement.Prefix) {

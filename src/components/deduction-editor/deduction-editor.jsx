@@ -1,13 +1,6 @@
 import { Button, Card, Intent } from '@blueprintjs/core'
 import { IconNames } from '@blueprintjs/icons'
-import {
-  Deduction,
-  ErrorName,
-  Expression,
-  primitiveSyms,
-  Rule,
-  startDeduction
-} from '@zbrckovic/entail-core'
+import { ErrorName, primitiveSyms, Rule, startDeduction } from '@zbrckovic/entail-core'
 import classnames from 'classnames'
 import { DeductionSteps } from 'components/deduction-steps'
 import { RootCtx, SymCtx, SymCtxUtil } from 'contexts'
@@ -15,10 +8,10 @@ import _ from 'lodash'
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toaster } from 'toaster'
-import { DeleteDialog } from './delete-dialog'
 import style from './deduction-editor.m.scss'
-import { RulePicker } from './rule-picker'
+import { DeleteDialog } from './delete-dialog'
 import { GraphDialog } from './graph-dialog'
+import { RulePicker } from './rule-picker'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
 
 export const DeductionEditor = ({ className, ...props }) => {
@@ -73,8 +66,8 @@ export const DeductionEditor = ({ className, ...props }) => {
       case Rule.UniversalInstantiation: {
         const [stepOrdinal] = selectedSteps
 
-        const { formula } = Deduction.getStepByOrdinal(deductionInterface.deduction, stepOrdinal)
-        const quantificationIsVacuous = Expression.findBoundOccurrences(formula).length === 0
+        const { formula } = deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
+        const quantificationIsVacuous = formula.findBoundOccurrences().length === 0
 
         if (quantificationIsVacuous) {
           const newDeductionInterface = ruleInterface.apply()
@@ -90,10 +83,8 @@ export const DeductionEditor = ({ className, ...props }) => {
       case Rule.ExistentialInstantiation: {
         const [stepOrdinal] = selectedSteps
 
-        const {
-          formula
-        } = Deduction.getStepByOrdinal(state.deductionInterface.deduction, stepOrdinal)
-        const quantificationIsVacuous = Expression.findBoundOccurrences(formula).length === 0
+        const { formula } = state.deductionInterface.deduction.getStepByOrdinal(stepOrdinal)
+        const quantificationIsVacuous = formula.findBoundOccurrences().length === 0
 
         if (quantificationIsVacuous) {
           const newDeductionInterface = ruleInterface.apply()
@@ -207,7 +198,7 @@ export const DeductionEditor = ({ className, ...props }) => {
         selectedSteps={state.selectedSteps}
         onConfirm={() => {
           const firstSelectedStep = Math.min(...state.selectedSteps)
-          const stepsCount = Deduction.getSize(state.deductionInterface.deduction)
+          const stepsCount = state.deductionInterface.deduction.getSize()
 
           let newDeductionInterface = state.deductionInterface
           _.range(firstSelectedStep, stepsCount + 1).forEach(() => {
@@ -216,7 +207,7 @@ export const DeductionEditor = ({ className, ...props }) => {
 
           const newSymCtx = SymCtxUtil.deleteExtraSymsFromSymCtx(
             state.symCtx,
-            { ...primitiveSyms, ...Deduction.getSyms(newDeductionInterface.deduction) }
+            { ...primitiveSyms, ...newDeductionInterface.deduction.getSyms() }
           )
 
           setState({

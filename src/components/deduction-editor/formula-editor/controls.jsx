@@ -1,4 +1,5 @@
-import { useTranslation } from 'react-i18next'
+import { Button, ButtonGroup, Intent } from '@blueprintjs/core'
+import { IconNames } from '@blueprintjs/icons'
 import {
   biconditional,
   conditional,
@@ -7,14 +8,12 @@ import {
   existentialQuantifier,
   negation,
   primitivePresentations,
-  SymPresentation,
   universalQuantifier
 } from '@zbrckovic/entail-core'
-import React from 'react'
-import style from './controls.m.scss'
-import { Button, ButtonGroup, Intent } from '@blueprintjs/core'
 import classnames from 'classnames'
-import { IconNames } from '@blueprintjs/icons'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import style from './controls.m.scss'
 
 export const Controls = ({
   onSymbol,
@@ -34,7 +33,7 @@ export const Controls = ({
           primitiveSyms.map(({ id }) => {
             const presentation = primitivePresentations[id]
 
-            const displayText = SymPresentation.getDefaultSyntacticInfo(presentation).text
+            const displayText = presentation.getDefaultSyntacticInfo().text
             const text = presentation.ascii.text
 
             return (

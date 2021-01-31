@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { SymCtx } from 'contexts'
-import { SymPresentation } from '@zbrckovic/entail-core'
 import { useTranslation } from 'react-i18next'
 import style from './term-picker.m.scss'
 import classNames from 'classnames'
@@ -18,7 +17,7 @@ export const TermPicker = ({ terms = [], selectedTerm, onSelectTerm, className, 
           terms.map(term => {
             const presentation = presentations[term.id]
 
-            const text = SymPresentation.getDefaultSyntacticInfo(presentation).text
+            const text = presentation.getDefaultSyntacticInfo().text
             return (
               <span
                 key={term.id}

@@ -129,4 +129,4 @@ const useValidator = textToSymMap => {
   }, [t, textToSymMap])
 }
 
-const isValidIndividualVariable = sym => Sym.getCategory(sym) === Category.TT && sym.arity === 0
+const isValidIndividualVariable = sym => sym.getCategory() === Category.TT && sym.arity === 0

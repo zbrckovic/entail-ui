@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import { Deduction, Rule } from '@zbrckovic/entail-core'
+import { Rule } from '@zbrckovic/entail-core'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FormulaEditor } from './formula-editor'
@@ -37,7 +37,7 @@ export const useSelectedRuleUI = ({
       ),
       [Rule.ConjunctionElimination]: () => {
         const [stepOrdinal] = selectedSteps
-        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+        const { formula } = deduction.getStepByOrdinal(stepOrdinal)
 
         return (
           <ConjunctionElimination
@@ -50,7 +50,7 @@ export const useSelectedRuleUI = ({
       },
       [Rule.DisjunctionIntroduction]: () => {
         const [stepOrdinal] = selectedSteps
-        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+        const { formula } = deduction.getStepByOrdinal(stepOrdinal)
 
         return (
           <DisjunctionIntroduction
@@ -87,7 +87,7 @@ export const useSelectedRuleUI = ({
       ),
       [Rule.UniversalGeneralization]: () => {
         const [stepOrdinal] = selectedSteps
-        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+        const { formula } = deduction.getStepByOrdinal(stepOrdinal)
 
         return (
           <UniversalGeneralization
@@ -109,7 +109,7 @@ export const useSelectedRuleUI = ({
       ),
       [Rule.ExistentialGeneralization]: () => {
         const [stepOrdinal] = selectedSteps
-        const { formula } = Deduction.getStepByOrdinal(deduction, stepOrdinal)
+        const { formula } = deduction.getStepByOrdinal(stepOrdinal)
 
         return (
           <ExistentialGeneralization

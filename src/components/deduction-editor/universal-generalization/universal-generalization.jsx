@@ -1,4 +1,4 @@
-import { ErrorName, Expression } from '@zbrckovic/entail-core'
+import { ErrorName } from '@zbrckovic/entail-core'
 import classnames from 'classnames'
 import { IndividualVariableEditor } from 'components/deduction-editor/individual-variable-editor'
 import React, { useEffect, useMemo, useState } from 'react'
@@ -19,7 +19,7 @@ export const UniversalGeneralization = ({
 
   const [oldTerm, setOldTerm] = useState()
 
-  const terms = useMemo(() => Object.values(Expression.getFreeTerms(formula)), [formula])
+  const terms = useMemo(() => Object.values(formula.getFreeTerms()), [formula])
   useEffect(() => { setOldTerm(undefined) }, [terms])
 
   return (
