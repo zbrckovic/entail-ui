@@ -57,11 +57,11 @@ export const TermDependenciesGraphCanvas = forwardRef(({
     if (cy !== undefined) {
       const oldElements = cy.elements()
       oldElements.remove()
-      const newElements = createElements(graph)
+      const newElements = createElements(graph.map)
       cy.add(newElements)
       cy.layout({ name: 'klay', fit: false, klay: { direction } }).run()
     }
-  }, [cy, graph, createElements, direction])
+  }, [cy, graph.map, createElements, direction])
 
   useEffect(() => {
     if (cy !== undefined) {
