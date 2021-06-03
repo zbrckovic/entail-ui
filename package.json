@@ -10,9 +10,7 @@
     "lint": "eslint --ext .js,.jsx src",
     "serve": "webpack serve --env DEVELOPMENT",
     "build": "webpack",
-    "test": "echo 'no tests'",
-    "storybook": "start-storybook -p 6006 --no-dll",
-    "build-storybook": "build-storybook --no-dll"
+    "test": "echo 'no tests'"
   },
   "repository": {
     "type": "git",
@@ -63,10 +61,6 @@
     "@babel/node": "^7.12.6",
     "@babel/preset-env": "^7.12.1",
     "@babel/preset-react": "^7.12.5",
-    "@storybook/addon-actions": "^6.1.5",
-    "@storybook/addon-essentials": "^6.1.5",
-    "@storybook/addon-links": "^6.1.5",
-    "@storybook/react": "^6.1.5",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.1.0",
