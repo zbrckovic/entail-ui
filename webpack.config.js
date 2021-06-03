@@ -1,8 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const GitRevisionPlugin = require('git-revision-webpack-plugin')
-const { EnvironmentPlugin } = require('webpack')
+const { GitRevisionPlugin } = require('git-revision-webpack-plugin')
+const { EnvironmentPlugin, ProvidePlugin } = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const gitRevisionPlugin = new GitRevisionPlugin()
 
@@ -13,17 +12,17 @@ const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 
 module.exports = (options = {}) => {
   const {
-    DEVELOPMENT = false,
-    API_URL = 'http://localhost:5000',
-    API_DELAY = 0,
-    API_CLIENT_TIMEOUT_MS = 5000,
-    PORT = 8080,
-    LOCALE = 'hr',
-    API_TOKEN_REFRESH_PERIOD_MINUTES = 5
+    ENTAIL_FRONTEND_DEVELOPMENT = false,
+    ENTAIL_FRONTEND_API_URL = 'http://localhost:5000',
+    ENTAIL_FRONTEND_API_DELAY = 0,
+    ENTAIL_FRONTEND_API_CLIENT_TIMEOUT_MS = 5000,
+    ENTAIL_FRONTEND_PORT = 8080,
+    ENTAIL_FRONTEND_LOCALE = 'hr',
+    ENTAIL_FRONTEND_API_TOKEN_REFRESH_PERIOD_MINUTES = 5
   } = Object.assign({}, fileEnv, options)
 
   return {
-    mode: DEVELOPMENT ? 'development' : 'production',
+    mode: ENTAIL_FRONTEND_DEVELOPMENT ? 'development' : 'production',
     entry: './src/index.jsx',
     devtool: 'source-map',
     output: {
@@ -36,7 +35,7 @@ module.exports = (options = {}) => {
     },
     devServer: {
       contentBase: SRC_DIR,
-      port: PORT,
+      port: ENTAIL_FRONTEND_PORT,
       hot: true,
       historyApiFallback: {
         disableDotRule: true
@@ -72,37 +71,37 @@ module.exports = (options = {}) => {
             {
               test: /\.m\.s[ac]ss$/,
               use: [
-                DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+                ENTAIL_FRONTEND_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
                     modules: {
                       mode: 'local',
-                      localIdentName: DEVELOPMENT
+                      localIdentName: ENTAIL_FRONTEND_DEVELOPMENT
                         ? '[path][name]_[local][hash:base64:5]'
                         : '[hash:base64]'
                     },
-                    sourceMap: DEVELOPMENT
+                    sourceMap: ENTAIL_FRONTEND_DEVELOPMENT
                   }
                 },
                 {
                   loader: 'sass-loader',
-                  options: { sourceMap: DEVELOPMENT }
+                  options: { sourceMap: ENTAIL_FRONTEND_DEVELOPMENT }
                 }
               ]
             },
             {
               use: [
-                DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+                ENTAIL_FRONTEND_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
-                    sourceMap: DEVELOPMENT
+                    sourceMap: ENTAIL_FRONTEND_DEVELOPMENT
                   }
                 },
                 {
                   loader: 'sass-loader',
-                  options: { sourceMap: DEVELOPMENT }
+                  options: { sourceMap: ENTAIL_FRONTEND_DEVELOPMENT }
                 }
               ]
             }
@@ -112,11 +111,11 @@ module.exports = (options = {}) => {
           include: SRC_DIR,
           test: /\.css$/,
           use: [
-            DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+            ENTAIL_FRONTEND_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
-                sourceMap: DEVELOPMENT,
+                sourceMap: ENTAIL_FRONTEND_DEVELOPMENT,
                 importLoaders: 1,
                 namedExport: true
               }
@@ -126,22 +125,26 @@ module.exports = (options = {}) => {
       ]
     },
     plugins: [
+      new ProvidePlugin({ process: 'process/browser' }),
       new EnvironmentPlugin({
-        DEVELOPMENT,
-        API_URL,
-        API_DELAY,
-        API_CLIENT_TIMEOUT_MS,
-        LOCALE,
-        API_TOKEN_REFRESH_PERIOD_MINUTES,
+        DEVELOPMENT: ENTAIL_FRONTEND_DEVELOPMENT,
+        API_URL: ENTAIL_FRONTEND_API_URL,
+        API_DELAY: ENTAIL_FRONTEND_API_DELAY,
+        API_CLIENT_TIMEOUT_MS: ENTAIL_FRONTEND_API_CLIENT_TIMEOUT_MS,
+        LOCALE: ENTAIL_FRONTEND_LOCALE,
+        API_TOKEN_REFRESH_PERIOD_MINUTES: ENTAIL_FRONTEND_API_TOKEN_REFRESH_PERIOD_MINUTES,
         VERSION: gitRevisionPlugin.version(),
         COMMIT_HASH: gitRevisionPlugin.commithash(),
         BRANCH: gitRevisionPlugin.branch()
       }),
-      new HtmlWebpackPlugin({ template: './src/index.html' }),
-      new FaviconsWebpackPlugin('./resources/favicon.png'),
+      new HtmlWebpackPlugin({
+        title: 'Entail',
+        template: './src/index.html',
+        favicon: 'resources/favicon.png'
+      }),
       new MiniCssExtractPlugin({
-        filename: DEVELOPMENT ? '[name].css' : '[name].[hash].css',
-        chunkFilename: DEVELOPMENT ? '[id].css' : '[id].[hash].css'
+        filename: ENTAIL_FRONTEND_DEVELOPMENT ? '[name].css' : '[name].[hash].css',
+        chunkFilename: ENTAIL_FRONTEND_DEVELOPMENT ? '[id].css' : '[id].[hash].css'
       })
     ]
   }
