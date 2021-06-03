@@ -28,7 +28,7 @@ export const Infix = ({
   }
 
   return <>
-    {root || <ExpressionText text="(" kind={sym.kind}/>}
+    {root || <ExpressionText text="(" kind={sym.kind} />}
     <ExpressionView
       expression={childExpression1}
       root={false}
@@ -49,14 +49,18 @@ export const Infix = ({
     <ExpressionText
       text={symText}
       kind={sym.kind}
-      onClick={onSelectionTargetChange !== undefined ? () => {
-        let selectionTargetToSend
-        if (!isSelected) {
-          selectionTargetToSend = { type: TargetType.MAIN, position: [] }
-        }
+      onClick={
+        onSelectionTargetChange !== undefined
+          ? () => {
+            let selectionTargetToSend
+            if (!isSelected) {
+              selectionTargetToSend = { type: TargetType.MAIN, position: [] }
+            }
 
-        onSelectionTargetChange(selectionTargetToSend)
-      } : undefined}
+            onSelectionTargetChange(selectionTargetToSend)
+          }
+          : undefined
+      }
       isSelected={isSelected}
     />
     <> </>
@@ -76,6 +80,6 @@ export const Infix = ({
         onSelectionTargetChange(selectionTargetToSend)
       }}
     />
-    {root || <ExpressionText text=")" kind={sym.kind}/>}
+    {root || <ExpressionText text=")" kind={sym.kind} />}
   </>
 }

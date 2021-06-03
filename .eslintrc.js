@@ -45,6 +45,8 @@ module.exports = {
       ignoreTemplateLiterals: true
     }],
     'no-unused-expressions': 'off',
-    'babel/no-unused-expressions': 'error'
+    'babel/no-unused-expressions': 'error',
+    indent: ['error', 2, { ignoredNodes: ['JSXElement'], SwitchCase: 1 }],
+    'react/jsx-indent': ['error', 2]
   }
 }
