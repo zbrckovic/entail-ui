@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { PropositionalRulesSet } from '../../../models/project'
+import { PropositionalRulesSet } from 'models/project'
 
 export const usePropositionalRulesSetDescriber = () => {
   const { t } = useTranslation()

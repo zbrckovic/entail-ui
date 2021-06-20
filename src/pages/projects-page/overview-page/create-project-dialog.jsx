@@ -11,7 +11,7 @@ import {
 } from '@blueprintjs/core'
 import { useFormik } from 'formik'
 import { Project, PropositionalRulesSet } from 'models/project'
-import { useFormikUtil } from '../../../utils/use-formik-util'
+import { useFormikUtil } from 'utils/use-formik-util'
 import classnames from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { IconNames } from '@blueprintjs/icons'
@@ -38,7 +38,10 @@ export const CreateProjectDialog = ({ isOpen, onSubmit, onCancel, className }) =
 
       return errors
     },
-    onSubmit: (values) => { onSubmit(Project(values)) }
+    onSubmit: (values) => {
+      console.log(values)
+      onSubmit(Project(values))
+    }
   })
 
   const formikUtil = useFormikUtil(formik)
@@ -108,7 +111,7 @@ export const CreateProjectDialog = ({ isOpen, onSubmit, onCancel, className }) =
           <HTMLSelect
             id='propositionalRulesSet'
             name='propositionalRulesSet'
-            checked={formik.values.propositionalRulesSet}
+            value={formik.values.propositionalRulesSet}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             intent={formikUtil.getIntent('propositionalRulesSet')}
