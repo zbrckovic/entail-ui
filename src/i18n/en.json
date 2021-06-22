@@ -171,7 +171,8 @@
       "tautologicalImplicationOnlyLbl": "Tautological Implication Only",
       "specificRulesOnlyLbl": "Specific Rules Only"
     },
-    "firstOrderAbbreviatedLbl": "FO"
+    "firstOrderAbbreviatedLbl": "FO",
+    "createDeductionLbl": "Create Deduction"
   },
   "submitLbl": "Submit",
   "cancelLbl": "Cancel",

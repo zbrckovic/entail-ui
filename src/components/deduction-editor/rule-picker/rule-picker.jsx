@@ -6,8 +6,11 @@ import style from './rule-picker.m.scss'
 import classnames from 'classnames'
 import { Button, Label } from '@blueprintjs/core'
 import { RuleBadge } from 'components/deduction-editor/rule-badge'
+import { PropositionalRulesSet } from '../../../models/project'
 
 export const RulePicker = ({
+  propositionalRulesSet = PropositionalRulesSet.SPECIFIC_ONLY,
+  isFirstOrder = true,
   selectedRule,
   onRuleSelect,
   onRuleDeselect,
@@ -15,6 +18,13 @@ export const RulePicker = ({
   ...props
 }) => {
   const { t } = useTranslation()
+
+  const hasSpecificPropositionalRules =
+    propositionalRulesSet === PropositionalRulesSet.FULL ||
+    propositionalRulesSet === PropositionalRulesSet.SPECIFIC_ONLY
+
+  const hasTautologicalImplication = propositionalRulesSet === PropositionalRulesSet.FULL ||
+    propositionalRulesSet === PropositionalRulesSet.TAUTOLOGICAL_IMPLICATION_ONLY
 
   return (
     <div className={classnames(style.root, className)} {...props}>
@@ -39,9 +49,10 @@ export const RulePicker = ({
           selectedRule={selectedRule}
           onRuleSelect={onRuleSelect}
           onRuleDeselect={onRuleDeselect}
+          disabled={!hasTautologicalImplication}
         />
       </div>
-      <hr/>
+      <hr />
       <div className={style.buttons}>
         {
           [
@@ -62,6 +73,7 @@ export const RulePicker = ({
               selectedRule={selectedRule}
               onRuleSelect={onRuleSelect}
               onRuleDeselect={onRuleDeselect}
+              disabled={!hasSpecificPropositionalRules}
             />
           ))
         }
@@ -72,9 +84,10 @@ export const RulePicker = ({
           selectedRule={selectedRule}
           onRuleSelect={onRuleSelect}
           onRuleDeselect={onRuleDeselect}
+          disabled={!hasSpecificPropositionalRules}
         />
       </div>
-      <hr/>
+      <hr />
       <div className={style.buttons}>
         {
           [
@@ -89,6 +102,7 @@ export const RulePicker = ({
               selectedRule={selectedRule}
               onRuleSelect={onRuleSelect}
               onRuleDeselect={onRuleDeselect}
+              disabled={!isFirstOrder}
             />
           ))
         }
@@ -127,7 +141,7 @@ const RuleButton = ({ rule, selectedRule, onRuleSelect, onRuleDeselect, classNam
       }}
       {...props}
     >
-      <RuleBadge rule={rule}/>
+      <RuleBadge rule={rule} />
     </Button>
   )
 }

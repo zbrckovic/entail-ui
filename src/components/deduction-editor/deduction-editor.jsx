@@ -14,7 +14,7 @@ import { GraphDialog } from './graph-dialog'
 import { RulePicker } from './rule-picker'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
 
-export const DeductionEditor = ({ className, ...props }) => {
+export const DeductionEditor = ({ className, propositionalRulesSet, isFirstOrder, ...props }) => {
   const { t } = useTranslation()
 
   const initialSymCtx = useContext(SymCtx)
@@ -148,6 +148,8 @@ export const DeductionEditor = ({ className, ...props }) => {
           </main>
           <div className={style.aside}>
             <RulePicker
+              propositionalRulesSet={propositionalRulesSet}
+              isFirstOrder={isFirstOrder}
               selectedRule={state.selectedRule?.rule}
               onRuleSelect={rule => {
                 try {

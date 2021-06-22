@@ -13,7 +13,7 @@ export const startRefreshingToken = (authenticationService, onError) => {
   let intervalId
 
   setInterval(() => {
-    authenticationService.refreshApiToken().catch(() => {
+    authenticationService.getApiToken().catch(() => {
       clearInterval(intervalId)
       onError()
     })

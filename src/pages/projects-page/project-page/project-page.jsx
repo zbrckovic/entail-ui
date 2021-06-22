@@ -1,13 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { RootCtx } from 'contexts'
-import { Pre } from '@blueprintjs/core'
+import { RootCtx, SymCtx } from 'contexts'
+import { primitiveSyms, primitivePresentations } from '@zbrckovic/entail-core'
+import { DeductionEditor } from '../../../components/deduction-editor'
+import style from './project-page.m.scss'
 
 export const ProjectPage = () => {
   const { id } = useParams()
   const { projectsService } = useContext(RootCtx)
 
   const [projectRetrievalState, setProjectRetrievalState] = useState({ isLoading: false })
+
+  const [symCtx] = useState({
+    syms: primitiveSyms,
+    presentations: primitivePresentations
+  })
 
   useEffect(() => {
     setProjectRetrievalState({ isLoading: true })
@@ -16,7 +23,15 @@ export const ProjectPage = () => {
       .subscribe(project => { setProjectRetrievalState({ isLoading: false, project }) })
   }, [projectsService, id])
 
-  return <Pre>
-    {JSON.stringify(projectRetrievalState.project, undefined, 4)}
-  </Pre>
+  const { project } = projectRetrievalState
+  if (project === undefined) return <div>Loading</div>
+
+  return <div className={style.root}>
+    <SymCtx.Provider value={symCtx}>
+      <DeductionEditor
+        propositionalRulesSet={project.propositionalRulesSet}
+        isFirstOrder={project.isFirstOrder}
+      />
+    </SymCtx.Provider>
+  </div>
 }

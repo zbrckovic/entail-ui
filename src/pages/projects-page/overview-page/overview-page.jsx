@@ -46,7 +46,7 @@ export const OverviewPage = () => {
     projectsRetrievalState.isLoading ||
     projectCreationState.isLoading
   ) {
-    return <div className={style.loadingRoot}><Spinner /></div>
+    return <div className={style.loadingRoot}><Spinner/></div>
   }
 
   return <div className={style.root}>
@@ -55,7 +55,6 @@ export const OverviewPage = () => {
         projects.map(
           project =>
             <ProjectCard
-              className={style.projectCard}
               key={project.id}
               project={project}
               onClick={() => { history.push(`/projects/${project.id}`) }}
@@ -63,7 +62,6 @@ export const OverviewPage = () => {
         )
       }
       <CreateProjectCard
-        className={style.projectCard}
         onClick={() => { setIsCreateProjectDialogOpen(true) }}
       />
     </div>
