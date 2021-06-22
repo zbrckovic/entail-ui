@@ -27,6 +27,7 @@
     "disjunctionEliminationLbl": "Disjunction Elimination",
     "biconditionalIntroductionLbl": "Biconditional Introduction",
     "biconditionalEliminationLbl": "Biconditional Elimination",
+    "repetitionLbl": "Repetition",
     "explosionLbl": "Explosion",
     "universalInstantiationLbl": "Universal Instantiation",
     "universalGeneralizationLbl": "Universal Generalization",

@@ -19,6 +19,8 @@ export const useRuleDescriber = () => {
     [Rule.DisjunctionElimination]: t('rule.disjunctionEliminationLbl'),
     [Rule.BiconditionalIntroduction]: t('rule.biconditionalIntroductionLbl'),
     [Rule.BiconditionalElimination]: t('rule.biconditionalEliminationLbl'),
+    [Rule.Repetition]: t('rule.repetitionLbl'),
+    [Rule.Explosion]: t('rule.explosionLbl'),
     [Rule.UniversalGeneralization]: t('rule.universalGeneralizationLbl'),
     [Rule.UniversalInstantiation]: t('rule.universalInstantiationLbl'),
     [Rule.ExistentialGeneralization]: t('rule.existentialGeneralizationLbl'),

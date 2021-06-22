@@ -44,6 +44,7 @@ const ruleSignatures = {
   [Rule.DisjunctionElimination]: { main: '∨', superscript: '-' },
   [Rule.BiconditionalIntroduction]: { main: '↔', superscript: '+' },
   [Rule.BiconditionalElimination]: { main: '↔', superscript: '-' },
+  [Rule.Repetition]: { main: 'R' },
   [Rule.Explosion]: { main: 'X' },
   [Rule.UniversalGeneralization]: { main: '∀', superscript: '+' },
   [Rule.UniversalInstantiation]: { main: '∀', superscript: '-' },

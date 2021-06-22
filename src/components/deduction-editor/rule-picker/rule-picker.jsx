@@ -65,7 +65,9 @@ export const RulePicker = ({
             Rule.DisjunctionIntroduction,
             Rule.DisjunctionElimination,
             Rule.BiconditionalIntroduction,
-            Rule.BiconditionalElimination
+            Rule.BiconditionalElimination,
+            Rule.Explosion,
+            Rule.Repetition
           ].map(rule => (
             <RuleButton
               key={rule}
@@ -77,15 +79,6 @@ export const RulePicker = ({
             />
           ))
         }
-        <RuleButton
-          className={style.fullWidth}
-          key={Rule.Explosion}
-          rule={Rule.Explosion}
-          selectedRule={selectedRule}
-          onRuleSelect={onRuleSelect}
-          onRuleDeselect={onRuleDeselect}
-          disabled={!hasSpecificPropositionalRules}
-        />
       </div>
       <hr />
       <div className={style.buttons}>

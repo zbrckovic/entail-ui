@@ -51,7 +51,8 @@ export const DeductionEditor = ({
       Rule.ConjunctionIntroduction,
       Rule.DisjunctionElimination,
       Rule.BiconditionalIntroduction,
-      Rule.BiconditionalElimination
+      Rule.BiconditionalElimination,
+      Rule.Repetition
     ])
 
     if (rulesWhichCanBeHandledImmediately.has(rule)) {
