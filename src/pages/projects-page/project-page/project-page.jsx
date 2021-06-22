@@ -31,6 +31,10 @@ export const ProjectPage = () => {
       <DeductionEditor
         propositionalRulesSet={project.propositionalRulesSet}
         isFirstOrder={project.isFirstOrder}
+        onFinish={({ deduction, symCtx }) => {
+          console.log(deduction)
+          console.log(symCtx)
+        }}
       />
     </SymCtx.Provider>
   </div>

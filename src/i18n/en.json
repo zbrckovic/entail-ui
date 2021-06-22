@@ -46,6 +46,7 @@
     "premisesAbbreviatedLbl": "P"
   },
   "deductionEditor": {
+    "finishLbl": "Finish",
     "graphLbl": "Graph",
     "enterThePremiseLbl": "Enter the premise",
     "enterTheConsequentLbl": "Enter the consequent",

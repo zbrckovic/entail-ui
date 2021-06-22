@@ -14,7 +14,13 @@ import { GraphDialog } from './graph-dialog'
 import { RulePicker } from './rule-picker'
 import { useSelectedRuleUI } from './use-selected-rule-ui'
 
-export const DeductionEditor = ({ className, propositionalRulesSet, isFirstOrder, ...props }) => {
+export const DeductionEditor = ({
+  className,
+  propositionalRulesSet,
+  isFirstOrder,
+  onFinish,
+  ...props
+}) => {
   const { t } = useTranslation()
 
   const initialSymCtx = useContext(SymCtx)
@@ -172,15 +178,6 @@ export const DeductionEditor = ({ className, propositionalRulesSet, isFirstOrder
               onRuleDeselect={() => { setState({ ...state, selectedRule: undefined }) }}
             />
             <Button
-              title={t('deleteLbl')}
-              disabled={state.selectedRule !== undefined || state.selectedSteps.length === 0}
-              intent={Intent.DANGER}
-              icon={IconNames.TRASH}
-              onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
-            >
-              {t('deleteLbl')}
-            </Button>
-            <Button
               title={t('deductionEditor.graphLbl')}
               disabled={
                 state.isDeleteDialogOpen ||
@@ -190,6 +187,27 @@ export const DeductionEditor = ({ className, propositionalRulesSet, isFirstOrder
               onClick={() => { setState({ ...state, isGraphDialogOpen: true }) }}
             >
               {t('deductionEditor.graphLbl')}
+            </Button>
+            <Button
+              title={t('deleteLbl')}
+              disabled={state.selectedRule !== undefined || state.selectedSteps.length === 0}
+              intent={Intent.DANGER}
+              icon={IconNames.TRASH}
+              onClick={() => { setState({ ...state, isDeleteDialogOpen: true }) }}
+            >
+              {t('deleteLbl')}
+            </Button>
+            <Button
+              title={t('deductionEditor.finishLbl')}
+              disabled={!state.deductionInterface.deduction.isFinished()}
+              icon={IconNames.SEND_MESSAGE}
+              intent={Intent.PRIMARY}
+              onClick={() => {
+                const { deductionInterface: { deduction }, symCtx } = state
+                onFinish({ deduction, symCtx })
+              }}
+            >
+              {t('deductionEditor.finishLbl')}
             </Button>
           </div>
         </div>
