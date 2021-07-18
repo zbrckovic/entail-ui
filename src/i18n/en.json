@@ -1,8 +1,4 @@
 {
-  "apiService": {
-    "connectionErrorMsg": "Connection Error",
-    "serverErrorMsg": "Server Error"
-  },
   "passwordStrengthIndicator": {
     "insufficientLbl": "Insufficient",
     "weakLbl": "Weak",

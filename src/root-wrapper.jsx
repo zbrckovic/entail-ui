@@ -6,8 +6,8 @@ import klay from 'cytoscape-klay'
 import { environment } from 'environment'
 import { initI18n } from 'i18n'
 import React, { useEffect, useState } from 'react'
-import { ApiService } from 'services/api-service'
 import { ProjectsService } from 'services/projects-service'
+import { Repository } from 'services/repository'
 import 'style/main.scss'
 import style from './root-wrapper.m.scss'
 
@@ -22,8 +22,8 @@ export const RootWrapper = ({ children, className, ...props }) => {
   // Initialize i18n on start
   useEffect(() => {
     const subscription = initI18n().subscribe(() => {
-      const apiService = ApiService()
-      const projectsService = ProjectsService({ apiService })
+      const repository = Repository()
+      const projectsService = ProjectsService({ repository })
 
       setServices({ projectsService })
 

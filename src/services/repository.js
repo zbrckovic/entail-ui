@@ -1,6 +1,6 @@
 import { of } from 'rxjs'
 
-export const ApiService = () => ({
+export const Repository = () => ({
   getProjects () {
     // Find projects in database
     return of([])
