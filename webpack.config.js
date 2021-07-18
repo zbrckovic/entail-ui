@@ -12,17 +12,13 @@ const NODE_MODULES_DIR = path.resolve(__dirname, './node_modules')
 
 module.exports = (options = {}) => {
   const {
-    ENTAIL_FRONTEND_DEVELOPMENT = false,
-    ENTAIL_FRONTEND_API_URL = 'http://localhost:5000',
-    ENTAIL_FRONTEND_API_DELAY = 0,
-    ENTAIL_FRONTEND_API_CLIENT_TIMEOUT_MS = 5000,
-    ENTAIL_FRONTEND_PORT = 8080,
-    ENTAIL_FRONTEND_LOCALE = 'hr',
-    ENTAIL_FRONTEND_API_TOKEN_REFRESH_PERIOD_MINUTES = 5
+    ENTAIL_DEVELOPMENT = false,
+    ENTAIL_PORT = 8080,
+    ENTAIL_LOCALE = 'hr'
   } = Object.assign({}, fileEnv, options)
 
   return {
-    mode: ENTAIL_FRONTEND_DEVELOPMENT ? 'development' : 'production',
+    mode: ENTAIL_DEVELOPMENT ? 'development' : 'production',
     entry: './src/index.jsx',
     devtool: 'source-map',
     output: {
@@ -35,7 +31,7 @@ module.exports = (options = {}) => {
     },
     devServer: {
       contentBase: SRC_DIR,
-      port: ENTAIL_FRONTEND_PORT,
+      port: ENTAIL_PORT,
       hot: true,
       historyApiFallback: {
         disableDotRule: true
@@ -71,37 +67,37 @@ module.exports = (options = {}) => {
             {
               test: /\.m\.s[ac]ss$/,
               use: [
-                ENTAIL_FRONTEND_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+                ENTAIL_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
                     modules: {
                       mode: 'local',
-                      localIdentName: ENTAIL_FRONTEND_DEVELOPMENT
+                      localIdentName: ENTAIL_DEVELOPMENT
                         ? '[path][name]_[local][hash:base64:5]'
                         : '[hash:base64]'
                     },
-                    sourceMap: ENTAIL_FRONTEND_DEVELOPMENT
+                    sourceMap: ENTAIL_DEVELOPMENT
                   }
                 },
                 {
                   loader: 'sass-loader',
-                  options: { sourceMap: ENTAIL_FRONTEND_DEVELOPMENT }
+                  options: { sourceMap: ENTAIL_DEVELOPMENT }
                 }
               ]
             },
             {
               use: [
-                ENTAIL_FRONTEND_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+                ENTAIL_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
                 {
                   loader: 'css-loader',
                   options: {
-                    sourceMap: ENTAIL_FRONTEND_DEVELOPMENT
+                    sourceMap: ENTAIL_DEVELOPMENT
                   }
                 },
                 {
                   loader: 'sass-loader',
-                  options: { sourceMap: ENTAIL_FRONTEND_DEVELOPMENT }
+                  options: { sourceMap: ENTAIL_DEVELOPMENT }
                 }
               ]
             }
@@ -111,11 +107,11 @@ module.exports = (options = {}) => {
           include: SRC_DIR,
           test: /\.css$/,
           use: [
-            ENTAIL_FRONTEND_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
+            ENTAIL_DEVELOPMENT ? 'style-loader' : MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
-                sourceMap: ENTAIL_FRONTEND_DEVELOPMENT,
+                sourceMap: ENTAIL_DEVELOPMENT,
                 importLoaders: 1,
                 namedExport: true
               }
@@ -127,12 +123,8 @@ module.exports = (options = {}) => {
     plugins: [
       new ProvidePlugin({ process: 'process/browser' }),
       new EnvironmentPlugin({
-        DEVELOPMENT: ENTAIL_FRONTEND_DEVELOPMENT,
-        API_URL: ENTAIL_FRONTEND_API_URL,
-        API_DELAY: ENTAIL_FRONTEND_API_DELAY,
-        API_CLIENT_TIMEOUT_MS: ENTAIL_FRONTEND_API_CLIENT_TIMEOUT_MS,
-        LOCALE: ENTAIL_FRONTEND_LOCALE,
-        API_TOKEN_REFRESH_PERIOD_MINUTES: ENTAIL_FRONTEND_API_TOKEN_REFRESH_PERIOD_MINUTES,
+        DEVELOPMENT: ENTAIL_DEVELOPMENT,
+        LOCALE: ENTAIL_LOCALE,
         VERSION: gitRevisionPlugin.version(),
         COMMIT_HASH: gitRevisionPlugin.commithash(),
         BRANCH: gitRevisionPlugin.branch()
@@ -143,8 +135,8 @@ module.exports = (options = {}) => {
         favicon: 'resources/favicon.png'
       }),
       new MiniCssExtractPlugin({
-        filename: ENTAIL_FRONTEND_DEVELOPMENT ? '[name].css' : '[name].[hash].css',
-        chunkFilename: ENTAIL_FRONTEND_DEVELOPMENT ? '[id].css' : '[id].[hash].css'
+        filename: ENTAIL_DEVELOPMENT ? '[name].css' : '[name].[hash].css',
+        chunkFilename: ENTAIL_DEVELOPMENT ? '[id].css' : '[id].[hash].css'
       })
     ]
   }

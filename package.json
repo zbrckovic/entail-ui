@@ -8,7 +8,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx src",
-    "serve": "webpack serve --env ENTAIL_FRONTEND_DEVELOPMENT",
+    "serve": "webpack serve --env ENTAIL_DEVELOPMENT",
     "build": "webpack",
     "test": "echo 'no tests'"
   },
